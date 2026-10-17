@@ -1,23 +1,66 @@
-import { useState, type FormEvent } from 'react';
+import { Fragment, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { persona } from '../config';
-import { cuestionario } from '../cuestionario';
+import { cuestionario, type Campo, type Paso } from '../cuestionario';
 import Enfasis from '../componentes/Enfasis';
 
-// Cuestionario previo al webinar, una pregunta por pantalla. Al terminar guarda el lead
-// (/api/lead → hoja de Google), y la hoja le envía el enlace del webinar por email.
+// Cuestionario previo al webinar, una pantalla por paso (cuestionario.ts). Al enviar guarda el
+// lead (/api/lead → hoja de Google), y la hoja le envía el enlace del webinar por email.
 
-const { preguntas } = cuestionario;
-const total = preguntas.length;
+const { pasos } = cuestionario;
+// Pasos que cuentan en "03 / 08": todo menos las pantallas de solo texto
+const numerados = pasos.map((p, i) => (p.tipo === 'info' ? 0 : pasos.slice(0, i + 1).filter((q) => q.tipo !== 'info').length));
+const totalNumerados = Math.max(...numerados);
 const num = (i: number) => String(i).padStart(2, '0');
 const sinAsteriscos = (t: string) => t.replaceAll('*', '');
 
 const botonLleno =
-  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-6 text-[13px] font-bold uppercase leading-[1.15] text-fondo transition hover:bg-[#fff6ea] disabled:opacity-60';
+  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-6 text-[13px] font-bold uppercase leading-[1.15] text-fondo no-underline transition hover:bg-[#fff6ea] disabled:opacity-50';
 const botonBorde =
-  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[22.5px] border px-6 text-left text-[13px] font-bold uppercase leading-[1.15] transition hover:bg-[rgba(255,237,215,.06)]';
+  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[22.5px] border px-6 py-3 text-left text-[13px] font-bold uppercase leading-[1.25] transition hover:bg-[rgba(255,237,215,.06)]';
 const campo =
   'w-full rounded-[18px] border border-[color:var(--form-borde)] bg-transparent px-4 py-3 text-base text-inherit outline-none placeholder:text-[color:var(--form-placeholder)] focus:border-texto';
+const titular = 'text-[clamp(1.9rem,8.5vw,3rem)] font-bold leading-[0.95] [text-wrap:balance]';
+
+const tipoCampo: Record<Campo, { type: string; autoComplete: string; inputMode?: 'tel' | 'email' }> = {
+  nombre: { type: 'text', autoComplete: 'name' },
+  instagram: { type: 'text', autoComplete: 'off' },
+  telefono: { type: 'tel', autoComplete: 'tel', inputMode: 'tel' },
+  email: { type: 'email', autoComplete: 'email', inputMode: 'email' },
+};
+
+/** Párrafo con **negritas** */
+function Rico({ texto }: { texto: string }) {
+  return (
+    <>
+      {texto.split(/\*\*([^*]+)\*\*/).map((parte, i) =>
+        i % 2 ? <b key={i} className="font-bold text-texto">{parte}</b> : <Fragment key={i}>{parte}</Fragment>,
+      )}
+    </>
+  );
+}
+
+function Parrafos({ textos, lista }: { textos?: string[]; lista?: string[] }) {
+  return (
+    <>
+      {textos?.map((t) => (
+        <p key={t} className="mt-4 font-medium leading-relaxed text-secundario">
+          <Rico texto={t} />
+        </p>
+      ))}
+      {lista && (
+        <ul className="mt-4 space-y-2">
+          {lista.map((t) => (
+            <li key={t} className="flex gap-3 font-medium leading-relaxed text-secundario">
+              <span className="text-acento" aria-hidden="true">—</span>
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
 
 function nuevoId() {
   return (crypto.randomUUID?.() ?? Math.random().toString(36).slice(2) + Date.now().toString(36))
@@ -30,31 +73,37 @@ type Estado = 'respondiendo' | 'enviando' | 'error' | 'enviado';
 export default function Cuestionario() {
   const [params] = useSearchParams();
   const origen = ['cuestionario', params.get('o')].filter(Boolean).join('-');
-  // 0 = portada, 1..total = preguntas, total + 1 = datos de contacto
-  const [paso, setPaso] = useState(0);
+  const [i, setI] = useState(0);
   const [respuestas, setRespuestas] = useState<Record<number, string>>({});
+  const [datos, setDatos] = useState<Record<Campo, string>>({ nombre: '', instagram: '', telefono: '', email: '' });
   const [estado, setEstado] = useState<Estado>('respondiendo');
   const [id] = useState(nuevoId);
 
-  const responder = (i: number, valor: string) => setRespuestas((r) => ({ ...r, [i]: valor }));
-  const siguiente = () => setPaso((p) => Math.min(p + 1, total + 1));
-  const atras = () => setPaso((p) => Math.max(p - 1, 0));
+  const paso: Paso = pasos[i];
+  const siguiente = () => setI((n) => Math.min(n + 1, pasos.length - 1));
+  const atras = () => setI((n) => Math.max(n - 1, 0));
 
   async function enviar(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const datos = Object.fromEntries(new FormData(e.currentTarget));
+    const form = Object.fromEntries(new FormData(e.currentTarget));
     setEstado('enviando');
+    const preguntas = pasos.flatMap((p, n) =>
+      p.tipo === 'opciones' || p.tipo === 'texto' ? [[sinAsteriscos(p.texto), respuestas[n] ?? '']] : [],
+    );
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...datos,
+          nombre: datos.nombre,
+          email: datos.email,
+          telefono: datos.telefono,
+          web: form.web,
           id,
           persona: persona.id,
           origen,
-          consentimiento: datos.consentimiento === 'on',
-          respuestas: Object.fromEntries(preguntas.map((p, i) => [sinAsteriscos(p.texto), respuestas[i + 1] ?? ''])),
+          consentimiento: form.consentimiento === 'on',
+          respuestas: Object.fromEntries([['Instagram', datos.instagram], ...preguntas]),
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
@@ -69,12 +118,15 @@ export default function Cuestionario() {
     }
   }
 
-  const pregunta = paso >= 1 && paso <= total ? preguntas[paso - 1] : undefined;
+  const quiereHablar = Object.values(respuestas).includes(cuestionario.quiereHablar);
+  const enlaceWhatsapp = persona.whatsapp
+    ? `https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(cuestionario.mensajeWhatsapp)}`
+    : '';
 
   return (
     <div className="mx-auto flex min-h-[100svh] max-w-[560px] flex-col px-[18px]">
       <div className="flex items-center justify-between pb-4 pt-[18px] text-xs font-bold uppercase leading-none">
-        {paso > 0 && estado !== 'enviado' ? (
+        {i > 0 && estado !== 'enviado' ? (
           <button type="button" onClick={atras} className="uppercase">
             ← Atrás
           </button>
@@ -84,123 +136,159 @@ export default function Cuestionario() {
           </Link>
         )}
         <span className="text-secundario">
-          {estado === 'enviado' ? 'Hecho' : paso === 0 ? 'Webinar gratuito' : paso <= total ? `${num(paso)} / ${num(total)}` : 'Último paso'}
+          {estado === 'enviado' ? 'Hecho' : numerados[i] ? `${num(numerados[i])} / ${num(totalNumerados)}` : 'Webinar gratuito'}
         </span>
       </div>
       <div className="h-[2px] bg-[color:var(--form-borde)]" aria-hidden="true">
         <div
           className="h-full bg-acento transition-[width] duration-300"
-          style={{ width: `${estado === 'enviado' ? 100 : (paso / (total + 1)) * 100}%` }}
+          style={{ width: `${estado === 'enviado' ? 100 : (i / pasos.length) * 100}%` }}
         />
       </div>
 
       <main className="flex flex-1 flex-col justify-center py-10">
         {estado === 'enviado' ? (
           <section>
-            <h1 className="text-[clamp(2rem,9vw,3.2rem)] font-bold leading-[0.92]">
+            <h1 className={titular}>
               <Enfasis texto={cuestionario.gracias.titulo} />
             </h1>
             <p className="mt-5 font-medium leading-relaxed text-secundario">{cuestionario.gracias.texto}</p>
-            <Link to={`/webinar?l=${id}`} className={`${botonLleno} mt-8 no-underline`}>
-              <span>{cuestionario.gracias.boton}</span>
-              <span className="text-[11px] opacity-60">→</span>
-            </Link>
+            <div className="mt-8 flex flex-col gap-3">
+              <Link to={`/webinar?l=${id}`} className={botonLleno}>
+                <span>{cuestionario.gracias.boton}</span>
+                <span className="text-[11px] opacity-60">→</span>
+              </Link>
+              {quiereHablar && enlaceWhatsapp && (
+                <a href={enlaceWhatsapp} target="_blank" rel="noopener" className={`${botonBorde} border-texto no-underline`}>
+                  <span>{cuestionario.gracias.whatsapp}</span>
+                  <span className="text-[11px] text-secundario">→</span>
+                </a>
+              )}
+            </div>
           </section>
-        ) : paso === 0 ? (
-          <section>
-            <h1 className="text-[clamp(2.2rem,10vw,3.6rem)] font-bold leading-[0.9] [text-wrap:balance]">
-              <Enfasis texto={cuestionario.titulo} />
+        ) : paso.tipo === 'info' ? (
+          <section key={i}>
+            <h1 className={titular}>
+              <Enfasis texto={paso.titulo} />
             </h1>
-            <p className="mt-5 font-medium leading-relaxed text-secundario">{cuestionario.entradilla}</p>
+            <div className="mt-2">
+              <Parrafos textos={paso.parrafos} lista={paso.lista} />
+              <Parrafos textos={paso.cierre} />
+            </div>
             <button type="button" onClick={siguiente} className={`${botonLleno} mt-8`}>
-              <span>{cuestionario.boton}</span>
+              <span>{paso.boton}</span>
               <span className="text-[11px] opacity-60">→</span>
             </button>
           </section>
-        ) : pregunta ? (
-          <section key={paso}>
-            <h1 className="text-[clamp(1.8rem,8vw,2.8rem)] font-bold leading-[0.95]">
-              <Enfasis texto={pregunta.texto} />
-            </h1>
-            {pregunta.ayuda && <p className="mt-4 font-medium text-secundario">{pregunta.ayuda}</p>}
-            {pregunta.tipo === 'opciones' ? (
-              <div className="mt-8 flex flex-col gap-3" role="radiogroup">
-                {pregunta.opciones?.map((o, i) => {
-                  const elegida = respuestas[paso] === o;
-                  return (
-                    <button
-                      key={o}
-                      type="button"
-                      role="radio"
-                      aria-checked={elegida}
-                      onClick={() => {
-                        responder(paso, o);
-                        setTimeout(siguiente, 180);
-                      }}
-                      className={`${botonBorde} ${elegida ? 'border-texto bg-[rgba(255,237,215,.08)]' : 'border-[color:var(--form-borde)]'}`}
-                    >
-                      <span>{o}</span>
-                      <span className="flex-none text-[11px] text-secundario">{String.fromCharCode(65 + i)}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <form
-                className="mt-8"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  siguiente();
-                }}
-              >
-                <textarea
-                  rows={3}
-                  className={campo}
-                  value={respuestas[paso] ?? ''}
-                  onChange={(e) => responder(paso, e.target.value)}
-                  required={!pregunta.opcional}
-                  placeholder="Escribe aquí tu respuesta"
-                  autoFocus
-                />
-                <button type="submit" className={`${botonLleno} mt-4`}>
-                  <span>Siguiente</span>
-                  <span className="text-[11px] opacity-60">→</span>
-                </button>
-              </form>
-            )}
-          </section>
-        ) : (
-          <section>
-            <h1 className="text-[clamp(1.8rem,8vw,2.8rem)] font-bold leading-[0.95]">
-              <Enfasis texto={cuestionario.datos.titulo} />
-            </h1>
-            <p className="mt-4 font-medium leading-relaxed text-secundario">{cuestionario.datos.texto}</p>
-            <form onSubmit={enviar} className="mt-8 space-y-3">
-              <input name="nombre" required placeholder="Nombre" className={campo} autoComplete="given-name" />
-              <input name="email" type="email" required placeholder="Email" className={campo} autoComplete="email" />
-              <input name="telefono" type="tel" required placeholder="WhatsApp (con prefijo, p. ej. +34)" className={campo} autoComplete="tel" />
-              {/* Campo trampa para bots: las personas no lo ven */}
-              <input name="web" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-              <label className="flex items-start gap-3 pt-2 text-sm leading-snug text-secundario">
-                <input name="consentimiento" type="checkbox" required className="mt-[3px] accent-[var(--color-texto)]" />
-                <span>
-                  Acepto la{' '}
-                  <Link to="/privacidad" className="underline">
-                    política de privacidad
-                  </Link>{' '}
-                  y que {persona.nombre} me envíe el webinar y me contacte sobre este proyecto.
-                </span>
+        ) : paso.tipo === 'campo' ? (
+          <section key={i}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                siguiente();
+              }}
+            >
+              <label htmlFor={`campo-${paso.campo}`} className={`block ${titular}`}>
+                <Enfasis texto={paso.texto} />
               </label>
-              <button type="submit" disabled={estado === 'enviando'} className={`${botonLleno} !mt-6`}>
-                <span>{estado === 'enviando' ? 'Enviando…' : cuestionario.datos.boton}</span>
+              {paso.ayuda && <p className="mt-4 font-medium leading-relaxed text-secundario">{paso.ayuda}</p>}
+              <input
+                id={`campo-${paso.campo}`}
+                {...tipoCampo[paso.campo]}
+                required={!paso.opcional}
+                placeholder={paso.placeholder}
+                value={datos[paso.campo]}
+                onChange={(e) => setDatos((d) => ({ ...d, [paso.campo]: e.target.value }))}
+                className={`${campo} mt-8`}
+                autoFocus
+              />
+              <button type="submit" className={`${botonLleno} mt-4`}>
+                <span>Siguiente</span>
                 <span className="text-[11px] opacity-60">→</span>
               </button>
-              {estado === 'error' && (
-                <p className="text-center text-sm text-[color:var(--color-error)]">
-                  No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.
-                </p>
-              )}
             </form>
+          </section>
+        ) : paso.tipo === 'texto' ? (
+          <section key={i}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                siguiente();
+              }}
+            >
+              <label htmlFor="respuesta" className={`block ${titular}`}>
+                <Enfasis texto={paso.texto} />
+              </label>
+              {paso.ayuda && <p className="mt-4 font-medium text-secundario">{paso.ayuda}</p>}
+              <textarea
+                id="respuesta"
+                rows={3}
+                className={`${campo} mt-8`}
+                value={respuestas[i] ?? ''}
+                onChange={(e) => setRespuestas((r) => ({ ...r, [i]: e.target.value }))}
+                required={!paso.opcional}
+                placeholder="Escribe aquí tu respuesta"
+                autoFocus
+              />
+              <button type="submit" className={`${botonLleno} mt-4`}>
+                <span>Siguiente</span>
+                <span className="text-[11px] opacity-60">→</span>
+              </button>
+            </form>
+          </section>
+        ) : (
+          <section key={i}>
+            <Parrafos textos={paso.antes} lista={paso.lista} />
+            <Parrafos textos={paso.despues} />
+            <h1 className={`${titular} ${paso.antes ? 'mt-8' : ''}`}>
+              <Enfasis texto={paso.texto} />
+            </h1>
+            <div className="mt-8 flex flex-col gap-3" role="radiogroup">
+              {paso.opciones.map((o, n) => {
+                const elegida = respuestas[i] === o;
+                return (
+                  <button
+                    key={o}
+                    type="button"
+                    role="radio"
+                    aria-checked={elegida}
+                    onClick={() => {
+                      setRespuestas((r) => ({ ...r, [i]: o }));
+                      if (!paso.final) setTimeout(siguiente, 180);
+                    }}
+                    className={`${botonBorde} ${elegida ? 'border-texto bg-[rgba(255,237,215,.08)]' : 'border-[color:var(--form-borde)]'}`}
+                  >
+                    <span>{o}</span>
+                    <span className="flex-none text-[11px] text-secundario">{String.fromCharCode(65 + n)}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {paso.final && (
+              <form onSubmit={enviar} className="mt-6 space-y-4">
+                {/* Campo trampa para bots: las personas no lo ven */}
+                <input name="web" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+                <label className="flex items-start gap-3 text-sm leading-snug text-secundario">
+                  <input name="consentimiento" type="checkbox" required className="mt-[3px] accent-[var(--color-texto)]" />
+                  <span>
+                    Acepto la{' '}
+                    <Link to="/privacidad" className="underline">
+                      política de privacidad
+                    </Link>{' '}
+                    y que {persona.nombre} me envíe el webinar y me contacte sobre este proyecto.
+                  </span>
+                </label>
+                <button type="submit" disabled={!respuestas[i] || estado === 'enviando'} className={botonLleno}>
+                  <span>{estado === 'enviando' ? 'Enviando…' : cuestionario.boton}</span>
+                  <span className="text-[11px] opacity-60">→</span>
+                </button>
+                {estado === 'error' && (
+                  <p className="text-center text-sm text-[color:var(--color-error)]">
+                    No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.
+                  </p>
+                )}
+              </form>
+            )}
           </section>
         )}
       </main>
