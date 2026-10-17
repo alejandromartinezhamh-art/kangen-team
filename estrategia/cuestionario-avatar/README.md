@@ -5,8 +5,8 @@ y los guiones de contenido de cada uno, y se define su persona ideal (avatar).
 
 ## Cómo usarlo
 
-1. Cada persona descarga su archivo (`cuestionario_<persona>.docx`) y lo rellena en Word o Google Docs (60-90 min).
-2. Lo sube a su carpeta de Drive, en `07 Textos`.
+1. Cada archivo está subido a la carpeta de Drive de su persona (`Landing Kangen <Persona>`).
+2. La persona lo rellena allí mismo (60-90 min; mejor en audio y transcrito) y avisa en el grupo.
 3. Con las respuestas se completa su `equipo/<persona>/brief.md` y se escriben los textos de su web.
 
 ## Estructura
