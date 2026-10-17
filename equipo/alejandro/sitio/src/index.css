@@ -12,8 +12,9 @@
   --color-secundario: #cdb69c; /* sand: texto secundario */
   --color-linea: #6c5f51; /* driftwood: líneas discontinuas */
   --color-superficie: #382416; /* bark */
-  --fuente-titulo: 'Syne', ui-sans-serif, system-ui, sans-serif;
-  --fuente-cuerpo: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --fuente-titulo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-cuerpo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-acento: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* cursiva de énfasis en titulares */
 
   /* Formulario compartido */
   --form-fondo: transparent;
@@ -44,8 +45,21 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+.titular {
   font-family: var(--fuente-titulo);
+  letter-spacing: -0.045em;
+}
+
+/* Palabra de énfasis dentro de un titular: *así* en los textos de config.ts */
+.titular em,
+h1 em,
+h2 em,
+h3 em {
+  font-family: var(--fuente-acento);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
 a:focus-visible,

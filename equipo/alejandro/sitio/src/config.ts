@@ -21,7 +21,7 @@ export const persona: ConfigPersona = {
 // (ver estrategia/normas-comunicacion.md).
 export const textos = {
   subtitulo: 'Emprendimiento y bienestar',
-  titular: 'Otra manera de ganarse la vida',
+  titular: 'Otra *manera* de ganarse la vida',
   entradilla:
     'Construye algo propio, a tu ritmo y con un equipo que te acompaña desde el primer día. Sin jefes, sin horarios impuestos, sin hacerlo en solitario.',
   dolores: [
@@ -44,7 +44,7 @@ export const textos = {
 // Página del webinar (/webinar). El vídeo puede ser un enlace de YouTube (mejor "oculto"),
 // de Vimeo o un archivo .mp4. Vacío = se muestra un aviso de "disponible muy pronto".
 export const webinar = {
-  titulo: 'Otra manera de ganarse la vida',
+  titulo: 'Otra *manera* de ganarse la vida',
   subtitulo: 'Webinar gratuito · Emprendimiento y bienestar',
   video: '',
 };
