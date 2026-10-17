@@ -22,9 +22,10 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
    (en Drive está también como documento: `Script del embudo (copiar en Apps Script)`).
    Revisa `PERSONAS` arriba del todo: la web de cada persona y, si quiere, otro email para los avisos.
 3. Guarda (icono del disquete). Arriba, en el desplegable de funciones, elige **instalar** y pulsa **Ejecutar**.
-   Google pide permisos: tu cuenta → "Configuración avanzada" → "Ir a … (no seguro)" → Permitir.
+   Google pide permisos (hoja, enviar emails en tu nombre y activadores): tu cuenta → "Configuración avanzada" → "Ir a … (no seguro)" → Permitir.
    Es normal: el script es tuyo y no está verificado por Google.
 4. En **Registro de ejecución** sale `CLAVE (cópiala en LEADS_WEBHOOK_SECRET): …`. Guárdala.
+   (Si `CLAVE_INICIAL` viene rellena arriba del script, usa esa: ya puede estar puesta en Vercel.)
 5. **Implementar → Nueva implementación → Tipo: Aplicación web**.
    Ejecutar como: **Yo**. Quién tiene acceso: **Cualquier usuario**. Implementar y copia la **URL de la aplicación web**
    (termina en `/exec`).

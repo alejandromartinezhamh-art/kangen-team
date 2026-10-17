@@ -19,6 +19,11 @@ const PERSONAS = {
   },
 };
 
+// Script independiente (fuera de la hoja): id de la hoja. Vacío = el script vive dentro de la hoja.
+const ID_HOJA = '';
+// Clave inicial para LEADS_WEBHOOK_SECRET. Vacía = instalar() genera una nueva.
+const CLAVE_INICIAL = '';
+
 const HOJA = 'Leads';
 const HORAS_RECORDATORIO = 24;
 const COLUMNAS = [
@@ -144,7 +149,7 @@ function enviar(para, remitente, asunto, parrafos) {
     '<p style="margin:28px 0 0;font-size:12px;color:#7a6a5a">Recibes este email porque lo pediste en el cuestionario. ' +
     'Si no quieres recibir más, responde con la palabra BAJA.</p></div>';
   const texto = parrafos.join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
-  GmailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: remitente });
+  MailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: remitente });
 }
 
 function avisar(p, asunto, d, quiereHablar) {
@@ -156,8 +161,8 @@ function avisar(p, asunto, d, quiereHablar) {
   if (d.mensaje) lineas.push('Mensaje: ' + d.mensaje);
   const tel = String(d.telefono || '').replace(/\D/g, '');
   if (tel) lineas.push('', (quiereHablar ? 'Escríbele ya: ' : 'WhatsApp: ') + 'https://wa.me/' + tel);
-  lineas.push('', 'Hoja: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl());
-  GmailApp.sendEmail(para, asunto, lineas.join('\n'), { name: 'Embudo webinar' });
+  lineas.push('', 'Hoja: ' + libro().getUrl());
+  MailApp.sendEmail(para, asunto, lineas.join('\n'), { name: 'Embudo webinar' });
 }
 
 // ---------- Recordatorios (activador cada hora, lo crea instalar()) ----------
@@ -183,12 +188,15 @@ function recordatorios() {
 // ---------- Hoja ----------
 
 function hojaLeads() {
-  const libro = SpreadsheetApp.getActiveSpreadsheet();
-  const hoja = libro.getSheetByName(HOJA);
+  const hoja = libro().getSheetByName(HOJA);
   if (hoja) return hoja;
   // Hoja recién creada: se aprovecha la primera pestaña.
-  const primera = libro.getSheets()[0];
-  return primera.getLastRow() <= 1 ? primera.setName(HOJA) : libro.insertSheet(HOJA);
+  const primera = libro().getSheets()[0];
+  return primera.getLastRow() <= 1 ? primera.setName(HOJA) : libro().insertSheet(HOJA);
+}
+
+function libro() {
+  return ID_HOJA ? SpreadsheetApp.openById(ID_HOJA) : SpreadsheetApp.getActiveSpreadsheet();
 }
 
 /** Cabeceras actuales; añade al final las que falten (columnas fijas y preguntas nuevas). */
@@ -231,7 +239,7 @@ function ahora() {
 /** Crea la clave, las cabeceras y el activador de recordatorios, y pide los permisos de Gmail. */
 function instalar() {
   const props = PropertiesService.getScriptProperties();
-  if (!props.getProperty('CLAVE')) props.setProperty('CLAVE', Utilities.getUuid().replace(/-/g, ''));
+  if (!props.getProperty('CLAVE')) props.setProperty('CLAVE', CLAVE_INICIAL || Utilities.getUuid().replace(/-/g, ''));
   cabeceras(hojaLeads(), []);
   ScriptApp.getProjectTriggers()
     .filter(function (t) { return t.getHandlerFunction() === 'recordatorios'; })
