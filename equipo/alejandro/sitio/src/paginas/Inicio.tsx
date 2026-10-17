@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { persona, textos } from '../config';
 import VideoWebinar from '../componentes/VideoWebinar';
+import Enfasis from '../componentes/Enfasis';
 
 const pasos = [
   { titulo: 'Rellenas el formulario', texto: 'Solo tus datos básicos, sin compromiso.' },
@@ -71,8 +72,8 @@ export default function Inicio() {
 
         <div className="relative z-10 -mt-16 px-[18px] pb-16 lg:order-1 lg:mt-0 lg:px-0 lg:pb-0">
           <p className="mb-3 text-[11px] font-bold uppercase text-acento">Charla gratuita · Sin compromiso</p>
-          <h1 className="text-[clamp(2.4rem,9vw,5.2rem)] font-extrabold uppercase leading-[0.88]">
-            {textos.titular}
+          <h1 className="text-[clamp(2.4rem,9vw,5.2rem)] font-bold leading-[0.9]">
+            <Enfasis texto={textos.titular} />
           </h1>
           <p className="mt-6 max-w-xl text-base font-medium leading-relaxed text-secundario sm:text-lg">
             {textos.entradilla}
@@ -113,7 +114,7 @@ export default function Inicio() {
               className="flex items-baseline gap-6 border-b border-dashed border-linea py-6 first:border-t"
             >
               <span className="text-[11px] font-bold text-secundario">{num(i)}</span>
-              <span className="text-xl font-semibold uppercase leading-tight sm:text-3xl">{d}</span>
+              <span className="titular text-xl font-semibold leading-tight sm:text-3xl">{d}</span>
             </li>
           ))}
         </ul>
@@ -127,7 +128,7 @@ export default function Inicio() {
           {textos.pilares.map((p, i) => (
             <div key={p.titulo} className="rounded-[22.5px] border border-texto p-6 sm:p-8">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold uppercase">{p.titulo}</h3>
+                <h3 className="text-lg font-bold">{p.titulo}</h3>
                 <span className="text-[11px] font-bold text-secundario">{num(i)}</span>
               </div>
               <p className="mt-3 font-medium leading-relaxed text-secundario">{p.texto}</p>
@@ -142,7 +143,7 @@ export default function Inicio() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <div>
             <Etiqueta n="03">Mi historia</Etiqueta>
-            <h2 className="text-[clamp(1.9rem,9vw,3rem)] font-extrabold uppercase leading-[0.9]">Por qué empecé</h2>
+            <h2 className="text-[clamp(1.9rem,9vw,3rem)] font-bold leading-[0.92]">Por qué <em>empecé</em></h2>
           </div>
           <div className="space-y-5 text-lg font-medium leading-relaxed text-secundario">
             {textos.historia.map((parrafo) => (
@@ -160,7 +161,7 @@ export default function Inicio() {
           {pasos.map((p, i) => (
             <li key={p.titulo} className="rounded-[22.5px] bg-superficie p-6 sm:p-8">
               <span className="text-4xl font-extrabold text-acento">{num(i)}</span>
-              <h3 className="mt-6 text-base font-bold uppercase">{p.titulo}</h3>
+              <h3 className="mt-6 text-base font-bold">{p.titulo}</h3>
               <p className="mt-2 text-sm font-medium leading-relaxed text-secundario">{p.texto}</p>
             </li>
           ))}
@@ -173,7 +174,7 @@ export default function Inicio() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-start">
           <div>
             <Etiqueta n="05">Hablamos</Etiqueta>
-            <h2 className="text-[clamp(1.9rem,9vw,3rem)] font-extrabold uppercase leading-[0.9]">¿Lo hablamos?</h2>
+            <h2 className="text-[clamp(1.9rem,9vw,3rem)] font-bold leading-[0.92]">¿Lo <em>hablamos</em>?</h2>
             <p className="mt-6 font-medium leading-relaxed text-secundario">
               Déjame tus datos y te escribo personalmente. Una charla de 20 minutos, sin compromiso.
             </p>

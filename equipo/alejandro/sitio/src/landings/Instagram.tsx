@@ -34,7 +34,7 @@ export default function Instagram() {
       </span>
 
       <main className="relative z-[2] -mt-16 flex min-h-0 flex-1 flex-col justify-center px-[18px] pb-[clamp(4px,1.5vh,12px)]">
-        <h1 className="text-[clamp(1.8rem,8.3vw,2.2rem)] font-extrabold uppercase leading-[0.88]">{persona.nombre}</h1>
+        <h1 className="text-[clamp(1.8rem,8.3vw,2.2rem)] font-bold leading-[0.9]">{persona.nombre}</h1>
         <p className="mt-[10px] text-xs font-semibold uppercase leading-tight text-secundario">{textos.subtitulo}</p>
         <hr className="my-[clamp(16px,2.6vh,24px)] border-0 border-t border-dashed border-linea" />
         <nav className="flex flex-col gap-3" aria-label="Enlaces">

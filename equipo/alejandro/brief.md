@@ -24,7 +24,7 @@ Webs, perfiles o anuncios que me gustan y **qué** me gusta de cada uno. Las cap
 
 ## 5. Identidad visual
 - **Colores** (hex): fondo walnut `#100904` · texto crema `#ffedd7` · secundario sand `#cdb69c` · líneas driftwood `#6c5f51` / cork `#40372e` · superficie bark `#382416` · acento ember `#dc5000` (mínimo, solo etiquetas)
-- **Tipografías**: Syne (400–800) para todo; títulos en 800 y mayúsculas
+- **Tipografías**: Inter Tight (400–800) para todo, títulos en 700 con espaciado −0,045 em y en frases normales; DM Serif Display Italic para 1–2 palabras de énfasis; Caveat para notas a mano en redes
 - **Estilo**: oscuro cálido, editorial, sin sombras. Líneas discontinuas como separador, botones píldora (relleno crema / borde crema) con número 01, 02…, etiquetas pequeñas en ember, etiqueta vertical en la foto
 - **Fotos**: `assets/foto.jpg` (estudio tipo podcast, luz cálida). Tratamiento: sepia .06, contraste 1.12, brillo .94, fundido al fondo
 - **Logo**: no, se usa el nombre en mayúsculas

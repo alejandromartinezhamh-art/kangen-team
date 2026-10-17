@@ -11,7 +11,7 @@ function Reproductor({ url }: { url: string }) {
       <iframe
         className={marco}
         src={`https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0&modestbranding=1&playsinline=1`}
-        title={webinar.titulo}
+        title={webinar.titulo.replaceAll('*', '')}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       />
@@ -22,7 +22,7 @@ function Reproductor({ url }: { url: string }) {
       <iframe
         className={marco}
         src={`https://player.vimeo.com/video/${vm[1]}${vm[2] ? `?h=${vm[2]}` : ''}`}
-        title={webinar.titulo}
+        title={webinar.titulo.replaceAll('*', '')}
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
       />
@@ -41,7 +41,7 @@ export default function VideoWebinar() {
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
           <span className="text-[11px] font-bold uppercase text-acento">Muy pronto</span>
-          <p className="text-xl font-extrabold uppercase sm:text-3xl">El vídeo estará disponible en breve</p>
+          <p className="titular text-xl font-bold sm:text-3xl">El vídeo estará disponible en breve</p>
           <p className="text-sm font-medium text-secundario">Déjame tus datos abajo y te aviso en cuanto esté.</p>
         </div>
       )}

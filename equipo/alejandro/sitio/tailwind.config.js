@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         titulo: 'var(--fuente-titulo)',
         cuerpo: 'var(--fuente-cuerpo)',
+        acento: 'var(--fuente-acento)',
       },
     },
   },
