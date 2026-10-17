@@ -1,0 +1,23 @@
+// Cloudflare Workers Builds: publica la web de Alejandro con el formulario guardando en D1.
+// Para otra persona: crear otro Worker con su propia configuración (cambiar name, build y assets).
+{
+  "name": "kangen-team",
+  "main": "compartido/api/worker-cloudflare.ts",
+  "compatibility_date": "2026-10-01",
+  "build": {
+    "command": "npm run build -w sitio-alejandro"
+  },
+  "assets": {
+    "directory": "./equipo/alejandro/sitio/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "leads-equipo",
+      "database_id": "61d1a63c-6910-4e2d-9f64-e36b8d15cfb7"
+    }
+  ]
+}
