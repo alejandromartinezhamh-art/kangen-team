@@ -1,4 +1,52 @@
 {
+  "_etiquetas": {
+    "colores": {
+      "eggshell": [
+        "Fondo",
+        "Fondo de toda la página"
+      ],
+      "taupe": [
+        "Fondo suave",
+        "Frase, webinar y contacto"
+      ],
+      "stone": [
+        "Líneas",
+        "Bordes y separadores"
+      ],
+      "ink": [
+        "Texto y botones",
+        "Titulares y botón principal"
+      ],
+      "graphite": [
+        "Texto oscuro",
+        "Etiquetas pequeñas"
+      ],
+      "smoke": [
+        "Texto secundario",
+        "Párrafos y líneas en gris"
+      ],
+      "ash": [
+        "Texto muy suave",
+        "Notas y detalles"
+      ],
+      "coral": [
+        "Coral",
+        "Círculos y detalles"
+      ],
+      "lila": [
+        "Lila",
+        "Banda de la posibilidad y fondos"
+      ]
+    },
+    "fotos": {
+      "portada": "Portada",
+      "historia": "Historia",
+      "vida": "Vivir bien"
+    },
+    "campos": {
+      "webinarUrl": "Vídeo del webinar (enlace embed de YouTube o Vimeo)"
+    }
+  },
   "webinarUrl": "",
   "colores": {
     "eggshell": "#fdfcfc",

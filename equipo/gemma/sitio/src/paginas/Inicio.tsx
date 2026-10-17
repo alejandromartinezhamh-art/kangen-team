@@ -1,9 +1,10 @@
 import { useRef } from 'react';
 import { Formulario, PieLegal } from '@equipo/compartido';
-import { fotos, persona, textos, webinarUrl } from '../config';
+import { fotos, persona, textos, webinar } from '../config';
 
 // Portada de Gemma. Diseño: Drive / Landing Kangen Gemma / 08 Design.
 export default function Inicio() {
+  const webinarUrl = webinar();
   const aviso = useRef<HTMLDialogElement>(null);
   const abrirWebinar = () => {
     if (webinarUrl) document.getElementById('webinar')?.scrollIntoView();

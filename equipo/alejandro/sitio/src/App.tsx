@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { Privacidad, AvisoLegal, Cookies } from '@equipo/compartido';
+import { Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { Enrutador, Privacidad, AvisoLegal, Cookies } from '@equipo/compartido';
 import { persona } from './config';
 import Inicio from './paginas/Inicio';
 import Webinar from './paginas/Webinar';
@@ -13,7 +13,7 @@ function Landing() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Enrutador>
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/webinar" element={<Webinar />} />
@@ -23,6 +23,6 @@ export default function App() {
         <Route path="/cookies" element={<Cookies />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </Enrutador>
   );
 }

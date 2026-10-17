@@ -1,0 +1,554 @@
+<title>Editor web de __NOMBRE__</title>
+<!--FUENTES-->
+<link rel="stylesheet" href="__CSS__">
+<style>
+/* Editor visual común. La web de la persona se pinta tal cual dentro de .ed-lienzo;
+   la barra, el panel y los diálogos son del editor. Un solo tema (claro) para el editor:
+   la web conserva sus propios colores. */
+:root {
+  --ed-fondo: #ffffff;
+  --ed-texto: #1d1b19;
+  --ed-suave: #6f6a63;
+  --ed-linea: #e6e2dd;
+  --ed-hover: #f4f2ef;
+  --ed-marca: #ff7a3d;
+  --ed-marca-hover: #ff8c55;
+  --ed-ok: #2f7d4f;
+  --ed-ok-fondo: #e6f2ea;
+  --ed-aviso: #b4541f;
+  --ed-aviso-fondo: #fbeee6;
+  --ed-fuente: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+[hidden] { display: none !important; }
+.ed-lienzo { position: relative; }
+
+/* ---------- Barra ---------- */
+.ed-barra {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 1000;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-height: 60px;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--ed-fondo); color: var(--ed-texto); border-bottom: 1px solid var(--ed-linea);
+  font: 13px/1.4 var(--ed-fuente); text-transform: none; letter-spacing: normal;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 1001; background: var(--ed-fondo); }
+.ed-titulo { font-weight: 600; }
+.ed-titulo small { display: block; font-weight: 400; color: var(--ed-suave); font-size: 11.5px; }
+.ed-estado { display: inline-flex; align-items: center; gap: 6px; color: var(--ed-suave); font-size: 12px; }
+.ed-estado::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ed-linea); }
+.ed-estado[data-e="ok"]::before { background: var(--ed-ok); }
+.ed-estado[data-e="guardando"]::before { background: var(--ed-marca); }
+.ed-estado[data-e="error"] { color: var(--ed-aviso); }
+.ed-estado[data-e="error"]::before { background: var(--ed-aviso); }
+.ed-hueco { flex: 1; }
+.ed-btn {
+  font: 500 13px/1 var(--ed-fuente); text-transform: none; letter-spacing: normal;
+  min-height: 38px; padding: 0 16px; border-radius: 9999px; cursor: pointer;
+  border: 1px solid var(--ed-linea); background: var(--ed-fondo); color: var(--ed-texto);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ed-btn:hover { background: var(--ed-hover); }
+.ed-btn-principal { background: var(--ed-marca); border-color: var(--ed-marca); color: var(--ed-texto); font-weight: 600; }
+.ed-btn-principal:hover { background: var(--ed-marca-hover); }
+.ed-btn:disabled { opacity: .45; cursor: not-allowed; }
+.ed-barra :focus-visible, .ed-panel :focus-visible, .ed-dialogo :focus-visible, .ed-pop :focus-visible { outline: 2px solid var(--ed-texto); outline-offset: 2px; }
+.ed-aviso-lectura { width: 100%; margin: 0; font-size: 12px; color: var(--ed-aviso); }
+.ed-corto { display: none; }
+
+/* ---------- Marcas de edición sobre la web ---------- */
+.ed-lienzo.editando [data-ed] { cursor: text; outline: 1px dashed transparent; outline-offset: 3px; transition: outline-color .15s; }
+.ed-lienzo.editando [data-ed]:hover { outline-color: var(--ed-marca); }
+.ed-lienzo.editando a, .ed-lienzo.editando button { cursor: text; }
+.ed-lienzo.editando form input, .ed-lienzo.editando form textarea { pointer-events: none; }
+.ed-foto-flotante {
+  position: fixed; z-index: 990; font: 600 12px/1 var(--ed-fuente); padding: 10px 14px; border-radius: 9999px;
+  background: var(--ed-fondo); color: var(--ed-texto); border: 0; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.18);
+}
+
+/* ---------- Edición en línea ---------- */
+.ed-pop {
+  position: fixed; z-index: 1100; display: grid; gap: 8px; padding: 10px;
+  background: var(--ed-fondo); color: var(--ed-texto); border: 1px solid var(--ed-linea); border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.18); font: 13px/1.4 var(--ed-fuente);
+}
+.ed-pop textarea {
+  font: 15px/1.5 var(--ed-fuente); color: var(--ed-texto); background: var(--ed-fondo);
+  border: 1px solid var(--ed-linea); border-radius: 10px; padding: 10px 12px; resize: vertical; min-height: 64px; width: 100%;
+  text-transform: none; letter-spacing: normal;
+}
+.ed-pop-pie { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ed-pop-pie small { color: var(--ed-suave); }
+.ed-pop-pie div { display: flex; gap: 6px; }
+
+/* ---------- Panel lateral ---------- */
+.ed-panel {
+  position: fixed; z-index: 1050; top: 0; right: 0; bottom: 0; width: min(380px, 100%);
+  background: var(--ed-fondo); color: var(--ed-texto); border-left: 1px solid var(--ed-linea); box-shadow: -12px 0 40px rgba(0,0,0,.08);
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 24px) 20px;
+  overflow-y: auto; font: 13px/1.5 var(--ed-fuente); display: flex; flex-direction: column; gap: 26px;
+  text-transform: none; letter-spacing: normal;
+}
+.ed-panel h2 { font: 600 15px/1.3 var(--ed-fuente); margin: 0; }
+.ed-panel h3 { font: 600 11px/1.3 var(--ed-fuente); letter-spacing: .12em; text-transform: uppercase; color: var(--ed-suave); margin: 0 0 10px; }
+.ed-panel-cab { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ed-colores, .ed-campos { display: grid; gap: 6px; }
+.ed-color { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 6px 8px; border: 1px solid var(--ed-linea); border-radius: 10px; }
+.ed-color input { width: 34px; height: 34px; border: 0; padding: 0; background: none; cursor: pointer; border-radius: 8px; }
+.ed-color span { min-width: 0; }
+.ed-color small { display: block; color: var(--ed-suave); font-size: 11.5px; }
+.ed-color code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ed-suave); }
+.ed-campo { display: grid; gap: 4px; }
+.ed-campo span { color: var(--ed-suave); font-size: 12px; }
+.ed-campo input { font: 13px var(--ed-fuente); padding: 10px 12px; border: 1px solid var(--ed-linea); border-radius: 10px; background: var(--ed-fondo); color: var(--ed-texto); min-width: 0; }
+.ed-ayuda { color: var(--ed-suave); font-size: 12px; margin: 8px 0 0; }
+.ed-fotos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ed-fotos button { padding: 0; border: 1px solid var(--ed-linea); border-radius: 10px; overflow: hidden; background: var(--ed-hover); cursor: pointer; aspect-ratio: .8; position: relative; }
+.ed-fotos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ed-fotos span { position: absolute; left: 6px; right: 6px; bottom: 6px; font: 600 10.5px var(--ed-fuente); background: var(--ed-fondo); padding: 3px 7px; border-radius: 99px; color: var(--ed-texto); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ed-pubs li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 10px; border: 1px solid var(--ed-linea); border-radius: 10px; font-size: 12.5px; }
+.ed-pubs li > span:first-child { min-width: 0; }
+.ed-pubs small { display: block; color: var(--ed-suave); }
+.ed-pubs .ed-vacio { border: 0; padding: 0; color: var(--ed-suave); }
+.ed-chip { align-self: center; font: 600 11px var(--ed-fuente); padding: 3px 8px; border-radius: 99px; white-space: nowrap; background: var(--ed-aviso-fondo); color: var(--ed-aviso); }
+.ed-chip[data-e="publicada"] { background: var(--ed-ok-fondo); color: var(--ed-ok); }
+
+/* ---------- Diálogos y avisos ---------- */
+.ed-dialogo { border: 0; border-radius: 20px; padding: 0; width: min(440px, calc(100% - 32px)); background: var(--ed-fondo); color: var(--ed-texto); box-shadow: 0 20px 60px rgba(0,0,0,.18); text-transform: none; letter-spacing: normal; }
+.ed-dialogo::backdrop { background: rgba(20,18,16,.45); }
+.ed-dialogo > div { padding: 28px; display: grid; gap: 14px; font: 14px/1.6 var(--ed-fuente); }
+.ed-dialogo h2 { font: 600 18px/1.3 var(--ed-fuente); margin: 0; }
+.ed-dialogo p { margin: 0; color: var(--ed-suave); }
+.ed-acciones { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 6px; }
+.ed-toast { position: fixed; z-index: 1200; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); transform: translateX(-50%); background: var(--ed-texto); color: var(--ed-fondo); font: 500 13px var(--ed-fuente); padding: 12px 18px; border-radius: 12px; max-width: calc(100% - 32px); }
+
+@media (max-width: 720px) {
+  .ed-barra { gap: 8px; }
+  .ed-titulo { display: none; }
+  .ed-estado { order: 10; width: 100%; }
+  .ed-hueco { display: none; }
+  .ed-btn { padding: 0 12px; font-size: 12.5px; }
+  .ed-largo { display: none; }
+  .ed-corto { display: inline; }
+}
+@media (prefers-reduced-motion: reduce) { .ed-lienzo.editando [data-ed] { transition: none; } }
+</style>
+
+<header class="ed-barra" role="toolbar" aria-label="Editor">
+  <div class="ed-titulo">Web de __NOMBRE__<small>Haz clic en un texto o una foto para cambiarlo</small></div>
+  <span class="ed-estado" id="ed-estado" data-e="">Conectando…</span>
+  <span class="ed-hueco"></span>
+  <button class="ed-btn" id="ed-modo" type="button"><span class="ed-largo">Ver como visitante</span><span class="ed-corto">Ver</span></button>
+  <button class="ed-btn" id="ed-abrir-panel" type="button"><span class="ed-largo">Fotos, colores y enlaces</span><span class="ed-corto">Diseño</span></button>
+  <button class="ed-btn ed-btn-principal" id="ed-publicar" type="button">Publicar</button>
+  <p class="ed-aviso-lectura" id="ed-lectura" hidden>Solo puedes ver esta página. Para editarla, pide permiso de edición a quien te la compartió.</p>
+</header>
+
+<div class="ed-lienzo editando" id="ed-lienzo"><div id="root"></div></div>
+
+<button class="ed-foto-flotante" id="ed-foto-flotante" type="button" hidden>Cambiar foto</button>
+
+<div class="ed-pop" id="ed-pop" role="dialog" aria-label="Editar texto" hidden>
+  <label for="ed-pop-texto" class="ed-pop-pie"><small id="ed-pop-info">Texto</small></label>
+  <textarea id="ed-pop-texto" rows="3"></textarea>
+  <div class="ed-pop-pie">
+    <small>Intro para guardar · Esc para cancelar</small>
+    <div>
+      <button class="ed-btn" type="button" id="ed-pop-cancelar">Cancelar</button>
+      <button class="ed-btn ed-btn-principal" type="button" id="ed-pop-guardar">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<aside class="ed-panel" id="ed-panel" hidden aria-label="Fotos, colores y enlaces">
+  <div class="ed-panel-cab">
+    <h2>Fotos, colores y enlaces</h2>
+    <button class="ed-btn" id="ed-cerrar-panel" type="button">Cerrar</button>
+  </div>
+  <section id="ed-sec-fotos">
+    <h3>Fotos</h3>
+    <div class="ed-fotos" id="ed-fotos"></div>
+    <p class="ed-ayuda">Toca una foto para cambiarla. También puedes hacer clic en la foto dentro de la web.</p>
+  </section>
+  <section id="ed-sec-colores">
+    <h3>Colores</h3>
+    <div class="ed-colores" id="ed-colores"></div>
+  </section>
+  <section id="ed-sec-campos">
+    <h3>Enlaces</h3>
+    <div class="ed-campos" id="ed-campos"></div>
+  </section>
+  <section>
+    <h3>Publicaciones</h3>
+    <ul class="ed-pubs" id="ed-pubs"><li class="ed-vacio">Todavía no se ha publicado nada desde el editor.</li></ul>
+  </section>
+  <section>
+    <h3>Volver a empezar</h3>
+    <button class="ed-btn" id="ed-restaurar" type="button">Recuperar la versión original</button>
+  </section>
+</aside>
+
+<dialog class="ed-dialogo" id="ed-dlg-publicar">
+  <div>
+    <h2>¿Publicar los cambios?</h2>
+    <p>Se enviará esta versión de la web de __NOMBRE__ para publicarla. Puedes seguir editando después y volver a publicar.</p>
+    <div class="ed-acciones">
+      <button class="ed-btn" type="button" data-cerrar>Cancelar</button>
+      <button class="ed-btn ed-btn-principal" type="button" id="ed-confirmar-publicar">Publicar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="ed-dialogo" id="ed-dlg-restaurar">
+  <div>
+    <h2>¿Recuperar la versión original?</h2>
+    <p>Se perderán los textos, fotos y colores cambiados en el editor. Lo que ya esté publicado no cambia.</p>
+    <div class="ed-acciones">
+      <button class="ed-btn" type="button" data-cerrar>Cancelar</button>
+      <button class="ed-btn ed-btn-principal" type="button" id="ed-confirmar-restaurar">Recuperar original</button>
+    </div>
+  </div>
+</dialog>
+
+<input type="file" id="ed-archivo" accept="image/*" hidden>
+<div class="ed-toast" id="ed-toast" role="status" hidden></div>
+
+<script>
+const WEB = /*WEB*/null; // { id, nombre, contenido }
+const ORIGINAL = WEB.contenido;
+const ETIQUETAS = ORIGINAL._etiquetas || {};
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esObjeto = (v) => !!v && typeof v === 'object' && !Array.isArray(v);
+const clonar = (v) => JSON.parse(JSON.stringify(v));
+
+// Mezcla lo guardado sobre el original, para que las claves nuevas del repo aparezcan.
+function mezclar(base, encima) {
+  if (!esObjeto(base) || !esObjeto(encima)) return encima === undefined ? clonar(base) : clonar(encima);
+  const r = clonar(base);
+  for (const k of Object.keys(encima)) r[k] = k in base ? mezclar(base[k], encima[k]) : clonar(encima[k]);
+  return r;
+}
+
+let estado = clonar(ORIGINAL);
+let editando = true, puedeEscribir = true;
+let db = null, assets = null, user = null, miId = null;
+
+// ---------- Contenido que ve la web (rutas de fotos relativas al editor) ----------
+function paraMostrar(c) {
+  const m = clonar(c);
+  for (const k of Object.keys(m.fotos || {})) if (typeof m.fotos[k] === 'string') m.fotos[k] = m.fotos[k].replace(/^\//, '');
+  return m;
+}
+window.__EDITOR__ = { contenido: paraMostrar(estado) };
+function repintar() {
+  if (window.__EDITOR__.repintar) window.__EDITOR__.repintar(paraMostrar(estado));
+  if (!$('ed-panel').hidden) pintarPanel();
+}
+
+// Textos editables: todas las cadenas salvo colores, fotos y claves "_".
+function textos() {
+  const mapa = new Map();
+  (function recorrer(v, ruta) {
+    if (typeof v === 'string') {
+      const t = v.trim();
+      if (t) { if (!mapa.has(t)) mapa.set(t, []); mapa.get(t).push(ruta); }
+    } else if (Array.isArray(v)) v.forEach((x, i) => recorrer(x, [...ruta, i]));
+    else if (esObjeto(v)) for (const k of Object.keys(v)) {
+      if (ruta.length === 0 && (k === 'colores' || k === 'fotos' || k.startsWith('_'))) continue;
+      recorrer(v[k], [...ruta, k]);
+    }
+  })(estado, []);
+  return mapa;
+}
+function poner(ruta, valor) {
+  let o = estado;
+  for (const p of ruta.slice(0, -1)) o = o[p];
+  o[ruta.at(-1)] = valor;
+}
+function fotosPorSrc() {
+  const m = new Map();
+  for (const [k, v] of Object.entries(paraMostrar(estado).fotos || {})) m.set(v, k);
+  return m;
+}
+
+// ---------- Marcar lo editable después de cada pintado ----------
+let mapaTextos = textos();
+function marcar() {
+  mapaTextos = textos();
+  const raiz = $('root');
+  raiz.querySelectorAll('[data-ed]').forEach((el) => el.removeAttribute('data-ed'));
+  const w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) {
+    if (mapaTextos.has(n.nodeValue.trim()) && n.parentElement) n.parentElement.setAttribute('data-ed', '');
+  }
+  const fotos = fotosPorSrc();
+  raiz.querySelectorAll('img').forEach((img) => {
+    const k = fotos.get(img.getAttribute('src'));
+    if (k) img.setAttribute('data-ed-foto', k); else img.removeAttribute('data-ed-foto');
+  });
+}
+let marcaPendiente = 0;
+new MutationObserver(() => { cancelAnimationFrame(marcaPendiente); marcaPendiente = requestAnimationFrame(marcar); })
+  .observe($('root'), { childList: true, subtree: true, characterData: true });
+
+function textoEn(x, y) {
+  let nodo = null;
+  if (document.caretPositionFromPoint) { const p = document.caretPositionFromPoint(x, y); nodo = p && p.offsetNode; }
+  else if (document.caretRangeFromPoint) { const r = document.caretRangeFromPoint(x, y); nodo = r && r.startContainer; }
+  if (nodo && nodo.nodeType === 3 && mapaTextos.has(nodo.nodeValue.trim())) return nodo;
+  const el = document.elementFromPoint(x, y);
+  const marcado = el && el.closest('[data-ed]');
+  if (!marcado || !$('root').contains(marcado)) return null;
+  for (const n of marcado.childNodes) if (n.nodeType === 3 && mapaTextos.has(n.nodeValue.trim())) return n;
+  return null;
+}
+function fotoEn(x, y) {
+  for (const el of document.elementsFromPoint(x, y)) {
+    if (el.closest && el.closest('.ed-barra, .ed-panel, .ed-pop')) return null;
+    if (el.matches && el.matches('img[data-ed-foto]')) return el;
+  }
+  return null;
+}
+
+// ---------- Edición en línea ----------
+let editandoTexto = null; // { rutas, original }
+function abrirPop(nodo) {
+  const valor = nodo.nodeValue.trim();
+  const rutas = mapaTextos.get(valor);
+  editandoTexto = { rutas, original: valor };
+  const r = nodo.parentElement.getBoundingClientRect();
+  const pop = $('ed-pop');
+  const ancho = Math.min(Math.max(r.width + 24, 300), innerWidth - 24);
+  pop.style.width = ancho + 'px';
+  pop.style.left = Math.max(12, Math.min(r.left - 12, innerWidth - ancho - 12)) + 'px';
+  pop.style.top = Math.max(70, Math.min(r.bottom + 8, innerHeight - 200)) + 'px';
+  $('ed-pop-info').textContent = rutas.length > 1 ? `Este texto aparece en ${rutas.length} sitios de la web: se cambia en todos.` : 'Texto';
+  $('ed-pop-texto').value = valor;
+  pop.hidden = false;
+  $('ed-pop-texto').focus(); $('ed-pop-texto').select();
+}
+function cerrarPop(guardarCambio) {
+  if (!editandoTexto) return;
+  const nuevo = $('ed-pop-texto').value.replace(/\s*\n\s*/g, ' ').trim();
+  const { rutas, original } = editandoTexto;
+  editandoTexto = null;
+  $('ed-pop').hidden = true;
+  if (guardarCambio && nuevo && nuevo !== original) {
+    rutas.forEach((r) => poner(r, nuevo));
+    repintar(); guardarLuego();
+  }
+  if (cambioRemoto) { const c = cambioRemoto; cambioRemoto = null; aplicarRemoto(c); }
+}
+$('ed-pop-guardar').addEventListener('click', () => cerrarPop(true));
+$('ed-pop-cancelar').addEventListener('click', () => cerrarPop(false));
+$('ed-pop-texto').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); cerrarPop(true); }
+  if (e.key === 'Escape') { e.preventDefault(); cerrarPop(false); }
+});
+
+// ---------- Clics sobre la web ----------
+document.addEventListener('click', (e) => {
+  if (!$('ed-lienzo').contains(e.target)) return;
+  if (!(editando && puedeEscribir)) return;
+  e.preventDefault(); e.stopPropagation();
+  const nodo = textoEn(e.clientX, e.clientY);
+  if (nodo) { abrirPop(nodo); return; }
+  const img = fotoEn(e.clientX, e.clientY);
+  if (img) elegirFoto(img.dataset.edFoto);
+}, true);
+// Como visitante, los enlaces a otras páginas no sacan al editor de aquí.
+document.addEventListener('click', (e) => {
+  const a = e.target.closest && e.target.closest('#root a[href]');
+  if (a && !e.defaultPrevented && !a.getAttribute('href').startsWith('#')) { e.preventDefault(); aviso('Los enlaces a otras páginas funcionan en la web publicada.'); }
+});
+document.addEventListener('submit', (e) => { if ($('ed-lienzo').contains(e.target)) { e.preventDefault(); e.stopPropagation(); aviso('El formulario funciona en la web publicada.'); } }, true);
+
+// Botón "Cambiar foto" que sigue al ratón sobre las fotos editables.
+let fotoBajoRaton = null;
+document.addEventListener('mousemove', (e) => {
+  const flot = $('ed-foto-flotante');
+  if (!(editando && puedeEscribir) || e.target === flot) return;
+  const img = fotoEn(e.clientX, e.clientY);
+  fotoBajoRaton = img ? img.dataset.edFoto : null;
+  if (!img) { flot.hidden = true; return; }
+  const r = img.getBoundingClientRect();
+  flot.style.left = Math.max(r.left, 0) + 14 + 'px';
+  flot.style.top = Math.max(r.top, 64) + 14 + 'px';
+  flot.hidden = false;
+});
+$('ed-foto-flotante').addEventListener('click', () => fotoBajoRaton && elegirFoto(fotoBajoRaton));
+
+// ---------- Guardado ----------
+let temporizador = null;
+function marcarEstado(e, texto) { const el = $('ed-estado'); el.dataset.e = e; el.textContent = texto; }
+function guardarLuego() {
+  if (!db || !puedeEscribir) return;
+  marcarEstado('guardando', 'Guardando…');
+  clearTimeout(temporizador);
+  temporizador = setTimeout(guardar, 600);
+}
+async function guardar() {
+  try {
+    await db.doc('webs/' + WEB.id).set({ contenido: estado, actualizado: Date.now(), por: miId });
+    marcarEstado('ok', 'Guardado');
+  } catch (e) {
+    if (e && e.code === 'not_granted') { soloLectura(); return; }
+    marcarEstado('error', 'No se ha podido guardar. Revisa la conexión.');
+  }
+}
+function soloLectura() {
+  puedeEscribir = false;
+  $('ed-lectura').hidden = false;
+  $('ed-publicar').disabled = true;
+  marcarEstado('', 'Solo lectura');
+  aplicarModo();
+}
+function aviso(texto) {
+  const el = $('ed-toast'); el.textContent = texto; el.hidden = false;
+  clearTimeout(aviso.t); aviso.t = setTimeout(() => (el.hidden = true), 3200);
+}
+function aplicarModo() {
+  const activo = editando && puedeEscribir;
+  $('ed-lienzo').classList.toggle('editando', activo);
+  if (!activo) $('ed-foto-flotante').hidden = true;
+  $('ed-modo').querySelector('.ed-largo').textContent = editando ? 'Ver como visitante' : 'Volver a editar';
+  $('ed-modo').querySelector('.ed-corto').textContent = editando ? 'Ver' : 'Editar';
+  $('ed-panel').querySelectorAll('input, #ed-fotos button, #ed-restaurar').forEach((el) => (el.disabled = !puedeEscribir));
+}
+$('ed-modo').addEventListener('click', () => { editando = !editando; aplicarModo(); });
+
+// ---------- Fotos ----------
+let fotoPendiente = null;
+function elegirFoto(clave) {
+  if (!puedeEscribir) return;
+  if (!assets) { aviso('Para subir fotos necesitas permiso de edición en esta página.'); return; }
+  fotoPendiente = clave; $('ed-archivo').value = ''; $('ed-archivo').click();
+}
+async function reducir(archivo) {
+  const bmp = await createImageBitmap(archivo, { imageOrientation: 'from-image' });
+  const escala = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(bmp.width * escala); c.height = Math.round(bmp.height * escala);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise((ok) => c.toBlob(ok, 'image/jpeg', 0.82));
+}
+$('ed-archivo').addEventListener('change', async () => {
+  const archivo = $('ed-archivo').files[0];
+  const clave = fotoPendiente;
+  if (!archivo || !clave) return;
+  marcarEstado('guardando', 'Subiendo foto…');
+  try {
+    const r = await assets.upload(await reducir(archivo), { type: 'image/jpeg' });
+    estado.fotos[clave] = r.url;
+    repintar(); guardarLuego();
+    aviso('Foto cambiada');
+  } catch (e) {
+    marcarEstado('error', e && e.code === 'too_large' ? 'La foto es demasiado grande.' : 'No se ha podido subir la foto.');
+  }
+});
+
+// ---------- Panel ----------
+function nombreDe(grupo, clave) { return (ETIQUETAS[grupo] && ETIQUETAS[grupo][clave]) || clave; }
+function pintarPanel() {
+  const fotos = paraMostrar(estado).fotos || {};
+  $('ed-sec-fotos').hidden = !Object.keys(fotos).length;
+  $('ed-fotos').innerHTML = Object.keys(fotos).map((k) => {
+    const n = nombreDe('fotos', k);
+    return `<button type="button" data-foto="${esc(k)}" aria-label="Cambiar foto: ${esc(n)}"><img src="${esc(fotos[k])}" alt=""><span>${esc(n)}</span></button>`;
+  }).join('');
+  const colores = estado.colores || {};
+  $('ed-sec-colores').hidden = !Object.keys(colores).length;
+  $('ed-colores').innerHTML = Object.keys(colores).map((k) => {
+    const [n, d] = [].concat(nombreDe('colores', k));
+    return `<label class="ed-color" for="ed-c-${esc(k)}"><input type="color" id="ed-c-${esc(k)}" data-color="${esc(k)}" value="${esc(colores[k])}"><span>${esc(n)}${d ? `<small>${esc(d)}</small>` : ''}</span><code>${esc(colores[k])}</code></label>`;
+  }).join('');
+  const campos = ETIQUETAS.campos || {};
+  $('ed-sec-campos').hidden = !Object.keys(campos).length;
+  $('ed-campos').innerHTML = Object.entries(campos).map(([ruta, n]) => {
+    const v = ruta.split('.').reduce((o, k) => (o == null ? o : o[k]), estado) ?? '';
+    return `<label class="ed-campo" for="ed-f-${esc(ruta)}"><span>${esc(n)}</span><input id="ed-f-${esc(ruta)}" data-campo="${esc(ruta)}" value="${esc(v)}" placeholder="https://…"></label>`;
+  }).join('');
+  aplicarModo();
+}
+$('ed-abrir-panel').addEventListener('click', () => { pintarPanel(); $('ed-panel').hidden = false; });
+$('ed-cerrar-panel').addEventListener('click', () => ($('ed-panel').hidden = true));
+$('ed-panel').addEventListener('click', (e) => { const f = e.target.closest('[data-foto]'); if (f) elegirFoto(f.dataset.foto); });
+$('ed-panel').addEventListener('input', (e) => {
+  const k = e.target.dataset.color, campo = e.target.dataset.campo;
+  if (k) {
+    estado.colores[k] = e.target.value;
+    e.target.closest('.ed-color').querySelector('code').textContent = e.target.value;
+    document.documentElement.style.setProperty('--color-' + k, e.target.value);
+    guardarLuego();
+  } else if (campo) {
+    poner(campo.split('.'), e.target.value.trim());
+    guardarLuego();
+  }
+});
+$('ed-panel').addEventListener('change', (e) => { if (e.target.dataset.campo || e.target.dataset.color) repintar(); });
+document.querySelectorAll('[data-cerrar]').forEach((b) => b.addEventListener('click', () => b.closest('dialog').close()));
+$('ed-restaurar').addEventListener('click', () => $('ed-dlg-restaurar').showModal());
+$('ed-confirmar-restaurar').addEventListener('click', () => {
+  estado = clonar(ORIGINAL);
+  repintar(); pintarPanel(); guardarLuego();
+  $('ed-dlg-restaurar').close();
+  aviso('Versión original recuperada');
+});
+
+// ---------- Publicar ----------
+$('ed-publicar').addEventListener('click', () => $('ed-dlg-publicar').showModal());
+$('ed-confirmar-publicar').addEventListener('click', async () => {
+  const b = $('ed-confirmar-publicar');
+  if (!db) { $('ed-dlg-publicar').close(); aviso('Abre el editor en Claude con tu cuenta para publicar.'); return; }
+  b.disabled = true;
+  try {
+    clearTimeout(temporizador); await guardar();
+    await db.collection('publicaciones').add({ web: WEB.id, contenido: estado, estado: 'pendiente', por: miId, fecha: Date.now() });
+    $('ed-dlg-publicar').close();
+    aviso('Cambios enviados para publicar');
+  } catch (e) {
+    aviso(e && e.code === 'not_granted' ? 'No tienes permiso para publicar.' : 'No se ha podido enviar. Inténtalo de nuevo.');
+  } finally { b.disabled = false; }
+});
+const fechaCorta = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+async function pintarPublicaciones(docs) {
+  const lista = $('ed-pubs');
+  if (!docs.length) { lista.innerHTML = '<li class="ed-vacio">Todavía no se ha publicado nada desde el editor.</li>'; return; }
+  const ids = [...new Set(docs.map((d) => d.data().por).filter(Boolean))];
+  let perfiles = {};
+  try { if (user && ids.length) perfiles = await user.profiles(ids); } catch {}
+  lista.innerHTML = docs.map((d) => {
+    const p = d.data();
+    const quien = (p.por && perfiles[p.por] && perfiles[p.por].name) || 'Alguien del equipo';
+    const pub = p.estado === 'publicada';
+    return `<li><span>${esc(fechaCorta.format(new Date(p.fecha)))}<small>${esc(quien)}</small></span><span class="ed-chip" data-e="${pub ? 'publicada' : 'pendiente'}">${pub ? 'Publicada' : 'Pendiente'}</span></li>`;
+  }).join('');
+}
+
+// ---------- Cambios de otras personas ----------
+let cambioRemoto = null;
+function aplicarRemoto(contenido) { estado = mezclar(ORIGINAL, contenido); repintar(); }
+
+// ---------- Arranque ----------
+(async () => {
+  if (!window.claude || !window.claude.use) { marcarEstado('error', 'Abre este editor en Claude para guardar los cambios.'); return; }
+  [db, assets, user] = await Promise.all([claude.use('db'), claude.use('assets'), claude.use('user')]);
+  if (!db) { marcarEstado('error', 'Inicia sesión para guardar los cambios.'); soloLectura(); return; }
+  try { miId = user ? await user.id() : null; } catch {}
+  try { if (user && (await user.can('data.write')) === false) soloLectura(); } catch {}
+  db.doc('webs/' + WEB.id).onSnapshot((snap) => {
+    if (snap.metadata.hasPendingWrites) return;
+    const datos = snap.exists ? snap.data() : null;
+    if (puedeEscribir) marcarEstado('ok', datos ? 'Guardado' : 'Sin cambios todavía');
+    if (!datos || !datos.contenido) return;
+    if (JSON.stringify(mezclar(ORIGINAL, datos.contenido)) === JSON.stringify(estado)) return;
+    if (editandoTexto || (document.activeElement && document.activeElement.closest && document.activeElement.closest('#ed-panel'))) { cambioRemoto = datos.contenido; return; }
+    aplicarRemoto(datos.contenido);
+  }, () => marcarEstado('error', 'Se ha perdido la conexión. Recarga la página.'));
+  db.collection('publicaciones').orderBy('fecha', 'desc').limit(8).onSnapshot((s) => pintarPublicaciones(s.docs), () => {});
+})();
+</script>
+<script type="module" src="__JS__"></script>

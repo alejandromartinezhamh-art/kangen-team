@@ -20,4 +20,6 @@ export const persona: ConfigPersona = {
 
 // Todo lo editable (textos, colores, fotos y webinar) vive en contenido.json.
 // Lo genera el editor de la web; también se puede cambiar a mano.
-export const { textos, colores, fotos, webinarUrl } = contenido;
+export const { textos, fotos } = contenido;
+// Se lee al pintar (no al importar) para que el editor pueda cambiarlo.
+export const webinar = () => contenido.webinarUrl;
