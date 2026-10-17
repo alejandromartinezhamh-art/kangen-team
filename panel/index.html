@@ -76,7 +76,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   <header>
     <p class="etiqueta">Equipo · webs y landings</p>
     <h1>Webs del equipo</h1>
-    <p class="sub">En qué fase está la web de cada persona y dónde encontrarla: el borrador para retocar, su carpeta de Drive, el código y la web publicada.</p>
+    <p class="sub">Busca tu nombre y encontrarás tu web publicada, el borrador para retocarla y tu carpeta de Drive.</p>
   </header>
   <section aria-label="Fases" class="embudo" id="embudo"></section>
   <p class="aviso" id="estado">Cargando…</p>
@@ -84,7 +84,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </div>
 <script>
 const FASES = ['Brief pendiente', 'En diseño', 'Retocando', 'Lista para publicar', 'Publicada'];
-const ENLACES = [['borrador', 'Borrador'], ['drive', 'Carpeta Drive'], ['codigo', 'Código'], ['web', 'Web publicada']];
+// Solo los enlaces que usan ellas; el código de GitHub queda en el panel de Claude.
+const ENLACES = [['web', 'Web publicada'], ['borrador', 'Borrador'], ['drive', 'Carpeta Drive']];
 const esc = (s) => { const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
 const seguro = (u) => (/^https:\/\//.test(u || '') ? u : '');
 const fecha = (at) => at ? new Date(at).toLocaleString('es-ES', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '';
