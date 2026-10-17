@@ -1,9 +1,9 @@
 import type { ConfigPersona } from '@equipo/compartido';
 
-// Datos de Elena. Rellena los "PENDIENTE" antes de publicar.
+// Datos de Helena. Rellena los "PENDIENTE" antes de publicar.
 export const persona: ConfigPersona = {
-  id: 'elena',
-  nombre: 'Elena',
+  id: 'helena',
+  nombre: 'Helena',
   dominio: 'PENDIENTE',
   email: 'PENDIENTE',
   whatsapp: undefined,

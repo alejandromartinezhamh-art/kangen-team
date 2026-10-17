@@ -1,6 +1,6 @@
-# Design system · Elena
+# Design system · Anna
 
-Referencia completa de la identidad visual de Elena para pasarla a cualquier herramienta
+Referencia completa de la identidad visual de Anna para pasarla a cualquier herramienta
 (Figma, Canva, Framer, Webflow, Lovable, editores de vídeo…). Ejemplo completo: `equipo/alejandro/design.md`.
 
 **Concepto:** PENDIENTE (una frase: p. ej. "claro, natural y luminoso").

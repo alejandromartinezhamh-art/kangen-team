@@ -1,4 +1,4 @@
-# Anuncios de Ana
+# Anuncios de Anna
 
 Un archivo por campaña: `AAAA-MM-nombre-campana.md`.
 

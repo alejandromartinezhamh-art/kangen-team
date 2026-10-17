@@ -14,7 +14,7 @@ compartido/            Código común: formulario, páginas legales y API de lea
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
 scripts/               Utilidades (crear persona nueva)
 equipo/
-  alejandro/ ana/ elena/ gemma/ judith/ rocio/
+  alejandro/ anna/ gemma/ helena/ judith/ rocio/
     README.md          Ficha: estado, enlace de Drive, web, Vercel y dominio
     brief.md           Quién es, historia, público, referencias, contacto y datos legales
     design.md          Sistema de diseño completo (paleta, tipografía, componentes, tokens)
@@ -46,7 +46,7 @@ Kangen PRO TEAM/
       05 Contenido redes/
       06 Anuncios/
       07 Textos/                  Historia, bio, guiones
-    Gemma/ …
+    Anna/ Gemma/ Helena/ Judith/ Rocio/
 ```
 
 Nombres de archivo: `persona_tipo_descripcion_01.jpg` (p. ej. `gemma_retrato_exterior_01.jpg`).

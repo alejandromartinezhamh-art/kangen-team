@@ -1,4 +1,4 @@
-# Contenido de Ana
+# Contenido de Anna
 
 Un archivo por pieza o por semana: `AAAA-MM-DD-tema.md`.
 

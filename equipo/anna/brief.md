@@ -1,6 +1,6 @@
-# Brief de diseño · Ana
+# Brief de diseño · Anna
 
-Este documento es la fuente de verdad del diseño de la web, las landings y el contenido de Ana.
+Este documento es la fuente de verdad del diseño de la web, las landings y el contenido de Anna.
 Rellénalo antes de diseñar y actualízalo cada vez que algo cambie.
 
 ## 1. Quién soy (2-3 frases)

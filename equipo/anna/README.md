@@ -1,11 +1,11 @@
-# Elena
+# Anna
 
 | | |
 |---|---|
 | **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
-| **Carpeta de Drive** | https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O |
+| **Carpeta de Drive** | https://drive.google.com/drive/folders/1H0wtP6V0--H3LD_GhNvfuXi0amrwSy2Y |
 | **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/elena/sitio`) |
+| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/anna/sitio`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí
