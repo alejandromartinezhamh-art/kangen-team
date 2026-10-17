@@ -15,18 +15,47 @@ plantilla/             Punto de partida de cada persona (no se edita para una pe
 scripts/               Utilidades (crear persona nueva)
 equipo/
   alejandro/ ana/ elena/ gemma/ judith/ rocio/
-    brief.md           Diseño, tono, referencias, contacto y datos legales
+    README.md          Ficha: estado, enlace de Drive, web, Vercel y dominio
+    brief.md           Quién es, historia, público, referencias, contacto y datos legales
+    design.md          Sistema de diseño completo (paleta, tipografía, componentes, tokens)
     referencias/       Capturas de webs y perfiles que gustan
-    assets/            Fotos, logo, vídeos
+    assets/            Fotos y logo elegidos y optimizados para la web (los originales, en Drive)
     contenido/         Ideas y guiones de publicaciones
     anuncios/          Una ficha por campaña
     sitio/             La web (/) y sus landings (/l/<campaña>)
 ```
 
+## Drive y GitHub: qué va en cada sitio
+
+- **Drive (carpeta "Kangen PRO TEAM")**: originales pesados, fotos sin editar, vídeos, documentos de trabajo.
+  Lo suben las propias personas.
+- **GitHub (este repositorio)**: solo lo que la web usa, ya elegido y optimizado (JPG/WebP de 2000 px como máximo, menos de 500 KB),
+  más los textos y el diseño. Cada `README.md` de persona enlaza a su carpeta de Drive.
+
+Estructura de Drive recomendada:
+
+```
+Kangen PRO TEAM/
+  00 Equipo/                      Material común (estrategia, contenido, presentaciones, folletos…)
+  01 Personas/
+    Alejandro/
+      01 Fotos originales/        Todo lo que suba la persona, sin filtrar
+      02 Fotos seleccionadas web/ Las elegidas para la web (se copian a assets/ del repo)
+      03 Vídeos/
+      04 Logo y marca/            Logo, design.md exportado, kit de Canva
+      05 Contenido redes/
+      06 Anuncios/
+      07 Textos/                  Historia, bio, guiones
+    Gemma/ …
+```
+
+Nombres de archivo: `persona_tipo_descripcion_01.jpg` (p. ej. `gemma_retrato_exterior_01.jpg`).
+Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
+
 ## Flujo de trabajo por persona
 
 1. Rellenar `equipo/<persona>/brief.md` y subir referencias a `referencias/`.
-2. Aplicar colores y tipografías en `sitio/src/index.css` e `sitio/index.html`.
+2. Definir `design.md` y aplicarlo en `sitio/src/index.css`, `sitio/tailwind.config.js` e `sitio/index.html`.
 3. Textos y datos en `sitio/src/config.ts`; diseño de la portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña en `sitio/src/landings/` y registrarla en `landings/index.ts`.
 

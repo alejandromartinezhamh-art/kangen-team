@@ -167,7 +167,7 @@ export default function Inicio() {
           </div>
           <div>
             <Formulario persona={persona} origen="inicio" />
-            <p className="mt-6 text-[11px] font-medium uppercase leading-relaxed text-linea">
+            <p className="mt-6 text-[11px] font-medium uppercase leading-relaxed text-secundario">
               Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona.
             </p>
           </div>
