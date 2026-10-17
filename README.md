@@ -68,7 +68,15 @@ npm run nueva-persona -- "Nombre"             # añade a alguien nuevo
 
 El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`).
 
-## Publicación (Vercel)
+## Publicación (Cloudflare Pages, recomendado)
+
+Un proyecto de Pages por persona, todos conectados a este repositorio:
+
+- **Directorio raíz:** `equipo/<persona>/sitio` · **Compilación:** `npm run build` · **Salida:** `dist`
+- **Enlace D1:** variable `DB` → base de datos `leads-equipo` (tabla `leads`, compartida por todo el equipo)
+- El formulario usa `sitio/functions/api/lead.ts` → `compartido/api/lead-cloudflare.ts`
+
+## Publicación alternativa (Vercel)
 
 Un proyecto de Vercel por persona, todos conectados a este repositorio:
 
