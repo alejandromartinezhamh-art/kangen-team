@@ -17,25 +17,79 @@ export const persona: ConfigPersona = {
   },
 };
 
-// Textos de la web principal. Todo habla de negocio y estilo de vida, nunca de producto
-// (ver estrategia/normas-comunicacion.md).
+// Enlace "embed" del webinar (YouTube, Vimeo…). Mientras esté vacío se muestra el espacio reservado.
+export const webinarUrl = '';
+
+// Textos de la web principal, sacados del design.md de Gemma (Drive: 08 Design).
+// Son provisionales: el diseño no cambia aunque se reescriban.
 export const textos = {
-  titular: 'Estoy construyendo la vida que quiero, con un equipo que me acompaña.',
-  subtitular:
-    'Un proyecto propio, a tu ritmo, con formación y un equipo que te acompaña desde el primer día.',
-  dolores: [
-    'Sientes que tu trabajo ocupa todo tu tiempo y no te deja crecer.',
-    'Tienes ganas de emprender, pero no sabes por dónde empezar.',
-    'Buscas un proyecto complementario que encaje con tu vida actual.',
+  marcaLinea: 'AGUA · RITUALES · VIDA',
+  nav: { historia: 'La historia', agua: 'El agua', vida: 'Otra manera', hablamos: '¿Hablamos?' },
+
+  heroEyebrow: 'AGUA · NATURALEZA · FORMA DE VIVIR',
+  heroTitular: ['Quizá no haga falta', 'cambiarlo todo.', 'Quizá solo sea', 'empezar por el agua.'],
+  heroTexto:
+    'Una historia real sobre hidratación, rituales cotidianos y la libertad de construir una vida más parecida a la que quieres vivir.',
+  heroCta: 'Descubre la historia',
+  heroCta2: 'Ver el webinar',
+  heroFoto: 'LA CALMA TAMBIÉN ES UNA FORMA DE VIVIR',
+  heroMeta: 'Mediterráneo · 06:42 h',
+
+  palabras: ['HIDRATACIÓN', 'CONSCIENCIA', 'NATURALEZA', 'TIEMPO'],
+
+  historiaCapitulo: '01 / EL COMIENZO',
+  historiaEntradilla: 'A VECES, EL PRINCIPIO NO ES LO QUE ESPERABAS.',
+  historiaTitulo: 'Un viaje en 2023. Una persona inesperada. Y una nueva forma de mirar las cosas.',
+  historiaParrafos: [
+    'Aquel año me fui de viaje con personas que no conocía. Una de ellas se convertiría en una amiga muy importante. Fue ella quien me habló, por primera vez, de Kangen.',
+    'Estaba en un momento personal lleno de preguntas, revisando mis hábitos de salud y afrontando mucho estrés laboral. No buscaba un negocio: quería comprender mejor cómo cuidarme cada día.',
   ],
-  pilares: [
-    { titulo: 'Flexibilidad', texto: 'Tú decides cuánto tiempo le dedicas y cómo lo organizas.' },
-    { titulo: 'Formación', texto: 'Aprendes marketing, comunicación y liderazgo desde cero.' },
-    { titulo: 'Equipo', texto: 'Trabajamos juntos: formaciones, quedadas y apoyo diario.' },
-    { titulo: 'Crecimiento personal', texto: 'Mentalidad, hábitos y confianza para salir de tu zona de confort.' },
-  ],
-  historia: [
-    'PENDIENTE: cuenta en 2-3 párrafos cortos por qué empezaste, qué buscabas y qué ha cambiado en tu día a día.',
-    'Habla de tiempo, aprendizaje y personas. Sin cifras de dinero.',
-  ],
+  historiaFoto: 'GEMMA OÑA · UNA HISTORIA PERSONAL',
+  historiaEnlace: 'Un nuevo ritual',
+
+  frase: ['Lo que bebemos.', 'Lo que hacemos.', 'Cómo vivimos.'],
+  fraseTexto:
+    'Hay pequeñas decisiones que, si las miras con atención, te hacen replantearte cosas mucho mayores.',
+
+  aguaCapitulo: '02 / UN NUEVO RITUAL',
+  aguaTitulo: 'El agua ya formaba parte de mi vida. Solo empecé a mirarla de otra manera.',
+  aguaTexto:
+    'Habíamos cambiado las garrafas de plástico por botellas de vidrio. Después descubrí una tecnología para tratar el agua del grifo en casa. Me interesó cómo funcionaba y también la comodidad: menos botellas que cargar y almacenar.',
+  aguaLista: ['Una elección cotidiana', 'Más sencillez en casa', 'Menos dependencia del agua embotellada'],
+  aguaNota:
+    'La tecnología Kangen combina filtración y electrólisis; las características y usos dependen del modelo y del agua de entrada.',
+  aguaCta: 'Conocer la experiencia',
+
+  webinarKicker: 'UNA CONVERSACIÓN PARA EMPEZAR',
+  webinarTitulo: '¿Y si lo hablamos con calma?',
+  webinarTexto:
+    'He preparado un espacio para explicar qué descubrí, cómo funciona la tecnología y por qué este camino también me hizo reflexionar sobre el tiempo, el trabajo y la vida que quiero construir.',
+  webinarMeta: 'VÍDEO DE PRESENTACIÓN · PRÓXIMAMENTE',
+  webinarPie: 'Una presentación tranquila, para verla cuando quieras.',
+  webinarCta: 'Ver el webinar',
+  webinarPendiente: 'El webinar estará disponible muy pronto. Mientras tanto, si quieres, lo hablamos directamente.',
+
+  vidaFoto: 'LA MONTAÑA, LA PLAYA, EL TIEMPO',
+  vidaCapitulo: '03 / VIVIR BIEN, CADA DÍA',
+  vidaTitulo: 'La vida que me gusta no empieza cuando termino de trabajar.',
+  vidaTexto:
+    'La montaña. La playa por la mañana. Hacer deporte. Salir con mi perra. Tener tiempo para las personas que me importan. No son premios para después del trabajo: también son mi vida.',
+  vidaFrase: 'No busco una vida perfecta. Busco una manera más consciente de vivirla.',
+  valores: ['Más naturaleza.', 'Más presencia.', 'Más tiempo para lo importante.'],
+
+  negocioEtiqueta: 'UNA POSIBILIDAD QUE LLEGÓ DESPUÉS',
+  negocioTitulo: 'Primero fue el agua. Más adelante, la posibilidad de construir más opciones.',
+  negocioTexto:
+    'Mi profesión está vinculada a los datos, los mercados y las ventas. Cuando entendí que Enagic trabaja con distribuidores independientes, empecé a explorar su dimensión profesional. No es una promesa de libertad económica ni de ingresos garantizados: es una actividad comercial que requiere dedicación.',
+  negocioA: 'Me interesa el agua',
+  negocioB: 'Quiero conocer el negocio',
+
+  hablamosEtiqueta: 'UNA CONVERSACIÓN, SIN PRISAS',
+  hablamosTitulo: '¿Te ha despertado curiosidad?',
+  hablamosTexto:
+    'Podemos hablar del agua, de los distintos equipos o de cómo funciona el modelo de distribución independiente. Sin compromiso. Sin prisas.',
+  hablamosBoton: 'Reservar una conversación',
+
+  pieFrase: 'Vivir bien también es una decisión cotidiana.',
+  pieNota: 'Gemma Oña es distribuidora independiente de Enagic.',
 };
