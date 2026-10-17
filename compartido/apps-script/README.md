@@ -51,7 +51,10 @@ Así la URL no cambia.
   - al pulsar WhatsApp: → WhatsApp.
 - **Lo demás lo mueves tú:** arrastrando la tarjeta en el ordenador, o con el desplegable en el móvil.
 - **Cada tarjeta** lleva teléfono, email e Instagram; las señales (vídeo abierto o visto, recordatorio, WhatsApp pulsado); botones de WhatsApp y email; sus respuestas, y notas que se guardan solas.
-- **Los datos siguen en la hoja.** El CRM solo cambia Estado y Notas.
+- **Hoja y CRM son lo mismo.** El CRM lee la hoja en directo (se refresca cada minuto) y solo escribe Estado y Notas.
+  - En la hoja, el menú **Leads → Abrir CRM** abre el tablero.
+  - La columna Estado tiene un desplegable con las mismas etapas, así que da igual cambiarlo en un sitio o en el otro.
+  - **Leads → Preparar la hoja** vuelve a poner el desplegable si se pierde.
 
 1. En Apps Script: **+ → HTML**, nómbralo `CRM` (sin .html) y pega `CRM.html`.
 2. Guarda y publica una versión nueva: **Implementar → Gestionar implementaciones → lápiz → Versión: Nueva versión → Implementar**.

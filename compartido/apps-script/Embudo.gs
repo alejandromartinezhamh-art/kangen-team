@@ -141,7 +141,6 @@ function emailWebinar(p, nombre, email, id) {
     'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
       'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
     'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
-    'Un abrazo,<br>' + p.nombre,
   ]);
 }
 
@@ -153,7 +152,6 @@ function emailRecordatorio(p, nombre, email, id) {
     boton(enlaceWebinar(p, id), 'Ver el webinar'),
     'Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. ' +
       'Y si tienes cualquier duda antes, responde a este email.',
-    'Un abrazo,<br>' + p.nombre,
   ]);
 }
 
@@ -162,21 +160,24 @@ function boton(url, texto) {
     'font-weight:700;text-transform:uppercase;font-size:13px;padding:16px 28px;border-radius:36px">' + texto + ' →</a>';
 }
 
-function cabecera(p) {
-  if (!p.foto) return '';
-  return '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr>' +
-    '<td style="padding:0 14px 0 0"><img src="' + p.foto + '" width="64" height="64" alt="' + p.nombre + '" ' +
-    'style="display:block;width:64px;height:64px;border-radius:50%;object-fit:cover"></td>' +
-    '<td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:#100904">' + p.nombre + '</td>' +
+/** Firma: "Un abrazo," y debajo la foto redonda con el nombre. */
+function firma(p) {
+  const nombre = '<span style="font-weight:700;color:#100904">' + p.nombre + '</span>';
+  if (!p.foto) return '<p style="margin:0 0 18px">Un abrazo,<br>' + nombre + '</p>';
+  return '<p style="margin:0 0 10px">Un abrazo,</p>' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>' +
+    '<td style="padding:0 12px 0 0"><img src="' + p.foto + '" width="56" height="56" alt="' + p.nombre + '" ' +
+    'style="display:block;width:56px;height:56px;border-radius:50%;object-fit:cover"></td>' +
+    '<td style="font-family:Helvetica,Arial,sans-serif;font-size:16px">' + nombre + '</td>' +
     '</tr></table>';
 }
 
 function enviar(p, para, asunto, parrafos) {
   const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:#2b2118;max-width:520px">' +
-    cabecera(p) + parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') +
+    parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') + firma(p) +
     '<p style="margin:28px 0 0;font-size:12px;color:#7a6a5a">Recibes este email porque lo pediste en el cuestionario. ' +
     'Si no quieres recibir más, responde con la palabra BAJA.</p></div>';
-  const texto = parrafos.join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
+  const texto = parrafos.concat(['Un abrazo,\n' + p.nombre]).join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
   MailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: p.nombre });
 }
 
@@ -341,6 +342,46 @@ function crmGuardar(k, id, campo, valor) {
   }
 }
 
+// ---------- Hoja y CRM juntos ----------
+
+/** Menú "Leads" en la hoja (Google lo ejecuta solo al abrirla). */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('Leads')
+    .addItem('Abrir CRM', 'abrirCrm')
+    .addItem('Preparar la hoja (desplegable de Estado)', 'prepararHoja')
+    .addToUi();
+}
+
+/** Abre el CRM en una pestaña nueva desde el menú de la hoja. */
+function abrirCrm() {
+  const url = urlCrm();
+  const html = url
+    ? '<script>window.open(' + JSON.stringify(url) + ', "_blank"); google.script.host.close();</script>' +
+      '<p style="font-family:sans-serif">Si no se abre, <a href="' + url + '" target="_blank">pulsa aquí</a>.</p>'
+    : '<p style="font-family:sans-serif">Primero publica el script como aplicación web (Implementar → Nueva implementación).</p>';
+  SpreadsheetApp.getUi().showModalDialog(HtmlService.createHtmlOutput(html).setWidth(320).setHeight(90), 'Abriendo el CRM…');
+}
+
+function urlCrm() {
+  const url = ScriptApp.getService().getUrl();
+  return url ? url + '?crm=' + PropertiesService.getScriptProperties().getProperty('CLAVE') : '';
+}
+
+/**
+ * Deja la columna Estado con los mismos nombres que el CRM: traduce los antiguos y pone un desplegable,
+ * así da igual cambiar el estado en la hoja o en el CRM.
+ */
+function prepararHoja() {
+  const hoja = hojaLeads();
+  const cab = cabeceras(hoja, []);
+  const col = cab.indexOf('Estado') + 1;
+  const filas = Math.max(hoja.getMaxRows() - 1, 1);
+  const rango = hoja.getRange(2, col, filas, 1);
+  const valores = rango.getValues().map(function (f, i) { return [i < hoja.getLastRow() - 1 ? estadoDe(f[0]) : f[0]]; });
+  rango.setValues(valores);
+  rango.setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(ESTADOS, true).setAllowInvalid(false).build());
+}
+
 // ---------- Instalación (ejecutar una vez a mano) ----------
 
 /** Crea la clave, las cabeceras y el activador de recordatorios, y pide los permisos de Gmail. */
@@ -348,21 +389,21 @@ function instalar() {
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('CLAVE')) props.setProperty('CLAVE', CLAVE_INICIAL || Utilities.getUuid().replace(/-/g, ''));
   cabeceras(hojaLeads(), []);
+  prepararHoja();
   ScriptApp.getProjectTriggers()
     .filter(function (t) { return t.getHandlerFunction() === 'recordatorios'; })
     .forEach(function (t) { ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('recordatorios').timeBased().everyHours(1).create();
   console.log('Listo. CLAVE (cópiala en LEADS_WEBHOOK_SECRET): ' + props.getProperty('CLAVE'));
   console.log('Emails que te quedan hoy: ' + MailApp.getRemainingDailyQuota());
-  const url = ScriptApp.getService().getUrl();
-  if (url) console.log('CRM (guárdalo en favoritos, no lo compartas): ' + url + '?crm=' + props.getProperty('CLAVE'));
+  const crm = urlCrm();
+  if (crm) console.log('CRM (guárdalo en favoritos, no lo compartas): ' + crm);
 }
 
 /** Escribe en el registro el enlace privado del CRM. */
 function enlaceCrm() {
-  const url = ScriptApp.getService().getUrl();
-  console.log(url ? 'CRM: ' + url + '?crm=' + PropertiesService.getScriptProperties().getProperty('CLAVE')
-    : 'Primero publica el script como aplicación web (Implementar → Nueva implementación).');
+  const crm = urlCrm();
+  console.log(crm ? 'CRM: ' + crm : 'Primero publica el script como aplicación web (Implementar → Nueva implementación).');
 }
 
 /** Prueba de punta a punta: crea un lead de ejemplo y te envía el email del webinar a ti. */
