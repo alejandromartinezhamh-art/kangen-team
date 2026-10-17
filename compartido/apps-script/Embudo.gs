@@ -255,6 +255,69 @@ function ahora() {
   return new Date();
 }
 
+// ---------- CRM (la URL de la aplicación web + ?crm=CLAVE) ----------
+
+const ESTADOS = ['Nuevo', 'Hablando por WhatsApp', 'Llamada agendada', 'Dentro', 'No encaja', 'Baja'];
+const CAMPOS_EDITABLES = ['Estado', 'Notas'];
+const FIJAS = COLUMNAS.concat(['Instagram']);
+
+function doGet(e) {
+  const k = (e && e.parameter && e.parameter.crm) || '';
+  if (!claveValida(k)) return HtmlService.createHtmlOutput('<p style="font-family:sans-serif">Enlace no válido.</p>');
+  const t = HtmlService.createTemplateFromFile('CRM');
+  t.clave = k;
+  return t.evaluate()
+    .setTitle('Leads')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+}
+
+function claveValida(k) {
+  const clave = PropertiesService.getScriptProperties().getProperty('CLAVE');
+  return Boolean(clave) && k === clave;
+}
+
+/** Leads para el CRM, del más nuevo al más antiguo. */
+function crmDatos(k) {
+  if (!claveValida(k)) throw new Error('Clave no válida');
+  const hoja = hojaLeads();
+  const cab = cabeceras(hoja, []);
+  const filas = hoja.getDataRange().getValues().slice(1);
+  const fecha = function (v) { return v instanceof Date ? v.toISOString() : (v ? String(v) : ''); };
+  const leads = filas.filter(function (v) { return v[cab.indexOf('Id')]; }).map(function (v) {
+    const col = function (c) { return v[cab.indexOf(c)]; };
+    const respuestas = {};
+    cab.forEach(function (c, i) { if (c && FIJAS.indexOf(c) === -1 && v[i] !== '') respuestas[c] = String(v[i]); });
+    return {
+      id: String(col('Id')), fecha: fecha(col('Fecha')), origen: String(col('Origen') || ''),
+      nombre: String(col('Nombre') || ''), email: String(col('Email') || ''), telefono: String(col('WhatsApp') || ''),
+      emailWebinar: fecha(col('Email webinar')), abierto: fecha(col('Webinar abierto')), visto: fecha(col('Webinar visto')),
+      pulsado: fecha(col('WhatsApp pulsado')), recordatorio: fecha(col('Recordatorio')), quiereHablar: fecha(col('Quiere hablar')),
+      instagram: String(col('Instagram') || ''),
+      estado: String(col('Estado') || 'Nuevo'), notas: String(col('Notas') || ''), respuestas: respuestas,
+    };
+  });
+  leads.reverse();
+  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl() };
+}
+
+/** Cambia el estado o las notas de un lead desde el CRM. */
+function crmGuardar(k, id, campo, valor) {
+  if (!claveValida(k)) throw new Error('Clave no válida');
+  if (CAMPOS_EDITABLES.indexOf(campo) === -1) throw new Error('Campo no editable: ' + campo);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const hoja = hojaLeads();
+    const cab = cabeceras(hoja, []);
+    const fila = buscarFila(hoja, cab, id, '');
+    if (!fila) throw new Error('Lead no encontrado');
+    poner(hoja, fila, cab, campo, String(valor).slice(0, 2000));
+    return true;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
 // ---------- Instalación (ejecutar una vez a mano) ----------
 
 /** Crea la clave, las cabeceras y el activador de recordatorios, y pide los permisos de Gmail. */
@@ -268,6 +331,15 @@ function instalar() {
   ScriptApp.newTrigger('recordatorios').timeBased().everyHours(1).create();
   console.log('Listo. CLAVE (cópiala en LEADS_WEBHOOK_SECRET): ' + props.getProperty('CLAVE'));
   console.log('Emails que te quedan hoy: ' + MailApp.getRemainingDailyQuota());
+  const url = ScriptApp.getService().getUrl();
+  if (url) console.log('CRM (guárdalo en favoritos, no lo compartas): ' + url + '?crm=' + props.getProperty('CLAVE'));
+}
+
+/** Escribe en el registro el enlace privado del CRM. */
+function enlaceCrm() {
+  const url = ScriptApp.getService().getUrl();
+  console.log(url ? 'CRM: ' + url + '?crm=' + PropertiesService.getScriptProperties().getProperty('CLAVE')
+    : 'Primero publica el script como aplicación web (Implementar → Nueva implementación).');
 }
 
 /** Prueba de punta a punta: crea un lead de ejemplo y te envía el email del webinar a ti. */

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Serif+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  /* CRM de leads del embudo. Mismo estilo que la web: oscuro cálido, crema, sin sombras. */
+  :root {
+    --walnut: #100904; --bark: #382416; --cork: #40372e; --driftwood: #6c5f51;
+    --sand: #cdb69c; --cream: #ffedd7; --ember: #dc5000; --ok: #9fd18b; --error: #ff8a4c;
+    --font: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--walnut); color: var(--cream); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 18px 16px 64px; }
+
+  .barra { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; text-transform: uppercase; padding-bottom: 16px; border-bottom: 1px dashed var(--driftwood); }
+  .barra a { color: var(--sand); text-decoration: none; }
+  h1 { margin: 28px 0 6px; font-size: clamp(2.2rem, 9vw, 3.4rem); font-weight: 700; line-height: .92; letter-spacing: -0.045em; }
+  h1 em { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; }
+  .resumen { margin: 0 0 20px; color: var(--sand); font-weight: 500; }
+
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+  .kpi { border: 1px solid var(--cork); border-radius: 18px; padding: 12px 14px; }
+  .kpi b { display: block; font-size: 26px; letter-spacing: -0.04em; }
+  .kpi span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--sand); }
+  @media (max-width: 520px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+
+  .buscar { width: 100%; border: 1px solid var(--cork); background: transparent; border-radius: 18px; padding: 12px 16px; font-size: 16px; outline: none; }
+  .buscar:focus { border-color: var(--cream); }
+  .buscar::placeholder { color: var(--driftwood); }
+  .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 18px; scrollbar-width: none; }
+  .filtros::-webkit-scrollbar { display: none; }
+  .chip { flex: none; border: 1px solid var(--cork); background: transparent; border-radius: 999px; padding: 8px 14px; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+  .chip.activo { background: var(--cream); color: var(--walnut); border-color: var(--cream); }
+  .chip small { opacity: .6; margin-left: 4px; }
+
+  .lista { display: flex; flex-direction: column; gap: 10px; }
+  .lead { border: 1px solid var(--cork); border-radius: 22.5px; padding: 16px 18px; }
+  .lead.destacado { border-color: var(--ember); }
+  .cabeza { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .nombre { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; }
+  .cuando { flex: none; font-size: 11px; font-weight: 600; color: var(--sand); text-transform: uppercase; }
+  .contacto { margin-top: 4px; font-size: 14px; color: var(--sand); word-break: break-all; }
+  .contacto a { text-decoration: none; }
+  .senales { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .senal { font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 999px; padding: 5px 10px; border: 1px solid var(--cork); color: var(--sand); }
+  .senal.si { border-color: var(--ok); color: var(--ok); }
+  .senal.ember { border-color: var(--ember); color: var(--ember); }
+  .senal.espera { border-style: dashed; }
+
+  .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .boton { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; border-radius: 36px; font-size: 12px; font-weight: 700; text-transform: uppercase; text-decoration: none; border: 1px solid var(--cream); background: transparent; cursor: pointer; }
+  .boton.lleno { background: var(--cream); color: var(--walnut); }
+  .estado { grid-column: 1 / -1; width: 100%; min-height: 46px; border-radius: 18px; border: 1px solid var(--cork); background: var(--walnut); padding: 0 14px; font-size: 14px; font-weight: 600; }
+
+  details { margin-top: 12px; border-top: 1px dashed var(--driftwood); padding-top: 10px; }
+  summary { cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--sand); list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ' +'; }
+  details[open] summary::after { content: ' −'; }
+  dl { margin: 12px 0 0; }
+  dt { font-size: 12px; color: var(--sand); margin-top: 10px; }
+  dd { margin: 2px 0 0; font-weight: 600; }
+  textarea { width: 100%; min-height: 84px; margin-top: 12px; border: 1px solid var(--cork); background: transparent; border-radius: 18px; padding: 12px 14px; font-size: 15px; resize: vertical; outline: none; }
+  textarea:focus { border-color: var(--cream); }
+  .guardado { font-size: 11px; color: var(--sand); min-height: 16px; margin-top: 4px; }
+
+  .vacio, .cargando { text-align: center; color: var(--sand); padding: 48px 0; font-weight: 500; }
+  .aviso { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--cream); color: var(--walnut); border-radius: 999px; padding: 10px 18px; font-size: 13px; font-weight: 700; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .aviso.ver { opacity: 1; }
+  .aviso.mal { background: var(--error); }
+  a:focus-visible, button:focus-visible, select:focus-visible { outline: 1px dashed var(--cream); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="barra"><span>Leads del webinar</span><a id="enlace-hoja" href="#" target="_blank" rel="noopener">Abrir hoja ↗</a></div>
+  <h1>Tus <em>leads</em></h1>
+  <p class="resumen" id="resumen">Cargando…</p>
+
+  <div class="kpis" id="kpis"></div>
+  <input class="buscar" id="buscar" type="search" placeholder="Buscar por nombre, email o teléfono" autocomplete="off">
+  <div class="filtros" id="filtros"></div>
+  <div class="lista" id="lista"><p class="cargando">Cargando leads…</p></div>
+</div>
+<div class="aviso" id="aviso"></div>
+
+<script>
+  var CLAVE = <?!= JSON.stringify(clave) ?>;
+  var datos = { leads: [], estados: [], horasRecordatorio: 24 };
+  var filtro = 'todos';
+  var texto = '';
+
+  // Filtros rápidos además de los estados
+  var RAPIDOS = [
+    { id: 'todos', nombre: 'Todos', cumple: function () { return true; } },
+    { id: 'sin-abrir', nombre: 'Sin abrir webinar', cumple: function (l) { return !l.abierto && !l.visto; } },
+    { id: 'visto', nombre: 'Han visto el webinar', cumple: function (l) { return Boolean(l.visto); } },
+    { id: 'pulsado', nombre: 'Pulsaron WhatsApp', cumple: function (l) { return Boolean(l.pulsado); } }
+  ];
+
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function dia(iso) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }); }
+  function hace(iso) {
+    var d = new Date(iso); if (isNaN(d)) return '';
+    var min = Math.round((Date.now() - d) / 60000);
+    if (min < 1) return 'ahora';
+    if (min < 60) return 'hace ' + min + ' min';
+    var h = Math.round(min / 60);
+    if (h < 24) return 'hace ' + h + ' h';
+    var dd = Math.round(h / 24);
+    return dd < 7 ? 'hace ' + dd + ' d' : dia(iso);
+  }
+  function telefono(t) {
+    var n = String(t || '').replace(/\D/g, '');
+    if (n.length === 9 && /^[6789]/.test(n)) n = '34' + n; // número español sin prefijo
+    return n;
+  }
+  function primerNombre(n) { return String(n || '').trim().split(/\s+/)[0] || ''; }
+
+  function aviso(msg, mal) {
+    var a = $('aviso'); a.textContent = msg; a.className = 'aviso ver' + (mal ? ' mal' : '');
+    clearTimeout(aviso.t); aviso.t = setTimeout(function () { a.className = 'aviso'; }, 2200);
+  }
+
+  function senales(l) {
+    var s = [];
+    if (l.visto) s.push('<span class="senal si">Webinar visto · ' + dia(l.visto) + '</span>');
+    else if (l.abierto) s.push('<span class="senal si">Webinar abierto · ' + dia(l.abierto) + '</span>');
+    else s.push('<span class="senal">Webinar sin abrir</span>');
+
+    if (l.recordatorio) s.push('<span class="senal">Recordatorio enviado · ' + dia(l.recordatorio) + '</span>');
+    else if (!l.abierto && !l.visto && l.emailWebinar) {
+      var faltan = Math.ceil((new Date(l.emailWebinar).getTime() + datos.horasRecordatorio * 3600000 - Date.now()) / 3600000);
+      s.push('<span class="senal espera">' + (faltan > 0 ? 'Recordatorio en ' + faltan + ' h' : 'Recordatorio en cola') + '</span>');
+    }
+
+    if (l.pulsado) s.push('<span class="senal ember">Pulsó WhatsApp · ' + dia(l.pulsado) + '</span>');
+    if (l.quiereHablar) s.push('<span class="senal ember">Quiere hablar</span>');
+    return s.join('');
+  }
+
+  function tarjeta(l) {
+    var tel = telefono(l.telefono);
+    var mensaje = 'Hola ' + primerNombre(l.nombre) + ', soy Alejandro. Te escribo porque rellenaste el cuestionario del webinar.';
+    var opciones = datos.estados.map(function (e) { return '<option' + (e === l.estado ? ' selected' : '') + '>' + esc(e) + '</option>'; }).join('');
+    if (datos.estados.indexOf(l.estado) === -1) opciones = '<option selected>' + esc(l.estado) + '</option>' + opciones;
+    var respuestas = Object.keys(l.respuestas).map(function (p) { return '<dt>' + esc(p) + '</dt><dd>' + esc(l.respuestas[p]) + '</dd>'; }).join('');
+    var destacado = (l.visto || l.pulsado || l.quiereHablar) && l.estado === 'Nuevo';
+    return '<article class="lead' + (destacado ? ' destacado' : '') + '" data-id="' + esc(l.id) + '">' +
+      '<div class="cabeza"><span class="nombre">' + esc(l.nombre || 'Sin nombre') + '</span><span class="cuando">' + esc(hace(l.fecha)) + '</span></div>' +
+      '<div class="contacto">' +
+        (tel ? '<a href="tel:+' + tel + '">+' + esc(tel) + '</a>' : '') +
+        (l.email ? (tel ? ' · ' : '') + '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : '') +
+        (l.instagram ? ' · <a target="_blank" rel="noopener" href="https://instagram.com/' + encodeURIComponent(l.instagram.replace(/^@/, '')) + '">' + esc(l.instagram) + '</a>' : '') +
+      '</div>' +
+      '<div class="senales">' + senales(l) + '</div>' +
+      '<div class="acciones">' +
+        (tel ? '<a class="boton lleno" target="_blank" rel="noopener" href="https://wa.me/' + tel + '?text=' + encodeURIComponent(mensaje) + '">WhatsApp</a>' : '<span></span>') +
+        (l.email ? '<a class="boton" href="mailto:' + esc(l.email) + '">Email</a>' : '<span></span>') +
+        '<select class="estado" aria-label="Estado de ' + esc(l.nombre) + '">' + opciones + '</select>' +
+      '</div>' +
+      '<details><summary>Respuestas y notas</summary>' +
+        (respuestas ? '<dl>' + respuestas + '</dl>' : '') +
+        '<textarea class="notas" placeholder="Notas: qué habéis hablado, próximos pasos…">' + esc(l.notas) + '</textarea>' +
+        '<div class="guardado"></div>' +
+      '</details>' +
+    '</article>';
+  }
+
+  function visibles() {
+    var t = texto.toLowerCase();
+    var rapido = RAPIDOS.filter(function (r) { return r.id === filtro; })[0];
+    return datos.leads.filter(function (l) {
+      var pasa = rapido ? rapido.cumple(l) : l.estado === filtro;
+      if (!pasa) return false;
+      if (!t) return true;
+      return (l.nombre + ' ' + l.email + ' ' + l.telefono).toLowerCase().indexOf(t) !== -1;
+    });
+  }
+
+  function pintar() {
+    var L = datos.leads;
+    var contar = function (f) { return L.filter(f).length; };
+    $('resumen').textContent = L.length === 1 ? '1 persona ha rellenado el cuestionario.' : L.length + ' personas han rellenado el cuestionario.';
+    $('kpis').innerHTML = [
+      ['Leads', L.length],
+      ['Abrieron el webinar', contar(function (l) { return l.abierto || l.visto; })],
+      ['Lo vieron entero', contar(function (l) { return l.visto; })],
+      ['Hablando', contar(function (l) { return l.estado === 'Hablando por WhatsApp'; })]
+    ].map(function (k) { return '<div class="kpi"><b>' + k[1] + '</b><span>' + k[0] + '</span></div>'; }).join('');
+
+    var chips = RAPIDOS.map(function (r) { return { id: r.id, nombre: r.nombre, n: contar(r.cumple) }; })
+      .concat(datos.estados.map(function (e) { return { id: e, nombre: e, n: contar(function (l) { return l.estado === e; }) }; }));
+    $('filtros').innerHTML = chips.map(function (c) {
+      return '<button class="chip' + (c.id === filtro ? ' activo' : '') + '" data-filtro="' + esc(c.id) + '">' + esc(c.nombre) + '<small>' + c.n + '</small></button>';
+    }).join('');
+
+    var v = visibles();
+    $('lista').innerHTML = v.length ? v.map(tarjeta).join('') : '<p class="vacio">' + (L.length ? 'Nadie en este filtro.' : 'Aún no hay leads. Llegarán aquí en cuanto alguien rellene el cuestionario.') + '</p>';
+  }
+
+  function lead(id) { return datos.leads.filter(function (l) { return l.id === id; })[0]; }
+
+  function guardar(id, campo, valor, alAcabar) {
+    google.script.run
+      .withSuccessHandler(function () { alAcabar && alAcabar(true); })
+      .withFailureHandler(function (e) { aviso('No se ha guardado: ' + e.message, true); alAcabar && alAcabar(false); })
+      .crmGuardar(CLAVE, id, campo, valor);
+  }
+
+  function cargar() {
+    google.script.run
+      .withSuccessHandler(function (d) { datos = d; $('enlace-hoja').href = d.hoja; pintar(); })
+      .withFailureHandler(function (e) { $('lista').innerHTML = '<p class="vacio">No se han podido cargar los leads: ' + esc(e.message) + '</p>'; })
+      .crmDatos(CLAVE);
+  }
+
+  $('filtros').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-filtro]'); if (!b) return;
+    filtro = b.getAttribute('data-filtro'); pintar();
+  });
+  $('buscar').addEventListener('input', function (e) { texto = e.target.value.trim(); pintar(); });
+  $('lista').addEventListener('change', function (e) {
+    var art = e.target.closest('.lead'); if (!art) return;
+    var l = lead(art.getAttribute('data-id'));
+    if (e.target.classList.contains('estado')) {
+      var antes = l.estado; l.estado = e.target.value;
+      guardar(l.id, 'Estado', l.estado, function (ok) { if (ok) { aviso('Estado: ' + l.estado); pintar(); } else { l.estado = antes; pintar(); } });
+    }
+  });
+  // Las notas se guardan solas al dejar de escribir
+  $('lista').addEventListener('input', function (e) {
+    if (!e.target.classList.contains('notas')) return;
+    var art = e.target.closest('.lead'); var l = lead(art.getAttribute('data-id'));
+    var marca = art.querySelector('.guardado'); marca.textContent = 'Escribiendo…';
+    l.notas = e.target.value;
+    clearTimeout(e.target.t);
+    e.target.t = setTimeout(function () {
+      guardar(l.id, 'Notas', l.notas, function (ok) { marca.textContent = ok ? 'Guardado' : 'Sin guardar'; });
+    }, 800);
+  });
+
+  cargar();
+  setInterval(function () { if (!document.hidden && !document.querySelector('textarea:focus')) cargar(); }, 60000);
+</script>
+</body>
+</html>

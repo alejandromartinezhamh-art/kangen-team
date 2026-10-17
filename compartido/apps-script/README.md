@@ -39,10 +39,25 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
 **Si cambias el código del script:** Implementar → Gestionar implementaciones → editar (lápiz) → Versión: *Nueva versión*.
 Así la URL no cambia.
 
+## CRM (ver y gestionar los leads)
+
+`CRM.html` es una página privada con tus leads en tarjetas:
+- datos de cada lead: teléfono, email e Instagram;
+- seguimiento: si ha abierto o visto el webinar, el recordatorio (enviado o en cuántas horas sale) y si pulsó WhatsApp;
+- acciones: botones para escribirle por WhatsApp o email, su estado (Nuevo, Hablando por WhatsApp, Llamada agendada, Dentro, No encaja, Baja), sus respuestas y notas que se guardan solas.
+
+Los datos siguen en la hoja; el CRM solo los lee y cambia Estado y Notas.
+
+1. En Apps Script: **+ → HTML**, nómbralo `CRM` (sin .html) y pega `CRM.html`.
+2. Guarda y publica una versión nueva: **Implementar → Gestionar implementaciones → lápiz → Versión: Nueva versión → Implementar**.
+   La URL no cambia.
+3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Guárdalo en favoritos o en la pantalla de
+   inicio del móvil y **no lo compartas**: con él se ven todos los leads.
+
 ## Uso diario
 
-- Columna **Estado**: escríbela tú (Nuevo, Contactado, Llamada, Dentro, No encaja…). Si alguien responde BAJA,
-  pon `Baja` y no recibirá el recordatorio.
+- Columna **Estado** (mejor desde el CRM): Nuevo, Hablando por WhatsApp, Llamada agendada, Dentro, No encaja o Baja.
+  Con `Baja` no recibe el recordatorio.
 - **Notas**: lo que hables con cada persona.
 - Para tenerla en Excel: Archivo → Descargar → Microsoft Excel.
 
