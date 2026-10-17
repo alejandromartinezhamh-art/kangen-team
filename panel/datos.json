@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-17T13:20:00Z",
+  "actualizado": "2026-10-17T13:15:00Z",
   "personas": [
     {
       "id": "alejandro",
@@ -42,7 +42,7 @@
       "nombre": "Helena",
       "fase": 2,
       "orden": 3,
-      "borrador": "https://claude.ai/artifact/XoELsdGQGwdakzkn67nCoX",
+      "borrador": "https://drive.google.com/drive/folders/1aRYEZcs8HIIuQm1DoHrwqkkamfvXlYIv",
       "drive": "https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O",
       "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/claude/cool-allen-ml40rc/equipo/helena",
       "web": "",
