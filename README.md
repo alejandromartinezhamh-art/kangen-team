@@ -55,8 +55,42 @@ Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
 
 1. Rellenar `equipo/<persona>/brief.md` y subir referencias a `referencias/`.
 2. Definir `design.md` y aplicarlo en `sitio/src/index.css`, `sitio/tailwind.config.js` e `sitio/index.html`.
-3. Textos y datos en `sitio/src/config.ts`; diseño de la portada en `sitio/src/paginas/Inicio.tsx`.
+3. Textos, colores y fotos en `sitio/src/contenido.json`; datos de contacto y legales en `sitio/src/config.ts`;
+   diseño de la portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña en `sitio/src/landings/` y registrarla en `landings/index.ts`.
+
+## Editor visual (cada persona edita su web)
+
+Todas las webs siguen la misma regla: **todo lo que se puede cambiar sin tocar código vive en
+`sitio/src/contenido.json`** (textos, colores, fotos y enlaces). Ningún texto visible se escribe
+directamente en los componentes: se lee de `contenido.json`. Así cualquier web, tenga el diseño que
+tenga, se puede editar con el mismo editor.
+
+- `contenido.json` tiene `textos` (libre), `colores` (cada uno es la variable CSS `--color-<nombre>`),
+  `fotos` (rutas dentro de `public/`) y, opcional, `_etiquetas` con los nombres que ve el editor
+  (`colores`, `fotos` y `campos` para enlaces como el vídeo del webinar).
+- `main.tsx` arranca con `montar(App, contenido)` y `App.tsx` usa `<Enrutador>` (ambos de `@equipo/compartido`).
+  La plantilla ya viene así, de modo que cada persona nueva nace editable.
+
+Crear o actualizar el editor de una persona:
+
+```bash
+npm run editor -- gemma          # deja el editor listo en .editores/gemma/
+```
+
+Se publica como artifact de Claude (index.html + los archivos que lista el comando) y se comparte con la
+persona con permiso de edición. En el editor se hace clic en un texto o una foto para cambiarlo, los colores
+y enlaces están en el panel lateral, todo se guarda solo y el botón **Publicar** deja la versión en la lista
+de publicaciones como "Pendiente".
+
+Pasar una publicación a la web:
+
+```bash
+npm run aplicar-publicacion -- gemma publicacion.json   # reemplaza src/contenido.json
+```
+
+Las fotos subidas en el editor hay que descargarlas antes a `public/fotos/` y poner su ruta en el JSON
+(el comando avisa si falta alguna). Después se compila, se sube y la publicación se marca como "Publicada".
 
 ## Desarrollo local
 
@@ -64,6 +98,7 @@ Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
 npm install                                   # en la raíz, una vez
 npm run dev -- sitio-alejandro                # arranca la web de una persona en localhost:3000
 npm run nueva-persona -- "Nombre"             # añade a alguien nuevo
+npm run editor -- alejandro                   # prepara su editor visual en .editores/
 ```
 
 El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`).

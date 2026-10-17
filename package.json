@@ -10,7 +10,9 @@
     "nueva-persona": "node scripts/nueva-persona.mjs && node scripts/generar-api.mjs",
     "generar-api": "node scripts/generar-api.mjs",
     "dev": "npm run dev --workspace",
-    "build": "npm run build --workspaces --if-present"
+    "build": "npm run build --workspaces --if-present",
+    "editor": "node scripts/editor.mjs",
+    "aplicar-publicacion": "node scripts/aplicar-publicacion.mjs"
   },
   "devDependencies": {
     "wrangler": "4.151.1"

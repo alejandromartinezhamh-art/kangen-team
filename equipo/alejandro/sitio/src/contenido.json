@@ -1,0 +1,121 @@
+{
+  "_etiquetas": {
+    "colores": {
+      "fondo": [
+        "Fondo",
+        "Walnut"
+      ],
+      "superficie": [
+        "Tarjetas",
+        "Bark"
+      ],
+      "texto": [
+        "Texto",
+        "Crema"
+      ],
+      "secundario": [
+        "Texto secundario",
+        "Sand"
+      ],
+      "linea": [
+        "Líneas",
+        "Driftwood"
+      ],
+      "primario": [
+        "Botones",
+        "Crema de los botones rellenos"
+      ],
+      "acento": [
+        "Acento",
+        "Ember: etiquetas y números"
+      ]
+    },
+    "fotos": {
+      "retrato": "Retrato de portada"
+    },
+    "campos": {
+      "webinar.video": "Vídeo del webinar (YouTube, Vimeo o .mp4)"
+    }
+  },
+  "colores": {
+    "fondo": "#100904",
+    "superficie": "#382416",
+    "texto": "#ffedd7",
+    "secundario": "#cdb69c",
+    "linea": "#6c5f51",
+    "primario": "#ffedd7",
+    "acento": "#dc5000"
+  },
+  "fotos": {
+    "retrato": "/foto.jpg"
+  },
+  "textos": {
+    "subtitulo": "Emprendimiento y bienestar",
+    "titular": "Otra manera de ganarse la vida",
+    "entradilla": "Construye algo propio, a tu ritmo y con un equipo que te acompaña desde el primer día. Sin jefes, sin horarios impuestos, sin hacerlo en solitario.",
+    "dolores": [
+      "Tu trabajo ocupa todo tu tiempo y no te deja crecer.",
+      "Tienes ganas de emprender, pero no sabes por dónde empezar ni con quién.",
+      "Buscas un proyecto complementario que encaje con la vida que ya tienes."
+    ],
+    "pilares": [
+      {
+        "titulo": "Flexibilidad",
+        "texto": "Tú decides cuánto tiempo le dedicas y cómo lo organizas."
+      },
+      {
+        "titulo": "Formación",
+        "texto": "Marketing, comunicación y liderazgo, aprendidos desde cero."
+      },
+      {
+        "titulo": "Equipo",
+        "texto": "Formaciones, quedadas y apoyo real en el día a día."
+      },
+      {
+        "titulo": "Bienestar",
+        "texto": "Hábitos, mentalidad y tiempo para lo que de verdad importa."
+      }
+    ],
+    "historia": [
+      "PENDIENTE: cuenta en 2-3 párrafos cortos por qué empezaste, qué buscabas y qué ha cambiado en tu día a día.",
+      "Habla de tiempo, aprendizaje y personas. Sin cifras de dinero."
+    ],
+    "portadaEtiqueta": "Charla gratuita · Sin compromiso",
+    "cta": "Quiero saber cómo funciona",
+    "ctaWebinar": "Ver el webinar",
+    "doloresEtiqueta": "¿Te suena?",
+    "pilaresEtiqueta": "Lo que encontrarás aquí",
+    "historiaEtiqueta": "Mi historia",
+    "historiaTitulo": "Por qué empecé",
+    "pasosEtiqueta": "Cómo empezamos",
+    "pasos": [
+      {
+        "titulo": "Rellenas el formulario",
+        "texto": "Solo tus datos básicos, sin compromiso."
+      },
+      {
+        "titulo": "Hablamos 20 minutos",
+        "texto": "Te cuento cómo trabajamos y resuelvo tus dudas."
+      },
+      {
+        "titulo": "Decides con calma",
+        "texto": "Sin presión. Si encaja contigo, empezamos juntos."
+      }
+    ],
+    "contactoEtiqueta": "Hablamos",
+    "contactoTitulo": "¿Lo hablamos?",
+    "contactoTexto": "Déjame tus datos y te escribo personalmente. Una charla de 20 minutos, sin compromiso.",
+    "aviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona."
+  },
+  "webinar": {
+    "titulo": "Otra manera de ganarse la vida",
+    "subtitulo": "Webinar gratuito · Emprendimiento y bienestar",
+    "video": "",
+    "etiqueta": "Webinar",
+    "texto": "Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma y, si te resuena, al final me dejas tus datos y lo hablamos.",
+    "siguienteEtiqueta": "Siguiente paso",
+    "siguienteTitulo": "¿Te ha resonado?",
+    "siguienteTexto": "Si quieres saber cómo empezar, déjame tus datos y te escribo personalmente. Una charla de 20 minutos, sin compromiso.",
+    "boton": "Quiero hablar contigo"
+  }
+}
