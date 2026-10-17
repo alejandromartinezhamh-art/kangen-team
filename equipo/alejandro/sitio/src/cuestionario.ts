@@ -123,14 +123,12 @@ const pasos: Paso[] = [
 
 export const cuestionario = {
   pasos,
-  /** Opción de la pregunta final que lleva al botón de WhatsApp en la pantalla de gracias */
-  quiereHablar: 'Sí, quiero que hablemos por WhatsApp y le dedicaré un rato a ver la información',
-  mensajeWhatsapp: 'Hola Alejandro, acabo de rellenar tu cuestionario y quiero más información.',
   boton: 'Enviar',
   gracias: {
     titulo: 'Listo, ya lo tienes en tu *email*',
     texto: 'Si no lo ves en unos minutos, mira en promociones o spam. También puedes verlo ahora mismo.',
     boton: 'Ver el webinar ahora',
     whatsapp: 'Escríbeme por WhatsApp',
+    mensajeWhatsapp: 'Hola Alejandro, acabo de rellenar tu cuestionario y quiero más información.',
   },
 };

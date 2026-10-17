@@ -1,5 +1,5 @@
-import { Formulario, PieLegal } from '@equipo/compartido';
-import { useEffect, useState } from 'react';
+import { PieLegal } from '@equipo/compartido';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { persona, webinar } from '../config';
 import VideoWebinar from '../componentes/VideoWebinar';
@@ -20,18 +20,54 @@ function useIdLead() {
   return id;
 }
 
+/** Apunta un evento del lead en la hoja (abrir el webinar, verlo, pulsar WhatsApp). */
+function evento(id: string, nombre: string) {
+  if (!id) return;
+  fetch('/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tipo: 'evento', evento: nombre, id, persona: persona.id }),
+    keepalive: true,
+  }).catch(() => {});
+}
+
+const CLAVE_VISTO = 'webinar_visto';
+const hayVideo = Boolean(webinar.video.trim());
+
 export default function Webinar() {
   const id = useIdLead();
+  const [visto, setVisto] = useState(0);
+  // Sin vídeo todavía, el botón sale desde el principio; con vídeo, al llegar al porcentaje (o si ya lo vio antes).
+  const [desbloqueado, setDesbloqueado] = useState(() => {
+    if (!hayVideo) return true;
+    try {
+      return localStorage.getItem(CLAVE_VISTO) === '1';
+    } catch {
+      return false;
+    }
+  });
+  const avisado = useRef(desbloqueado);
+
   // Apunta en la hoja que ha abierto el webinar (para el recordatorio y para saber a quién escribir).
-  useEffect(() => {
-    if (!id) return;
-    fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tipo: 'evento', evento: 'webinar_abierto', id, persona: persona.id }),
-      keepalive: true,
-    }).catch(() => {});
-  }, [id]);
+  useEffect(() => evento(id, 'webinar_abierto'), [id]);
+
+  const onProgreso = useCallback(
+    (p: number) => {
+      setVisto(p);
+      if (p < webinar.porcentajeWhatsapp || avisado.current) return;
+      avisado.current = true;
+      setDesbloqueado(true);
+      try {
+        localStorage.setItem(CLAVE_VISTO, '1');
+      } catch {
+        // sin almacenamiento: la próxima vez tendrá que llegar otra vez al porcentaje
+      }
+      evento(id, 'webinar_visto');
+    },
+    [id],
+  );
+
+  const whatsapp = `https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(webinar.mensajeWhatsapp)}`;
 
   return (
     <>
@@ -46,13 +82,22 @@ export default function Webinar() {
           <Enfasis texto={webinar.titulo} />
         </h1>
         <p className="mt-6 max-w-2xl font-medium leading-relaxed text-secundario sm:text-lg">
-          Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma
-          y, si te resuena, al final me dejas tus datos y lo hablamos.
+          Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma:
+          al terminar podrás escribirme directamente por WhatsApp.
         </p>
       </header>
 
       <main className="mx-auto max-w-6xl px-[18px] sm:px-8">
-        <VideoWebinar />
+        <VideoWebinar onProgreso={hayVideo ? onProgreso : undefined} />
+
+        {hayVideo && !desbloqueado && (
+          <div className="mt-4 flex items-center gap-4 text-[11px] font-bold uppercase text-secundario">
+            <span className="flex-none">Visto {visto} %</span>
+            <div className="h-[2px] flex-1 bg-[color:var(--form-borde)]" aria-hidden="true">
+              <div className="h-full bg-acento transition-[width] duration-500" style={{ width: `${visto}%` }} />
+            </div>
+          </div>
+        )}
 
         <hr className="my-16 border-0 border-t border-dashed border-linea sm:my-24" />
 
@@ -65,12 +110,32 @@ export default function Webinar() {
             </p>
             <h2 className="text-[clamp(1.6rem,7.5vw,3rem)] font-bold leading-[0.92]">¿Te ha <em>resonado</em>?</h2>
             <p className="mt-6 font-medium leading-relaxed text-secundario">
-              Si quieres saber cómo empezar, déjame tus datos y te escribo personalmente. Una charla de 20 minutos, sin
-              compromiso.
+              {desbloqueado
+                ? 'Escríbeme por WhatsApp y lo hablamos. Te contesto yo personalmente, sin compromiso.'
+                : 'Cuando hayas visto el webinar, aquí te aparecerá el botón para escribirme directamente por WhatsApp.'}
             </p>
           </div>
-          <div>
-            <Formulario persona={persona} origen="webinar" textoBoton="Quiero hablar contigo" extra={id ? { id } : undefined} />
+          <div className="lg:pt-12">
+            {desbloqueado ? (
+              <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener"
+                onClick={() => evento(id, 'whatsapp_clic')}
+                className="flex min-h-[64px] w-full items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-7 text-[14px] font-bold uppercase leading-[1.15] text-fondo no-underline transition hover:bg-[#fff6ea]"
+              >
+                <span>Escríbeme por WhatsApp</span>
+                <span className="text-[11px] opacity-60">→</span>
+              </a>
+            ) : (
+              <div
+                className="flex min-h-[64px] w-full items-center justify-between gap-4 rounded-[36px] border border-dashed border-linea px-7 text-[14px] font-bold uppercase leading-[1.15] text-secundario"
+                aria-disabled="true"
+              >
+                <span>Disponible al terminar el webinar</span>
+                <span className="text-[11px]">{visto} %</span>
+              </div>
+            )}
             <p className="mt-6 text-[11px] font-medium uppercase leading-relaxed text-secundario">
               Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada
               persona.

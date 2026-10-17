@@ -12,8 +12,10 @@
 // Una entrada por persona del equipo que use esta hoja. La clave es el "persona" de su web (config.ts).
 const PERSONAS = {
   alejandro: {
-    nombre: 'Alejandro',
+    nombre: 'Alejandro Martínez',
     web: 'https://kangen-ochre.vercel.app',
+    // Foto redonda en la cabecera de los emails (vacío = sin foto)
+    foto: 'https://kangen-ochre.vercel.app/foto.jpg',
     // Vacío = el email de la cuenta de Google dueña de la hoja
     aviso: '',
   },
@@ -28,7 +30,8 @@ const HOJA = 'Leads';
 const HORAS_RECORDATORIO = 24;
 const COLUMNAS = [
   'Fecha', 'Id', 'Persona', 'Origen', 'Nombre', 'Email', 'WhatsApp',
-  'Email webinar', 'Webinar abierto', 'Recordatorio', 'Quiere hablar', 'Mensaje', 'Estado', 'Notas',
+  'Email webinar', 'Webinar abierto', 'Webinar visto', 'WhatsApp pulsado', 'Recordatorio', 'Quiere hablar',
+  'Mensaje', 'Estado', 'Notas',
 ];
 
 // ---------- Entrada ----------
@@ -102,8 +105,16 @@ function registrarEvento(d) {
   const cab = cabeceras(hoja, []);
   const fila = buscarFila(hoja, cab, d.id, '');
   if (!fila) return;
-  if (d.evento === 'webinar_abierto' && !leer(hoja, fila, cab, 'Webinar abierto')) {
-    poner(hoja, fila, cab, 'Webinar abierto', ahora());
+  const columna = { webinar_abierto: 'Webinar abierto', webinar_visto: 'Webinar visto', whatsapp_clic: 'WhatsApp pulsado' }[d.evento];
+  if (!columna || leer(hoja, fila, cab, columna)) return;
+  poner(hoja, fila, cab, columna, ahora());
+  // Ha visto el webinar: avisa para escribirle si no lo hace él.
+  if (d.evento === 'webinar_visto') {
+    const p = PERSONAS[d.persona];
+    const nombre = leer(hoja, fila, cab, 'Nombre');
+    if (p) avisar(p, 'Ha visto el webinar: ' + nombre, {
+      nombre: nombre, email: leer(hoja, fila, cab, 'Email'), telefono: leer(hoja, fila, cab, 'WhatsApp'), origen: 'webinar visto',
+    }, true);
   }
 }
 
@@ -116,12 +127,12 @@ function enlaceWebinar(p, id) {
 function emailWebinar(p, nombre, email, id) {
   const primer = String(nombre).split(' ')[0];
   const enlace = enlaceWebinar(p, id);
-  enviar(email, p.nombre, 'Tu webinar: Otra manera de ganarse la vida', [
-    'Hola, ' + primer + ':',
+  enviar(p, email, 'Tu webinar: Otra manera de ganarse la vida', [
+    '¡Hola, ' + primer + '!',
     'Gracias por responder el cuestionario. Aquí tienes el webinar:',
     boton(enlace, 'Ver el webinar'),
     'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
-      'Míralo con calma y, si al final te resuena, me dejas tus datos y lo hablamos.',
+      'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
     'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
     'Un abrazo,<br>' + p.nombre,
   ]);
@@ -129,11 +140,12 @@ function emailWebinar(p, nombre, email, id) {
 
 function emailRecordatorio(p, nombre, email, id) {
   const primer = String(nombre).split(' ')[0];
-  enviar(email, p.nombre, '¿Has podido verlo, ' + primer + '?', [
-    'Hola, ' + primer + ':',
+  enviar(p, email, '¿Has podido verlo, ' + primer + '?', [
+    '¡Hola, ' + primer + '!',
     'Ayer te envié el webinar y creo que aún no has podido verlo. Te lo dejo aquí otra vez, por si se te pasó:',
     boton(enlaceWebinar(p, id), 'Ver el webinar'),
-    'Búscate un rato tranquilo. Y si prefieres que lo hablemos directamente, responde a este email.',
+    'Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. ' +
+      'Y si tienes cualquier duda antes, responde a este email.',
     'Un abrazo,<br>' + p.nombre,
   ]);
 }
@@ -143,13 +155,22 @@ function boton(url, texto) {
     'font-weight:700;text-transform:uppercase;font-size:13px;padding:16px 28px;border-radius:36px">' + texto + ' →</a>';
 }
 
-function enviar(para, remitente, asunto, parrafos) {
+function cabecera(p) {
+  if (!p.foto) return '';
+  return '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr>' +
+    '<td style="padding:0 14px 0 0"><img src="' + p.foto + '" width="64" height="64" alt="' + p.nombre + '" ' +
+    'style="display:block;width:64px;height:64px;border-radius:50%;object-fit:cover"></td>' +
+    '<td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:#100904">' + p.nombre + '</td>' +
+    '</tr></table>';
+}
+
+function enviar(p, para, asunto, parrafos) {
   const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:#2b2118;max-width:520px">' +
-    parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') +
+    cabecera(p) + parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') +
     '<p style="margin:28px 0 0;font-size:12px;color:#7a6a5a">Recibes este email porque lo pediste en el cuestionario. ' +
     'Si no quieres recibir más, responde con la palabra BAJA.</p></div>';
   const texto = parrafos.join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
-  MailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: remitente });
+  MailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: p.nombre });
 }
 
 function avisar(p, asunto, d, quiereHablar) {
@@ -175,7 +196,7 @@ function recordatorios() {
   for (let i = 1; i < filas.length; i++) {
     const v = filas[i];
     const enviado = v[cab.indexOf('Email webinar')];
-    if (!enviado || v[cab.indexOf('Webinar abierto')] || v[cab.indexOf('Recordatorio')]) continue;
+    if (!enviado || v[cab.indexOf('Webinar abierto')] || v[cab.indexOf('Webinar visto')] || v[cab.indexOf('Recordatorio')]) continue;
     if (v[cab.indexOf('Quiere hablar')] || String(v[cab.indexOf('Estado')]).toLowerCase() === 'baja') continue;
     if (new Date(enviado).getTime() > limite) continue;
     const p = PERSONAS[v[cab.indexOf('Persona')]];

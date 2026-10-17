@@ -68,6 +68,16 @@ function nuevoId() {
     .slice(0, 12);
 }
 
+/** Apunta en la hoja que ha pulsado el botón de WhatsApp */
+function avisarClic(id: string) {
+  fetch('/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tipo: 'evento', evento: 'whatsapp_clic', id, persona: persona.id }),
+    keepalive: true,
+  }).catch(() => {});
+}
+
 type Estado = 'respondiendo' | 'enviando' | 'error' | 'enviado';
 
 export default function Cuestionario() {
@@ -118,11 +128,6 @@ export default function Cuestionario() {
     }
   }
 
-  const quiereHablar = Object.values(respuestas).includes(cuestionario.quiereHablar);
-  const enlaceWhatsapp = persona.whatsapp
-    ? `https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(cuestionario.mensajeWhatsapp)}`
-    : '';
-
   return (
     <div className="mx-auto flex min-h-[100svh] max-w-[560px] flex-col px-[18px]">
       <div className="flex items-center justify-between pb-4 pt-[18px] text-xs font-bold uppercase leading-none">
@@ -158,8 +163,14 @@ export default function Cuestionario() {
                 <span>{cuestionario.gracias.boton}</span>
                 <span className="text-[11px] opacity-60">→</span>
               </Link>
-              {quiereHablar && enlaceWhatsapp && (
-                <a href={enlaceWhatsapp} target="_blank" rel="noopener" className={`${botonBorde} border-texto no-underline`}>
+              {persona.whatsapp && (
+                <a
+                  href={`https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(cuestionario.gracias.mensajeWhatsapp)}`}
+                  target="_blank"
+                  rel="noopener"
+                  onClick={() => avisarClic(id)}
+                  className={`${botonBorde} border-texto no-underline`}
+                >
                   <span>{cuestionario.gracias.whatsapp}</span>
                   <span className="text-[11px] text-secundario">→</span>
                 </a>
