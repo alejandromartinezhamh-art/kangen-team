@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Formulario, PieLegal } from '@equipo/compartido';
-import { persona, textos, webinarUrl } from '../config';
+import { fotos, persona, textos, webinarUrl } from '../config';
 
 // Portada de Gemma. Diseño: Drive / Landing Kangen Gemma / 08 Design.
 export default function Inicio() {
@@ -15,7 +15,7 @@ export default function Inicio() {
       <header className="cabecera">
         <div className="cabecera-inner">
           <a href="#inicio" className="marca">
-            GEMMA OÑA<small>{textos.marcaLinea}</small>
+            {textos.marca}<small>{textos.marcaLinea}</small>
           </a>
           <nav className="nav" aria-label="Principal">
             <a className="nav-link" href="#historia">{textos.nav.historia}</a>
@@ -51,8 +51,8 @@ export default function Inicio() {
               </div>
             </div>
             <div className="hero-visual">
-              <img className="foto" src="/fotos/portada.jpg" alt="Gemma mirando al mar al atardecer" />
-              <span className="photo-caption">GEMMA OÑA</span>
+              <img className="foto" src={fotos.portada} alt="Gemma mirando al mar al atardecer" />
+              <span className="photo-caption">{textos.marca}</span>
               <span className="hero-caption">{textos.heroFoto}</span>
             </div>
           </div>
@@ -72,8 +72,8 @@ export default function Inicio() {
         <section id="historia" className="story contenedor">
           <div className="story-grid">
             <div className="story-photo">
-              <img className="foto" src="/fotos/historia.jpg" alt="Gemma de viaje en un pueblo de casas de colores" />
-              <span className="side-caption">2023</span>
+              <img className="foto" src={fotos.historia} alt="Gemma de viaje en un pueblo de casas de colores" />
+              <span className="side-caption">{textos.historiaAnio}</span>
               <span className="story-image-caption">{textos.historiaFoto}</span>
             </div>
             <div className="story-copy">
@@ -167,7 +167,7 @@ export default function Inicio() {
 
         <section id="vida" className="life contenedor">
           <div className="life-hero">
-            <img className="foto" src="/fotos/vida.jpg" alt="Gemma en la montaña con el valle de fondo" />
+            <img className="foto" src={fotos.vida} alt="Gemma en la montaña con el valle de fondo" />
             <span>{textos.vidaFoto}</span>
           </div>
           <div className="life-text">
@@ -219,9 +219,7 @@ export default function Inicio() {
                 <span className="cal-circle" aria-hidden="true">↗</span>
               </div>
               <Formulario persona={persona} origen="inicio" textoBoton={textos.hablamosBoton} />
-              <p className="aviso">
-                Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona.
-              </p>
+              <p className="aviso">{textos.hablamosAviso}</p>
             </div>
           </div>
         </section>
@@ -230,7 +228,7 @@ export default function Inicio() {
       <footer className="pie">
         <div className="contenedor pie-flex">
           <div>
-            <span className="marca">GEMMA OÑA<small>{textos.marcaLinea}</small></span>
+            <span className="marca">{textos.marca}<small>{textos.marcaLinea}</small></span>
             <p className="pie-head display">{textos.pieFrase}</p>
           </div>
           <p className="pie-right">{textos.pieNota}</p>
