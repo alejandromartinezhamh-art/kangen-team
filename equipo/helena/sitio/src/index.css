@@ -4,7 +4,7 @@
 
 /*
   Identidad visual de Helena Saigi.
-  Fuente de verdad: equipo/helena/referencias/Helena_Saigi_Landing_Style_and_Design_Reference.md
+  Fuente de verdad: equipo/helena/design.md
   Lo de abajo es el CSS del prototipo (apéndice B) casi literal; los añadidos propios van al final.
   Tailwind ya define .outline y .ring, por eso aquí son .btn.light y .halo.
   Las secciones usan padding-block para no anular el margen lateral de .container.

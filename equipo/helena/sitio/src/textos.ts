@@ -1,5 +1,5 @@
 // Diccionario CA / ES / EN copiado del documento de diseño de Helena
-// (referencias/Helena_Saigi_Landing_Style_and_Design_Reference.md, apéndice A).
+// (equipo/helena/design.md, apéndice A).
 // Son textos provisionales: se pueden reescribir sin tocar el diseño.
 
 export const idiomas = ['ca', 'es', 'en'] as const;

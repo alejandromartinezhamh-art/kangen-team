@@ -4,7 +4,7 @@ Este documento es la fuente de verdad del diseño de la web, las landings y el c
 Rellénalo antes de diseñar y actualízalo cada vez que algo cambie.
 
 > El diseño completo (tokens, componentes, textos CA/ES/EN y CSS de referencia) está en
-> `referencias/Helena_Saigi_Landing_Style_and_Design_Reference.md`, que manda sobre este resumen.
+> `design.md` (copia del documento de diseño de Helena), que manda sobre este resumen.
 
 ## 1. Quién soy (2-3 frases)
 Mi profesión está vinculada a los datos, los mercados y las ventas. Me gusta la montaña, la playa por la mañana,

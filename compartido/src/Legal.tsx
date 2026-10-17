@@ -80,7 +80,7 @@ export function Cookies() {
 
 export function PieLegal({ persona }: { persona: ConfigPersona }) {
   return (
-    <footer className="border-t border-black/10 px-4 py-8 text-center text-sm opacity-70">
+    <footer className="border-t border-[color:var(--form-borde,rgba(0,0,0,.1))] px-4 py-8 text-center text-sm opacity-70">
       <p>© {new Date().getFullYear()} {persona.nombre}</p>
       <nav className="mt-2 flex justify-center gap-4">
         <Link to="/privacidad" className="underline">Privacidad</Link>
