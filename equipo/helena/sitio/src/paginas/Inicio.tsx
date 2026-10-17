@@ -5,7 +5,6 @@ import { maqueta, persona } from '../config';
 import { idiomas } from '../textos';
 import { useIdioma } from '../idioma';
 import { Modal } from '../componentes/Modal';
-import { Paisaje } from '../componentes/Paisaje';
 
 // Portada de Helena según su documento de diseño. El orden de secciones es el del prototipo
 // y es provisional: el equipo puede reordenarlas sin tocar los estilos de index.css.
@@ -78,7 +77,7 @@ export default function Inicio() {
               </div>
             </div>
             <div className="hero-visual">
-              <img className="photo" src="/fotos/amanecer-mediterrani.jpg" alt="Helena a la vora del mar, a l’alba" />
+              <img className="photo" src="/fotos/lago-gossa.jpg" alt="Helena amb la seva gossa a la vora d’un llac de muntanya" />
               <span className="photo-caption">{t.hero_photo}</span>
               <span className="hero-caption">{t.hero_img}</span>
             </div>
@@ -100,7 +99,7 @@ export default function Inicio() {
         <section id="historia" className="story container">
           <div className="story-grid">
             <div className="scene-photo story-photo">
-              <img className="photo" src="/fotos/viatge-2023.jpg" alt="Helena durant el viatge del 2023, amb un paisatge de turons al darrere" />
+              <img className="photo" src="/fotos/viatge-2023.jpg" alt="Helena caminant per un carrer de colors durant el viatge del 2023" />
               <span className="side-caption">2023</span>
               <span className="story-image-caption">{t.story_tag}</span>
             </div>
@@ -183,7 +182,7 @@ export default function Inicio() {
 
         <section id="vida" className="life container">
           <div className="life-hero">
-            <Paisaje />
+            <img className="photo" src="/fotos/muntanya.jpg" alt="Helena asseguda a la muntanya, amb els Alps al fons" />
             <span>
               {t.marquee3} · {t.marquee4}
             </span>

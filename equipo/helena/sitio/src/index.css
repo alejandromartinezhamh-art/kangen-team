@@ -264,7 +264,10 @@ img{max-width:100%;display:block}
   height: 100%;
 }
 .story-photo .photo {
-  object-position: 72% center;
+  object-position: center 40%;
+}
+.life-hero .photo {
+  object-position: center 22%;
 }
 .life-hero svg {
   position: absolute;

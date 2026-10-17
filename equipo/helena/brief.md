@@ -35,7 +35,7 @@ Webs, perfiles o anuncios que me gustan y **qué** me gusta de cada uno. Las cap
 - **Colores** (hex): fondo `#fdfcfc` (eggshell) · superficies `#f5f3f1` · bordes `#ebe8e4` · texto `#000` / `#777169` · acentos naturales `#cacab0` y `#d5d5c4`
 - **Tipografías**: títulos Waldenburg Light (solo con licencia; ahora Inter 300) · texto Inter 400/500
 - **Estilo**: mediterráneo, editorial, natural, consciente; mucho espacio en blanco, botones píldora
-- **Fotos**: propias, de la carpeta de Drive "Landing Kangen Helena" (versiones web en `assets/` y `sitio/public/fotos/`). Faltan: montaña, cocina, rituales con agua, paseo con la perra.
+- **Fotos**: propias, de la carpeta de Drive "Landing Kangen Helena / 01 Fotos originales" (versiones web en `assets/`; las que usa la web en `sitio/public/fotos/`: lago con la perra, calle del viaje de 2023, montaña). Las fotos corporativas de La Camereta pesan más de 10 MB y faltan por añadir.
 - **Logo**: no; wordmark de texto "HELENA SAIGI / WATER · RITUALS · LIFE" (nombre provisional).
 - **Idiomas**: catalán (por defecto), castellano e inglés.
 
