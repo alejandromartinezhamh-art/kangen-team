@@ -9,6 +9,9 @@ export default {
         acento: 'var(--color-acento)',
         fondo: 'var(--color-fondo)',
         texto: 'var(--color-texto)',
+        secundario: 'var(--color-secundario)',
+        linea: 'var(--color-linea)',
+        superficie: 'var(--color-superficie)',
       },
       fontFamily: {
         titulo: 'var(--fuente-titulo)',

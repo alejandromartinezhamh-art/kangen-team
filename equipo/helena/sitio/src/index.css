@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Identidad visual de Helena: cambia estos valores según el brief.md */
+:root {
+  --color-primario: #0f766e;
+  --color-acento: #f59e0b;
+  --color-fondo: #faf7f2;
+  --color-texto: #1c1917;
+  --fuente-titulo: 'Plus Jakarta Sans', sans-serif;
+  --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulo);
+}

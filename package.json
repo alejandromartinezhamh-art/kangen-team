@@ -7,8 +7,12 @@
     "equipo/*/sitio"
   ],
   "scripts": {
-    "nueva-persona": "node scripts/nueva-persona.mjs",
+    "nueva-persona": "node scripts/nueva-persona.mjs && node scripts/generar-api.mjs",
+    "generar-api": "node scripts/generar-api.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.1"
   }
 }
