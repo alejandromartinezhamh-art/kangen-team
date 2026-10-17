@@ -7,6 +7,8 @@ interface Props {
   /** Landing o sección desde la que llega el lead, p. ej. "inicio" o "campana-octubre" */
   origen: string;
   textoBoton?: string;
+  /** Campos que se envían sin que se vean, p. ej. el id del lead que llega desde el email */
+  extra?: Record<string, string>;
 }
 
 type Estado = 'inicial' | 'enviando' | 'ok' | 'error';
@@ -17,7 +19,7 @@ const tarjeta =
 const campo =
   'w-full rounded-[var(--campo-radio,0.75rem)] border border-[color:var(--form-borde,rgba(0,0,0,.1))] bg-[var(--form-campo,#fff)] px-4 py-3 text-inherit outline-none placeholder:text-[color:var(--form-placeholder,#9ca3af)] focus:border-[color:var(--color-primario)]';
 
-export function Formulario({ persona, origen, textoBoton = 'Quiero más información' }: Props) {
+export function Formulario({ persona, origen, textoBoton = 'Quiero más información', extra }: Props) {
   const [estado, setEstado] = useState<Estado>('inicial');
 
   async function enviar(e: FormEvent<HTMLFormElement>) {
@@ -30,6 +32,7 @@ export function Formulario({ persona, origen, textoBoton = 'Quiero más informac
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...datos,
+          ...extra,
           persona: persona.id,
           origen,
           consentimiento: datos.consentimiento === 'on',

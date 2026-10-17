@@ -3,6 +3,7 @@ import { Privacidad, AvisoLegal, Cookies } from '@equipo/compartido';
 import { persona } from './config';
 import Inicio from './paginas/Inicio';
 import Webinar from './paginas/Webinar';
+import Cuestionario from './paginas/Cuestionario';
 import { landings } from './landings';
 
 function Landing() {
@@ -17,6 +18,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/webinar" element={<Webinar />} />
+        <Route path="/cuestionario" element={<Cuestionario />} />
         <Route path="/l/:slug" element={<Landing />} />
         <Route path="/privacidad" element={<Privacidad persona={persona} />} />
         <Route path="/legal" element={<AvisoLegal persona={persona} />} />

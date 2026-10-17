@@ -96,3 +96,9 @@ Un proyecto de Vercel por persona, todos conectados a este repositorio:
 - **Dominio:** subdominio del dominio común (`persona.dominio.com`) o dominio propio.
 
 Cada lead llega con `persona` y `origen` (landing) para medir qué contenido y qué anuncio funciona.
+
+## Embudo de Instagram (cuestionario → webinar)
+
+`/l/instagram` → `/cuestionario` → hoja de Google que guarda el lead y envía el webinar por email desde Gmail.
+En Cloudflare, añade también `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` para que el lead llegue a la hoja además de a D1.
+Instalación y uso: `compartido/apps-script/README.md`.

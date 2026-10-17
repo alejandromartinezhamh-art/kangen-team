@@ -6,7 +6,7 @@ export const persona: ConfigPersona = {
   nombre: 'Alejandro',
   dominio: 'PENDIENTE',
   email: 'PENDIENTE',
-  whatsapp: undefined,
+  whatsapp: '34607237453',
   instagram: undefined,
   tiktok: undefined,
   legal: {
@@ -42,9 +42,12 @@ export const textos = {
 };
 
 // Página del webinar (/webinar). El vídeo puede ser un enlace de YouTube (mejor "oculto"),
-// de Vimeo o un archivo .mp4. Vacío = se muestra un aviso de "disponible muy pronto".
+// de Vimeo o un archivo .mp4. Vacío = se muestra un aviso de "disponible muy pronto" y el botón
+// de WhatsApp sale desde el principio. Con vídeo, el botón aparece al ver `porcentajeWhatsapp` %.
 export const webinar = {
   titulo: 'Otra *manera* de ganarse la vida',
   subtitulo: 'Webinar gratuito · Emprendimiento y bienestar',
   video: '',
+  porcentajeWhatsapp: 80,
+  mensajeWhatsapp: 'Hola Alejandro, acabo de ver tu webinar y quiero más información.',
 };
