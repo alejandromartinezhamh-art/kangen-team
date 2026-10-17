@@ -16,6 +16,7 @@
     color-scheme: light;
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html, body { margin: 0; background: var(--fondo); color: var(--tinta); font-family: var(--font); -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
   button, input, select, textarea { font: inherit; color: inherit; }
@@ -82,12 +83,20 @@
   .aviso.ver { opacity: 1; }
   .aviso.mal { background: var(--error); }
   .cargando { padding: 40px 20px; color: var(--suave); font-weight: 500; }
+  .acceso { max-width: 360px; margin: 12vh auto 0; padding: 0 20px; display: grid; gap: 12px; }
+  .acceso h2 { margin: 0; font-size: 28px; letter-spacing: -0.04em; }
+  .acceso p { margin: 0; color: var(--suave); font-size: 14px; }
+  .acceso input { border: 1px solid var(--borde); background: var(--tarjeta); border-radius: 14px; padding: 12px 14px; font-size: 16px; outline: none; }
+  .acceso input:focus { border-color: var(--tinta); }
+  .acceso button { min-height: 46px; border: 0; border-radius: 36px; background: var(--tinta); color: var(--tarjeta); font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+  .acceso .error { color: var(--error); font-weight: 600; min-height: 1.2em; }
+  .salir { background: none; border: 0; padding: 0; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--suave); cursor: pointer; }
   a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px dashed var(--tinta); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <header>
-  <div class="barra"><span>Leads del webinar</span><a id="enlace-hoja" href="#" target="_blank" rel="noopener">Abrir hoja ↗</a></div>
+  <div class="barra"><span>Leads del webinar</span><span><a id="enlace-hoja" href="#" target="_blank" rel="noopener">Abrir hoja ↗</a> · <button type="button" class="salir" id="salir">Salir</button></span></div>
   <div class="titulo">
     <h1>Tus <em>leads</em></h1>
     <div class="kpis" id="kpis"></div>
@@ -95,10 +104,22 @@
   <input class="buscar" id="buscar" type="search" placeholder="Buscar por nombre, email o teléfono" autocomplete="off">
 </header>
 <main class="tablero" id="tablero"><p class="cargando">Cargando leads…</p></main>
+<form class="acceso" id="acceso" hidden>
+  <h2>Tus leads</h2>
+  <p>Escribe tu clave del CRM. Este navegador la recordará.</p>
+  <input type="password" id="clave" autocomplete="current-password" placeholder="Clave" required>
+  <button type="submit">Entrar</button>
+  <p class="error" id="error-acceso"></p>
+</form>
 <div class="aviso" id="aviso"></div>
 
 <script>
+  // Clave del CRM: viene en el enlace (?crm=) o se pide una vez y se guarda en este navegador.
   var CLAVE = <?!= JSON.stringify(clave) ?>;
+  var GUARDADA = 'crm_clave';
+  function leerGuardada() { try { return localStorage.getItem(GUARDADA) || ''; } catch (e) { return ''; } }
+  function guardarClave(k) { try { k ? localStorage.setItem(GUARDADA, k) : localStorage.removeItem(GUARDADA); } catch (e) {} }
+  if (CLAVE) guardarClave(CLAVE); else CLAVE = leerGuardada();
   var datos = { leads: [], estados: [], horasRecordatorio: 24 };
   var texto = '';
   var arrastrado = null;
@@ -225,12 +246,30 @@
     });
   }
 
+  function pedirClave(mensaje) {
+    document.querySelector('header').hidden = true; $('tablero').hidden = true;
+    $('acceso').hidden = false; $('error-acceso').textContent = mensaje || ''; $('clave').focus();
+  }
+
   function cargar() {
+    if (!CLAVE) return pedirClave();
     google.script.run
-      .withSuccessHandler(function (d) { datos = d; $('enlace-hoja').href = d.hoja; pintar(); })
-      .withFailureHandler(function (e) { $('tablero').innerHTML = '<p class="cargando">No se han podido cargar los leads: ' + esc(e.message) + '</p>'; })
+      .withSuccessHandler(function (d) {
+        guardarClave(CLAVE); datos = d; $('enlace-hoja').href = d.hoja;
+        document.querySelector('header').hidden = false; $('tablero').hidden = false; $('acceso').hidden = true;
+        pintar();
+      })
+      .withFailureHandler(function (e) {
+        if (/clave/i.test(e.message)) { CLAVE = ''; guardarClave(''); return pedirClave('Esa clave no es correcta.'); }
+        $('tablero').innerHTML = '<p class="cargando">No se han podido cargar los leads: ' + esc(e.message) + '</p>';
+      })
       .crmDatos(CLAVE);
   }
+
+  $('acceso').addEventListener('submit', function (e) {
+    e.preventDefault(); CLAVE = $('clave').value.trim(); $('error-acceso').textContent = 'Comprobando…'; cargar();
+  });
+  $('salir').addEventListener('click', function () { CLAVE = ''; guardarClave(''); datos.leads = []; pedirClave(); });
 
   // Arrastrar tarjetas entre columnas (ordenador); en el móvil, el desplegable "Mover a"
   var tablero = $('tablero');
@@ -271,7 +310,7 @@
   $('buscar').addEventListener('input', function (e) { texto = e.target.value.trim(); pintar(); });
 
   cargar();
-  setInterval(function () { if (!document.hidden && !arrastrado && !document.querySelector('textarea:focus')) cargar(); }, 60000);
+  setInterval(function () { if (CLAVE && !document.hidden && !arrastrado && !document.querySelector('textarea:focus')) cargar(); }, 60000);
 </script>
 </body>
 </html>
