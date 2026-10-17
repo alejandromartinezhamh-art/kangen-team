@@ -10,6 +10,8 @@ Lee `estrategia/` antes de crear nada.
 
 ```
 estrategia/            Mensaje común y normas de comunicación (obligatorias)
+  plantillas/          Para incorporar a alguien nuevo o replicar el sistema: guía, cuestionario en blanco, mensajes y checklist
+  cuestionario-avatar/ Cuestionario de historia y avatar de cada persona del equipo
 compartido/            Código común: formulario, páginas legales y API de leads
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
 scripts/               Utilidades (crear persona nueva)
@@ -52,6 +54,9 @@ Nombres de archivo: `persona_tipo_descripcion_01.jpg` (p. ej. `gemma_retrato_ext
 Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
 
 ## Flujo de trabajo por persona
+
+0. Darle de alta siguiendo `estrategia/plantillas/00 Cómo replicar el sistema.md` (carpeta de Drive, cuestionario y mensaje de bienvenida).
+   En Drive, todo está también en `Kangen PRO TEAM/Templates`.
 
 1. Rellenar `equipo/<persona>/brief.md` y subir referencias a `referencias/`.
 2. Definir `design.md` y aplicarlo en `sitio/src/index.css`, `sitio/tailwind.config.js` e `sitio/index.html`.
