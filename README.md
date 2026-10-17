@@ -36,17 +36,16 @@ Estructura de Drive recomendada:
 
 ```
 Kangen PRO TEAM/
-  00 Equipo/                      Material común (estrategia, contenido, presentaciones, folletos…)
-  01 Personas/
-    Alejandro/
-      01 Fotos originales/        Todo lo que suba la persona, sin filtrar
-      02 Fotos seleccionadas web/ Las elegidas para la web (se copian a assets/ del repo)
-      03 Vídeos/
-      04 Logo y marca/            Logo, design.md exportado, kit de Canva
-      05 Contenido redes/
-      06 Anuncios/
-      07 Textos/                  Historia, bio, guiones
-    Anna/ Gemma/ Helena/ Judith/ Rocio/
+  (carpetas comunes)            Estrategia, contenido, presentaciones, folletos… (uso interno)
+  Discovery process Andrea/     Competencia: webinar, emails, formularios. Solo para inspirarnos, nunca copiar
+  Landing Kangen <Persona>/     Una por persona: Alejandro, Anna, Gemma, Helena, Judith, Rocio
+    01 Fotos originales/        Todo lo que suba la persona, sin filtrar
+    02 Fotos seleccionadas web/ Las elegidas para la web (se copian a assets/ del repo)
+    03 Vídeos/
+    04 Logo y marca/            Logo, design.md exportado, kit de Canva
+    05 Contenido redes/
+    06 Anuncios/
+    07 Textos/                  Historia, bio, guiones
 ```
 
 Nombres de archivo: `persona_tipo_descripcion_01.jpg` (p. ej. `gemma_retrato_exterior_01.jpg`).

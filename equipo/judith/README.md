@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
-| **Carpeta de Drive** | PENDIENTE |
+| **Carpeta de Drive** | https://drive.google.com/drive/folders/1S377G3veqn1Q3KCaiDX5TUloAceCW4JB |
 | **Web publicada** | PENDIENTE |
 | **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/judith/sitio`) |
 | **Dominio** | PENDIENTE |
