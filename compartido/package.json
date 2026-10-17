@@ -1,0 +1,13 @@
+{
+  "name": "@equipo/compartido",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./api/lead": "./api/lead.ts"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-router-dom": "^7.0.0"
+  }
+}

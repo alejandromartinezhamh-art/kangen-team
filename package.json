@@ -1,0 +1,14 @@
+{
+  "name": "kangen-team",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "compartido",
+    "equipo/*/sitio"
+  ],
+  "scripts": {
+    "nueva-persona": "node scripts/nueva-persona.mjs",
+    "dev": "npm run dev --workspace",
+    "build": "npm run build --workspaces --if-present"
+  }
+}
