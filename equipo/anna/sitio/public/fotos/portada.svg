@@ -1,0 +1,21 @@
+<svg viewBox="0 0 1000 940" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#dad9cd"/><stop offset="0.55" stop-color="#d3dfd6"/><stop offset="1" stop-color="#bacac5"/></linearGradient>
+ <linearGradient id="hsea" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#879b94"/><stop offset=".42" stop-color="#708d86"/><stop offset="1" stop-color="#4e716b"/></linearGradient>
+ <linearGradient id="hland" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#acafa0"/><stop offset=".65" stop-color="#737f6f"/><stop offset="1" stop-color="#475b50"/></linearGradient>
+ <radialGradient id="hsun" cx="50%" cy="50%" r="50%"><stop stop-color="#f5f1da" stop-opacity=".8"/><stop offset="1" stop-color="#f5f1da" stop-opacity="0"/></radialGradient>
+ <filter id="hnoise"><feTurbulence baseFrequency=".003 .018" numOctaves="2" seed="7" result="t"/><feColorMatrix type="saturate" values="0"/></filter>
+</defs>
+<rect width="1000" height="940" fill="url(#hsky)"/><ellipse cx="622" cy="320" rx="280" ry="230" fill="url(#hsun)"/>
+<path d="M0 413 Q230 394 435 406 Q670 420 1000 407 L1000 940 L0 940Z" fill="url(#hsea)"/>
+<path d="M0 433 C223 422 438 427 630 432" fill="none" stroke="#d9ddd0" stroke-width="3" opacity=".44"/>
+<path d="M0 489 Q285 473 484 485" fill="none" stroke="#ccdbcf" stroke-width="2" opacity=".19"/>
+<path d="M650 510 Q780 493 1000 521" fill="none" stroke="#d3dbcf" stroke-width="2" opacity=".16"/>
+<path d="M-20 940 L-20 535 C82 511 153 526 222 548 C300 575 311 585 397 597 C482 608 529 653 575 697 C655 766 714 818 861 861 L1000 905 L1000 940Z" fill="url(#hland)"/>
+<path d="M-20 940 V594 C117 548 237 592 304 642 C384 708 421 755 503 809 C587 863 701 903 830 940Z" fill="#3c5d52" opacity=".66"/>
+<path d="M-20 668 C82 648 174 647 261 688 C346 726 375 781 490 846" stroke="#c0b8a1" stroke-width="18" opacity=".35" fill="none"/>
+<path d="M370 591 C468 603 561 655 605 705 C699 788 780 814 1000 868" fill="none" stroke="#d4d4bd" stroke-width="8" opacity=".32"/>
+<path d="M-20 510 C180 498 278 519 388 550 C455 573 493 596 536 624" fill="none" stroke="#e5e5d7" stroke-width="12" opacity=".18"/>
+<path d="M0 310 C150 307 250 296 347 308" fill="none" stroke="#e2e8dd" stroke-width="4" opacity=".3"/>
+<rect x="0" y="0" width="1000" height="940" fill="#ffffff" opacity=".025" filter="url(#hnoise)"/>
+</svg>

@@ -19,4 +19,6 @@ export const persona: ConfigPersona = {
 };
 
 // Textos, colores y fotos: en contenido.json (es lo que cambia el editor visual).
-export const { textos } = contenido;
+export const { textos, fotos } = contenido;
+// Se lee al pintar (no al importar) para que el editor pueda cambiarlo.
+export const webinar = () => contenido.webinarUrl;

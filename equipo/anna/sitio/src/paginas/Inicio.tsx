@@ -1,75 +1,254 @@
+import { useRef } from 'react';
 import { Formulario, PieLegal } from '@equipo/compartido';
-import { persona, textos } from '../config';
+import { fotos, persona, textos, webinar } from '../config';
 
-// Todos los textos salen de src/contenido.json, que es lo que cambia el editor visual.
+// Portada de Anna. Diseño: Drive / Landing Kangen Anna / 08 Design (prototipo marrón y greige).
 export default function Inicio() {
+  const webinarUrl = webinar();
+  const aviso = useRef<HTMLDialogElement>(null);
+  const abrirWebinar = () => {
+    if (webinarUrl) document.getElementById('webinar')?.scrollIntoView();
+    else aviso.current?.showModal();
+  };
+
   return (
     <>
-      <header className="mx-auto max-w-5xl px-4 pt-20 pb-16 text-center sm:pt-28">
-        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-primario">{persona.nombre}</p>
-        <h1 className="text-4xl font-bold leading-tight sm:text-6xl">{textos.titular}</h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg opacity-80">{textos.subtitular}</p>
-        <a
-          href="#contacto"
-          className="mt-10 inline-block rounded-xl bg-primario px-8 py-4 font-semibold text-white transition hover:opacity-90"
-        >
-          {textos.cta}
-        </a>
+      <header className="cabecera">
+        <div className="cabecera-inner">
+          <a href="#inicio" className="marca">
+            {textos.marca}<small>{textos.marcaLinea}</small>
+          </a>
+          <nav className="nav" aria-label="Principal">
+            <a className="nav-link" href="#historia">{textos.nav.historia}</a>
+            <a className="nav-link" href="#agua">{textos.nav.agua}</a>
+            <a className="nav-link" href="#vida">{textos.nav.vida}</a>
+            <a className="btn btn-oscuro" href="#hablamos">{textos.nav.hablamos}</a>
+          </nav>
+        </div>
       </header>
 
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="mb-8 text-center text-3xl font-bold">{textos.doloresTitulo}</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {textos.dolores.map((d, i) => (
-            <p key={i} className="rounded-2xl bg-white/70 p-6 shadow-sm">{d}</p>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="mb-8 text-center text-3xl font-bold">{textos.pilaresTitulo}</h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {textos.pilares.map((p, i) => (
-            <div key={i} className="rounded-2xl border border-black/5 bg-white/70 p-6">
-              <h3 className="text-xl font-semibold text-primario">{p.titulo}</h3>
-              <p className="mt-2 opacity-80">{p.texto}</p>
+      <main id="inicio">
+        <section className="hero contenedor">
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <p className="kicker">{textos.heroEyebrow}</p>
+              <h1 className="display">
+                {textos.heroTitular.map((linea, i) => (
+                  <span key={linea} className={i >= 2 ? 'suave' : undefined}>{linea}</span>
+                ))}
+              </h1>
+              <p>{textos.heroTexto}</p>
+              <div className="hero-actions">
+                <a className="btn btn-oscuro" href="#historia">
+                  {textos.heroCta} <span className="flecha">↘</span>
+                </a>
+                <button type="button" className="btn btn-claro" onClick={abrirWebinar}>
+                  {textos.heroCta2} <span className="flecha">↗</span>
+                </button>
+              </div>
+              <div className="hero-small">
+                <span className="fine-line" />
+                {textos.heroMeta}
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="hero-visual">
+              <img className="foto" src={fotos.portada} alt="" />
+              <span className="photo-caption">{textos.marca}</span>
+              <span className="hero-caption">{textos.heroFoto}</span>
+            </div>
+          </div>
+        </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-16">
-        <h2 className="mb-6 text-3xl font-bold">{textos.historiaTitulo}</h2>
-        <div className="space-y-4 text-lg leading-relaxed opacity-90">
-          {textos.historia.map((parrafo, i) => (
-            <p key={i}>{parrafo}</p>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="mb-8 text-center text-3xl font-bold">{textos.pasosTitulo}</h2>
-        <ol className="grid gap-6 sm:grid-cols-3">
-          {textos.pasos.map((p, i) => (
-            <li key={i} className="rounded-2xl bg-white/70 p-6 text-center">
-              <span className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-acento font-bold text-white">
-                {i + 1}
+        <div className="marquee">
+          <div className="contenedor marquee-inner">
+            {textos.palabras.map((palabra, i) => (
+              <span key={palabra} style={{ display: 'contents' }}>
+                {i > 0 && <i aria-hidden="true" />}
+                <span>{palabra}</span>
               </span>
-              <h3 className="font-semibold">{p.titulo}</h3>
-              <p className="mt-1 text-sm opacity-80">{p.texto}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+            ))}
+          </div>
+        </div>
 
-      <section id="contacto" className="mx-auto max-w-xl px-4 py-16">
-        <h2 className="mb-2 text-center text-3xl font-bold">{textos.contactoTitulo}</h2>
-        <p className="mb-8 text-center opacity-80">{textos.contactoTexto}</p>
-        <Formulario persona={persona} origen="inicio" />
-        <p className="mt-6 text-center text-xs opacity-60">{textos.aviso}</p>
-      </section>
+        <section id="historia" className="story contenedor">
+          <div className="story-grid">
+            <div className="story-photo">
+              <img className="foto" src={fotos.historia} alt="" />
+              <span className="side-caption">{textos.historiaAnio}</span>
+              <span className="story-image-caption">{textos.historiaFoto}</span>
+            </div>
+            <div className="story-copy">
+              <p className="kicker">{textos.historiaCapitulo}</p>
+              <h2 className="display">{textos.historiaTitulo}</h2>
+              {textos.historiaParrafos.map((parrafo) => (
+                <p key={parrafo}>{parrafo}</p>
+              ))}
+              <a className="text-link" href="#agua">
+                {textos.historiaEnlace} <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
 
+        <section className="quote-band">
+          <div className="rings" aria-hidden="true" />
+          <div className="contenedor quote-inner">
+            <p className="kicker">{textos.historiaEntradilla}</p>
+            <h2 className="display">
+              {textos.frase.map((linea) => (
+                <span key={linea}>{linea}</span>
+              ))}
+            </h2>
+            <p>{textos.fraseTexto}</p>
+          </div>
+        </section>
+
+        <section id="agua" className="water contenedor">
+          <div className="water-grid">
+            <div className="water-copy">
+              <p className="kicker">{textos.aguaCapitulo}</p>
+              <h2 className="display">{textos.aguaTitulo}</h2>
+              <p>{textos.aguaTexto}</p>
+              <ul className="water-list">
+                {textos.aguaLista.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <a className="btn btn-oscuro" href="#webinar">
+                {textos.aguaCta} <span className="flecha">↘</span>
+              </a>
+              <p className="note">{textos.aguaNota}</p>
+            </div>
+            <div className="water-art" aria-hidden="true">
+              <span className="kicker esquina-a">UN NUEVO RITUAL</span>
+              <div className="anillo" />
+              <div className="large-circle" />
+              <span className="esquina-b">02</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="webinar" className="webinar contenedor">
+          <div className="webinar-wrap">
+            <div className="webinar-top">
+              <div>
+                <p className="kicker">{textos.webinarKicker}</p>
+                <h2 className="display">{textos.webinarTitulo}</h2>
+              </div>
+              <p>{textos.webinarTexto}</p>
+            </div>
+            <div className="video-stage">
+              {webinarUrl ? (
+                <iframe
+                  src={webinarUrl}
+                  title={textos.webinarTitulo}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <>
+                  <span className="video-corner">{textos.marca} / 001</span>
+                  <div className="video-inner">
+                    <button type="button" className="play-btn" onClick={abrirWebinar} aria-label={textos.webinarCta}>
+                      ▶
+                    </button>
+                  </div>
+                  <span className="video-meta">{textos.webinarMeta}</span>
+                </>
+              )}
+            </div>
+            <div className="webinar-cta">
+              <p>{textos.webinarPie}</p>
+              <a className="btn btn-oscuro" href="#hablamos">
+                {textos.hablamosBoton} <span className="flecha">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="vida" className="life contenedor">
+          <div className="life-hero">
+            <img className="foto" src={fotos.vida} alt="" />
+            <span>{textos.vidaFoto}</span>
+          </div>
+          <div className="life-text">
+            <div>
+              <p className="kicker">{textos.vidaCapitulo}</p>
+              <h2 className="display">{textos.vidaTitulo}</h2>
+            </div>
+            <div className="life-aside">
+              <p>{textos.vidaTexto}</p>
+              <p className="pull">{textos.vidaFrase}</p>
+            </div>
+          </div>
+          <div className="life-values">
+            {textos.valores.map((valor, i) => (
+              <div key={valor} className="value">
+                <span>0{i + 1}</span>
+                <strong>{valor}</strong>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="posibilidad" className="business">
+          <div className="contenedor business-grid">
+            <div>
+              <p className="kicker">{textos.negocioEtiqueta}</p>
+              <h2 className="display">{textos.negocioTitulo}</h2>
+            </div>
+            <div>
+              <p>{textos.negocioTexto}</p>
+              <div className="business-actions">
+                <a className="btn btn-oscuro" href="#hablamos">{textos.negocioB} <span className="flecha">↗</span></a>
+                <a className="btn btn-claro" href="#agua">{textos.negocioA}</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="hablamos" className="book contenedor">
+          <div className="book-grid">
+            <div className="book-copy">
+              <p className="kicker">{textos.hablamosEtiqueta}</p>
+              <h2 className="display">{textos.hablamosTitulo}</h2>
+              <p>{textos.hablamosTexto}</p>
+            </div>
+            <div className="book-card">
+              <div className="book-card-head">
+                <span>ANNA / 30 MIN</span>
+                <span className="cal-circle" aria-hidden="true">↗</span>
+              </div>
+              <Formulario persona={persona} origen="inicio" textoBoton={textos.hablamosBoton} />
+              <p className="aviso">{textos.hablamosAviso}</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="pie">
+        <div className="contenedor pie-flex">
+          <div>
+            <span className="marca">{textos.marca}<small>{textos.marcaLinea}</small></span>
+            <p className="pie-head display">{textos.pieFrase}</p>
+          </div>
+          <p className="pie-right">{textos.pieNota}</p>
+        </div>
+      </footer>
       <PieLegal persona={persona} />
+
+      <dialog ref={aviso} className="aviso-dialogo" onClick={(e) => e.target === e.currentTarget && aviso.current?.close()}>
+        <div className="aviso-dialogo-inner">
+        <p className="kicker">WEBINAR · PRÓXIMAMENTE</p>
+        <p>{textos.webinarPendiente}</p>
+        <a className="btn btn-oscuro" href="#hablamos" onClick={() => aviso.current?.close()}>
+          {textos.nav.hablamos}
+        </a>{' '}
+        <button type="button" className="btn btn-claro" onClick={() => aviso.current?.close()}>
+          Cerrar
+        </button>
+        </div>
+      </dialog>
     </>
   );
 }

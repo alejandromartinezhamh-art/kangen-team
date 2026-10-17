@@ -57,7 +57,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .ed-corto { display: none; }
 
 /* ---------- Marcas de edición sobre la web ---------- */
-.ed-lienzo.editando [data-ed] { cursor: text; outline: 1px dashed transparent; outline-offset: 3px; transition: outline-color .15s; }
+.ed-lienzo.editando [data-ed] { cursor: text; outline: 1px dashed transparent; outline-offset: 3px; }
 .ed-lienzo.editando [data-ed]:hover { outline-color: var(--ed-marca); }
 .ed-lienzo.editando a, .ed-lienzo.editando button { cursor: text; }
 .ed-lienzo.editando form input, .ed-lienzo.editando form textarea { pointer-events: none; }
@@ -132,7 +132,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .ed-largo { display: none; }
   .ed-corto { display: inline; }
 }
-@media (prefers-reduced-motion: reduce) { .ed-lienzo.editando [data-ed] { transition: none; } }
 </style>
 
 <header class="ed-barra" role="toolbar" aria-label="Editor">
