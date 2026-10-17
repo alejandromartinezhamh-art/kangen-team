@@ -1,5 +1,6 @@
 import { Formulario, PieLegal } from '@equipo/compartido';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { persona, textos } from '../config';
 
 const pasos = [
@@ -33,6 +34,12 @@ function Seccion({ id, children }: { id?: string; children: ReactNode }) {
 }
 
 export default function Inicio() {
+  const { hash } = useLocation();
+  // Al llegar desde otra página con /#contacto, baja hasta esa sección.
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+  }, [hash]);
+
   return (
     <>
       {/* Barra superior */}
