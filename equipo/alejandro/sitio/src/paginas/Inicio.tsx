@@ -2,6 +2,7 @@ import { Formulario, PieLegal } from '@equipo/compartido';
 import { useEffect, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { persona, textos } from '../config';
+import VideoWebinar from '../componentes/VideoWebinar';
 
 const pasos = [
   { titulo: 'Rellenas el formulario', texto: 'Solo tus datos básicos, sin compromiso.' },
@@ -86,15 +87,20 @@ export default function Inicio() {
               <span className="text-[11px] opacity-60">01</span>
             </a>
             <a
-              href="#historia"
+              href="#video"
               className="flex min-h-[58px] items-center justify-between gap-4 rounded-[22.5px] border border-texto px-6 text-[13px] font-bold uppercase transition hover:bg-[rgba(255,237,215,.06)]"
             >
-              <span>Construye algo propio</span>
+              <span>Ver el webinar</span>
               <span className="text-[11px] text-secundario">02</span>
             </a>
           </nav>
         </div>
       </header>
+
+      {/* Vídeo del webinar justo debajo de la portada */}
+      <section id="video" className="mx-auto max-w-6xl px-[18px] pb-20 sm:px-8 sm:pb-28">
+        <VideoWebinar />
+      </section>
 
       <Linea />
 
