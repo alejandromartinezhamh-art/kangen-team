@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-17T13:15:00Z",
+  "actualizado": "2026-10-17T13:25:00Z",
   "personas": [
     {
       "id": "alejandro",
@@ -42,12 +42,12 @@
       "nombre": "Helena",
       "fase": 2,
       "orden": 3,
-      "borrador": "https://drive.google.com/drive/folders/1aRYEZcs8HIIuQm1DoHrwqkkamfvXlYIv",
+      "borrador": "https://claude.ai/artifact/XoELsdGQGwdakzkn67nCoX",
       "drive": "https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O",
       "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/claude/cool-allen-ml40rc/equipo/helena",
       "web": "",
-      "siguiente": "Retocar textos y fotos (en el borrador o con ChatGPT desde «08 Web para retocar» en su Drive). Cambiar «Mediterrani · 06:42 h», que ya no cuadra con la foto. Después, pasar los cambios a la web definitiva.",
-      "actualizado_en": "2026-10-17T12:00:00Z"
+      "siguiente": "Retocar textos y fotos en su borrador de Claude (invitarla como Editor con hsaigi@gmail.com). Cambiar «Mediterrani · 06:42 h», que ya no cuadra con la foto. Después, pasar los cambios a la web definitiva.",
+      "actualizado_en": "2026-10-17T13:25:00Z"
     },
     {
       "id": "judith",
