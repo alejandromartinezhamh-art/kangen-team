@@ -41,12 +41,17 @@ Así la URL no cambia.
 
 ## CRM (ver y gestionar los leads)
 
-`CRM.html` es una página privada con tus leads en tarjetas:
-- datos de cada lead: teléfono, email e Instagram;
-- seguimiento: si ha abierto o visto el webinar, el recordatorio (enviado o en cuántas horas sale) y si pulsó WhatsApp;
-- acciones: botones para escribirle por WhatsApp o email, su estado (Nuevo, Hablando por WhatsApp, Llamada agendada, Dentro, No encaja, Baja), sus respuestas y notas que se guardan solas.
+`CRM.html` es un tablero privado, en horizontal, con una columna por etapa:
 
-Los datos siguen en la hoja; el CRM solo los lee y cambia Estado y Notas.
+**Nuevo lead → Recontactado → Vio el vídeo → WhatsApp → Videollamada → Compra → Onboarding** (y Descartado).
+
+- **Lo que mueve el script solo, siempre hacia delante:**
+  - al enviar el recordatorio: Nuevo lead → Recontactado;
+  - al ver el 80 % del webinar: → Vio el vídeo;
+  - al pulsar WhatsApp: → WhatsApp.
+- **Lo demás lo mueves tú:** arrastrando la tarjeta en el ordenador, o con el desplegable en el móvil.
+- **Cada tarjeta** lleva teléfono, email e Instagram; las señales (vídeo abierto o visto, recordatorio, WhatsApp pulsado); botones de WhatsApp y email; sus respuestas, y notas que se guardan solas.
+- **Los datos siguen en la hoja.** El CRM solo cambia Estado y Notas.
 
 1. En Apps Script: **+ → HTML**, nómbralo `CRM` (sin .html) y pega `CRM.html`.
 2. Guarda y publica una versión nueva: **Implementar → Gestionar implementaciones → lápiz → Versión: Nueva versión → Implementar**.
@@ -56,8 +61,7 @@ Los datos siguen en la hoja; el CRM solo los lee y cambia Estado y Notas.
 
 ## Uso diario
 
-- Columna **Estado** (mejor desde el CRM): Nuevo, Hablando por WhatsApp, Llamada agendada, Dentro, No encaja o Baja.
-  Con `Baja` no recibe el recordatorio.
+- Columna **Estado**: mejor desde el CRM. Con `Descartado` no recibe el recordatorio.
 - **Notas**: lo que hables con cada persona.
 - Para tenerla en Excel: Archivo → Descargar → Microsoft Excel.
 

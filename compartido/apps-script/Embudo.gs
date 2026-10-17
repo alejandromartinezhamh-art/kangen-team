@@ -26,6 +26,11 @@ const ID_HOJA = '';
 // Clave inicial para LEADS_WEBHOOK_SECRET. Vacía = instalar() genera una nueva.
 const CLAVE_INICIAL = '';
 
+// Columnas del CRM, en orden. El script mueve solo hacia delante: al enviar el recordatorio
+// (Nuevo lead → Recontactado), al ver el webinar (→ Vio el vídeo) y al pulsar WhatsApp (→ WhatsApp).
+const ESTADOS = ['Nuevo lead', 'Recontactado', 'Vio el vídeo', 'WhatsApp', 'Videollamada', 'Compra', 'Onboarding', 'Descartado'];
+const DESCARTADO = 'Descartado';
+
 const HOJA = 'Leads';
 const HORAS_RECORDATORIO = 24;
 const COLUMNAS = [
@@ -84,7 +89,7 @@ function registrarLead(d) {
 
   const valores = {
     'Fecha': ahora(), 'Id': d.id || Utilities.getUuid().slice(0, 12), 'Persona': d.persona, 'Origen': d.origen,
-    'Nombre': d.nombre, 'Email': d.email, 'WhatsApp': d.telefono, 'Mensaje': d.mensaje || '', 'Estado': 'Nuevo',
+    'Nombre': d.nombre, 'Email': d.email, 'WhatsApp': d.telefono, 'Mensaje': d.mensaje || '', 'Estado': ESTADOS[0],
   };
   if (d.origen === 'webinar') valores['Quiere hablar'] = ahora();
   Object.keys(d.respuestas || {}).forEach(function (k) { valores[k] = d.respuestas[k]; });
@@ -108,6 +113,8 @@ function registrarEvento(d) {
   const columna = { webinar_abierto: 'Webinar abierto', webinar_visto: 'Webinar visto', whatsapp_clic: 'WhatsApp pulsado' }[d.evento];
   if (!columna || leer(hoja, fila, cab, columna)) return;
   poner(hoja, fila, cab, columna, ahora());
+  if (d.evento === 'webinar_visto') avanzar(hoja, fila, cab, 'Vio el vídeo');
+  if (d.evento === 'whatsapp_clic') avanzar(hoja, fila, cab, 'WhatsApp');
   // Ha visto el webinar: avisa para escribirle si no lo hace él.
   if (d.evento === 'webinar_visto') {
     const p = PERSONAS[d.persona];
@@ -197,13 +204,30 @@ function recordatorios() {
     const v = filas[i];
     const enviado = v[cab.indexOf('Email webinar')];
     if (!enviado || v[cab.indexOf('Webinar abierto')] || v[cab.indexOf('Webinar visto')] || v[cab.indexOf('Recordatorio')]) continue;
-    if (v[cab.indexOf('Quiere hablar')] || String(v[cab.indexOf('Estado')]).toLowerCase() === 'baja') continue;
+    if (v[cab.indexOf('Quiere hablar')] || estadoDe(v[cab.indexOf('Estado')]) === DESCARTADO) continue;
     if (new Date(enviado).getTime() > limite) continue;
     const p = PERSONAS[v[cab.indexOf('Persona')]];
     if (!p) continue;
     emailRecordatorio(p, v[cab.indexOf('Nombre')], v[cab.indexOf('Email')], v[cab.indexOf('Id')]);
     hoja.getRange(i + 1, cab.indexOf('Recordatorio') + 1).setValue(ahora());
+    avanzar(hoja, i + 1, cab, 'Recontactado');
   }
+}
+
+/** Estado normalizado (los nombres antiguos pasan a los del CRM). */
+function estadoDe(valor) {
+  const v = String(valor || '').trim();
+  const antiguos = { '': 'Nuevo lead', 'Nuevo': 'Nuevo lead', 'Hablando por WhatsApp': 'WhatsApp', 'Llamada agendada': 'Videollamada',
+    'Dentro': 'Compra', 'No encaja': DESCARTADO, 'Baja': DESCARTADO, 'baja': DESCARTADO };
+  return antiguos[v] !== undefined ? antiguos[v] : v;
+}
+
+/** Mueve el lead a `estado` solo si está en una columna anterior (nunca hacia atrás ni desde Descartado). */
+function avanzar(hoja, fila, cab, estado) {
+  const actual = estadoDe(leer(hoja, fila, cab, 'Estado'));
+  const i = ESTADOS.indexOf(actual);
+  if (actual === DESCARTADO || (i !== -1 && i >= ESTADOS.indexOf(estado))) return;
+  poner(hoja, fila, cab, 'Estado', estado);
 }
 
 // ---------- Hoja ----------
@@ -257,7 +281,6 @@ function ahora() {
 
 // ---------- CRM (la URL de la aplicación web + ?crm=CLAVE) ----------
 
-const ESTADOS = ['Nuevo', 'Hablando por WhatsApp', 'Llamada agendada', 'Dentro', 'No encaja', 'Baja'];
 const CAMPOS_EDITABLES = ['Estado', 'Notas'];
 const FIJAS = COLUMNAS.concat(['Instagram']);
 
@@ -293,7 +316,7 @@ function crmDatos(k) {
       emailWebinar: fecha(col('Email webinar')), abierto: fecha(col('Webinar abierto')), visto: fecha(col('Webinar visto')),
       pulsado: fecha(col('WhatsApp pulsado')), recordatorio: fecha(col('Recordatorio')), quiereHablar: fecha(col('Quiere hablar')),
       instagram: String(col('Instagram') || ''),
-      estado: String(col('Estado') || 'Nuevo'), notas: String(col('Notas') || ''), respuestas: respuestas,
+      estado: estadoDe(col('Estado')), notas: String(col('Notas') || ''), respuestas: respuestas,
     };
   });
   leads.reverse();
