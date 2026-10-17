@@ -171,8 +171,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-graphite)
 .book-card-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-stone); padding-bottom: 18px; margin-bottom: 24px; }
 .book-card-head span:first-child { font-size: 12px; font-weight: 500; }
 .cal-circle { height: 34px; width: 34px; background: var(--color-coral); border-radius: 50%; display: grid; place-items: center; font-size: 13px; }
-.book-card form { background: transparent; box-shadow: none; padding: 0; }
-.book-card form button[type='submit'] { border-radius: 9999px; font-size: 13px; font-weight: 500; }
+.book-card { --form-borde: var(--color-stone); --form-campo: var(--color-eggshell); --form-placeholder: var(--color-ash); --campo-radio: 12px; --boton-radio: 9999px; }
+.book-card form { background: transparent; border: 0; padding: 0; }
+.book-card form button[type='submit'] { font-size: 13px; font-weight: 500; }
 .book-card .aviso { margin-top: 18px; font-size: 11px; line-height: 1.65; color: var(--color-ash); }
 
 /* ---------- Pie ---------- */
