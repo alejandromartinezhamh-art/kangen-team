@@ -20,19 +20,20 @@ export const persona: ConfigPersona = {
 // Textos de la web principal. Todo habla de negocio y estilo de vida, nunca de producto
 // (ver estrategia/normas-comunicacion.md).
 export const textos = {
-  titular: 'Estoy construyendo la vida que quiero, con un equipo que me acompaña.',
-  subtitular:
-    'Un proyecto propio, a tu ritmo, con formación y un equipo que te acompaña desde el primer día.',
+  subtitulo: 'Emprendimiento y bienestar',
+  titular: 'Otra manera de ganarse la vida',
+  entradilla:
+    'Construye algo propio, a tu ritmo y con un equipo que te acompaña desde el primer día. Sin jefes, sin horarios impuestos, sin hacerlo en solitario.',
   dolores: [
-    'Sientes que tu trabajo ocupa todo tu tiempo y no te deja crecer.',
-    'Tienes ganas de emprender, pero no sabes por dónde empezar.',
-    'Buscas un proyecto complementario que encaje con tu vida actual.',
+    'Tu trabajo ocupa todo tu tiempo y no te deja crecer.',
+    'Tienes ganas de emprender, pero no sabes por dónde empezar ni con quién.',
+    'Buscas un proyecto complementario que encaje con la vida que ya tienes.',
   ],
   pilares: [
     { titulo: 'Flexibilidad', texto: 'Tú decides cuánto tiempo le dedicas y cómo lo organizas.' },
-    { titulo: 'Formación', texto: 'Aprendes marketing, comunicación y liderazgo desde cero.' },
-    { titulo: 'Equipo', texto: 'Trabajamos juntos: formaciones, quedadas y apoyo diario.' },
-    { titulo: 'Crecimiento personal', texto: 'Mentalidad, hábitos y confianza para salir de tu zona de confort.' },
+    { titulo: 'Formación', texto: 'Marketing, comunicación y liderazgo, aprendidos desde cero.' },
+    { titulo: 'Equipo', texto: 'Formaciones, quedadas y apoyo real en el día a día.' },
+    { titulo: 'Bienestar', texto: 'Hábitos, mentalidad y tiempo para lo que de verdad importa.' },
   ],
   historia: [
     'PENDIENTE: cuenta en 2-3 párrafos cortos por qué empezaste, qué buscabas y qué ha cambiado en tu día a día.',
