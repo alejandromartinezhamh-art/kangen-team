@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-17T13:25:00Z",
+  "actualizado": "2026-10-17T13:35:00Z",
   "personas": [
     {
       "id": "alejandro",
@@ -34,8 +34,8 @@
       "drive": "https://drive.google.com/drive/folders/1hf_YZ7pFez8MJbFQJZVnm1R2ucPW5t4U",
       "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/gemma",
       "web": "",
-      "siguiente": "Rellenar brief.md (diseño, tono, referencias) y subir fotos y referencias.",
-      "actualizado_en": "2026-10-17T13:05:00Z"
+      "siguiente": "Ya ha subido unas 20 fotos a «01 Fotos originales» (dos son PNG con nombre de imagen generada: revisar si son fotos reales). Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
     },
     {
       "id": "helena",
@@ -58,8 +58,8 @@
       "drive": "https://drive.google.com/drive/folders/1S377G3veqn1Q3KCaiDX5TUloAceCW4JB",
       "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/judith",
       "web": "",
-      "siguiente": "Rellenar brief.md (diseño, tono, referencias) y subir fotos y referencias.",
-      "actualizado_en": "2026-10-17T13:05:00Z"
+      "siguiente": "Ya ha subido unas 20 fotos (carpeta «web_kangen» dentro de «01 Fotos originales»). Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
     },
     {
       "id": "rocio",
@@ -70,8 +70,8 @@
       "drive": "https://drive.google.com/drive/folders/1F5iFQITVE_E_AFef2uZIBWxyaixdaRwZ",
       "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/rocio",
       "web": "",
-      "siguiente": "Rellenar brief.md (diseño, tono, referencias) y subir fotos y referencias.",
-      "actualizado_en": "2026-10-17T13:05:00Z"
+      "siguiente": "Ya ha subido 7 fotos a «01 Fotos originales» (2 en HEIC) y tiene una carpeta «inspiracion». Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
     }
   ]
 }
