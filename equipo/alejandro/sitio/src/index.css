@@ -2,24 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Identidad visual de Alejandro: cambia estos valores según el brief.md */
+/* Identidad visual de Alejandro: oscuro cálido, crema en mayúsculas, sin sombras.
+   Misma paleta que su página de enlaces. */
 :root {
-  --color-primario: #0f766e;
-  --color-acento: #f59e0b;
-  --color-fondo: #faf7f2;
-  --color-texto: #1c1917;
-  --fuente-titulo: 'Plus Jakarta Sans', sans-serif;
-  --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+  --color-primario: #ffedd7; /* crema: botones rellenos y texto */
+  --color-acento: #dc5000; /* ember: etiquetas y detalles mínimos */
+  --color-fondo: #100904; /* walnut */
+  --color-texto: #ffedd7;
+  --color-secundario: #cdb69c; /* sand: texto secundario */
+  --color-linea: #6c5f51; /* driftwood: líneas discontinuas */
+  --color-superficie: #382416; /* bark */
+  --fuente-titulo: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --fuente-cuerpo: 'Syne', ui-sans-serif, system-ui, sans-serif;
+
+  /* Formulario compartido */
+  --form-fondo: transparent;
+  --form-campo: transparent;
+  --form-borde: #40372e;
+  --form-placeholder: #6c5f51;
+  --form-radio: 22.5px;
+  --campo-radio: 18px;
+  --boton-fondo: #ffedd7;
+  --boton-texto: #100904;
+  --boton-radio: 36px;
+  --boton-mayusculas: uppercase;
+  --color-error: #ff8a4c;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-fondo);
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--color-fondo);
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--fuente-titulo);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 1px dashed var(--color-texto);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
 }

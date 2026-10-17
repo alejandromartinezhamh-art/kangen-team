@@ -4,7 +4,7 @@ Este documento es la fuente de verdad del diseño de la web, las landings y el c
 Rellénalo antes de diseñar y actualízalo cada vez que algo cambie.
 
 ## 1. Quién soy (2-3 frases)
-PENDIENTE
+Alejandro. Emprendimiento y bienestar. PENDIENTE: completar.
 
 ## 2. Mi historia
 Por qué empecé, qué buscaba y qué ha cambiado en mi día a día (sin cifras de dinero).
@@ -19,14 +19,15 @@ Webs, perfiles o anuncios que me gustan y **qué** me gusta de cada uno. Las cap
 
 | Referencia (URL o archivo) | Qué me gusta |
 |---|---|
-| PENDIENTE | |
+| Artifact "Alejandro — enlaces" (página de enlaces propia) | Es la base de toda la identidad: oscuro cálido, crema, mayúsculas, botones con número. |
+| Webinar "Otra manera de ganarse la vida" | Mensaje principal y titular de la web. |
 
 ## 5. Identidad visual
-- **Colores** (hex): primario PENDIENTE · acento PENDIENTE · fondo PENDIENTE · texto PENDIENTE
-- **Tipografías**: títulos PENDIENTE · texto PENDIENTE
-- **Estilo**: (minimalista, cálido, premium, natural, enérgico…) PENDIENTE
-- **Fotos**: ¿tengo fotos profesionales? ¿estilo de las fotos? Van en `assets/`.
-- **Logo**: sí / no. Va en `assets/`.
+- **Colores** (hex): fondo walnut `#100904` · texto crema `#ffedd7` · secundario sand `#cdb69c` · líneas driftwood `#6c5f51` / cork `#40372e` · superficie bark `#382416` · acento ember `#dc5000` (mínimo, solo etiquetas)
+- **Tipografías**: Syne (400–800) para todo; títulos en 800 y mayúsculas
+- **Estilo**: oscuro cálido, editorial, sin sombras. Líneas discontinuas como separador, botones píldora (relleno crema / borde crema) con número 01, 02…, etiquetas pequeñas en ember, etiqueta vertical en la foto
+- **Fotos**: `assets/foto.jpg` (estudio tipo podcast, luz cálida). Tratamiento: sepia .06, contraste 1.12, brillo .94, fundido al fondo
+- **Logo**: no, se usa el nombre en mayúsculas
 
 ## 6. Tono de voz
 Palabras que me definen y palabras que nunca usaría.
