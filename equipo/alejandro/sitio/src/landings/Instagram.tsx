@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { persona, textos } from '../config';
 
 // Página del enlace de la bio de Instagram: misma composición que "Alejandro — enlaces".
-const enlaces = [
-  { texto: 'Otra manera de ganarse la vida', a: '/cuestionario?o=instagram', etiqueta: 'Webinar gratuito' },
-  { texto: 'Construye algo propio', a: '/#contacto' },
+// De momento un solo botón, al cuestionario del webinar; la web (/) queda para más adelante.
+const enlaces: { texto: string; a: string; etiqueta?: string }[] = [
+  { texto: 'Webinar: Otra manera de ganarse la vida', a: '/cuestionario?o=instagram' },
 ];
 
 export default function Instagram() {
@@ -52,7 +52,7 @@ export default function Instagram() {
               >
                 <span>{e.texto}</span>
                 <span className={'flex-none text-[11px] ' + (i === 0 ? 'opacity-60' : 'text-secundario')}>
-                  {String(i + 1).padStart(2, '0')}
+                  {enlaces.length > 1 ? String(i + 1).padStart(2, '0') : '→'}
                 </span>
               </Link>
             </div>
