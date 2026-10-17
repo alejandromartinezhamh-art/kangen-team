@@ -14,7 +14,7 @@ compartido/            Código común: formulario, páginas legales y API de lea
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
 scripts/               Utilidades (crear persona nueva)
 equipo/
-  alejandro/ ana/ elena/ gemma/ judith/ rocio/
+  alejandro/ ana/ helena/ gemma/ judith/ rocio/
     brief.md           Diseño, tono, referencias, contacto y datos legales
     referencias/       Capturas de webs y perfiles que gustan
     assets/            Fotos, logo, vídeos
