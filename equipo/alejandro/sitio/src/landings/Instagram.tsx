@@ -1,8 +1,8 @@
 import { Formulario, PieLegal } from '@equipo/compartido';
 import { persona } from '../config';
 
-// Landing corta para anuncios: un mensaje, un formulario. Copia este archivo para cada campaña nueva.
-export default function Ejemplo() {
+// Landing para el enlace de la bio de Instagram: un mensaje, un formulario.
+export default function Instagram() {
   return (
     <>
       <main className="mx-auto grid min-h-[100svh] max-w-6xl items-center gap-10 px-[18px] py-16 sm:px-8 lg:grid-cols-2">
@@ -30,7 +30,7 @@ export default function Ejemplo() {
             ))}
           </ul>
         </div>
-        <Formulario persona={persona} origen="ejemplo" textoBoton="Reservar mi charla" />
+        <Formulario persona={persona} origen="instagram" textoBoton="Reservar mi charla" />
       </main>
       <PieLegal persona={persona} />
     </>

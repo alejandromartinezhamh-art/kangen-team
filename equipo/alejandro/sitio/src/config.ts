@@ -40,3 +40,11 @@ export const textos = {
     'Habla de tiempo, aprendizaje y personas. Sin cifras de dinero.',
   ],
 };
+
+// Página del webinar (/webinar). El vídeo puede ser un enlace de YouTube (mejor "oculto"),
+// de Vimeo o un archivo .mp4. Vacío = se muestra un aviso de "disponible muy pronto".
+export const webinar = {
+  titulo: 'Otra manera de ganarse la vida',
+  subtitulo: 'Webinar gratuito · Emprendimiento y bienestar',
+  video: '',
+};
