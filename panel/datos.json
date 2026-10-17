@@ -1,0 +1,77 @@
+{
+  "actualizado": "2026-10-17T13:35:00Z",
+  "personas": [
+    {
+      "id": "alejandro",
+      "nombre": "Alejandro",
+      "fase": 4,
+      "orden": 0,
+      "borrador": "",
+      "drive": "https://drive.google.com/drive/folders/1PQ6EbYJuRMmLg3xquOaciSn15mtlZzBs",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/alejandro",
+      "web": "https://kangen-ochre.vercel.app",
+      "siguiente": "La web ya está publicada (también /l/instagram y /webinar), pero según su ficha del repo faltan los textos definitivos, terminar el brief y los datos legales.",
+      "actualizado_en": "2026-10-17T13:05:00Z"
+    },
+    {
+      "id": "ana",
+      "nombre": "Anna",
+      "fase": 0,
+      "orden": 1,
+      "borrador": "",
+      "drive": "https://drive.google.com/drive/folders/1H0wtP6V0--H3LD_GhNvfuXi0amrwSy2Y",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/anna",
+      "web": "",
+      "siguiente": "Rellenar brief.md (diseño, tono, referencias) y subir fotos y referencias.",
+      "actualizado_en": "2026-10-17T13:05:00Z"
+    },
+    {
+      "id": "gemma",
+      "nombre": "Gemma",
+      "fase": 0,
+      "orden": 2,
+      "borrador": "",
+      "drive": "https://drive.google.com/drive/folders/1hf_YZ7pFez8MJbFQJZVnm1R2ucPW5t4U",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/gemma",
+      "web": "",
+      "siguiente": "Ya ha subido unas 20 fotos a «01 Fotos originales» (dos son PNG con nombre de imagen generada: revisar si son fotos reales). Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
+    },
+    {
+      "id": "helena",
+      "nombre": "Helena",
+      "fase": 2,
+      "orden": 3,
+      "borrador": "https://claude.ai/artifact/XoELsdGQGwdakzkn67nCoX",
+      "drive": "https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/claude/cool-allen-ml40rc/equipo/helena",
+      "web": "",
+      "siguiente": "Retocar textos y fotos en su borrador de Claude (invitarla como Editor con hsaigi@gmail.com). Cambiar «Mediterrani · 06:42 h», que ya no cuadra con la foto. Después, pasar los cambios a la web definitiva.",
+      "actualizado_en": "2026-10-17T13:25:00Z"
+    },
+    {
+      "id": "judith",
+      "nombre": "Judith",
+      "fase": 0,
+      "orden": 4,
+      "borrador": "",
+      "drive": "https://drive.google.com/drive/folders/1S377G3veqn1Q3KCaiDX5TUloAceCW4JB",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/judith",
+      "web": "",
+      "siguiente": "Ya ha subido unas 20 fotos (carpeta «web_kangen» dentro de «01 Fotos originales»). Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
+    },
+    {
+      "id": "rocio",
+      "nombre": "Rocío",
+      "fase": 0,
+      "orden": 5,
+      "borrador": "",
+      "drive": "https://drive.google.com/drive/folders/1F5iFQITVE_E_AFef2uZIBWxyaixdaRwZ",
+      "codigo": "https://github.com/alejandromartinezhamh-art/kangen-team/tree/main/equipo/rocio",
+      "web": "",
+      "siguiente": "Ya ha subido 7 fotos a «01 Fotos originales» (2 en HEIC) y tiene una carpeta «inspiracion». Falta el brief: quién es, su historia, estilo y referencias.",
+      "actualizado_en": "2026-10-17T13:35:00Z"
+    }
+  ]
+}

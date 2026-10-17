@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Webs del equipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Versión pública (solo lectura) del panel del equipo. Los datos están en datos.json. */
+:root {
+  --bg: #f3f5f4; --surface: #ffffff; --line: #dde3e0; --ink: #15211d; --muted: #5b6a65;
+  --accent: #1f6f63; --accent-soft: #e2f0ec; --warn: #9a5b12; --warn-soft: #fbf0df;
+  --done: #2f6b2a; --done-soft: #e5f2e1;
+  --font-ui: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101614; --surface: #17201d; --line: #2a3632; --ink: #e6eeeb; --muted: #9aaba5;
+    --accent: #6cc3b2; --accent-soft: #1d332e; --warn: #e3b26b; --warn-soft: #33281a;
+    --done: #8fcf86; --done-soft: #1f2f1d; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-ui);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.envoltura { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 600; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; max-width: 62ch; }
+.etiqueta { font: 500 11px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.embudo { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.fase { padding: 14px 16px; border-left: 1px solid var(--line); min-width: 0; }
+.fase:first-child { border-left: 0; }
+.fase .num { font: 500 28px/1.1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.fase .nombres { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; min-height: 1.5em; }
+.fichas { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+.ficha { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.ficha-cabeza { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.ficha h2 { font-size: 19px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.pastilla { display: inline-block; border-radius: 999px; padding: 3px 10px; font: 500 12px/1.5 var(--font-ui); white-space: nowrap; background: var(--accent-soft); color: var(--accent); }
+.pastilla.f0 { background: var(--warn-soft); color: var(--warn); }
+.pastilla.f4 { background: var(--done-soft); color: var(--done); }
+.pasos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.pasos span { height: 4px; border-radius: 2px; background: var(--line); }
+.pasos span.hecho { background: var(--accent); }
+.enlaces { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.enlaces li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px; align-items: baseline; font-size: 14px; }
+.enlaces a { color: var(--accent); text-decoration: none; overflow-wrap: anywhere; }
+.enlaces a:hover { text-decoration: underline; }
+.falta { color: var(--muted); font-style: italic; }
+.siguiente { border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 2px; }
+.siguiente p { margin: 0; }
+.pie-ficha { font-size: 12px; color: var(--muted); }
+.aviso { font-size: 13px; color: var(--muted); margin: 0; }
+@media (max-width: 760px) {
+  .embudo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fase { border-left: 0; border-top: 1px solid var(--line); }
+  .fase:nth-child(-n+2) { border-top: 0; }
+  .fase:nth-child(even) { border-left: 1px solid var(--line); }
+  .fase:last-child { grid-column: 1 / -1; border-left: 0; }
+  .fichas { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="envoltura">
+  <header>
+    <p class="etiqueta">Equipo · webs y landings</p>
+    <h1>Webs del equipo</h1>
+    <p class="sub">Busca tu nombre y encontrarás tu web publicada, el borrador para retocarla y tu carpeta de Drive.</p>
+  </header>
+  <section aria-label="Fases" class="embudo" id="embudo"></section>
+  <p class="aviso" id="estado">Cargando…</p>
+  <section aria-label="Personas" class="fichas" id="fichas"></section>
+</div>
+<script>
+const FASES = ['Brief pendiente', 'En diseño', 'Retocando', 'Lista para publicar', 'Publicada'];
+// Solo los enlaces que usan ellas; el código de GitHub queda en el panel de Claude.
+const ENLACES = [['web', 'Web publicada'], ['borrador', 'Borrador'], ['drive', 'Carpeta Drive']];
+const esc = (s) => { const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
+const seguro = (u) => (/^https:\/\//.test(u || '') ? u : '');
+const fecha = (at) => at ? new Date(at).toLocaleString('es-ES', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '';
+function textoEnlace(u) {
+  try {
+    const x = new URL(u);
+    if (x.hostname === 'claude.ai') return 'Abrir en Claude (requiere cuenta)';
+    if (x.hostname.includes('drive.google')) return 'Abrir en Drive';
+    if (x.hostname === 'github.com') return 'Ver en GitHub';
+    return x.hostname.replace(/^www\./, '');
+  } catch (e) { return u; }
+}
+function pintar({ actualizado, personas }) {
+  document.getElementById('embudo').innerHTML = FASES.map((f, i) => {
+    const en = personas.filter((p) => (p.fase || 0) === i);
+    return '<div class="fase"><div class="etiqueta">' + esc(f) + '</div><div class="num">' + en.length +
+      '</div><div class="nombres">' + esc(en.map((p) => p.nombre).join(', ')) + '</div></div>';
+  }).join('');
+  document.getElementById('fichas').innerHTML = personas.map((p) => {
+    const fase = p.fase || 0;
+    const enlaces = ENLACES.map(([k, etq]) => {
+      const u = seguro(p[k]);
+      return '<li><span class="etiqueta">' + etq + '</span>' +
+        (u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(textoEnlace(u)) + ' ↗</a>' : '<span class="falta">Todavía no hay</span>') + '</li>';
+    }).join('');
+    return '<article class="ficha"><div class="ficha-cabeza"><h2>' + esc(p.nombre) + '</h2><span class="pastilla f' + fase + '">' + esc(FASES[fase]) + '</span></div>' +
+      '<div class="pasos" aria-hidden="true">' + FASES.map((_, i) => '<span class="' + (i <= fase ? 'hecho' : '') + '"></span>').join('') + '</div>' +
+      '<ul class="enlaces">' + enlaces + '</ul>' +
+      '<div class="siguiente"><span class="etiqueta">Siguiente paso</span><p>' + (p.siguiente ? esc(p.siguiente) : '<span class="falta">Sin definir</span>') + '</p></div>' +
+      (p.actualizado_en ? '<div class="pie-ficha">Actualizado el ' + esc(fecha(p.actualizado_en)) + '</div>' : '') + '</article>';
+  }).join('');
+  document.getElementById('estado').textContent = 'Datos actualizados el ' + fecha(actualizado) + '. Para cambiar algo, díselo a Alejandro.';
+}
+fetch('datos.json', { cache: 'no-store' })
+  .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(pintar)
+  .catch(() => { document.getElementById('estado').textContent = 'No se han podido cargar los datos. Recarga la página.'; });
+</script>
+</body>
+</html>

@@ -2,7 +2,8 @@
 
 | | |
 |---|---|
-| **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
+| **Estado** | ✅ Brief · ✅ Diseño · ⬜ Textos (Helena los está retocando) · ⬜ Datos legales · ⬜ Publicada |
+| **Borrador para retocar** | https://claude.ai/artifact/XoELsdGQGwdakzkn67nCoX (artifact editable) · archivo para ChatGPT en Drive: «08 Web para retocar» |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O |
 | **Web publicada** | PENDIENTE |
 | **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/helena/sitio`) |
