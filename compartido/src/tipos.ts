@@ -27,4 +27,16 @@ export interface Lead {
   telefono: string;
   mensaje?: string;
   consentimiento: boolean;
+  /** Identificador corto del lead, para enlazar el webinar y sus eventos con su fila */
+  id?: string;
+  /** Respuestas del cuestionario: pregunta → respuesta */
+  respuestas?: Record<string, string>;
+}
+
+/** Algo que hace un lead ya registrado, p. ej. abrir el webinar desde el email */
+export interface EventoLead {
+  tipo: 'evento';
+  persona: string;
+  id: string;
+  evento: string;
 }

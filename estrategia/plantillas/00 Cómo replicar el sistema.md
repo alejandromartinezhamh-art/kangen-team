@@ -70,6 +70,7 @@ Resultado: `equipo/<nombre>/brief.md` completo.
 3. Textos en `sitio/src/config.ts`, portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña o enfoque en `sitio/src/landings/`.
 5. Publicar (Cloudflare o Vercel, ver README del repositorio).
+6. Embudo de Instagram (opcional): bio → `/l/instagram` → `/cuestionario` (preguntas en `sitio/src/cuestionario.ts`) → email con el webinar → `/webinar`. Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/` (instalación paso a paso en su README).
 
 Estructura de la landing (en este orden):
 1. Titular con el dolor de su avatar (sus palabras).

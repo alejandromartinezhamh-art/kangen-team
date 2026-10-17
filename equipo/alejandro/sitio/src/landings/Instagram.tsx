@@ -3,7 +3,7 @@ import { persona, textos } from '../config';
 
 // Página del enlace de la bio de Instagram: misma composición que "Alejandro — enlaces".
 const enlaces = [
-  { texto: 'Otra manera de ganarse la vida', a: '/', etiqueta: 'Webinar gratuito' },
+  { texto: 'Otra manera de ganarse la vida', a: '/cuestionario?o=instagram', etiqueta: 'Webinar gratuito' },
   { texto: 'Construye algo propio', a: '/#contacto' },
 ];
 

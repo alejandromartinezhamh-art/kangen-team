@@ -1,9 +1,38 @@
 import { Formulario, PieLegal } from '@equipo/compartido';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { persona, webinar } from '../config';
 import VideoWebinar from '../componentes/VideoWebinar';
 import Enfasis from '../componentes/Enfasis';
 
+// Id del lead: llega en el enlace del email (?l=) o se guardó al terminar el cuestionario.
+function useIdLead() {
+  const [params] = useSearchParams();
+  const [id] = useState(() => {
+    const deUrl = params.get('l') ?? '';
+    if (/^[a-z0-9]{6,40}$/i.test(deUrl)) return deUrl;
+    try {
+      return localStorage.getItem('lead_id') ?? '';
+    } catch {
+      return '';
+    }
+  });
+  return id;
+}
+
 export default function Webinar() {
+  const id = useIdLead();
+  // Apunta en la hoja que ha abierto el webinar (para el recordatorio y para saber a quién escribir).
+  useEffect(() => {
+    if (!id) return;
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo: 'evento', evento: 'webinar_abierto', id, persona: persona.id }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [id]);
+
   return (
     <>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-[18px] pt-[18px] text-xs font-bold uppercase sm:px-8">
@@ -41,7 +70,7 @@ export default function Webinar() {
             </p>
           </div>
           <div>
-            <Formulario persona={persona} origen="webinar" textoBoton="Quiero hablar contigo" />
+            <Formulario persona={persona} origen="webinar" textoBoton="Quiero hablar contigo" extra={id ? { id } : undefined} />
             <p className="mt-6 text-[11px] font-medium uppercase leading-relaxed text-secundario">
               Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada
               persona.
