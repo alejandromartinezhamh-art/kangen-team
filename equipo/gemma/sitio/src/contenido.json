@@ -276,59 +276,59 @@
   },
   "textos": {
     "marca": "GEMMA OÑA",
-    "marcaLinea": "AGUA · RITUALES · VIDA",
+    "marcaLinea": "HISTORIA · TIEMPO · VIDA",
     "nav": {
       "historia": "La historia",
-      "agua": "El agua",
+      "agua": "Algo propio",
       "vida": "Otra manera",
       "hablamos": "¿Hablamos?"
     },
-    "heroEyebrow": "AGUA · NATURALEZA · FORMA DE VIVIR",
+    "heroEyebrow": "NATURALEZA · TIEMPO · FORMA DE VIVIR",
     "heroTitular": [
       "Quizá no haga falta",
       "cambiarlo todo.",
       "Quizá solo sea",
-      "empezar por el agua."
+      "empezar por algo pequeño."
     ],
-    "heroTexto": "Una historia real sobre hidratación, rituales cotidianos y la libertad de construir una vida más parecida a la que quieres vivir.",
+    "heroTexto": "Una historia real sobre rituales cotidianos, tiempo para lo importante y la decisión de construir algo propio, a mi ritmo.",
     "heroCta": "Descubre la historia",
     "heroCta2": "Ver el webinar",
     "heroFoto": "LA CALMA TAMBIÉN ES UNA FORMA DE VIVIR",
     "heroMeta": "Mediterráneo · 06:42 h",
     "palabras": [
-      "HIDRATACIÓN",
       "CONSCIENCIA",
       "NATURALEZA",
+      "EQUIPO",
       "TIEMPO"
     ],
     "historiaCapitulo": "01 / EL COMIENZO",
     "historiaEntradilla": "A VECES, EL PRINCIPIO NO ES LO QUE ESPERABAS.",
     "historiaTitulo": "Un viaje en 2023. Una persona inesperada. Y una nueva forma de mirar las cosas.",
     "historiaParrafos": [
-      "Aquel año me fui de viaje con personas que no conocía. Una de ellas se convertiría en una amiga muy importante. Fue ella quien me habló, por primera vez, de Kangen.",
-      "Estaba en un momento personal lleno de preguntas, revisando mis hábitos de salud y afrontando mucho estrés laboral. No buscaba un negocio: quería comprender mejor cómo cuidarme cada día."
+      "Aquel año me fui de viaje con personas que no conocía. Una de ellas se convertiría en una amiga muy importante. Fue ella quien me habló, por primera vez, del proyecto en el que trabajaba.",
+      "Estaba en un momento personal lleno de preguntas y afrontando mucho estrés laboral. No buscaba un negocio: quería entender qué podía cambiar en mi día a día."
     ],
     "historiaFoto": "GEMMA OÑA · UNA HISTORIA PERSONAL",
-    "historiaEnlace": "Un nuevo ritual",
+    "historiaEnlace": "Algo propio",
     "frase": [
-      "Lo que bebemos.",
+      "Lo que elegimos.",
       "Lo que hacemos.",
       "Cómo vivimos."
     ],
     "fraseTexto": "Hay pequeñas decisiones que, si las miras con atención, te hacen replantearte cosas mucho mayores.",
-    "aguaCapitulo": "02 / UN NUEVO RITUAL",
-    "aguaTitulo": "El agua ya formaba parte de mi vida. Solo empecé a mirarla de otra manera.",
-    "aguaTexto": "Habíamos cambiado las garrafas de plástico por botellas de vidrio. Después descubrí una tecnología para tratar el agua del grifo en casa. Me interesó cómo funcionaba y también la comodidad: menos botellas que cargar y almacenar.",
+    "aguaCapitulo": "02 / ALGO PROPIO",
+    "aguaTitulo": "No cambié mi vida de golpe. Empecé a mirarla de otra manera.",
+    "aguaTexto": "Mi amiga me presentó a un equipo de personas que estaban construyendo un proyecto propio, por cuenta propia y a su ritmo. Me llamó la atención cómo trabajaban: con formación, con acompañamiento y sin dejar de lado lo que les importa.",
     "aguaLista": [
-      "Una elección cotidiana",
-      "Más sencillez en casa",
-      "Menos dependencia del agua embotellada"
+      "Un proyecto que encaja con mi vida",
+      "Formación y acompañamiento de verdad",
+      "Un equipo con el que crecer"
     ],
-    "aguaNota": "La tecnología Kangen combina filtración y electrólisis; las características y usos dependen del modelo y del agua de entrada.",
+    "aguaNota": "Es un proyecto de emprendimiento por cuenta propia: no es un empleo y lo que construyas depende de tu dedicación.",
     "aguaCta": "Conocer la experiencia",
     "webinarKicker": "UNA CONVERSACIÓN PARA EMPEZAR",
     "webinarTitulo": "¿Y si lo hablamos con calma?",
-    "webinarTexto": "He preparado un espacio para explicar qué descubrí, cómo funciona la tecnología y por qué este camino también me hizo reflexionar sobre el tiempo, el trabajo y la vida que quiero construir.",
+    "webinarTexto": "He preparado un vídeo para contarte cómo empecé, cómo trabajamos en el equipo y por qué este camino me hizo reflexionar sobre el tiempo, el trabajo y la vida que quiero construir.",
     "webinarMeta": "VÍDEO DE PRESENTACIÓN · PRÓXIMAMENTE",
     "webinarPie": "Una presentación tranquila, para verla cuando quieras.",
     "webinarCta": "Ver el webinar",
@@ -343,17 +343,17 @@
       "Más presencia.",
       "Más tiempo para lo importante."
     ],
-    "negocioEtiqueta": "UNA POSIBILIDAD QUE LLEGÓ DESPUÉS",
-    "negocioTitulo": "Primero fue el agua. Más adelante, la posibilidad de construir más opciones.",
-    "negocioTexto": "Mi profesión está vinculada a los datos, los mercados y las ventas. Cuando entendí que Enagic trabaja con distribuidores independientes, empecé a explorar su dimensión profesional. No es una promesa de libertad económica ni de ingresos garantizados: es una actividad comercial que requiere dedicación.",
-    "negocioA": "Me interesa el agua",
-    "negocioB": "Quiero conocer el negocio",
+    "negocioEtiqueta": "UN PROYECTO, NO UNA PROMESA",
+    "negocioTitulo": "Primero fue la curiosidad. Después, la decisión de construir algo propio.",
+    "negocioTexto": "Mi profesión está vinculada a los datos, los mercados y las ventas, así que antes de decidir quise entender bien cómo funciona. No es una promesa de libertad económica ni de ingresos garantizados: es una actividad por cuenta propia que requiere dedicación, y los resultados dependen de cada persona.",
+    "negocioA": "Cómo empecé",
+    "negocioB": "Quiero conocer el proyecto",
     "hablamosEtiqueta": "UNA CONVERSACIÓN, SIN PRISAS",
     "hablamosTitulo": "¿Te ha despertado curiosidad?",
-    "hablamosTexto": "Podemos hablar del agua, de los distintos equipos o de cómo funciona el modelo de distribución independiente. Sin compromiso. Sin prisas.",
+    "hablamosTexto": "Podemos hablar de cómo empecé, de cómo trabajamos en el equipo y de si este proyecto encaja con tu momento. Sin compromiso. Sin prisas.",
     "hablamosBoton": "Reservar una conversación",
     "pieFrase": "Vivir bien también es una decisión cotidiana.",
-    "pieNota": "Gemma Oña es distribuidora independiente de Enagic.",
+    "pieNota": "Gemma Oña · Emprendedora por cuenta propia.",
     "historiaAnio": "2023",
     "hablamosAviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona."
   }
