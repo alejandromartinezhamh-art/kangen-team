@@ -390,11 +390,20 @@ function doGet(e) {
   const k = (e && e.parameter && e.parameter.crm) || '';
   // Sin clave válida la página se abre igual, pero solo con la pantalla de acceso: los datos los
   // sirve crmDatos, que vuelve a comprobar la clave.
-  const t = HtmlService.createTemplateFromFile('CRM');
+  const t = plantillaCrm();
   t.clave = claveValida(k) ? k : '';
   return t.evaluate()
     .setTitle('Leads')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+}
+
+/** El archivo HTML del CRM; vale "CRM" o "crm", que es fácil equivocarse al crearlo. */
+function plantillaCrm() {
+  try {
+    return HtmlService.createTemplateFromFile('CRM');
+  } catch (e) {
+    return HtmlService.createTemplateFromFile('crm');
+  }
 }
 
 function claveValida(k) {
@@ -505,7 +514,13 @@ function instalar() {
 /** Escribe en el registro el enlace privado del CRM. */
 function enlaceCrm() {
   const crm = urlCrm();
-  console.log(crm ? 'CRM: ' + crm : 'Primero publica el script como aplicación web (Implementar → Nueva implementación).');
+  if (!crm) return console.log('Primero publica el script como aplicación web (Implementar → Nueva implementación).');
+  // Desde el editor, Google da la URL de pruebas (/dev), que solo abre quien edita el script.
+  if (/\/dev\?/.test(crm)) {
+    return console.log('CRM: copia la URL de la aplicación web (Implementar → Gestionar implementaciones, termina en /exec) y añade al final ?crm=' +
+      PropertiesService.getScriptProperties().getProperty('CLAVE'));
+  }
+  console.log('CRM: ' + crm);
 }
 
 /** Prueba de punta a punta: crea un lead de ejemplo y te envía el email del webinar a ti. */
