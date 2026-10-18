@@ -1,36 +1,38 @@
 import { Link } from 'react-router-dom';
-import { embudo } from '../config';
+import { embudo, fotos } from '../config';
+import Enfasis from '../componentes/Enfasis';
 
 // Página del enlace de la bio de Instagram, con el diseño de la portada de Gemma (foto redondeada,
 // etiquetas espaciadas, titular fino y botón negro en píldora). Un solo botón: al cuestionario del webinar.
+// Textos: contenido.json → instagram.
 export default function Instagram() {
-  const [nombre, ...apellidos] = embudo.nombreCompleto.split(' ');
+  const { general, instagram: t } = embudo;
   return (
     <div className="e-enlaces">
       <div className="e-barra">
-        <span className="marca">{embudo.nombreCompleto.toUpperCase()}</span>
-        <span className="kicker">Enlaces</span>
+        <span className="marca">{general.marca}</span>
+        <span className="kicker">{t.barra}</span>
       </div>
 
       <figure className="e-retrato">
-        <img className="foto" src="/foto.jpg" alt={embudo.nombreCompleto} />
-        <span className="photo-caption">{embudo.nombreCompleto.toUpperCase()}</span>
-        <span className="hero-caption">OTRA MANERA DE VIVIR Y TRABAJAR</span>
+        <img className="foto" src={fotos.retrato} alt={t.titulo.replaceAll('*', '')} />
+        <span className="photo-caption">{general.marca}</span>
+        <span className="hero-caption">{t.fotoTexto}</span>
       </figure>
 
       <main className="e-cuerpo">
-        <p className="kicker e-punto">{embudo.subtitulo}</p>
+        <p className="kicker e-punto">{t.etiqueta}</p>
         <h1 className="display e-nombre">
-          {nombre} <span className="suave">{apellidos.join(' ')}</span>
+          <Enfasis texto={t.titulo} />
         </h1>
         <Link to="/cuestionario?o=instagram" className="btn btn-oscuro e-boton">
-          <span>{embudo.boton}</span>
+          <span>{t.boton}</span>
           <span className="flecha" aria-hidden="true">↗</span>
         </Link>
       </main>
 
       <footer className="e-pie">
-        <Link to="/privacidad">Política de privacidad</Link>
+        <Link to="/privacidad">{t.privacidad}</Link>
         <span>© {new Date().getFullYear()}</span>
       </footer>
     </div>

@@ -24,11 +24,13 @@ Nombre: ______________________ Fecha de alta: ____________
 ## Web
 - [ ] `design.md` definido
 - [ ] Fotos seleccionadas y optimizadas en `assets/`
-- [ ] Textos en `config.ts` y portada
+- [ ] Textos, colores, letras y fotos en `contenido.json`, y portada
 - [ ] Primera landing creada
 - [ ] Revisada con las normas de comunicación
 - [ ] Primera versión enviada a la persona
 - [ ] Cambios aplicados y publicada
+- [ ] Editor activado: `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en su proyecto de Vercel
+- [ ] Mensaje *Tu editor* enviado con su enlace `/editar` y la contraseña
 - [ ] Dominio / enlace en su bio de redes
 
 ## Embudo de Instagram (opcional)
@@ -38,6 +40,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Hoja `Leads webinar <Nombre>` en su carpeta y script instalado, mejor desde su cuenta de Google
 - [ ] Proyecto de Vercel con `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` de su script
 - [ ] Prueba de punta a punta: cuestionario → fila en la hoja → email → CRM
+- [ ] Emails revisados con ella en su editor (`/editar` → Emails)
 - [ ] Vídeo del webinar puesto y enlace `/l/instagram` en su bio
 - [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
 

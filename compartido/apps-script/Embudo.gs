@@ -5,6 +5,9 @@
  * envía desde el Gmail del dueño de la hoja el email con el enlace del webinar, avisa a la
  * persona del equipo y, si a las 24 h no lo ha abierto, manda un recordatorio.
  *
+ * Los textos y colores de los emails se cambian desde el editor de la web (/editar → Emails): la web los
+ * manda con cada lead y aquí se guardan para el recordatorio. Si no llegan, se usan los de EMAIL_POR_DEFECTO.
+ *
  * Instalación: compartido/apps-script/README.md
  * Normas de los textos: estrategia/normas-comunicacion.md (sin cifras, sin promesas, sin producto).
  */
@@ -54,6 +57,35 @@ const COLUMNAS = [
   'Email webinar', 'Webinar abierto', 'Webinar visto', 'WhatsApp pulsado', 'Recordatorio', 'Quiere hablar',
   'Mensaje', 'Estado', 'Notas',
 ];
+
+// Textos de los emails cuando la web no manda los suyos (contenido.json → email). {nombre} = su nombre;
+// **texto** = negrita. Firma vacía = el nombre de PERSONAS.
+const EMAIL_POR_DEFECTO = {
+  webinar: {
+    asunto: 'Tu webinar: Otra manera de ganarse la vida',
+    saludo: '¡Hola, {nombre}!',
+    antes: ['Gracias por responder el cuestionario. Aquí tienes el webinar:'],
+    boton: 'Ver el webinar',
+    despues: [
+      'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
+        'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
+      'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
+    ],
+  },
+  recordatorio: {
+    asunto: '¿Has podido verlo, {nombre}?',
+    saludo: '¡Hola, {nombre}!',
+    antes: ['Ayer te envié el webinar y creo que aún no has podido verlo. Te lo dejo aquí otra vez, por si se te pasó:'],
+    boton: 'Ver el webinar',
+    despues: [
+      'Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. ' +
+        'Y si tienes cualquier duda antes, responde a este email.',
+    ],
+  },
+  despedida: 'Un abrazo,',
+  firma: '',
+  pie: 'Recibes este email porque lo pediste en el cuestionario. Si no quieres recibir más, responde con la palabra BAJA.',
+};
 
 // ---------- Entrada ----------
 
@@ -116,7 +148,7 @@ function registrarLead(d) {
     avisar(p, 'Quiere hablar contigo: ' + d.nombre, d, true);
     return;
   }
-  emailWebinar(p, d.nombre, d.email, valores['Id']);
+  emailWebinar(p, textosEmail(d.persona, d.textosEmail), d.nombre, d.email, valores['Id']);
   poner(hoja, fila, cab, 'Email webinar', ahora());
   avisar(p, 'Nuevo lead: ' + d.nombre, d, false);
 }
@@ -143,62 +175,111 @@ function registrarEvento(d) {
 
 // ---------- Emails ----------
 
+/**
+ * Textos de los emails de una persona: los que acaba de mandar la web o, si no llegan (recordatorio, fallo al
+ * leerlos), los últimos que mandó. Lo que falte sale de EMAIL_POR_DEFECTO.
+ */
+function textosEmail(persona, recibidos) {
+  const props = PropertiesService.getScriptProperties();
+  const clave = 'EMAIL_' + persona;
+  let t = recibidos && typeof recibidos === 'object' ? recibidos : null;
+  if (t) {
+    try { props.setProperty(clave, JSON.stringify(t)); } catch (err) { console.error('No se guardaron los textos del email', err); }
+  } else {
+    try { t = JSON.parse(props.getProperty(clave) || 'null'); } catch (err) { t = null; }
+  }
+  return combinar(EMAIL_POR_DEFECTO, t || {});
+}
+
+/** Copia de `base` con lo que traiga `encima` (textos no vacíos y listas con algo). */
+function combinar(base, encima) {
+  const r = {};
+  Object.keys(base).forEach(function (k) {
+    const b = base[k], e = encima[k];
+    if (b && typeof b === 'object' && !Array.isArray(b)) r[k] = combinar(b, e && typeof e === 'object' ? e : {});
+    else if (Array.isArray(b)) r[k] = Array.isArray(e) && e.length ? e.map(String) : b;
+    else r[k] = typeof e === 'string' && e.trim() ? e : b;
+  });
+  ['colores', 'foto', 'mayusculas'].forEach(function (k) { if (encima[k] !== undefined) r[k] = encima[k]; });
+  return r;
+}
+
+/** Colores y estilo del email: los de la web (editor) o, si no, los de PERSONAS. */
+function estiloEmail(p, t) {
+  const e = Object.assign({}, p.estilo);
+  const c = t.colores || {};
+  ['boton', 'textoBoton', 'titulo', 'texto', 'suave'].forEach(function (k) {
+    if (/^#[0-9a-f]{6}$/i.test(String(c[k] || ''))) e[k] = c[k];
+  });
+  if (typeof t.mayusculas === 'boolean') e.mayusculas = t.mayusculas;
+  return e;
+}
+
 function enlaceWebinar(p, id) {
   return p.web.replace(/\/$/, '') + '/webinar?l=' + encodeURIComponent(id);
 }
 
-function emailWebinar(p, nombre, email, id) {
+function emailWebinar(p, t, nombre, email, id) {
+  enviarPlantilla(p, t, t.webinar, nombre, email, enlaceWebinar(p, id));
+}
+
+function emailRecordatorio(p, t, nombre, email, id) {
+  enviarPlantilla(p, t, t.recordatorio, nombre, email, enlaceWebinar(p, id));
+}
+
+function escapar(s) {
+  return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+}
+
+/** Texto de la plantilla para el HTML: escapado, con {nombre} y **negritas**. */
+function rico(s, nombre) {
+  return escapar(s).replace(/\{nombre\}/g, escapar(nombre)).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+}
+
+/** Texto de la plantilla para la versión sin formato del email. */
+function plano(s, nombre) {
+  return String(s).replace(/\{nombre\}/g, nombre).replace(/\*\*([^*]+)\*\*/g, '$1');
+}
+
+// El HTML de los emails es el mismo que pinta la vista previa del editor (compartido/src/email.ts).
+// Si cambias uno, cambia el otro.
+function enviarPlantilla(p, t, e, nombre, email, enlace) {
   const primer = String(nombre).split(' ')[0];
-  const enlace = enlaceWebinar(p, id);
-  enviar(p, email, 'Tu webinar: Otra manera de ganarse la vida', [
-    '¡Hola, ' + primer + '!',
-    'Gracias por responder el cuestionario. Aquí tienes el webinar:',
-    boton(p, enlace, 'Ver el webinar'),
-    'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
-      'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
-    'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
-  ]);
-}
-
-function emailRecordatorio(p, nombre, email, id) {
-  const primer = String(nombre).split(' ')[0];
-  enviar(p, email, '¿Has podido verlo, ' + primer + '?', [
-    '¡Hola, ' + primer + '!',
-    'Ayer te envié el webinar y creo que aún no has podido verlo. Te lo dejo aquí otra vez, por si se te pasó:',
-    boton(p, enlaceWebinar(p, id), 'Ver el webinar'),
-    'Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. ' +
-      'Y si tienes cualquier duda antes, responde a este email.',
-  ]);
-}
-
-function boton(p, url, texto) {
-  const e = p.estilo;
-  return '<a href="' + url + '" style="display:inline-block;background:' + e.boton + ';color:' + e.textoBoton + ';text-decoration:none;' +
-    (e.mayusculas ? 'font-weight:700;text-transform:uppercase;font-size:13px' : 'font-weight:500;font-size:14px') +
-    ';padding:16px 28px;border-radius:36px">' + texto + ' →</a>';
-}
-
-/** Firma: "Un abrazo," y debajo la foto redonda con el nombre. */
-function firma(p) {
-  const nombre = '<span style="font-weight:' + (p.estilo.mayusculas ? 700 : 500) + ';color:' + p.estilo.titulo + '">' + p.nombre + '</span>';
-  if (!p.foto) return '<p style="margin:0 0 18px">Un abrazo,<br>' + nombre + '</p>';
-  return '<p style="margin:0 0 10px">Un abrazo,</p>' +
-    '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>' +
-    '<td style="padding:0 12px 0 0"><img src="' + p.foto + '" width="56" height="56" alt="' + p.nombre + '" ' +
-    'style="display:block;width:56px;height:56px;border-radius:50%;object-fit:cover"></td>' +
-    '<td style="font-family:Helvetica,Arial,sans-serif;font-size:16px">' + nombre + '</td>' +
-    '</tr></table>';
-}
-
-function enviar(p, para, asunto, parrafos) {
-  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:' + p.estilo.texto + ';max-width:520px">' +
-    parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') + firma(p) +
-    '<p style="margin:28px 0 0;font-size:12px;color:' + p.estilo.suave + '">Recibes este email porque lo pediste en el cuestionario. ' +
-    'Si no quieres recibir más, responde con la palabra BAJA.</p></div>';
-  const texto = parrafos.concat(['Un abrazo,\n' + p.nombre]).join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
-  const opciones = { htmlBody: html, name: p.nombre };
+  const estilo = estiloEmail(p, t);
+  const firmante = t.firma || p.nombre;
+  const parrafos = [rico(e.saludo, primer)]
+    .concat(e.antes.map(function (x) { return rico(x, primer); }))
+    .concat([boton(estilo, enlace, e.boton)])
+    .concat(e.despues.map(function (x) { return rico(x, primer); }));
+  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:' + estilo.texto + ';max-width:520px">' +
+    parrafos.map(function (x) { return '<p style="margin:0 0 18px">' + x + '</p>'; }).join('') +
+    firma(estilo, t.despedida, firmante, t.foto || p.foto) +
+    '<p style="margin:28px 0 0;font-size:12px;color:' + estilo.suave + '">' + escapar(t.pie) + '</p></div>';
+  const texto = [plano(e.saludo, primer)]
+    .concat(e.antes.map(function (x) { return plano(x, primer); }), [enlace], e.despues.map(function (x) { return plano(x, primer); }))
+    .concat([t.despedida + '\n' + firmante, t.pie])
+    .join('\n\n');
+  const opciones = { htmlBody: html, name: firmante };
   if (p.responder) opciones.replyTo = p.responder;
-  MailApp.sendEmail(para, asunto, texto, opciones);
+  MailApp.sendEmail(email, plano(e.asunto, primer), texto, opciones);
+}
+
+function boton(estilo, url, texto) {
+  return '<a href="' + escapar(url) + '" style="display:inline-block;background:' + estilo.boton + ';color:' + estilo.textoBoton + ';text-decoration:none;' +
+    (estilo.mayusculas ? 'font-weight:700;text-transform:uppercase;font-size:13px' : 'font-weight:500;font-size:14px') +
+    ';padding:16px 28px;border-radius:36px">' + escapar(texto) + ' →</a>';
+}
+
+/** Firma: la despedida y debajo la foto redonda con el nombre. */
+function firma(estilo, despedida, nombre, foto) {
+  const n = '<span style="font-weight:' + (estilo.mayusculas ? 700 : 500) + ';color:' + estilo.titulo + '">' + escapar(nombre) + '</span>';
+  if (!foto) return '<p style="margin:0 0 18px">' + escapar(despedida) + '<br>' + n + '</p>';
+  return '<p style="margin:0 0 10px">' + escapar(despedida) + '</p>' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>' +
+    '<td style="padding:0 12px 0 0"><img src="' + escapar(foto) + '" width="56" height="56" alt="' + escapar(nombre) + '" ' +
+    'style="display:block;width:56px;height:56px;border-radius:50%;object-fit:cover"></td>' +
+    '<td style="font-family:Helvetica,Arial,sans-serif;font-size:16px">' + n + '</td>' +
+    '</tr></table>';
 }
 
 function avisar(p, asunto, d, quiereHablar) {
@@ -229,7 +310,7 @@ function recordatorios() {
     if (new Date(enviado).getTime() > limite) continue;
     const p = PERSONAS[v[cab.indexOf('Persona')]];
     if (!p) continue;
-    emailRecordatorio(p, v[cab.indexOf('Nombre')], v[cab.indexOf('Email')], v[cab.indexOf('Id')]);
+    emailRecordatorio(p, textosEmail(v[cab.indexOf('Persona')], null), v[cab.indexOf('Nombre')], v[cab.indexOf('Email')], v[cab.indexOf('Id')]);
     hoja.getRange(i + 1, cab.indexOf('Recordatorio') + 1).setValue(ahora());
     avanzar(hoja, i + 1, cab, 'Recontactado');
   }

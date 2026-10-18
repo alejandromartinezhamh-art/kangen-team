@@ -31,6 +31,8 @@ export interface Lead {
   id?: string;
   /** Respuestas del cuestionario: pregunta → respuesta */
   respuestas?: Record<string, string>;
+  /** Textos de los emails (contenido.json → email). Lo añade /api/lead, nunca el navegador. */
+  textosEmail?: Record<string, unknown>;
 }
 
 /** Algo que hace un lead ya registrado, p. ej. abrir el webinar desde el email */

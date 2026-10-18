@@ -1,10 +1,7 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { montar } from '@equipo/compartido';
 import App from './App';
+import contenido from './contenido.json';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+// montar() aplica los colores y letras de contenido.json y deja que el editor (/editar) repinte la web.
+montar(App, contenido);
