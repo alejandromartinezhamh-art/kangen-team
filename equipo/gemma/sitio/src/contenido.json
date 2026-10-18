@@ -212,7 +212,7 @@
     ],
     "boton": "Enviar",
     "enviando": "Enviando…",
-    "error": "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.",
+    "error": "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo. (prueba)",
     "gracias": {
       "etiqueta": "Hecho",
       "titulo": "Listo, ya lo tienes en tu *email*",
