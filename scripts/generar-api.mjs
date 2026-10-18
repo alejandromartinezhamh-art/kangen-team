@@ -5,7 +5,7 @@
 import { build } from 'esbuild';
 import { readdirSync, rmSync, existsSync } from 'node:fs';
 
-// '.' = raíz del repositorio: el proyecto de Vercel 'kangen' compila desde ahí (vercel.json).
+// '.' = raíz del repositorio: el proyecto de Vercel 'alejandromartinez' compila desde ahí (vercel.json).
 const destinos = ['.', 'plantilla/sitio', ...readdirSync('equipo').map((p) => `equipo/${p}/sitio`)];
 for (const dir of destinos) {
   const viejo = `${dir}/api/lead.ts`;

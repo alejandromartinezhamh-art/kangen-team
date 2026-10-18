@@ -5,7 +5,7 @@ import contenido from './contenido.json';
 export const persona: ConfigPersona = {
   id: 'gemma',
   nombre: 'Gemma',
-  dominio: 'PENDIENTE',
+  dominio: 'gemma-ona.vercel.app',
   email: 'gemma.gov1986@gmail.com',
   // Solo números, con prefijo y sin "+". Sin él no salen los botones de WhatsApp.
   whatsapp: '34669001442',

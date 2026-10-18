@@ -21,6 +21,12 @@ Contenido actual de Templates:
 | 03 Checklist persona nueva (Google Doc) | `estrategia/plantillas/03 Checklist persona nueva.md` |
 | Landing Kangen NOMBRE (estructura de carpetas) | Estructura descrita en la guía 00 |
 
+## URL de las webs
+
+Cada web se publica con el **nombre y el apellido** de la persona, nunca con la marca: proyecto de Vercel (o Cloudflare) `nombre-apellido`,
+en minúsculas y sin tildes ni ñ (`gemma-ona.vercel.app`). Si ya está cogido, todo junto (`alejandromartinez.vercel.app`).
+Comprueba antes que la URL está libre y, al publicar, actualiza su `README.md`, `dominio` en `config.ts` y su entrada en `PERSONAS` de `Embudo.gs`.
+
 ## Normas de comunicación
 
 Antes de escribir cualquier texto público (webs, landings, anuncios, contenido), aplica `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.

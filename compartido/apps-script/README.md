@@ -31,7 +31,7 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
    Ejecutar como: **Yo**. Quién tiene acceso: **Cualquier usuario**. Implementar y copia la **URL de la aplicación web**
    (termina en `/exec`).
 6. Variables de entorno de la web:
-   - Vercel (proyecto `kangen`) → Settings → Environment Variables: `LEADS_WEBHOOK_URL` = la URL del paso 5,
+   - Vercel (proyecto `alejandromartinez`) → Settings → Environment Variables: `LEADS_WEBHOOK_URL` = la URL del paso 5,
      `LEADS_WEBHOOK_SECRET` = la clave del paso 4. Volver a desplegar.
    - Cloudflare (Worker `kangen-team`) → Settings → Variables and Secrets: las mismas dos, como *Secret*.
 7. Prueba: en Apps Script ejecuta **probar**. Te llega a ti el email del webinar y el aviso, y aparece una fila de prueba.
@@ -47,13 +47,13 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 1. **Su web**: copia de `equipo/alejandro/sitio` las piezas del embudo (`cuestionario.ts`, `paginas/Cuestionario.tsx`,
    `paginas/Webinar.tsx`, `componentes/VideoWebinar.tsx`, `landings/Instagram.tsx`) y adáptalas a su diseño
    (así está hecho `equipo/gemma/sitio`, con `embudo.css`). En su `config.ts`: su WhatsApp y el vídeo del webinar.
-2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web, foto de la firma y colores de su web.
+2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web (`https://nombre-apellido.vercel.app`), foto de la firma y colores de su web.
 3. **Su hoja**: `Leads webinar <Nombre>` en su carpeta de Drive. Sigue la instalación de arriba con estos cambios:
    - en el script, `const PERSONA = '<su clave>';` (p. ej. `'gemma'`);
    - **mejor que lo instale ella con su cuenta de Google**: los emails salen de su Gmail y las respuestas y avisos le
      llegan a ella. Si lo instala otra persona, los emails salen del Gmail de quien instala (con el nombre de ella):
      pon entonces su email en `aviso` y en `responder` de su entrada en `PERSONAS`.
-4. **Su proyecto de Vercel**, con *Root Directory* `equipo/<persona>/sitio` y las dos variables
+4. **Su proyecto de Vercel**, llamado `nombre-apellido` (es su URL; nunca la marca), con *Root Directory* `equipo/<persona>/sitio` y las dos variables
    (`LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET`) de **su** script.
 
 ## CRM (ver y gestionar los leads)

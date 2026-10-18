@@ -14,9 +14,9 @@
 const PERSONAS = {
   alejandro: {
     nombre: 'Alejandro Martínez',
-    web: 'https://kangen-ochre.vercel.app',
+    web: 'https://alejandromartinez.vercel.app',
     // Foto redonda de la firma de los emails (vacío = sin foto)
-    foto: 'https://kangen-ochre.vercel.app/foto.jpg',
+    foto: 'https://alejandromartinez.vercel.app/foto.jpg',
     // Dónde llegan los avisos de leads. Vacío = el email de la cuenta que instala el script
     aviso: '',
     // Respuestas de los leads. Vacío = la cuenta que envía (la que instala el script)

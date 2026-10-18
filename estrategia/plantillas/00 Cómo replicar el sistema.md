@@ -34,7 +34,7 @@ Regla de oro: **solo se avanza con lo que la persona entrega.** Si no hay cuesti
 4. Comparte la carpeta con la persona como **Editor**.
 
 ### En el repositorio
-1. `npm run nueva-persona -- "<Nombre>"`: crea `equipo/<nombre>/` a partir de `plantilla/`.
+1. `npm run nueva-persona -- "<Nombre>" "<Apellido>"`: crea `equipo/<nombre>/` a partir de `plantilla/` y te dice cuál será la URL de su web.
 2. Pon en `equipo/<nombre>/README.md` el enlace a su carpeta de Drive.
 
 ### Mensaje
@@ -69,7 +69,7 @@ Resultado: `equipo/<nombre>/brief.md` completo.
 2. Fotos elegidas a `02 Fotos seleccionadas web` y optimizadas a `assets/` del repositorio (JPG/WebP, máx. 2000 px, < 500 KB).
 3. Textos en `sitio/src/config.ts`, portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña o enfoque en `sitio/src/landings/`.
-5. Publicar (Cloudflare o Vercel, ver README del repositorio). El nombre del proyecto y el dominio, con su nombre y sin la marca (p. ej. `gemma-ona.vercel.app`).
+5. Publicar (Cloudflare o Vercel, ver README del repositorio). **La URL lleva su nombre y apellido, nunca la marca**: proyecto `nombre-apellido`, en minúsculas y sin tildes ni ñ (p. ej. `gemma-ona.vercel.app`). Si ya está cogido, todo junto (`alejandromartinez.vercel.app`).
 6. Embudo de Instagram (opcional): bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `sitio/src/cuestionario.ts`) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo a otra persona: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplo hecho: Gemma, con su diseño en `equipo/gemma/sitio/src/embudo.css`).
    - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar.
    - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.

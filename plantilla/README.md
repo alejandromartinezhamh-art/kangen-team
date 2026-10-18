@@ -4,8 +4,8 @@
 |---|---|
 | **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
 | **Carpeta de Drive** | PENDIENTE |
-| **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/__ID__/sitio`) |
+| **Web publicada** | PENDIENTE (será https://__PROYECTO__.vercel.app) |
+| **Proyecto Vercel** | PENDIENTE: `__PROYECTO__` (Root Directory: `equipo/__ID__/sitio`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí

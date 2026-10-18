@@ -68,7 +68,7 @@ Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
 ```bash
 npm install                                   # en la raíz, una vez
 npm run dev -- sitio-alejandro                # arranca la web de una persona en localhost:3000
-npm run nueva-persona -- "Nombre"             # añade a alguien nuevo
+npm run nueva-persona -- "Nombre" "Apellido"  # añade a alguien nuevo
 ```
 
 El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`).
@@ -77,7 +77,8 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 
 ### Alejandro
 
-- **Vercel** (proyecto `kangen`): https://kangen-ochre.vercel.app — `/l/instagram` y `/webinar`
+- **Vercel** (proyecto `alejandromartinez`): https://alejandromartinez.vercel.app — `/l/instagram` y `/webinar`.
+  La antigua `kangen-ochre.vercel.app` redirige aquí, con la misma ruta, para que no se rompan los enlaces ya enviados.
 - **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): misma web, formulario guardando en D1
 
 ### Gemma
@@ -85,10 +86,17 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 - **Vercel** (proyecto `gemma-ona`, Root Directory `equipo/gemma/sitio`): https://gemma-ona.vercel.app — embudo de Instagram.
   Su portada (`/`) lleva a `/l/instagram` hasta revisar los textos de la web (`webPublicada` en `sitio/src/App.tsx`).
 
+## URL de cada web: nombre y apellido
+
+Cada web se publica con el nombre y el apellido de la persona, **nunca con la marca**: en minúsculas, sin tildes ni ñ,
+separados por un guion (`gemma-ona.vercel.app`). Si ya está cogido, todo junto (`alejandromartinez.vercel.app`).
+`npm run nueva-persona` ya te dice cuál le toca. El nombre del proyecto (Vercel o Cloudflare) es el mismo.
+
 ## Publicación (Cloudflare Pages, recomendado)
 
 Un proyecto de Pages por persona, todos conectados a este repositorio:
 
+- **Nombre del proyecto:** `nombre-apellido` (su URL será `nombre-apellido.pages.dev`)
 - **Directorio raíz:** `equipo/<persona>/sitio` · **Compilación:** `npm run build` · **Salida:** `dist`
 - **Enlace D1:** variable `DB` → base de datos `leads-equipo` (tabla `leads`, compartida por todo el equipo)
 - El formulario usa `sitio/functions/api/lead.ts` → `compartido/api/lead-cloudflare.ts`
@@ -97,10 +105,11 @@ Un proyecto de Pages por persona, todos conectados a este repositorio:
 
 Un proyecto de Vercel por persona, todos conectados a este repositorio:
 
+- **Nombre del proyecto:** `nombre-apellido` (su URL será `nombre-apellido.vercel.app`)
 - **Root Directory:** `equipo/<persona>/sitio`
 - **Framework:** Vite
 - **Variable de entorno:** `LEADS_WEBHOOK_URL`, el destino donde se guardan los leads (Google Sheets, Make, etc.)
-- **Dominio:** subdominio del dominio común (`persona.dominio.com`) o dominio propio.
+- **Dominio propio (opcional):** subdominio del dominio común (`persona.dominio.com`) o uno suyo, también sin la marca.
 
 Cada lead llega con `persona` y `origen` (landing) para medir qué contenido y qué anuncio funciona.
 

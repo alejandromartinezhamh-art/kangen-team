@@ -6,7 +6,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Carpeta `Landing Kangen <Nombre>` creada en Drive con las 8 subcarpetas
 - [ ] Copia del cuestionario en su carpeta, renombrada con su nombre
 - [ ] Carpeta compartida con la persona como Editor
-- [ ] `npm run nueva-persona -- "<Nombre>"` ejecutado en el repositorio
+- [ ] `npm run nueva-persona -- "<Nombre>" "<Apellido>"` ejecutado en el repositorio
 - [ ] Enlace de Drive puesto en `equipo/<nombre>/README.md`
 - [ ] Mensaje de bienvenida enviado
 
@@ -28,7 +28,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Primera landing creada
 - [ ] Revisada con las normas de comunicación
 - [ ] Primera versión enviada a la persona
-- [ ] Cambios aplicados y publicada
+- [ ] Cambios aplicados y publicada en `nombre-apellido.vercel.app` (sin la marca; si está cogido, todo junto)
 - [ ] Dominio / enlace en su bio de redes
 
 ## Embudo de Instagram (opcional)
@@ -36,7 +36,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] `/l/instagram`, `/cuestionario` y `/webinar` con su diseño (ejemplo: `equipo/gemma/sitio`)
 - [ ] Su entrada en `PERSONAS` del script (`compartido/apps-script/Embudo.gs`)
 - [ ] Hoja `Leads webinar <Nombre>` en su carpeta y script instalado, mejor desde su cuenta de Google
-- [ ] Proyecto de Vercel con `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` de su script
+- [ ] Proyecto de Vercel `nombre-apellido` con `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` de su script
 - [ ] Prueba de punta a punta: cuestionario → fila en la hoja → email → CRM
 - [ ] Vídeo del webinar puesto y enlace `/l/instagram` en su bio
 - [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
