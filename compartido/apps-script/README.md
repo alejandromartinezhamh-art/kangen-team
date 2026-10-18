@@ -76,8 +76,11 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 1. En Apps Script: **+ → HTML**, nómbralo `CRM` (sin .html) y pega `CRM.html`.
 2. Guarda y publica una versión nueva: **Implementar → Gestionar implementaciones → lápiz → Versión: Nueva versión → Implementar**.
    La URL no cambia.
-3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Guárdalo en favoritos o en la pantalla de
-   inicio del móvil y **no lo compartas**: con él se ven todos los leads.
+3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Si lo ejecutas desde el editor, Google solo
+   da la URL de pruebas (`/dev`); entonces el enlace es la URL de la aplicación web (la que termina en `/exec`) + `?crm=CLAVE`.
+   También se abre desde la hoja: menú **Leads → Abrir CRM**. Guárdalo en favoritos o en la pantalla de inicio del móvil y
+   **no lo compartas** fuera del equipo: con él se ven todos los leads.
+   El archivo tiene que llamarse exactamente `CRM`, en mayúsculas: si se llama `crm`, el enlace da error.
 
 ## Uso diario
 

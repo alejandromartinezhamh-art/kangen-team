@@ -423,7 +423,13 @@ function instalar() {
 /** Escribe en el registro el enlace privado del CRM. */
 function enlaceCrm() {
   const crm = urlCrm();
-  console.log(crm ? 'CRM: ' + crm : 'Primero publica el script como aplicación web (Implementar → Nueva implementación).');
+  if (!crm) return console.log('Primero publica el script como aplicación web (Implementar → Nueva implementación).');
+  // Desde el editor, Google da la URL de pruebas (/dev), que solo abre quien edita el script.
+  if (/\/dev\?/.test(crm)) {
+    return console.log('CRM: copia la URL de la aplicación web (Implementar → Gestionar implementaciones, termina en /exec) y añade al final ?crm=' +
+      PropertiesService.getScriptProperties().getProperty('CLAVE'));
+  }
+  console.log('CRM: ' + crm);
 }
 
 /** Prueba de punta a punta: crea un lead de ejemplo y te envía el email del webinar a ti. */
