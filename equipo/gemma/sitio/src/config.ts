@@ -6,16 +6,16 @@ export const persona: ConfigPersona = {
   id: 'gemma',
   nombre: 'Gemma',
   dominio: 'PENDIENTE',
-  email: 'PENDIENTE',
-  // Solo números, con prefijo y sin "+" (p. ej. 34600000000). Sin él no salen los botones de WhatsApp.
-  whatsapp: undefined,
+  email: 'gemma.gov1986@gmail.com',
+  // Solo números, con prefijo y sin "+". Sin él no salen los botones de WhatsApp.
+  whatsapp: '34669001442',
   instagram: undefined,
   tiktok: undefined,
   legal: {
     titular: 'PENDIENTE',
     nif: 'PENDIENTE',
     domicilio: 'PENDIENTE',
-    email: 'PENDIENTE',
+    email: 'gemma.gov1986@gmail.com',
   },
 };
 
