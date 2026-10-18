@@ -21,6 +21,11 @@ Contenido actual de Templates:
 | 03 Checklist persona nueva (Google Doc) | `estrategia/plantillas/03 Checklist persona nueva.md` |
 | Landing Kangen NOMBRE (estructura de carpetas) | Estructura descrita en la guía 00 |
 
+## Repositorios
+
+- Todas las webs de Kangen (la de Alejandro y las del equipo) viven en este repositorio, `kangen-team`, y sus proyectos de Vercel se conectan a él.
+- La web de headhunting de Alejandro (proyecto de Vercel `amhh`, repositorio `amhh`) es aparte: nunca va en un repositorio de Kangen ni se toca desde aquí.
+
 ## URL de las webs
 
 Cada web se publica con el **nombre y el apellido** de la persona, nunca con la marca: proyecto de Vercel (o Cloudflare) `nombre-apellido`,
