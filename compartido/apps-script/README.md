@@ -98,6 +98,9 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Guárdalo en favoritos o en la pantalla de
    inicio del móvil y **no lo compartas**: con él se ven todos los leads.
 
+La URL sin `?crm=` (`…/exec`) abre el CRM con una pantalla que pide la clave y la recuerda en ese navegador ("Salir" la borra).
+Es la que va en paneles compartidos, como "Webs del equipo": sin la clave no se ve ningún lead.
+
 ## Uso diario
 
 - Columna **Estado**: mejor desde el CRM. Con `Descartado` no recibe el recordatorio.

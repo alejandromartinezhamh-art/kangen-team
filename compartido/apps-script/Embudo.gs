@@ -381,16 +381,17 @@ function ahora() {
   return new Date();
 }
 
-// ---------- CRM (la URL de la aplicación web + ?crm=CLAVE) ----------
+// ---------- CRM (la URL de la aplicación web; con ?crm=CLAVE entra directo, sin ella pide la clave) ----------
 
 const CAMPOS_EDITABLES = ['Estado', 'Notas'];
 const FIJAS = COLUMNAS.concat(['Instagram']);
 
 function doGet(e) {
   const k = (e && e.parameter && e.parameter.crm) || '';
-  if (!claveValida(k)) return HtmlService.createHtmlOutput('<p style="font-family:sans-serif">Enlace no válido.</p>');
+  // Sin clave válida la página se abre igual, pero solo con la pantalla de acceso: los datos los
+  // sirve crmDatos, que vuelve a comprobar la clave.
   const t = HtmlService.createTemplateFromFile('CRM');
-  t.clave = k;
+  t.clave = claveValida(k) ? k : '';
   return t.evaluate()
     .setTitle('Leads')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
