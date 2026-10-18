@@ -73,10 +73,17 @@ npm run nueva-persona -- "Nombre"             # añade a alguien nuevo
 
 El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`).
 
-## Publicación actual de Alejandro
+## Publicación actual
+
+### Alejandro
 
 - **Vercel** (proyecto `kangen`): https://kangen-ochre.vercel.app — `/l/instagram` y `/webinar`
 - **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): misma web, formulario guardando en D1
+
+### Gemma
+
+- **Vercel** (proyecto `gemma-ona`, Root Directory `equipo/gemma/sitio`): https://gemma-ona.vercel.app — embudo de Instagram.
+  Su portada (`/`) lleva a `/l/instagram` hasta revisar los textos de la web (`webPublicada` en `sitio/src/App.tsx`).
 
 ## Publicación (Cloudflare Pages, recomendado)
 

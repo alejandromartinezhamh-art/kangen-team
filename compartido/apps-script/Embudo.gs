@@ -9,17 +9,33 @@
  * Normas de los textos: estrategia/normas-comunicacion.md (sin cifras, sin promesas, sin producto).
  */
 
-// Una entrada por persona del equipo que use esta hoja. La clave es el "persona" de su web (config.ts).
+// Una entrada por persona del equipo. La clave es el "persona" de su web (config.ts).
+// Cada persona tiene su propia hoja con este mismo script; PERSONA dice de quién es esta.
 const PERSONAS = {
   alejandro: {
     nombre: 'Alejandro Martínez',
     web: 'https://kangen-ochre.vercel.app',
-    // Foto redonda en la cabecera de los emails (vacío = sin foto)
+    // Foto redonda de la firma de los emails (vacío = sin foto)
     foto: 'https://kangen-ochre.vercel.app/foto.jpg',
-    // Vacío = el email de la cuenta de Google dueña de la hoja
+    // Dónde llegan los avisos de leads. Vacío = el email de la cuenta que instala el script
     aviso: '',
+    // Respuestas de los leads. Vacío = la cuenta que envía (la que instala el script)
+    responder: '',
+    // Colores de los emails, los de su web
+    estilo: { boton: '#100904', textoBoton: '#ffedd7', titulo: '#100904', texto: '#2b2118', suave: '#7a6a5a', mayusculas: true },
+  },
+  gemma: {
+    nombre: 'Gemma Oña',
+    web: 'https://gemma-ona.vercel.app',
+    foto: 'https://gemma-ona.vercel.app/foto-email.jpg',
+    aviso: '',
+    responder: '',
+    estilo: { boton: '#000000', textoBoton: '#fdfcfc', titulo: '#000000', texto: '#44403b', suave: '#a59f97', mayusculas: false },
   },
 };
+
+// Persona de esta hoja (una de PERSONAS). Se usa en probar().
+const PERSONA = 'alejandro';
 
 // Script independiente (fuera de la hoja): id de la hoja. Vacío = el script vive dentro de la hoja.
 const ID_HOJA = '';
@@ -137,7 +153,7 @@ function emailWebinar(p, nombre, email, id) {
   enviar(p, email, 'Tu webinar: Otra manera de ganarse la vida', [
     '¡Hola, ' + primer + '!',
     'Gracias por responder el cuestionario. Aquí tienes el webinar:',
-    boton(enlace, 'Ver el webinar'),
+    boton(p, enlace, 'Ver el webinar'),
     'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
       'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
     'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
@@ -149,20 +165,22 @@ function emailRecordatorio(p, nombre, email, id) {
   enviar(p, email, '¿Has podido verlo, ' + primer + '?', [
     '¡Hola, ' + primer + '!',
     'Ayer te envié el webinar y creo que aún no has podido verlo. Te lo dejo aquí otra vez, por si se te pasó:',
-    boton(enlaceWebinar(p, id), 'Ver el webinar'),
+    boton(p, enlaceWebinar(p, id), 'Ver el webinar'),
     'Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. ' +
       'Y si tienes cualquier duda antes, responde a este email.',
   ]);
 }
 
-function boton(url, texto) {
-  return '<a href="' + url + '" style="display:inline-block;background:#100904;color:#ffedd7;text-decoration:none;' +
-    'font-weight:700;text-transform:uppercase;font-size:13px;padding:16px 28px;border-radius:36px">' + texto + ' →</a>';
+function boton(p, url, texto) {
+  const e = p.estilo;
+  return '<a href="' + url + '" style="display:inline-block;background:' + e.boton + ';color:' + e.textoBoton + ';text-decoration:none;' +
+    (e.mayusculas ? 'font-weight:700;text-transform:uppercase;font-size:13px' : 'font-weight:500;font-size:14px') +
+    ';padding:16px 28px;border-radius:36px">' + texto + ' →</a>';
 }
 
 /** Firma: "Un abrazo," y debajo la foto redonda con el nombre. */
 function firma(p) {
-  const nombre = '<span style="font-weight:700;color:#100904">' + p.nombre + '</span>';
+  const nombre = '<span style="font-weight:' + (p.estilo.mayusculas ? 700 : 500) + ';color:' + p.estilo.titulo + '">' + p.nombre + '</span>';
   if (!p.foto) return '<p style="margin:0 0 18px">Un abrazo,<br>' + nombre + '</p>';
   return '<p style="margin:0 0 10px">Un abrazo,</p>' +
     '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>' +
@@ -173,12 +191,14 @@ function firma(p) {
 }
 
 function enviar(p, para, asunto, parrafos) {
-  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:#2b2118;max-width:520px">' +
+  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:' + p.estilo.texto + ';max-width:520px">' +
     parrafos.map(function (t) { return '<p style="margin:0 0 18px">' + t + '</p>'; }).join('') + firma(p) +
-    '<p style="margin:28px 0 0;font-size:12px;color:#7a6a5a">Recibes este email porque lo pediste en el cuestionario. ' +
+    '<p style="margin:28px 0 0;font-size:12px;color:' + p.estilo.suave + '">Recibes este email porque lo pediste en el cuestionario. ' +
     'Si no quieres recibir más, responde con la palabra BAJA.</p></div>';
   const texto = parrafos.concat(['Un abrazo,\n' + p.nombre]).join('\n\n').replace(/<br>/g, '\n').replace(/<a href="([^"]+)"[^>]*>[^<]*<\/a>/g, '$1');
-  MailApp.sendEmail(para, asunto, texto, { htmlBody: html, name: p.nombre });
+  const opciones = { htmlBody: html, name: p.nombre };
+  if (p.responder) opciones.replyTo = p.responder;
+  MailApp.sendEmail(para, asunto, texto, opciones);
 }
 
 function avisar(p, asunto, d, quiereHablar) {
@@ -409,8 +429,9 @@ function enlaceCrm() {
 /** Prueba de punta a punta: crea un lead de ejemplo y te envía el email del webinar a ti. */
 function probar() {
   const yo = Session.getEffectiveUser().getEmail();
+  if (!PERSONAS[PERSONA]) throw new Error('PERSONA tiene que ser una de: ' + Object.keys(PERSONAS).join(', '));
   registrarLead({
-    persona: 'alejandro', origen: 'prueba', nombre: 'Prueba', email: yo, telefono: '+34600000000',
+    persona: PERSONA, origen: 'prueba', nombre: 'Prueba', email: yo, telefono: '+34600000000',
     id: 'prueba' + Date.now().toString(36), respuestas: { '¿Pregunta de prueba?': 'Respuesta de prueba' },
   });
 }

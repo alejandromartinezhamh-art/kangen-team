@@ -31,6 +31,16 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Cambios aplicados y publicada
 - [ ] Dominio / enlace en su bio de redes
 
+## Embudo de Instagram (opcional)
+- [ ] Foto para la página de Instagram y la firma del email, y su WhatsApp
+- [ ] `/l/instagram`, `/cuestionario` y `/webinar` con su diseño (ejemplo: `equipo/gemma/sitio`)
+- [ ] Su entrada en `PERSONAS` del script (`compartido/apps-script/Embudo.gs`)
+- [ ] Hoja `Leads webinar <Nombre>` en su carpeta y script instalado, mejor desde su cuenta de Google
+- [ ] Proyecto de Vercel con `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` de su script
+- [ ] Prueba de punta a punta: cuestionario → fila en la hoja → email → CRM
+- [ ] Vídeo del webinar puesto y enlace `/l/instagram` en su bio
+- [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
+
 ## Contenido y anuncios
 - [ ] Primeras 10 ideas de contenido sacadas del cuestionario
 - [ ] Primera ficha de anuncio
