@@ -118,7 +118,8 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 
 ### Alejandro
 
-- **Vercel** (proyecto `kangen`): https://kangen-ochre.vercel.app — `/l/instagram` y `/webinar`
+- **Vercel** (proyecto `kangen`): https://alejandromartinez.vercel.app — `/l/instagram` y `/webinar`
+  (`kangen-ochre.vercel.app` redirige aquí, así que los enlaces antiguos siguen funcionando)
 - **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): misma web, formulario guardando en D1
 
 ### Gemma
