@@ -1,10 +1,7 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { montar } from '@equipo/compartido';
 import App from './App';
+import contenido from './contenido.json';
 import './index.css';
+import './embudo.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+montar(App, contenido);
