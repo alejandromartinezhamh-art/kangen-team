@@ -308,11 +308,20 @@ const FIJAS = COLUMNAS.concat(['Instagram']);
 function doGet(e) {
   const k = (e && e.parameter && e.parameter.crm) || '';
   if (!claveValida(k)) return HtmlService.createHtmlOutput('<p style="font-family:sans-serif">Enlace no válido.</p>');
-  const t = HtmlService.createTemplateFromFile('CRM');
+  const t = plantillaCrm();
   t.clave = k;
   return t.evaluate()
     .setTitle('Leads')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+}
+
+/** El archivo HTML del CRM; vale "CRM" o "crm", que es fácil equivocarse al crearlo. */
+function plantillaCrm() {
+  try {
+    return HtmlService.createTemplateFromFile('CRM');
+  } catch (e) {
+    return HtmlService.createTemplateFromFile('crm');
+  }
 }
 
 function claveValida(k) {

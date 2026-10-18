@@ -80,7 +80,7 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
    da la URL de pruebas (`/dev`); entonces el enlace es la URL de la aplicación web (la que termina en `/exec`) + `?crm=CLAVE`.
    También se abre desde la hoja: menú **Leads → Abrir CRM**. Guárdalo en favoritos o en la pantalla de inicio del móvil y
    **no lo compartas** fuera del equipo: con él se ven todos los leads.
-   El archivo tiene que llamarse exactamente `CRM`, en mayúsculas: si se llama `crm`, el enlace da error.
+   El archivo se llama `CRM` (también vale `crm`).
 
 ## Uso diario
 
