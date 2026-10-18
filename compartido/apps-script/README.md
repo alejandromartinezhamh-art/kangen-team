@@ -20,7 +20,8 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
 1. Abre la hoja (Alejandro: `Landing Kangen Alejandro/Leads webinar Alejandro` en Drive).
 2. **Extensiones → Apps Script**. Borra lo que haya en `Código.gs` y pega todo `Embudo.gs`
    (en Drive está también como documento: `Script del embudo (copiar en Apps Script)`).
-   Revisa `PERSONAS` arriba del todo: la web de cada persona y, si quiere, otro email para los avisos.
+   Revisa arriba del todo `PERSONAS` (la web de cada persona y, si quiere, otro email para los avisos) y que
+   `PERSONA` sea la persona de esta hoja.
 3. Guarda (icono del disquete). Arriba, en el desplegable de funciones, elige **instalar** y pulsa **Ejecutar**.
    Google pide permisos (hoja, enviar emails en tu nombre y activadores): tu cuenta → "Configuración avanzada" → "Ir a … (no seguro)" → Permitir.
    Es normal: el script es tuyo y no está verificado por Google.
@@ -38,6 +39,22 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
 
 **Si cambias el código del script:** Implementar → Gestionar implementaciones → editar (lápiz) → Versión: *Nueva versión*.
 Así la URL no cambia.
+
+## Otra persona del equipo (ejemplo: Gemma)
+
+Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mismo para todas.
+
+1. **Su web**: copia de `equipo/alejandro/sitio` las piezas del embudo (`cuestionario.ts`, `paginas/Cuestionario.tsx`,
+   `paginas/Webinar.tsx`, `componentes/VideoWebinar.tsx`, `landings/Instagram.tsx`) y adáptalas a su diseño
+   (así está hecho `equipo/gemma/sitio`, con `embudo.css`). En su `config.ts`: su WhatsApp y el vídeo del webinar.
+2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web, foto de la firma y colores de su web.
+3. **Su hoja**: `Leads webinar <Nombre>` en su carpeta de Drive. Sigue la instalación de arriba con estos cambios:
+   - en el script, `const PERSONA = '<su clave>';` (p. ej. `'gemma'`);
+   - **mejor que lo instale ella con su cuenta de Google**: los emails salen de su Gmail y las respuestas y avisos le
+     llegan a ella. Si lo instala otra persona, los emails salen del Gmail de quien instala (con el nombre de ella):
+     pon entonces su email en `aviso` y en `responder` de su entrada en `PERSONAS`.
+4. **Su proyecto de Vercel**, con *Root Directory* `equipo/<persona>/sitio` y las dos variables
+   (`LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET`) de **su** script.
 
 ## CRM (ver y gestionar los leads)
 

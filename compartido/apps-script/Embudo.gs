@@ -26,8 +26,8 @@ const PERSONAS = {
   },
   gemma: {
     nombre: 'Gemma Oña',
-    web: 'https://kangen-gemma.vercel.app',
-    foto: 'https://kangen-gemma.vercel.app/foto-email.jpg',
+    web: 'https://gemma-ona.vercel.app',
+    foto: 'https://gemma-ona.vercel.app/foto-email.jpg',
     aviso: '',
     responder: '',
     estilo: { boton: '#000000', textoBoton: '#fdfcfc', titulo: '#000000', texto: '#44403b', suave: '#a59f97', mayusculas: false },
