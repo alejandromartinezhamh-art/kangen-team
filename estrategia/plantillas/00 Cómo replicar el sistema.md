@@ -67,11 +67,13 @@ Resultado: `equipo/<nombre>/brief.md` completo.
 
 1. `brief.md` completo → `design.md` (colores, tipografías, estilo, a partir de sus referencias).
 2. Fotos elegidas a `02 Fotos seleccionadas web` y optimizadas a `assets/` del repositorio (JPG/WebP, máx. 2000 px, < 500 KB).
-3. Textos en `sitio/src/config.ts`, portada en `sitio/src/paginas/Inicio.tsx`.
+3. Textos, colores, letras, fotos y enlaces en `sitio/src/contenido.json` (nunca escritos en los componentes: así se pueden editar); portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña o enfoque en `sitio/src/landings/`.
 5. Publicar (Cloudflare o Vercel, ver README del repositorio). El nombre del proyecto y el dominio, con su nombre y sin la marca (p. ej. `gemma-ona.vercel.app`).
-6. Embudo de Instagram (opcional): bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `sitio/src/cuestionario.ts`) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo a otra persona: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplo hecho: Gemma, con su diseño en `equipo/gemma/sitio/src/embudo.css`).
-   - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar.
+6. **Editor visual**: en su proyecto de Vercel, `EDITOR_GITHUB_TOKEN` (el token del equipo) y `EDITOR_CLAVE` (una contraseña para ella). Envíale el mensaje *Tu editor* de `02 Mensajes de WhatsApp` con `https://<su-web>/editar` y la contraseña. Desde ahí cambia ella sola textos, colores, letras, fotos, el vídeo y los emails, y publica. Detalle en el README del repositorio ("Editor visual").
+7. Embudo de Instagram (opcional): bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `sitio/src/contenido.json`, cada una con su columna fija en la hoja) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo a otra persona: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplo hecho: Gemma, con su diseño en `equipo/gemma/sitio/src/embudo.css`).
+   - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar (estos los puede poner o cambiar ella desde su editor).
+   - Los textos del email del webinar y del recordatorio se cambian en su editor (`/editar` → Emails).
    - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.
 
 Estructura de la landing (en este orden):

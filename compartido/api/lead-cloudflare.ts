@@ -1,5 +1,6 @@
 import { leerLead } from './validar';
 import { reenviar } from './reenviar';
+import { textosEmail } from './email';
 
 // Cloudflare (Pages Functions y Workers): guarda cada lead en la base de datos D1 "leads-equipo",
 // enlazada con el nombre DB. Si además están LEADS_WEBHOOK_URL y LEADS_WEBHOOK_SECRET, lo reenvía
@@ -12,6 +13,8 @@ interface Entorno {
   DB?: { prepare(sql: string): D1Statement };
   LEADS_WEBHOOK_URL?: string;
   LEADS_WEBHOOK_SECRET?: string;
+  /** Los archivos de la web (Workers con assets y Pages): de ahí sale /contenido.json */
+  ASSETS?: { fetch(request: Request): Promise<Response> };
 }
 
 export async function onRequestPost({ request, env }: { request: Request; env: Entorno }): Promise<Response> {
@@ -46,7 +49,9 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     }
   }
   if (env.LEADS_WEBHOOK_URL) {
-    guardado = (await reenviar(env.LEADS_WEBHOOK_URL, env.LEADS_WEBHOOK_SECRET, lead)) || guardado;
+    const assets = env.ASSETS;
+    const textos = await textosEmail(request, assets ? (p) => assets.fetch(p) : fetch);
+    guardado = (await reenviar(env.LEADS_WEBHOOK_URL, env.LEADS_WEBHOOK_SECRET, { ...lead, textosEmail: textos })) || guardado;
   }
 
   return guardado ? Response.json({ ok: true }) : Response.json({ error: 'No se pudo guardar' }, { status: 502 });

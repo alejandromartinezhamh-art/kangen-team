@@ -1,0 +1,183 @@
+/* Editor visual (/editar). Va encima de la web (que también carga su CSS en esta página), así que todo
+   cuelga de .ed y fija sus propias letras y colores. Un solo tema claro: la web conserva los suyos. */
+.ed {
+  --ed-fondo: #ffffff;
+  --ed-lienzo: #eeece9;
+  --ed-texto: #1d1b19;
+  --ed-suave: #6f6a63;
+  --ed-linea: #e3dfda;
+  --ed-hover: #f4f2ef;
+  --ed-marca: #ff7a3d;
+  --ed-marca-hover: #ff8c55;
+  --ed-ok: #2f7d4f;
+  --ed-aviso: #b4541f;
+  --ed-aviso-fondo: #fbeee6;
+  --ed-peligro: #b42318;
+  --ed-fuente: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  background: var(--ed-lienzo);
+  color: var(--ed-texto);
+  font: 14px/1.45 var(--ed-fuente);
+  letter-spacing: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+.ed *, .ed *::before, .ed *::after { box-sizing: border-box; }
+.ed h1, .ed h2, .ed h3 { font-family: var(--ed-fuente); letter-spacing: normal; text-transform: none; }
+.ed code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--ed-hover); padding: 1px 5px; border-radius: 5px; }
+.ed-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.ed-hueco { flex: 1; }
+.ed :focus-visible { outline: 2px solid var(--ed-texto); outline-offset: 2px; }
+
+/* ---------- Botones ---------- */
+.ed-btn {
+  font: 500 13px/1 var(--ed-fuente); min-height: 36px; padding: 0 14px; border-radius: 9999px; cursor: pointer;
+  border: 1px solid var(--ed-linea); background: var(--ed-fondo); color: var(--ed-texto);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; text-decoration: none;
+}
+.ed-btn:hover { background: var(--ed-hover); }
+.ed-btn[aria-pressed='true'] { background: var(--ed-texto); border-color: var(--ed-texto); color: var(--ed-fondo); }
+.ed-btn:disabled { opacity: .4; cursor: not-allowed; }
+.ed-principal { background: var(--ed-marca); border-color: var(--ed-marca); color: var(--ed-texto); font-weight: 600; }
+.ed-principal:hover { background: var(--ed-marca-hover); }
+.ed-peligro { color: var(--ed-peligro); }
+.ed-mini { font: 500 12px var(--ed-fuente); border: 0; background: none; color: var(--ed-suave); cursor: pointer; padding: 2px 4px; text-decoration: underline; text-underline-offset: 3px; }
+.ed-anadir { justify-self: start; color: var(--ed-texto); }
+.ed-enlace { font: 500 13px var(--ed-fuente); border: 0; background: none; color: var(--ed-suave); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.ed-grupo { display: inline-flex; border: 1px solid var(--ed-linea); border-radius: 9999px; padding: 2px; background: var(--ed-fondo); }
+.ed-grupo button { font: 500 12.5px/1 var(--ed-fuente); border: 0; background: none; color: var(--ed-suave); min-height: 30px; padding: 0 12px; border-radius: 9999px; cursor: pointer; white-space: nowrap; }
+.ed-grupo button[aria-pressed='true'] { background: var(--ed-texto); color: var(--ed-fondo); }
+
+/* ---------- Barra ---------- */
+.ed-barra {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 16px;
+  background: var(--ed-fondo); border-bottom: 1px solid var(--ed-linea);
+}
+.ed-titulo { display: flex; flex-direction: column; line-height: 1.2; margin-right: 6px; }
+.ed-titulo strong { font-size: 14px; }
+.ed-titulo span { font-size: 12px; color: var(--ed-suave); }
+.ed-pagina select, .ed select {
+  font: 500 13.5px var(--ed-fuente); color: var(--ed-texto); background: var(--ed-fondo);
+  border: 1px solid var(--ed-linea); border-radius: 10px; min-height: 36px; padding: 0 30px 0 12px; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%; background-size: 5px 5px; background-repeat: no-repeat;
+}
+.ed-estado { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ed-suave); }
+.ed-estado::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ed-ok); }
+.ed-estado-pendiente { color: var(--ed-aviso); }
+.ed-estado-pendiente::before { background: var(--ed-marca); }
+.ed-subbarra { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 8px 16px; background: var(--ed-fondo); border-bottom: 1px solid var(--ed-linea); font-size: 13px; color: var(--ed-suave); }
+
+.ed-avisos { display: grid; gap: 6px; padding: 10px 16px 0; }
+.ed-nota { margin: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-radius: 12px; background: var(--ed-fondo); border: 1px solid var(--ed-linea); font-size: 13px; }
+.ed-nota-aviso { background: var(--ed-aviso-fondo); border-color: transparent; color: var(--ed-aviso); }
+
+/* ---------- Vista previa ---------- */
+.ed-lienzo { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; padding: 12px; overflow: hidden; }
+.ed-marco { position: relative; overflow: hidden; background: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.10); flex: none; }
+.ed-marco iframe { position: absolute; top: 0; left: 0; border: 0; display: block; background: #fff; transform-origin: 0 0; }
+.ed-marco-movil { border-radius: 26px; box-shadow: 0 0 0 7px #1d1b19, 0 14px 44px rgba(0,0,0,.16); margin-top: 7px; }
+.ed-marco-movil iframe { width: 100% !important; height: 100% !important; }
+.ed-marco-ordenador { border-radius: 10px; }
+.ed-marco-email { border-radius: 14px; }
+.ed-marco-email iframe { width: 100% !important; height: 100% !important; }
+.ed-foto-flotante {
+  position: fixed; z-index: 5; font: 600 12px/1 var(--ed-fuente); padding: 10px 14px; border-radius: 9999px;
+  background: var(--ed-fondo); color: var(--ed-texto); border: 0; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.2);
+}
+
+/* ---------- Cambiar un texto ---------- */
+.ed-velo { position: fixed; inset: 0; z-index: 10; }
+.ed-ventanita {
+  position: fixed; z-index: 11; display: grid; gap: 8px; padding: 10px;
+  background: var(--ed-fondo); border: 1px solid var(--ed-linea); border-radius: 14px; box-shadow: 0 14px 44px rgba(0,0,0,.2);
+}
+.ed-ventanita-abajo { left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom)); }
+.ed-ventanita textarea, .ed-campo textarea, .ed-campo input:not([type='color']) {
+  font: 15px/1.5 var(--ed-fuente); color: var(--ed-texto); background: var(--ed-fondo); width: 100%;
+  border: 1px solid var(--ed-linea); border-radius: 10px; padding: 9px 11px; resize: vertical; min-width: 0;
+}
+.ed-ventanita textarea { min-height: 70px; }
+.ed-campo textarea { font-size: 13.5px; resize: none; overflow: hidden; }
+.ed-ventanita textarea:focus, .ed-campo textarea:focus, .ed-campo input:focus { outline: 2px solid var(--ed-marca); outline-offset: -1px; border-color: transparent; }
+.ed-ventanita-pie { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ed-ventanita-pie small { color: var(--ed-suave); font-size: 11.5px; }
+.ed-ventanita-pie span { display: flex; gap: 6px; margin-left: auto; }
+
+/* ---------- Paneles ---------- */
+.ed-lateral {
+  position: fixed; z-index: 8; top: 0; right: 0; bottom: 0; width: min(400px, 100%);
+  background: var(--ed-fondo); border-left: 1px solid var(--ed-linea); box-shadow: -14px 0 40px rgba(0,0,0,.08);
+  padding: 18px 18px calc(28px + env(safe-area-inset-bottom)); overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
+}
+.ed-lateral-cab { display: flex; justify-content: space-between; align-items: center; gap: 12px; position: sticky; top: -18px; background: var(--ed-fondo); padding: 6px 0; margin-top: -6px; z-index: 1; }
+.ed-lateral h2 { font-size: 16px; font-weight: 600; margin: 0; }
+.ed-seccion { display: grid; gap: 10px; }
+.ed-seccion h3 { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ed-suave); margin: 4px 0 0; }
+.ed-ayuda { margin: 0; color: var(--ed-suave); font-size: 12.5px; line-height: 1.55; }
+.ed-error { margin: 0; color: var(--ed-peligro); font-size: 13px; }
+.ed-campo { display: grid; gap: 5px; }
+.ed-campo > span, .ed-campo-cab { font-size: 12px; color: var(--ed-suave); }
+.ed-campo-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ed-campo input[type='color'] { width: 100%; height: 38px; border: 1px solid var(--ed-linea); border-radius: 10px; padding: 3px; background: var(--ed-fondo); cursor: pointer; }
+.ed-color { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; padding: 6px 8px; border: 1px solid var(--ed-linea); border-radius: 12px; cursor: pointer; }
+.ed-color input { width: 38px; height: 38px; border: 0; padding: 0; background: none; cursor: pointer; }
+.ed-color small { display: block; color: var(--ed-suave); font-size: 11.5px; }
+.ed-color code { background: none; color: var(--ed-suave); }
+.ed-muestra { font-size: 22px; line-height: 1.2; color: var(--ed-texto) !important; padding: 6px 2px; letter-spacing: -.02em; }
+.ed-fotos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ed-fotos button { padding: 0; border: 1px solid var(--ed-linea); border-radius: 12px; overflow: hidden; background: var(--ed-hover); cursor: pointer; aspect-ratio: .8; position: relative; }
+.ed-fotos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ed-fotos span { position: absolute; left: 6px; right: 6px; bottom: 6px; font: 600 10.5px var(--ed-fuente); background: var(--ed-fondo); padding: 3px 7px; border-radius: 99px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-versiones { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ed-versiones li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--ed-linea); border-radius: 12px; font-size: 13px; }
+.ed-versiones em { color: var(--ed-ok); font-style: normal; }
+.ed-versiones small { display: block; color: var(--ed-suave); font-size: 11.5px; margin-top: 2px; }
+
+/* ---------- Diálogo de publicar ---------- */
+.ed-fondo-dialogo { position: fixed; inset: 0; z-index: 20; background: rgba(20,18,16,.45); display: grid; place-items: center; padding: 16px; }
+.ed-dialogo { width: min(480px, 100%); max-height: calc(100% - 32px); overflow-y: auto; background: var(--ed-fondo); border-radius: 20px; padding: 26px; box-shadow: 0 20px 60px rgba(0,0,0,.2); display: grid; gap: 12px; }
+.ed-dialogo h2 { font-size: 19px; font-weight: 600; margin: 0; }
+.ed-dialogo p { margin: 0; color: var(--ed-suave); }
+.ed-detalles { margin: 0; padding: 12px 14px 12px 30px; background: var(--ed-hover); border-radius: 12px; font-size: 13px; display: grid; gap: 3px; }
+.ed-acciones { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 6px; }
+
+/* ---------- Avisos ---------- */
+.ed-toast { position: fixed; z-index: 30; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ed-texto); color: var(--ed-fondo); font: 500 13px/1.4 var(--ed-fuente); padding: 12px 18px; border-radius: 12px; max-width: calc(100% - 32px); box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+.ed-toast-boton { border: 0; cursor: pointer; bottom: calc(72px + env(safe-area-inset-bottom)); background: var(--ed-marca); color: var(--ed-texto); }
+
+/* ---------- Acceso ---------- */
+.ed-entrada { align-items: center; justify-content: center; padding: 16px; }
+.ed-tarjeta { width: min(420px, 100%); background: var(--ed-fondo); border-radius: 20px; padding: 28px; display: grid; gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.08); }
+.ed-tarjeta h1 { font-size: 21px; font-weight: 600; margin: 0; }
+.ed-tarjeta p { margin: 0; color: var(--ed-suave); }
+
+/* En pantallas anchas el panel no tapa la página: la vista previa se encoge a su lado. */
+@media (min-width: 1100px) {
+  .ed-con-panel .ed-lienzo, .ed-con-panel .ed-avisos { padding-right: 412px; }
+}
+.ed-herramientas { display: flex; align-items: center; gap: 8px; }
+.ed-corto { display: none; }
+
+@media (max-width: 720px) {
+  /* Móvil: página y Publicar arriba; debajo, los botones en una tira que se desliza. */
+  .ed-barra { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: 8px 10px; gap: 8px; }
+  .ed-titulo, .ed-hueco, .ed-dispositivo { display: none; }
+  .ed-pagina select { width: 100%; }
+  .ed-herramientas { grid-column: 1 / -1; order: 3; overflow-x: auto; scrollbar-width: none; margin: 0 -10px; padding: 0 10px; }
+  .ed-herramientas::-webkit-scrollbar { display: none; }
+  .ed-estado { grid-column: 1 / -1; order: 4; font-size: 12px; }
+  .ed-publicar { order: 2; }
+  .ed-largo { display: none; }
+  .ed-corto { display: inline; }
+  .ed-btn { padding: 0 12px; font-size: 13px; min-height: 36px; flex: none; }
+  .ed-avisos { padding: 8px 8px 0; }
+  .ed-nota { padding: 8px 10px; font-size: 12.5px; gap: 8px; }
+  .ed-lienzo { padding: 8px; }
+  .ed-marco-movil { box-shadow: 0 6px 24px rgba(0,0,0,.12); border-radius: 14px; margin-top: 0; }
+}

@@ -5,7 +5,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./api/lead": "./api/lead.ts",
-    "./api/lead-cloudflare": "./api/lead-cloudflare.ts"
+    "./api/lead-cloudflare": "./api/lead-cloudflare.ts",
+    "./editor": "./src/editor/Editor.tsx"
   },
   "peerDependencies": {
     "react": "^19.0.0",
