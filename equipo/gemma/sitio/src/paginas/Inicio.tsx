@@ -120,7 +120,7 @@ export default function Inicio() {
               <p className="note">{textos.aguaNota}</p>
             </div>
             <div className="water-art" aria-hidden="true">
-              <span className="kicker esquina-a">UN NUEVO RITUAL</span>
+              <span className="kicker esquina-a">{textos.aguaCapitulo.split('/').pop()?.trim()}</span>
               <div className="anillo" />
               <div className="large-circle" />
               <span className="esquina-b">02</span>
