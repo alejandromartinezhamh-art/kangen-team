@@ -7,7 +7,7 @@
     "equipo/*/sitio"
   ],
   "scripts": {
-    "nueva-persona": "node scripts/nueva-persona.mjs && node scripts/generar-api.mjs",
+    "nueva-persona": "node scripts/nueva-persona.mjs",
     "generar-api": "node scripts/generar-api.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"

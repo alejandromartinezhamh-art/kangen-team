@@ -1,12 +1,13 @@
 import { Fragment, useState, type ButtonHTMLAttributes, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { enEditor } from '@equipo/compartido';
 import { embudo, persona } from '../config';
 import { cuestionario, type Campo, type Paso } from '../cuestionario';
 import Enfasis from '../componentes/Enfasis';
 
 // Cuestionario previo al webinar, una pantalla por paso (cuestionario.ts). Al enviar guarda el
 // lead (/api/lead → hoja de Google), y la hoja le envía el enlace del webinar por email.
-// Estilos: embudo.css.
+// Textos: contenido.json → cuestionario. Estilos: embudo.css.
 
 const { pasos } = cuestionario;
 // Pasos que cuentan en "03 / 08": todo menos las pantallas de solo texto
@@ -52,6 +53,13 @@ function Parrafos({ textos, lista }: { textos?: string[]; lista?: string[] }) {
   );
 }
 
+/** En el editor, ?paso=3 abre directamente ese paso y ?paso=fin la pantalla final. */
+function pasoInicial(params: URLSearchParams) {
+  if (!enEditor()) return 0;
+  const n = Number(params.get('paso'));
+  return Number.isInteger(n) && n >= 0 && n < pasos.length ? n : 0;
+}
+
 function Boton({ texto, ...props }: { texto: string } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button {...props} className="btn btn-oscuro e-boton">
@@ -82,10 +90,12 @@ type Estado = 'respondiendo' | 'enviando' | 'error' | 'enviado';
 export default function Cuestionario() {
   const [params] = useSearchParams();
   const origen = ['cuestionario', params.get('o')].filter(Boolean).join('-');
-  const [i, setI] = useState(0);
+  const [i, setI] = useState(() => pasoInicial(params));
   const [respuestas, setRespuestas] = useState<Record<number, string>>({});
   const [datos, setDatos] = useState<Record<Campo, string>>({ nombre: '', instagram: '', telefono: '', email: '' });
-  const [estado, setEstado] = useState<Estado>('respondiendo');
+  const [estado, setEstado] = useState<Estado>(() =>
+    enEditor() && params.get('paso') === 'fin' ? 'enviado' : 'respondiendo',
+  );
   const [id] = useState(nuevoId);
 
   const paso: Paso = pasos[i];
@@ -97,7 +107,7 @@ export default function Cuestionario() {
     const form = Object.fromEntries(new FormData(e.currentTarget));
     setEstado('enviando');
     const preguntas = pasos.flatMap((p, n) =>
-      p.tipo === 'opciones' || p.tipo === 'texto' ? [[sinAsteriscos(p.texto), respuestas[n] ?? '']] : [],
+      p.tipo === 'opciones' || p.tipo === 'texto' ? [[p.columna || sinAsteriscos(p.texto), respuestas[n] ?? '']] : [],
     );
     try {
       const res = await fetch('/api/lead', {
@@ -132,15 +142,19 @@ export default function Cuestionario() {
       <div className="e-barra">
         {i > 0 && estado !== 'enviado' ? (
           <button type="button" onClick={atras} className="kicker">
-            ← Atrás
+            {cuestionario.atras}
           </button>
         ) : (
           <Link to="/l/instagram" className="marca">
-            {embudo.nombreCompleto.toUpperCase()}
+            {embudo.general.marca}
           </Link>
         )}
         <span className="kicker">
-          {estado === 'enviado' ? 'Hecho' : numerados[i] ? `${num(numerados[i])} / ${num(totalNumerados)}` : 'Webinar gratuito'}
+          {estado === 'enviado'
+            ? cuestionario.gracias.etiqueta
+            : numerados[i]
+              ? `${num(numerados[i])} / ${num(totalNumerados)}`
+              : cuestionario.etiqueta}
         </span>
       </div>
       <div className="e-progreso" aria-hidden="true">
@@ -207,7 +221,7 @@ export default function Cuestionario() {
                 autoFocus
               />
               <div className="e-botones">
-                <Boton type="submit" texto="Siguiente" />
+                <Boton type="submit" texto={cuestionario.siguiente} />
               </div>
             </form>
           </section>
@@ -230,11 +244,11 @@ export default function Cuestionario() {
                 value={respuestas[i] ?? ''}
                 onChange={(e) => setRespuestas((r) => ({ ...r, [i]: e.target.value }))}
                 required={!paso.opcional}
-                placeholder="Escribe aquí tu respuesta"
+                placeholder={cuestionario.placeholderRespuesta}
                 autoFocus
               />
               <div className="e-botones">
-                <Boton type="submit" texto="Siguiente" />
+                <Boton type="submit" texto={cuestionario.siguiente} />
               </div>
             </form>
           </section>
@@ -280,11 +294,9 @@ export default function Cuestionario() {
                 <Boton
                   type="submit"
                   disabled={!respuestas[i] || estado === 'enviando'}
-                  texto={estado === 'enviando' ? 'Enviando…' : cuestionario.boton}
+                  texto={estado === 'enviando' ? cuestionario.enviando : cuestionario.boton}
                 />
-                {estado === 'error' && (
-                  <p className="e-error">No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.</p>
-                )}
+                {estado === 'error' && <p className="e-error">{cuestionario.error}</p>}
               </form>
             )}
           </section>

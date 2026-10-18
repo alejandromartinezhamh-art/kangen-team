@@ -5,7 +5,7 @@ import { embudo, persona, webinar } from '../config';
 import VideoWebinar from '../componentes/VideoWebinar';
 import Enfasis from '../componentes/Enfasis';
 
-// Página del webinar (el enlace del email). Estilos: embudo.css.
+// Página del webinar (el enlace del email). Textos: contenido.json → webinar. Estilos: embudo.css.
 
 // Id del lead: llega en el enlace del email (?l=) o se guardó al terminar el cuestionario.
 function useIdLead() {
@@ -34,7 +34,7 @@ function evento(id: string, nombre: string) {
 }
 
 const CLAVE_VISTO = 'webinar_visto';
-const { porcentajeWhatsapp } = embudo.webinar;
+const { porcentajeWhatsapp } = embudo;
 
 export default function Webinar() {
   const id = useIdLead();
@@ -70,8 +70,9 @@ export default function Webinar() {
     [id],
   );
 
+  const t = embudo.webinar;
   const whatsapp = persona.whatsapp
-    ? `https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(embudo.webinar.mensajeWhatsapp)}`
+    ? `https://wa.me/${persona.whatsapp}?text=${encodeURIComponent(t.mensajeWhatsapp)}`
     : '';
 
   return (
@@ -79,24 +80,26 @@ export default function Webinar() {
       <header className="cabecera">
         <div className="cabecera-inner">
           <Link to="/l/instagram" className="marca">
-            {embudo.nombreCompleto.toUpperCase()}
+            {embudo.general.marca}
           </Link>
-          <span className="kicker">Webinar</span>
+          <span className="kicker">{t.barra}</span>
         </div>
       </header>
 
       <main className="contenedor e-webinar">
-        <p className="kicker e-punto">{embudo.webinar.subtitulo}</p>
+        <p className="kicker e-punto">{t.etiqueta}</p>
         <h1 className="display e-webinar-titulo">
-          <Enfasis texto={embudo.webinar.titulo} />
+          <Enfasis texto={t.titulo} />
         </h1>
-        <p className="e-webinar-texto">{embudo.webinar.texto}</p>
+        <p className="e-webinar-texto">{t.texto}</p>
 
         <div className="webinar-wrap e-webinar-marco">
           <VideoWebinar onProgreso={hayVideo ? onProgreso : undefined} />
           {hayVideo && !desbloqueado && (
             <div className="e-visto">
-              <span className="kicker">Visto {visto} %</span>
+              <span className="kicker">
+                {t.visto} {visto} %
+              </span>
               <div className="e-progreso" aria-hidden="true">
                 <div style={{ width: `${visto}%` }} />
               </div>
@@ -106,17 +109,11 @@ export default function Webinar() {
 
         <section className="e-siguiente">
           <div>
-            <p className="kicker e-punto">01 / Siguiente paso</p>
+            <p className="kicker e-punto">{t.siguienteEtiqueta}</p>
             <h2 className="display">
-              ¿Te ha <span className="suave">resonado</span>?
+              <Enfasis texto={t.siguienteTitulo} />
             </h2>
-            <p className="e-texto">
-              {!desbloqueado
-                ? 'Cuando hayas visto el webinar, aquí te aparecerá el botón para escribirme directamente por WhatsApp.'
-                : whatsapp
-                  ? 'Escríbeme por WhatsApp y lo hablamos. Te contesto yo personalmente, sin compromiso.'
-                  : 'Responde al email en el que te llegó el webinar y lo hablamos. Te contesto yo personalmente, sin compromiso.'}
-            </p>
+            <p className="e-texto">{!desbloqueado ? t.textoAntes : whatsapp ? t.textoWhatsapp : t.textoSinWhatsapp}</p>
           </div>
           <div>
             {desbloqueado && whatsapp ? (
@@ -127,12 +124,12 @@ export default function Webinar() {
                 onClick={() => evento(id, 'whatsapp_clic')}
                 className="btn btn-oscuro e-boton"
               >
-                <span>Escríbeme por WhatsApp</span>
+                <span>{t.boton}</span>
                 <span className="flecha" aria-hidden="true">↗</span>
               </a>
             ) : !desbloqueado ? (
               <div className="e-bloqueado" aria-disabled="true">
-                <span>Disponible al terminar el webinar</span>
+                <span>{t.bloqueado}</span>
                 <span>{visto} %</span>
               </div>
             ) : null}

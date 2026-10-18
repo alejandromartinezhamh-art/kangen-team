@@ -1,5 +1,6 @@
 import { leerLead } from './validar';
 import { reenviar } from './reenviar';
+import { textosEmail } from './email';
 
 // Vercel: recibe los formularios de todas las webs y los reenvía a LEADS_WEBHOOK_URL
 // (Google Sheets vía Apps Script, Make, Zapier…). Cada lead lleva persona y origen.
@@ -8,7 +9,7 @@ import { reenviar } from './reenviar';
 export async function POST(request: Request): Promise<Response> {
   const r = await leerLead(request);
   if ('respuesta' in r) return r.respuesta;
-  const datos = 'lead' in r ? r.lead : r.evento;
+  const datos = 'lead' in r ? { ...r.lead, textosEmail: await textosEmail(request) } : r.evento;
 
   const destino = process.env.LEADS_WEBHOOK_URL;
   if (!destino) {

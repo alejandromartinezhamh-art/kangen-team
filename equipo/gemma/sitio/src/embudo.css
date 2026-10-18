@@ -75,6 +75,17 @@
 @media (min-width: 900px) {
   .e-siguiente { grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; }
 }
+/* Ordenador: título y texto en una fila, y el vídeo con el siguiente paso al lado, para que todo
+   quepa en la pantalla sin dejar media página vacía. */
+@media (min-width: 1000px) {
+  .e-webinar { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: clamp(40px, 4.5vw, 72px); padding-top: 40px; padding-bottom: 100px; }
+  .e-webinar > .kicker { grid-column: 1 / -1; }
+  .e-webinar-titulo { grid-column: 1; align-self: end; margin: 16px 0 32px; font-size: clamp(42px, min(5.2vw, 8.5vh), 76px); }
+  .e-webinar-texto { grid-column: 2; align-self: end; margin: 0 0 36px; }
+  .webinar-wrap.e-webinar-marco { grid-column: 1; align-self: start; padding: clamp(14px, 1.8vw, 24px); }
+  .e-siguiente { grid-column: 2; grid-template-columns: 1fr; gap: 26px; padding: 0; align-self: center; }
+  .e-siguiente h2 { font-size: clamp(36px, 3.4vw, 50px); }
+}
 @media (max-width: 720px) {
   .e-webinar { padding-top: 36px; }
   .e-siguiente { padding: 64px 0 80px; }
