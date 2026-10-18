@@ -69,8 +69,10 @@ Resultado: `equipo/<nombre>/brief.md` completo.
 2. Fotos elegidas a `02 Fotos seleccionadas web` y optimizadas a `assets/` del repositorio (JPG/WebP, máx. 2000 px, < 500 KB).
 3. Textos en `sitio/src/config.ts`, portada en `sitio/src/paginas/Inicio.tsx`.
 4. Una landing por campaña o enfoque en `sitio/src/landings/`.
-5. Publicar (Cloudflare o Vercel, ver README del repositorio).
-6. Embudo de Instagram (opcional): bio → `/l/instagram` → `/cuestionario` (preguntas en `sitio/src/cuestionario.ts`) → email con el webinar → `/webinar`. Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/` (instalación paso a paso en su README).
+5. Publicar (Cloudflare o Vercel, ver README del repositorio). El nombre del proyecto y el dominio, con su nombre y sin la marca (p. ej. `gemma-ona.vercel.app`).
+6. Embudo de Instagram (opcional): bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `sitio/src/cuestionario.ts`) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo a otra persona: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplo hecho: Gemma, con su diseño en `equipo/gemma/sitio/src/embudo.css`).
+   - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar.
+   - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.
 
 Estructura de la landing (en este orden):
 1. Titular con el dolor de su avatar (sus palabras).
