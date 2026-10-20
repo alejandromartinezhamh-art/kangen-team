@@ -24,3 +24,5 @@ Contenido actual de Templates:
 ## Normas de comunicación
 
 Antes de escribir cualquier texto público (webs, landings, anuncios, contenido), aplica `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.
+
+Para la estructura, el tono y el diseño de las landings y del contenido, usa como modelo `estrategia/referencias/landing-team-rise-up.md` (apartado 8). Sus cifras de ingresos y sus menciones de salud no se copian.
