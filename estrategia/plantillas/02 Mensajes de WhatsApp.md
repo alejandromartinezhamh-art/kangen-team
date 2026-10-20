@@ -52,3 +52,17 @@ Mírala con calma y dime:
 3. ¿Cambiarías alguna foto?
 
 Con tus comentarios hago la versión final.
+
+## 6. Tu editor (privado, cuando su web ya está publicada)
+
+<Nombre>, ya puedes cambiar tu web tú misma/o, sin pedírmelo 🙌
+
+👉 <enlace>/editar
+🔑 Contraseña: <contraseña> (no la compartas)
+
+▪️ *Toca cualquier texto* para cambiarlo.
+▪️ En *Diseño* cambias colores, letras, fotos y el vídeo del webinar.
+▪️ En *Emails* ves y cambias el email que les llega.
+▪️ Nada cambia en tu web hasta que pulses *Publicar*; en 1-2 minutos ya está. Y si algo no te gusta, en *Versiones* vuelves a la anterior.
+
+Funciona desde el móvil. Antes de publicar, repasa que no haya cifras de dinero, promesas ni nombres de marca o producto 😉

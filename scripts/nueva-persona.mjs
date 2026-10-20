@@ -1,5 +1,6 @@
 // Crea equipo/<id>/ a partir de plantilla/.
 // Uso: npm run nueva-persona -- "Rocío" "García"
+import { execSync } from 'node:child_process';
 import { cpSync, existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -46,6 +47,9 @@ function sustituir(dir) {
   }
 }
 sustituir(destino);
+
+// Sus funciones de Vercel (formulario y editor), con su nombre dentro.
+execSync('node scripts/generar-api.mjs', { stdio: 'inherit' });
 
 console.log(`Creado ${destino}. Ejecuta "npm install" en la raíz y rellena ${destino}/brief.md.`);
 console.log(

@@ -6,8 +6,10 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
                                                       └─ aviso a la persona del equipo    └─ "Webinar abierto" y "Quiere hablar"
 ```
 
-- **La web** (`/cuestionario`, preguntas en `sitio/src/cuestionario.ts`) envía cada lead a `/api/lead`.
-- **`/api/lead`** (Vercel o Cloudflare) lo reenvía a la URL del script con una clave secreta.
+- **La web** (`/cuestionario`, preguntas en `sitio/src/contenido.json` → `cuestionario`) envía cada lead a `/api/lead`.
+  Cada respuesta va a la columna fija de su pregunta (`columna`), aunque se cambie el texto desde el editor.
+- **`/api/lead`** (Vercel o Cloudflare) lo reenvía a la URL del script con una clave secreta, junto con los textos
+  de los emails de esa web (`contenido.json` → `email`, que se cambian en el editor: `/editar` → Emails).
 - **El script** (`Embudo.gs`, dentro de la hoja):
   - guarda una fila por lead, con una columna por pregunta;
   - envía el email del webinar desde el Gmail del dueño de la hoja;
@@ -40,13 +42,30 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
 **Si cambias el código del script:** Implementar → Gestionar implementaciones → editar (lápiz) → Versión: *Nueva versión*.
 Así la URL no cambia.
 
+## Emails personalizables desde el editor
+
+Los textos y colores del email del webinar y del recordatorio se cambian en el editor de la web (`/editar` → Emails),
+con vista previa igual a lo que llega. Cómo llegan a la hoja, sin que nada se rompa:
+
+- `/api/lead` lee `/contenido.json` de la web y manda sus textos con cada lead (`textosEmail`).
+- El script los usa para ese email y los guarda (propiedad `EMAIL_<persona>`) para el recordatorio de 24 h.
+- Si no llegan (web sin editor, fallo al leerlos), usa los últimos que recibió; si nunca recibió ninguno, los de
+  `EMAIL_POR_DEFECTO`. Si llega algo mal formado, cada texto que falte sale de los de por defecto.
+- En los textos: `{nombre}` = el nombre de la persona, `**texto**` = negrita. Todo se escapa: no se puede meter HTML.
+- El HTML es el mismo que pinta la vista previa del editor (`compartido/src/email.ts`): si cambias uno, cambia el otro.
+
+**Para activarlo en una hoja que ya funciona:** pega el `Embudo.gs` nuevo, guarda, ejecuta **probar** (no pide permisos
+nuevos) y publica una versión nueva (Implementar → Gestionar implementaciones → lápiz → Nueva versión). Hasta entonces,
+la hoja sigue enviando sus emails de siempre.
+
 ## Otra persona del equipo (ejemplo: Gemma)
 
 Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mismo para todas.
 
-1. **Su web**: copia de `equipo/alejandro/sitio` las piezas del embudo (`cuestionario.ts`, `paginas/Cuestionario.tsx`,
-   `paginas/Webinar.tsx`, `componentes/VideoWebinar.tsx`, `landings/Instagram.tsx`) y adáptalas a su diseño
-   (así está hecho `equipo/gemma/sitio`, con `embudo.css`). En su `config.ts`: su WhatsApp y el vídeo del webinar.
+1. **Su web**: copia de `equipo/gemma/sitio` las piezas del embudo (`cuestionario.ts`, `paginas/Cuestionario.tsx`,
+   `paginas/Webinar.tsx`, `componentes/VideoWebinar.tsx`, `landings/Instagram.tsx`, y las secciones `general`,
+   `instagram`, `cuestionario`, `webinar` y `email` de `contenido.json`) y adáptalas a su diseño (`embudo.css`).
+   Su WhatsApp y el vídeo del webinar van en `contenido.json` → `enlaces` (o desde su editor).
 2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web (`https://nombre-apellido.vercel.app`), foto de la firma y colores de su web.
 3. **Su hoja**: `Leads webinar <Nombre>` en su carpeta de Drive. Sigue la instalación de arriba con estos cambios:
    - en el script, `const PERSONA = '<su clave>';` (p. ej. `'gemma'`);
@@ -76,8 +95,14 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 1. En Apps Script: **+ → HTML**, nómbralo `CRM` (sin .html) y pega `CRM.html`.
 2. Guarda y publica una versión nueva: **Implementar → Gestionar implementaciones → lápiz → Versión: Nueva versión → Implementar**.
    La URL no cambia.
-3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Guárdalo en favoritos o en la pantalla de
-   inicio del móvil y **no lo compartas**: con él se ven todos los leads.
+3. Ejecuta **enlaceCrm**: el registro muestra el enlace privado (`…/exec?crm=CLAVE`). Si lo ejecutas desde el editor, Google solo
+   da la URL de pruebas (`/dev`); entonces el enlace es la URL de la aplicación web (la que termina en `/exec`) + `?crm=CLAVE`.
+   También se abre desde la hoja: menú **Leads → Abrir CRM**. Guárdalo en favoritos o en la pantalla de inicio del móvil y
+   **no lo compartas** fuera del equipo: con él se ven todos los leads.
+   El archivo se llama `CRM` (también vale `crm`).
+
+La URL sin `?crm=` (`…/exec`) abre el CRM con una pantalla que pide la clave y la recuerda en ese navegador ("Salir" la borra).
+Es la que va en paneles compartidos, como "Webs del equipo": sin la clave no se ve ningún lead.
 
 ## Uso diario
 

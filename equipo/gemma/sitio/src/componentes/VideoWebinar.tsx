@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { embudo, webinar } from '../config';
 
-// Vídeo del webinar (contenido.json → webinarUrl): YouTube, Vimeo o archivo .mp4, o aviso de 'muy pronto'
+// Vídeo del webinar (contenido.json → enlaces.webinar): YouTube, Vimeo o archivo .mp4, o aviso de 'muy pronto'
 // si aún no hay enlace. Con onProgreso informa del % visto de verdad (segundos distintos reproducidos,
 // así que arrastrar la barra hasta el final no cuenta).
 
@@ -38,7 +38,7 @@ function contador(onProgreso?: Progreso) {
   };
 }
 
-const titulo = embudo.webinar.titulo.replaceAll('*', '');
+const titulo = () => embudo.webinar.titulo.replaceAll('*', '');
 const marco = 'absolute inset-0 h-full w-full border-0';
 
 function YouTube({ id, onProgreso }: { id: string; onProgreso?: Progreso }) {
@@ -77,7 +77,7 @@ function YouTube({ id, onProgreso }: { id: string; onProgreso?: Progreso }) {
   }, [id, onProgreso]);
   return (
     <div className={marco}>
-      <div ref={ref} className="h-full w-full" title={titulo} />
+      <div ref={ref} className="h-full w-full" title={titulo()} />
     </div>
   );
 }
@@ -99,7 +99,7 @@ function Vimeo({ id, hash, onProgreso }: { id: string; hash?: string; onProgreso
       ref={ref}
       className={marco}
       src={`https://player.vimeo.com/video/${id}${hash ? `?h=${hash}` : ''}`}
-      title={titulo}
+      title={titulo()}
       allow="autoplay; fullscreen; picture-in-picture"
       allowFullScreen
     />
@@ -129,8 +129,8 @@ export default function VideoWebinar({ onProgreso }: { onProgreso?: Progreso }) 
       {!url ? (
         <div className="e-video-pronto">
           <span className="play-btn" aria-hidden="true">▶</span>
-          <p className="kicker">Muy pronto</p>
-          <p className="e-video-aviso">El vídeo estará disponible en breve</p>
+          <p className="kicker">{embudo.webinar.prontoEtiqueta}</p>
+          <p className="e-video-aviso">{embudo.webinar.prontoTexto}</p>
         </div>
       ) : yt ? (
         <YouTube id={yt[1]} onProgreso={onProgreso} />

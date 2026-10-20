@@ -80,11 +80,30 @@ async function reenviar(destino, clave, datos) {
   }
 }
 
+// compartido/api/email.ts
+async function textosEmail(request, buscar = fetch) {
+  try {
+    const url = new URL("/contenido.json", request.url);
+    const res = await buscar(new Request(url, { signal: AbortSignal.timeout(2500) }));
+    if (!res.ok) return void 0;
+    const contenido = await res.json();
+    if (!contenido.email || typeof contenido.email !== "object" || Array.isArray(contenido.email)) return void 0;
+    const foto = contenido.fotos?.email;
+    return {
+      ...contenido.email,
+      // Foto de la firma, con la dirección completa (los emails no entienden rutas como /foto.jpg)
+      ...typeof foto === "string" && foto.startsWith("/") ? { foto: new URL(foto, url).href } : {}
+    };
+  } catch {
+    return void 0;
+  }
+}
+
 // compartido/api/lead.ts
 async function POST(request) {
   const r = await leerLead(request);
   if ("respuesta" in r) return r.respuesta;
-  const datos = "lead" in r ? r.lead : r.evento;
+  const datos = "lead" in r ? { ...r.lead, textosEmail: await textosEmail(request) } : r.evento;
   const destino = process.env.LEADS_WEBHOOK_URL;
   if (!destino) {
     console.error("LEADS_WEBHOOK_URL no est\xE1 configurada; no guardado", datos.persona);
