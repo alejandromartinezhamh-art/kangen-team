@@ -5,7 +5,7 @@ import contenido from './contenido.json';
 export const persona: ConfigPersona = {
   id: '__ID__',
   nombre: '__NOMBRE__',
-  dominio: 'PENDIENTE',
+  dominio: '__PROYECTO__.vercel.app',
   email: 'PENDIENTE',
   // Su WhatsApp vive en contenido.json (enlaces.whatsapp) para poder cambiarlo desde el editor.
   get whatsapp() {

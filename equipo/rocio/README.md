@@ -5,7 +5,7 @@
 | **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1F5iFQITVE_E_AFef2uZIBWxyaixdaRwZ |
 | **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/rocio/sitio`) |
+| **Proyecto Vercel** | PENDIENTE: `rocio-<apellido>` (Root Directory: `equipo/rocio/sitio`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí

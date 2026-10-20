@@ -6,7 +6,7 @@
 import { build } from 'esbuild';
 import { readdirSync, rmSync, existsSync } from 'node:fs';
 
-// '.' = raíz del repositorio: el proyecto de Vercel 'kangen' compila desde ahí la web de Alejandro (vercel.json).
+// '.' = raíz del repositorio: el proyecto de Vercel 'alejandromartinez' compila desde ahí la web de Alejandro (vercel.json).
 const destinos = [
   { dir: '.', persona: 'alejandro' },
   // nueva-persona.mjs cambia __ID__ por la persona al copiar la plantilla.

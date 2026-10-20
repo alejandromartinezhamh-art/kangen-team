@@ -4,7 +4,7 @@ import type { ConfigPersona } from '@equipo/compartido';
 export const persona: ConfigPersona = {
   id: 'alejandro',
   nombre: 'Alejandro',
-  dominio: 'PENDIENTE',
+  dominio: 'alejandromartinez.vercel.app',
   email: 'PENDIENTE',
   whatsapp: '34607237453',
   instagram: undefined,

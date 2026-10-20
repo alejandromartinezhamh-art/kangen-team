@@ -4,9 +4,9 @@
 |---|---|
 | **Estado** | 🟨 Brief · ✅ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1PQ6EbYJuRMmLg3xquOaciSn15mtlZzBs |
-| **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/alejandro/sitio`) |
-| **Dominio** | PENDIENTE |
+| **Web publicada** | https://alejandromartinez.vercel.app (la antigua kangen-ochre.vercel.app redirige aquí) |
+| **Proyecto Vercel** | `alejandromartinez` (compila desde la raíz con `vercel.json`) |
+| **Dominio** | alejandromartinez.vercel.app |
 
 ## Qué hay aquí
 

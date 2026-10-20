@@ -5,7 +5,7 @@
 | **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1Se67XJS6CWQZqPKoySd3EE54UPTX5K-O |
 | **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/helena/sitio`) |
+| **Proyecto Vercel** | PENDIENTE: `helena-<apellido>` (Root Directory: `equipo/helena/sitio`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí
