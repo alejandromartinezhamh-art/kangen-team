@@ -39,13 +39,14 @@ const PERSONAS = {
     nombre: 'Helena Saigí',
     web: 'https://helena-saigi.vercel.app',
     foto: 'https://helena-saigi.vercel.app/foto-email.jpg',
-    aviso: '',
-    responder: '',
+    // Su email, por si el script lo instala otra cuenta: los avisos y las respuestas le llegan a ella igualmente
+    aviso: 'hsaigi@gmail.com',
+    responder: 'hsaigi@gmail.com',
     estilo: { boton: '#1f2a22', textoBoton: '#f8f5ee', titulo: '#1f2a22', texto: '#575e57', suave: '#646b63', mayusculas: true },
   },
 };
 
-// Persona de esta hoja (una de PERSONAS). Se usa en probar().
+// Persona de esta hoja (una de PERSONAS). Se usa en probar() y para firmar el WhatsApp del CRM.
 const PERSONA = 'alejandro';
 
 // Script independiente (fuera de la hoja): id de la hoja. Vacío = el script vive dentro de la hoja.
@@ -445,7 +446,9 @@ function crmDatos(k) {
     };
   });
   leads.reverse();
-  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl() };
+  // yo: el nombre de la persona de esta hoja, para el mensaje de WhatsApp de las tarjetas
+  const yo = PERSONAS[PERSONA] ? PERSONAS[PERSONA].nombre : '';
+  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo };
 }
 
 /** Cambia el estado o las notas de un lead desde el CRM. */
