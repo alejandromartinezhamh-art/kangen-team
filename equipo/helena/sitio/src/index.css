@@ -2,24 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Identidad visual de Helena: cambia estos valores según el brief.md */
+/* Identidad visual de Helena: la misma estructura que la de Alejandro (titulares apretados con una palabra en
+   cursiva serif, líneas discontinuas, botones píldora, sin sombras) con sus colores en claro (oliva y terracota):
+   fondo crema, superficie piedra, acento terracota oscuro y la estructura (líneas, numeración, flechas) en oliva. Los colores y
+   las letras se pueden cambiar desde el editor (contenido.json → colores y fuentes), que los pone por encima
+   de estos. */
 :root {
-  --color-primario: #0f766e;
-  --color-acento: #f59e0b;
-  --color-fondo: #faf7f2;
-  --color-texto: #1c1917;
-  --fuente-titulo: 'Plus Jakarta Sans', sans-serif;
-  --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+  --color-fondo: #f8f5ee; /* crema */
+  --color-superficie: #d9d1c1; /* piedra: tarjetas de pasos y caja del vídeo */
+  --color-borde: #e7e0d4; /* arena: bordes de campos */
+  --color-linea: #74806a; /* oliva: líneas discontinuas (solo líneas, nunca texto) */
+  --color-secundario: #575e57; /* gris verde: texto secundario */
+  --color-texto: #1f2a22; /* verde noche: texto y botón principal */
+  --color-texto-hover: #575e57; /* hover del botón principal */
+  --color-acento: #9f5839; /* terracota oscuro: etiquetas, números grandes y palabra en cursiva */
+  --color-estructura: #646e5b; /* oliva oscuro: numeración, flechas y letras de las opciones */
+  --color-error: #b42318;
+  --color-primario: var(--color-texto);
+  --fuente-titulo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-cuerpo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-acento: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* cursiva de énfasis en titulares */
+
+  /* Formulario compartido */
+  --form-fondo: transparent;
+  --form-campo: transparent;
+  --form-borde: var(--color-borde);
+  --form-placeholder: #858d80; /* gris oliva */
+  --form-radio: 22.5px;
+  --campo-radio: 18px;
+  --boton-fondo: var(--color-texto);
+  --boton-texto: var(--color-fondo);
+  --boton-radio: 36px;
+  --boton-mayusculas: uppercase;
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-fondo);
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--color-fondo);
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
-h3 {
+h3,
+.titular {
   font-family: var(--fuente-titulo);
+  letter-spacing: -0.045em;
+}
+
+/* Palabra de énfasis dentro de un titular: *así* en contenido.json. Va en el color de acento, sin adornos. */
+.titular em,
+h1 em,
+h2 em,
+h3 em {
+  font-family: var(--fuente-acento);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-acento);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 1px dashed var(--color-texto);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #c47a5a; /* terracota */
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
 }

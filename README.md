@@ -129,6 +129,14 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 - **Editor**: https://gemma-ona.vercel.app/editar (Instagram, cuestionario, webinar, emails y su web).
   Necesita `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en el proyecto `gemma-ona`.
 
+### Helena
+
+- **Vercel** (proyecto `helena-saigi`, Root Directory `equipo/helena/sitio`): https://helena-saigi.vercel.app — la misma web y el
+  mismo embudo que Gemma, con sus colores (oliva y terracota). Su portada (`/`) lleva a `/l/instagram` hasta que escriba «Mi historia».
+- **Editor**: https://helena-saigi.vercel.app/editar. Necesita `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en el proyecto `helena-saigi`.
+- **Leads**: necesita su hoja con `Embudo.gs` (`PERSONA = 'helena'`) instalada con su cuenta de Google, y `LEADS_WEBHOOK_URL` y
+  `LEADS_WEBHOOK_SECRET` en el proyecto.
+
 ## Publicación (Cloudflare Pages, recomendado)
 
 Un proyecto de Pages por persona, todos conectados a este repositorio:
