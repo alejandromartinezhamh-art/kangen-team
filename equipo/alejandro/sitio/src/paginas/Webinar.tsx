@@ -76,12 +76,12 @@ export default function Webinar() {
         <span className="text-secundario">Webinar</span>
       </div>
 
-      <header className="mx-auto max-w-6xl px-[18px] pb-10 pt-14 sm:px-8 sm:pt-20">
+      <header className="mx-auto max-w-6xl px-[18px] pb-10 pt-14 sm:px-8 sm:pt-20 md:text-center">
         <p className="mb-3 text-[11px] font-bold uppercase text-acento">{webinar.subtitulo}</p>
-        <h1 className="max-w-4xl text-[clamp(2.2rem,8vw,4.6rem)] font-bold leading-[0.9]">
+        <h1 className="max-w-4xl text-[clamp(2.2rem,8vw,4.6rem)] font-bold leading-[0.9] md:mx-auto md:[text-wrap:balance]">
           <Enfasis texto={webinar.titulo} />
         </h1>
-        <p className="mt-6 max-w-2xl font-medium leading-relaxed text-secundario sm:text-lg">
+        <p className="mt-6 max-w-2xl font-medium leading-relaxed text-secundario sm:text-lg md:mx-auto">
           Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma:
           al terminar podrás escribirme directamente por WhatsApp.
         </p>

@@ -1,6 +1,6 @@
 import { Fragment, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { enEditor } from '@equipo/compartido';
+import { CampoTelefono, enEditor } from '@equipo/compartido';
 import { embudo, persona } from '../config';
 import { cuestionario, type Campo, type Paso } from '../cuestionario';
 import Enfasis from '../componentes/Enfasis';
@@ -22,7 +22,7 @@ const botonBorde =
   'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[22.5px] border px-6 py-3 text-left text-[13px] font-bold uppercase leading-[1.25] transition hover:bg-[rgba(0,0,0,.05)]';
 const campo =
   'w-full rounded-[18px] border border-[color:var(--form-borde)] bg-transparent px-4 py-3 text-base text-inherit outline-none placeholder:text-[color:var(--form-placeholder)] focus:border-texto';
-const titular = 'text-[clamp(1.9rem,8.5vw,3rem)] font-bold leading-[0.95] [text-wrap:balance]';
+const titular = 'titular text-[clamp(1.9rem,8.5vw,3rem)] font-bold leading-[0.95] [text-wrap:balance]';
 
 const tipoCampo: Record<Campo, { type: string; autoComplete: string; inputMode?: 'tel' | 'email' }> = {
   nombre: { type: 'text', autoComplete: 'name' },
@@ -218,16 +218,30 @@ export default function Cuestionario() {
                 <Enfasis texto={paso.texto} />
               </label>
               {paso.ayuda && <p className="mt-4 font-medium leading-relaxed text-secundario">{paso.ayuda}</p>}
-              <input
-                id={`campo-${paso.campo}`}
-                {...tipoCampo[paso.campo]}
-                required={!paso.opcional}
-                placeholder={paso.placeholder}
-                value={datos[paso.campo]}
-                onChange={(e) => setDatos((d) => ({ ...d, [paso.campo]: e.target.value }))}
-                className={`${campo} mt-8`}
-                autoFocus
-              />
+              {paso.campo === 'telefono' ? (
+                <div className="mt-8">
+                  <CampoTelefono
+                    id="campo-telefono"
+                    required={!paso.opcional}
+                    placeholder={paso.placeholder}
+                    valor={datos.telefono}
+                    onCambio={(telefono) => setDatos((d) => ({ ...d, telefono }))}
+                    clase={campo}
+                    autoFocus
+                  />
+                </div>
+              ) : (
+                <input
+                  id={`campo-${paso.campo}`}
+                  {...tipoCampo[paso.campo]}
+                  required={!paso.opcional}
+                  placeholder={paso.placeholder}
+                  value={datos[paso.campo]}
+                  onChange={(e) => setDatos((d) => ({ ...d, [paso.campo]: e.target.value }))}
+                  className={`${campo} mt-8`}
+                  autoFocus
+                />
+              )}
               <button type="submit" className={`${botonLleno} mt-4`}>
                 <span>{cuestionario.siguiente}</span>
                 <span className="text-[11px] opacity-60">→</span>
