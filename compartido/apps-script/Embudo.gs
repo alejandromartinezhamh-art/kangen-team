@@ -141,7 +141,7 @@ function registrarLead(d) {
   };
   if (d.origen === 'webinar') valores['Quiere hablar'] = ahora();
   Object.keys(d.respuestas || {}).forEach(function (k) { valores[k] = d.respuestas[k]; });
-  hoja.appendRow(cab.map(function (c) { return valores[c] !== undefined ? valores[c] : ''; }));
+  hoja.appendRow(cab.map(function (c) { return valores[c] !== undefined ? comoTexto(valores[c]) : ''; }));
   const fila = hoja.getLastRow();
 
   if (d.origen === 'webinar') {
@@ -370,7 +370,12 @@ function buscarFila(hoja, cab, id, email) {
 }
 
 function poner(hoja, fila, cab, columna, valor) {
-  hoja.getRange(fila, cab.indexOf(columna) + 1).setValue(valor);
+  hoja.getRange(fila, cab.indexOf(columna) + 1).setValue(comoTexto(valor));
+}
+
+/** Lo que escribe la gente va a la hoja como texto, nunca como fórmula ("+34 600…" daría #ERROR!). */
+function comoTexto(valor) {
+  return typeof valor === 'string' && /^[=+\-@]/.test(valor) ? "'" + valor : valor;
 }
 
 function leer(hoja, fila, cab, columna) {

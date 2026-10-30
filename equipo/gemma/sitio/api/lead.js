@@ -6,6 +6,11 @@ var MAX_RESPUESTAS = 30;
 function texto(v, max = MAX) {
   return typeof v === "string" ? v.trim().slice(0, max) : "";
 }
+function telefono(v) {
+  let n = texto(v, 40).replace(/\D/g, "").replace(/^00/, "");
+  if (n.length === 9 && /^[6789]/.test(n)) n = "34" + n;
+  return n;
+}
 function respuestas(v) {
   if (!v || typeof v !== "object" || Array.isArray(v)) return void 0;
   const limpias = {};
@@ -40,7 +45,7 @@ async function leerLead(request) {
     origen: texto(datos.origen),
     nombre: texto(datos.nombre),
     email: texto(datos.email),
-    telefono: texto(datos.telefono),
+    telefono: telefono(datos.telefono),
     mensaje: texto(datos.mensaje),
     consentimiento: datos.consentimiento === true,
     id: texto(datos.id, 40) || void 0,
