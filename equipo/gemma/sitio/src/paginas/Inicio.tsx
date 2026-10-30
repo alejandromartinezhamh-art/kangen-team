@@ -89,7 +89,7 @@ export default function Inicio() {
               className="flex min-h-[58px] items-center justify-between gap-4 rounded-[22.5px] border border-texto px-6 text-[13px] font-bold uppercase transition hover:bg-[rgba(0,0,0,.05)]"
             >
               <span>{textos.botonVideo}</span>
-              <span className="text-[11px] text-secundario">02</span>
+              <span className="text-[11px] text-estructura">02</span>
             </a>
           </nav>
         </div>
@@ -110,7 +110,7 @@ export default function Inicio() {
               key={d}
               className="flex items-baseline gap-6 border-b border-dashed border-linea py-6 first:border-t"
             >
-              <span className="text-[11px] font-bold text-secundario">{num(i)}</span>
+              <span className="text-[11px] font-bold text-estructura">{num(i)}</span>
               <span className="titular text-xl font-semibold leading-tight sm:text-3xl">{d}</span>
             </li>
           ))}
@@ -126,7 +126,7 @@ export default function Inicio() {
             <div key={p.titulo} className="rounded-[22.5px] border border-texto p-6 sm:p-8">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold">{p.titulo}</h3>
-                <span className="text-[11px] font-bold text-secundario">{num(i)}</span>
+                <span className="text-[11px] font-bold text-estructura">{num(i)}</span>
               </div>
               <p className="mt-3 font-medium leading-relaxed text-secundario">{p.texto}</p>
             </div>

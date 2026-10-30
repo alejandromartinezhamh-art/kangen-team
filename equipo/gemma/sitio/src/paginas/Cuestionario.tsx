@@ -151,7 +151,7 @@ export default function Cuestionario() {
             {embudo.general.marca}
           </Link>
         )}
-        <span className="text-secundario">
+        <span className="text-estructura">
           {estado === 'enviado'
             ? cuestionario.gracias.etiqueta
             : numerados[i]
@@ -187,7 +187,7 @@ export default function Cuestionario() {
                   className={`${botonBorde} border-texto no-underline`}
                 >
                   <span>{cuestionario.gracias.whatsapp}</span>
-                  <span className="text-[11px] text-secundario">→</span>
+                  <span className="text-[11px] text-estructura">→</span>
                 </a>
               )}
             </div>
@@ -285,7 +285,7 @@ export default function Cuestionario() {
                     className={`${botonBorde} ${elegida ? 'border-texto bg-[rgba(0,0,0,.04)]' : 'border-[color:var(--form-borde)]'}`}
                   >
                     <span>{o}</span>
-                    <span className="flex-none text-[11px] text-secundario">{String.fromCharCode(65 + n)}</span>
+                    <span className="flex-none text-[11px] text-estructura">{String.fromCharCode(65 + n)}</span>
                   </button>
                 );
               })}

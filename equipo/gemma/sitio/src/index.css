@@ -4,17 +4,19 @@
 
 /* Identidad visual de Gemma: la misma estructura que la de Alejandro (titulares apretados con una palabra en
    cursiva serif, líneas discontinuas, botones píldora, sin sombras) con sus colores en claro: fondo eggshell,
-   superficie lila y acento coral oscuro. Los colores y las letras se pueden cambiar desde el editor
-   (contenido.json → colores y fuentes), que los pone por encima de estos. */
+   superficie lila, acento coral oscuro y la estructura (líneas, numeración, flechas) en lila. Los colores y
+   las letras se pueden cambiar desde el editor (contenido.json → colores y fuentes), que los pone por encima
+   de estos. */
 :root {
   --color-fondo: #fdfcfc; /* eggshell */
   --color-superficie: #d0c7ff; /* lila: tarjetas de pasos y caja del vídeo */
   --color-borde: #ebe8e4; /* stone: bordes de campos */
-  --color-linea: #a59f97; /* ash: líneas discontinuas y placeholders */
+  --color-linea: #d0c7ff; /* lila: líneas discontinuas (solo líneas, nunca texto) */
   --color-secundario: #44403b; /* graphite: texto secundario */
   --color-texto: #000000; /* ink: texto y botón principal */
   --color-texto-hover: #44403b; /* hover del botón principal */
   --color-acento: #af562c; /* coral oscuro: etiquetas, números grandes y palabra en cursiva */
+  --color-estructura: #6952e0; /* lila oscuro: numeración, flechas y letras de las opciones */
   --color-error: #b42318;
   --color-primario: var(--color-texto);
   --fuente-titulo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
@@ -25,7 +27,7 @@
   --form-fondo: transparent;
   --form-campo: transparent;
   --form-borde: var(--color-borde);
-  --form-placeholder: var(--color-linea);
+  --form-placeholder: #a59f97; /* ash */
   --form-radio: 22.5px;
   --campo-radio: 18px;
   --boton-fondo: var(--color-texto);

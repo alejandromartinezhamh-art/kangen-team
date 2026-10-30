@@ -8,6 +8,7 @@ La web de `sitio/` lo aplica; los colores y las letras también se pueden cambia
 
 **Concepto:** claro, editorial, sin sombras. Titulares en grotesca apretada con una palabra en cursiva serif y en coral,
 líneas discontinuas, botones píldora numerados, tarjetas lila y un único acento coral usado con mucha moderación.
+Toda la estructura (líneas, numeración, flechas) va en lila.
 
 ---
 
@@ -22,14 +23,15 @@ Cada color ocupa el mismo papel que su equivalente en la marca de Alejandro (ent
 | `fondo` | Eggshell (Walnut) | `#fdfcfc` | 253, 252, 252 | Fondo de todo |
 | `superficie` | Lila (Bark) | `#d0c7ff` | 208, 199, 255 | Tarjetas destacadas (pasos), caja del vídeo, diapositivas alternas |
 | `borde` | Stone (Cork) | `#ebe8e4` | 235, 232, 228 | Bordes de campos y tarjetas de formulario |
-| `linea` | Ash (Driftwood) | `#a59f97` | 165, 159, 151 | Líneas discontinuas, placeholders. **No para texto pequeño** |
+| `linea` | Lila (Driftwood) | `#d0c7ff` | 208, 199, 255 | Líneas discontinuas que separan secciones y filas. **Solo líneas, nunca texto** |
 | `secundario` | Graphite (Sand) | `#44403b` | 68, 64, 59 | Texto secundario, subtítulos, números de botón |
 | `texto` | Ink (Cream) | `#000000` | 0, 0, 0 | Texto principal y botón relleno |
 | `texto-hover` | Graphite (Cream claro) | `#44403b` | 68, 64, 59 | Hover del botón relleno |
 | `acento` | Coral oscuro (Ember) | `#af562c` | 175, 86, 44 | Palabra de énfasis de los titulares, etiquetas pequeñas y números grandes. Máximo 1–2 por pantalla |
+| `estructura` | Lila oscuro (Sand en los números) | `#6952e0` | 105, 82, 224 | Numeración (`01`, `02 / 06`), flechas, letras de las opciones, "Desliza →" y "Guarda este post" |
 
-También: coral claro `#ffa174` solo para la selección de texto y detalles decorativos (nunca como letra sobre el fondo: 1,9 : 1),
-y `#b42318` para errores. Hover del botón con borde: negro al 5 % (`rgba(0, 0, 0, 0.05)`).
+También: coral claro `#ffa174` solo para la selección de texto y detalles decorativos (nunca como letra sobre el fondo: 1,9 : 1).
+Ash `#a59f97` para los placeholders del formulario y `#b42318` para errores. Hover del botón con borde: negro al 5 % (`rgba(0, 0, 0, 0.05)`).
 
 ### Contraste (WCAG)
 
@@ -39,10 +41,13 @@ y `#b42318` para errores. Hover del botón con borde: negro al 5 % (`rgba(0, 0, 
 | Eggshell sobre Ink (botón relleno) | 20,5 : 1 | Todo |
 | Graphite sobre Eggshell | 10,0 : 1 | Todo |
 | Coral oscuro sobre Eggshell | 4,9 : 1 | Todo (texto pequeño incluido) |
+| Lila oscuro sobre Eggshell | 5,3 : 1 | Todo (texto pequeño incluido) |
 | Ink sobre Lila | 13,3 : 1 | Todo |
 | Graphite sobre Lila | 6,5 : 1 | Todo |
 | Coral oscuro sobre Lila | 3,2 : 1 | Solo texto grande (≥ 24 px o ≥ 19 px en negrita) |
-| Ash sobre Eggshell | 2,6 : 1 | Solo líneas y elementos decorativos |
+| Lila oscuro sobre Lila | 3,4 : 1 | Solo texto grande; sobre fondo lila la numeración pequeña va en Graphite |
+| Lila sobre Eggshell | 1,5 : 1 | Solo líneas |
+| Ash sobre Eggshell | 2,6 : 1 | Solo placeholders y elementos decorativos |
 | Stone sobre Eggshell | 1,2 : 1 | Solo bordes |
 
 ### Degradado sobre la foto
@@ -83,7 +88,7 @@ Alternativas si no están disponibles: Inter → system-ui; Georgia italic.
 | Cuerpo | 16–18 px | 500 | 1,625 | 0 | No | Párrafos (en Graphite) |
 | Botón | 13 px | 700 | 1,15 | 0 | Sí | Botones píldora |
 | Barra | 12 px | 700 | 1 | 0 | Sí | Nombre y subtítulo superiores |
-| Etiqueta | 11 px | 700 | 1 | 0 | Sí | Etiquetas en Coral oscuro, numeración |
+| Etiqueta | 11 px | 700 | 1 | 0 | Sí | Etiquetas en Coral oscuro; numeración en Lila oscuro |
 | Vertical | 10 px | 700 | 1 | 0 | Sí | Etiqueta vertical sobre la foto (opacidad 75 %) |
 
 En los textos de `sitio/src/contenido.json`, la palabra de énfasis se marca entre asteriscos: `Otra *manera* de ganarse la vida`.
@@ -116,7 +121,7 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
 | Radio píldora | 36 px | Botón relleno principal |
 | Radio tarjeta | 22,5 px | Botón con borde, tarjetas, foto en escritorio, formulario |
 | Radio campo | 18 px | Campos del formulario |
-| Línea separadora | 1 px discontinua (dashed), Ash | Entre secciones y filas de listas |
+| Línea separadora | 1 px discontinua (dashed), Lila | Entre secciones y filas de listas |
 | Borde de tarjeta | 1 px sólido, Ink | Tarjetas de pilares y botón con borde |
 | Sombras | Ninguna | |
 
@@ -126,17 +131,24 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
 
 **Botón principal (relleno):** fondo Ink, texto Eggshell, radio 36 px, 13 px bold mayúsculas, texto a la izquierda y número `01` a la derecha (11 px, opacidad 60 %). Hover: Graphite.
 
-**Botón secundario (borde):** transparente, borde 1 px Ink, radio 22,5 px, número en Graphite. Hover: negro al 5 %.
+**Botón secundario (borde):** transparente, borde 1 px Ink, radio 22,5 px, número en Lila oscuro. Hover: negro al 5 %.
 
 **Etiqueta de sección:** `01 —— ¿TE SUENA?` en 11 px bold Coral oscuro, con una raya de 32 × 1 px entre el número y el texto.
 
-**Lista numerada:** filas separadas por líneas discontinuas Ash, número 11 px Graphite y texto grande.
+**Lista numerada:** filas separadas por líneas discontinuas Lila, número 11 px Lila oscuro y texto grande.
 
-**Tarjeta de pilar:** borde Ink, radio 22,5 px, título y número a la derecha, descripción en Graphite.
+**Tarjeta de pilar:** borde Ink, radio 22,5 px, título y número a la derecha en Lila oscuro, descripción en Graphite.
 
 **Tarjeta de paso:** fondo Lila sin borde, número grande en Coral oscuro (36 px, 800), título en Ink y texto en Graphite.
 
 **Formulario:** contenedor transparente con borde Stone, campos transparentes con borde Stone y radio 18 px, placeholder Ash, botón como el principal.
+
+**Cuestionario:** contador `01 / 07`, letras de las opciones (A, B, C…) y flechas en Lila oscuro.
+
+**Estructura en lila (también en redes):** todo lo que ordena la pieza va en lila. Las líneas discontinuas en Lila;
+la numeración (`02 / 06`), las flechas (también las dibujadas a mano), "Desliza →" y "Guarda este post" en Lila oscuro,
+porque el lila claro no se lee como texto (1,5 : 1). En una diapositiva con fondo lila, esos textos pequeños van en Graphite.
+El coral se queda para la palabra de énfasis, las etiquetas de sección y los números grandes.
 
 **Foco (accesibilidad):** contorno de 1 px discontinuo en Ink, separado 4 px.
 
@@ -174,6 +186,7 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
   --ash: #a59f97;
   --graphite: #44403b;
   --ink: #000000;
+  --lila-deep: #6952e0;
   --coral-deep: #af562c;
   --coral: #ffa174;
   --font: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
@@ -189,7 +202,8 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
 ```
 
 En la web, estos colores se llaman por su papel (`--color-fondo`, `--color-superficie`, `--color-borde`, `--color-linea`,
-`--color-secundario`, `--color-texto`, `--color-texto-hover`, `--color-acento`) y salen de `contenido.json → colores`.
+`--color-secundario`, `--color-texto`, `--color-texto-hover`, `--color-acento`, `--color-estructura`) y salen de
+`contenido.json → colores`.
 
 ### Tokens (JSON, formato Design Tokens / Tokens Studio para Figma)
 
@@ -198,6 +212,7 @@ En la web, estos colores se llaman por su papel (`--color-fondo`, `--color-super
   "color": {
     "eggshell":  { "$type": "color", "$value": "#fdfcfc" },
     "lila":      { "$type": "color", "$value": "#d0c7ff" },
+    "lilaDeep":  { "$type": "color", "$value": "#6952e0" },
     "stone":     { "$type": "color", "$value": "#ebe8e4" },
     "ash":       { "$type": "color", "$value": "#a59f97" },
     "graphite":  { "$type": "color", "$value": "#44403b" },
@@ -232,5 +247,6 @@ En la web, estos colores se llaman por su papel (`--color-fondo`, `--color-super
 
 ### Para Canva / Kit de marca
 
-- Colores: `#fdfcfc`, `#d0c7ff`, `#44403b`, `#000000`, `#af562c`
+- Colores: `#fdfcfc`, `#d0c7ff`, `#6952e0`, `#44403b`, `#000000`, `#af562c`
+- Líneas en `#d0c7ff`; numeración, flechas y "Desliza →" en `#6952e0`
 - Títulos: Inter Tight Bold, espaciado −4 %, frases normales · Énfasis: DM Serif Display Italic en `#af562c` · Etiquetas: Inter Tight Bold, mayúsculas · Texto: Inter Tight Medium · Notas: Caveat

@@ -15,7 +15,7 @@
       ],
       "linea": [
         "Líneas",
-        "Líneas discontinuas y textos de ayuda de los campos"
+        "Líneas discontinuas que separan secciones y filas"
       ],
       "secundario": [
         "Texto secundario",
@@ -32,6 +32,10 @@
       "acento": [
         "Acento",
         "Etiquetas, números grandes y la palabra en cursiva"
+      ],
+      "estructura": [
+        "Estructura",
+        "Numeración, flechas y letras de las opciones"
       ],
       "error": [
         "Error",
@@ -59,11 +63,12 @@
     "fondo": "#fdfcfc",
     "superficie": "#d0c7ff",
     "borde": "#ebe8e4",
-    "linea": "#a59f97",
+    "linea": "#d0c7ff",
     "secundario": "#44403b",
     "texto": "#000000",
     "texto-hover": "#44403b",
     "acento": "#af562c",
+    "estructura": "#6952e0",
     "error": "#b42318"
   },
   "fotos": {

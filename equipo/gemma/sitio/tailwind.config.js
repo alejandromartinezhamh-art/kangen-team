@@ -11,6 +11,7 @@ export default {
         texto: 'var(--color-texto)',
         secundario: 'var(--color-secundario)',
         linea: 'var(--color-linea)',
+        estructura: 'var(--color-estructura)',
         superficie: 'var(--color-superficie)',
       },
       fontFamily: {
