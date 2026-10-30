@@ -62,11 +62,13 @@ la hoja sigue enviando sus emails de siempre.
 
 Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mismo para todas.
 
-1. **Su web**: copia de `equipo/gemma/sitio` las piezas del embudo (`cuestionario.ts`, `paginas/Cuestionario.tsx`,
-   `paginas/Webinar.tsx`, `componentes/VideoWebinar.tsx`, `landings/Instagram.tsx`, y las secciones `general`,
-   `instagram`, `cuestionario`, `webinar` y `email` de `contenido.json`) y adáptalas a su diseño (`embudo.css`).
-   Su WhatsApp y el vídeo del webinar van en `contenido.json` → `enlaces` (o desde su editor).
-2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web, foto de la firma y colores de su web.
+1. **Su web**: copia entera la carpeta `equipo/gemma/sitio`. Es la misma web y el mismo embudo que los de Alejandro
+   (Instagram, cuestionario, webinar y emails), con su editor. En `contenido.json` cambia solo lo suyo: `colores`
+   (por papel: fondo, superficie, líneas, texto, acento, estructura…), `email.colores`, `general.marca`, `fotos`,
+   la firma del email y su nombre en los textos. Su WhatsApp y el vídeo del webinar van en `enlaces` (o desde su editor).
+   No cambies las preguntas ni su `columna`: así todas las hojas tienen las mismas columnas.
+2. **Su entrada en `PERSONAS`** (arriba de `Embudo.gs`): nombre, web, foto de la firma y colores de su web (los de
+   `email.colores` de su `contenido.json`; solo se usan si la web no manda los suyos).
 3. **Su hoja**: `Leads webinar <Nombre>` en su carpeta de Drive. Sigue la instalación de arriba con estos cambios:
    - en el script, `const PERSONA = '<su clave>';` (p. ej. `'gemma'`);
    - **mejor que lo instale ella con su cuenta de Google**: los emails salen de su Gmail y las respuestas y avisos le

@@ -33,7 +33,7 @@ const PERSONAS = {
     foto: 'https://gemma-ona.vercel.app/foto-email.jpg',
     aviso: '',
     responder: '',
-    estilo: { boton: '#000000', textoBoton: '#fdfcfc', titulo: '#000000', texto: '#44403b', suave: '#a59f97', mayusculas: false },
+    estilo: { boton: '#000000', textoBoton: '#fdfcfc', titulo: '#000000', texto: '#44403b', suave: '#777169', mayusculas: true },
   },
 };
 
