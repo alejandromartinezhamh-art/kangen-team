@@ -71,6 +71,10 @@ export function Cookies() {
         No usamos cookies de análisis ni de publicidad.
       </p>
       <p>
+        Para saber cuántas personas visitan cada página usamos Vercel Web Analytics, que no usa cookies ni guarda
+        datos que te identifiquen: solo cuenta visitas de forma agregada.
+      </p>
+      <p>
         Si en el futuro añadimos herramientas de medición (por ejemplo, el píxel de Meta o Google Analytics),
         actualizaremos esta página y pediremos tu consentimiento antes de activarlas.
       </p>
