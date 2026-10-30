@@ -167,7 +167,8 @@
 
   function tarjeta(l) {
     var tel = telefono(l.telefono);
-    var mensaje = 'Hola ' + primerNombre(l.nombre) + ', soy Alejandro. Te escribo porque rellenaste el cuestionario del webinar.';
+    var yo = primerNombre(datos.yo);
+    var mensaje = 'Hola ' + primerNombre(l.nombre) + (yo ? ', soy ' + yo : '') + '. Te escribo porque rellenaste el cuestionario del webinar.';
     var opciones = datos.estados.map(function (e) { return '<option' + (e === l.estado ? ' selected' : '') + '>' + esc(e) + '</option>'; }).join('');
     var respuestas = Object.keys(l.respuestas).map(function (p) { return '<dt>' + esc(p) + '</dt><dd>' + esc(l.respuestas[p]) + '</dd>'; }).join('');
     // Ha dado señales (vídeo visto o WhatsApp) y sigue en las primeras columnas: no dejarlo escapar

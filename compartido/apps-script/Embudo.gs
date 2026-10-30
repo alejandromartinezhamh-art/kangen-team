@@ -46,7 +46,7 @@ const PERSONAS = {
   },
 };
 
-// Persona de esta hoja (una de PERSONAS). Se usa en probar().
+// Persona de esta hoja (una de PERSONAS). Se usa en probar() y para firmar el WhatsApp del CRM.
 const PERSONA = 'alejandro';
 
 // Script independiente (fuera de la hoja): id de la hoja. Vacío = el script vive dentro de la hoja.
@@ -446,7 +446,9 @@ function crmDatos(k) {
     };
   });
   leads.reverse();
-  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl() };
+  // yo: el nombre de la persona de esta hoja, para el mensaje de WhatsApp de las tarjetas
+  const yo = PERSONAS[PERSONA] ? PERSONAS[PERSONA].nombre : '';
+  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo };
 }
 
 /** Cambia el estado o las notas de un lead desde el CRM. */
