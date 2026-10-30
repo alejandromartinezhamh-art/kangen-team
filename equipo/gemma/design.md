@@ -2,118 +2,92 @@
 
 Referencia completa de la identidad visual de Gemma para pasarla a cualquier herramienta
 (Figma, Canva, Framer, Webflow, Lovable, editores de vídeo…).
-La fuente es su web (`sitio/src/index.css`, `embudo.css` y `contenido.json`), que sale de la carpeta de Drive
-`Landing Kangen Gemma / 08 Design`. Ejemplo de otro sistema completo: `equipo/alejandro/design.md`.
+Es **el mismo sistema que el de Alejandro** (`equipo/alejandro/design.md`): misma tipografía, misma estructura,
+mismos componentes y mismos textos. Solo cambian los colores: fondo claro, superficie lila y acento coral.
+La web de `sitio/` lo aplica; los colores y las letras también se pueden cambiar desde su editor (`/editar`).
 
-**Concepto:** claro, tranquilo y con mucho aire. Titulares muy finos en negro con una palabra en coral,
-fotos de exterior con esquinas redondeadas, etiquetas pequeñas muy espaciadas con un punto coral y botones negros y lila en píldora.
+**Concepto:** claro, editorial, sin sombras. Titulares en grotesca apretada con una palabra en cursiva serif y en coral,
+líneas discontinuas, botones píldora numerados, tarjetas lila y un único acento coral usado con mucha moderación.
 
 ---
 
 ## 1. Color
 
-| Token | Nombre | Hex | Uso |
-|---|---|---|---|
-| `eggshell` | Eggshell | `#fdfcfc` | Fondo de toda la página y de las piezas de redes |
-| `taupe` | Taupe | `#f5f3f1` | Fondo suave: frase grande, webinar, contacto, cierre de carrusel |
-| `stone` | Stone | `#ebe8e4` | Líneas, bordes y separadores. **Nunca texto** |
-| `ink` | Ink | `#000000` | Titulares, texto fuerte y botón principal |
-| `graphite` | Graphite | `#44403b` | Etiquetas pequeñas, listas, texto oscuro secundario |
-| `smoke` | Smoke | `#777169` | Párrafos y la parte suave (énfasis) de los titulares |
-| `ash` | Ash | `#a59f97` | Notas legales y detalles muy suaves (ver contraste) |
-| `coral` | Coral | `#ffa174` | Relleno: punto de las etiquetas, etiqueta píldora, anillos, progreso. **Nunca como letra sobre claro** |
-| `coral-deep` | Coral oscuro | `#af562c` | Letra: la palabra destacada del titular y los números grandes |
-| `lila` | Lila | `#d0c7ff` | Relleno: botón secundario, bandas y bloques de color, fondo de fotos. **Nunca como letra sobre claro** |
-| `lila-deep` | Lila oscuro | `#6952e0` | Letra: enlaces dentro del texto y enlace subrayado |
+### Paleta
 
-También: `#ff8f5c` (hover coral), `#beb2ff` (hover del botón lila), `#ffffff` para campos del cuestionario
-y textos sobre foto, `#e5e5e5` para el borde del botón claro y `#b42318` para errores.
+Cada color ocupa el mismo papel que su equivalente en la marca de Alejandro (entre paréntesis).
 
-### Coral y lila: dos tonos de cada uno
+| Token | Nombre | Hex | RGB | Uso |
+|---|---|---|---|---|
+| `fondo` | Eggshell (Walnut) | `#fdfcfc` | 253, 252, 252 | Fondo de todo |
+| `superficie` | Lila (Bark) | `#d0c7ff` | 208, 199, 255 | Tarjetas destacadas (pasos), caja del vídeo, diapositivas alternas |
+| `borde` | Stone (Cork) | `#ebe8e4` | 235, 232, 228 | Bordes de campos y tarjetas de formulario |
+| `linea` | Ash (Driftwood) | `#a59f97` | 165, 159, 151 | Líneas discontinuas, placeholders. **No para texto pequeño** |
+| `secundario` | Graphite (Sand) | `#44403b` | 68, 64, 59 | Texto secundario, subtítulos, números de botón |
+| `texto` | Ink (Cream) | `#000000` | 0, 0, 0 | Texto principal y botón relleno |
+| `texto-hover` | Graphite (Cream claro) | `#44403b` | 68, 64, 59 | Hover del botón relleno |
+| `acento` | Coral oscuro (Ember) | `#af562c` | 175, 86, 44 | Palabra de énfasis de los titulares, etiquetas pequeñas y números grandes. Máximo 1–2 por pantalla |
 
-Coral y lila son muy claros: como letra sobre el fondo de Gemma no se leen (1,9 : 1 y 1,5 : 1). Por eso cada uno tiene
-un tono claro para rellenar, con letra negra encima, y un tono oscuro (mismo matiz) para usar como letra.
-
-- **El toque en la letra es coral:** la palabra marcada (`*así*`) va en Coral oscuro, una o dos palabras por titular.
-  En titulares largos de varias líneas, la segunda mitad puede seguir en Smoke.
-- **El toque en los botones es lila:** botón principal Ink, botón secundario Lila con letra Ink. Nunca dos botones lila juntos.
-- **Etiqueta píldora:** "WEBINAR GRATUITO" en píldora Coral o "GUARDA ESTE POST" en píldora Lila, con letra Ink. Una por pieza.
-- **Como mucho dos toques por pieza** (por ejemplo, la palabra coral y un botón lila). El punto de las etiquetas no cuenta.
-- Sobre un bloque Lila, la palabra en Coral oscuro solo en titulares (3,2 : 1); los párrafos van en Graphite.
-- Sobre fondo Ink (oscuro), Coral y Lila sí funcionan como letra (10,6 : 1 y 13,3 : 1).
-- En redes, una pieza de 1080 px se ve en el móvil a un tercio: el texto de apoyo de 34 px se lee como uno de 12 px
-  y necesita 4,5 : 1. Solo los titulares (76 px o más) cuentan como texto grande.
+También: coral claro `#ffa174` solo para la selección de texto y detalles decorativos (nunca como letra sobre el fondo: 1,9 : 1),
+y `#b42318` para errores. Hover del botón con borde: negro al 5 % (`rgba(0, 0, 0, 0.05)`).
 
 ### Contraste (WCAG)
 
 | Combinación | Ratio | Válido para |
 |---|---|---|
 | Ink sobre Eggshell | 20,5 : 1 | Todo |
+| Eggshell sobre Ink (botón relleno) | 20,5 : 1 | Todo |
 | Graphite sobre Eggshell | 10,0 : 1 | Todo |
-| Smoke sobre Eggshell | 4,7 : 1 | Todo |
-| Smoke sobre Taupe | 4,4 : 1 | Solo texto grande (≥ 24 px). En párrafos sobre taupe, usa Graphite |
+| Coral oscuro sobre Eggshell | 4,9 : 1 | Todo (texto pequeño incluido) |
+| Ink sobre Lila | 13,3 : 1 | Todo |
 | Graphite sobre Lila | 6,5 : 1 | Todo |
-| Smoke sobre Lila | 3,1 : 1 | Solo texto grande |
-| Ash sobre Eggshell | 2,6 : 1 | No llega al mínimo de texto. La web lo usa en notas de 11 px; en piezas nuevas usa Smoke |
-| Ink sobre Coral | 10,6 : 1 | Todo (etiquetas y botones coral) |
-| Ink sobre Lila | 13,3 : 1 | Todo (botón y bloques lila) |
-| Graphite sobre Coral | 5,2 : 1 | Todo |
-| Coral oscuro sobre Eggshell | 4,9 : 1 | Todo |
-| Coral oscuro sobre Taupe | 4,5 : 1 | Todo |
-| Coral oscuro sobre White | 5,0 : 1 | Todo |
-| Coral oscuro sobre Lila | 3,2 : 1 | Solo titulares |
-| Lila oscuro sobre Eggshell | 5,3 : 1 | Todo |
-| Lila oscuro sobre Taupe | 4,9 : 1 | Todo |
-| Coral sobre Ink | 10,6 : 1 | Todo (fondo oscuro) |
-| Lila sobre Ink | 13,3 : 1 | Todo (fondo oscuro) |
-| Coral sobre Eggshell | 1,9 : 1 | Nunca para texto, solo relleno y decoración |
-| Lila sobre Eggshell | 1,5 : 1 | Nunca para texto, solo relleno y decoración |
+| Coral oscuro sobre Lila | 3,2 : 1 | Solo texto grande (≥ 24 px o ≥ 19 px en negrita) |
+| Ash sobre Eggshell | 2,6 : 1 | Solo líneas y elementos decorativos |
+| Stone sobre Eggshell | 1,2 : 1 | Solo bordes |
 
-### Degradados sobre la foto
+### Degradado sobre la foto
 
 ```
-Foto con texto abajo:   linear-gradient(0deg, rgba(5,12,12,.33), transparent 37%)
-Portada (además):       linear-gradient(90deg, rgba(20,21,17,.07), transparent 50%)
-Vivir bien:             linear-gradient(0deg, rgba(20,25,20,.28), transparent 55%)
+Móvil (foto a sangre que se funde con el fondo):
+linear-gradient(to bottom,
+  rgba(253,252,252,.35) 0%, transparent 18%, transparent 58%,
+  rgba(253,252,252,.75) 82%, #fdfcfc 100%)
+
+Escritorio (foto en tarjeta):
+linear-gradient(to bottom, transparent 60%, rgba(253,252,252,.55) 100%)
 ```
 
 ---
 
 ## 2. Tipografía
 
+Igual que Alejandro. Estilo editorial: una grotesca apretada con interlineado muy cerrado, más una palabra de énfasis en
+cursiva serif y en Coral oscuro. Titulares en frases normales (no en mayúsculas); las mayúsculas quedan para botones,
+etiquetas y barra superior.
+
 | Rol | Familia | Pesos | Uso |
 |---|---|---|---|
-| Titulares | [Inter Tight](https://fonts.google.com/specimen/Inter+Tight) | 300 (titulares), 500 (nombre) | Titulares, frases destacadas, nombre |
-| Texto | [Inter](https://fonts.google.com/specimen/Inter) | 400, 500 | Párrafos, etiquetas, botones, formularios |
+| Principal | [Inter Tight](https://fonts.google.com/specimen/Inter+Tight) | 400–800 | Titulares, textos, botones, etiquetas |
+| Énfasis | [DM Serif Display](https://fonts.google.com/specimen/DM+Serif+Display) Italic | 400 | 1–2 palabras dentro de un titular (*manera*, *empecé*), en Coral oscuro |
+| Notas a mano (solo redes) | [Caveat](https://fonts.google.com/specimen/Caveat) | 500–700 | Anotaciones con flecha en carruseles |
 
-Titulares siempre en 300, en frases normales, nunca en negrita ni en mayúsculas.
-**Énfasis:** la palabra marcada entre asteriscos en `contenido.json` (`Otra *manera* de ganarse la vida`) va en
-Coral oscuro (`#af562c`). En titulares largos de varias líneas, la segunda mitad puede ir en Smoke. Ni negrita ni cursiva.
-(Hoy la web la pinta en Smoke con la clase `.suave`; pasarla a Coral oscuro es cambiar esa clase.)
+Alternativas si no están disponibles: Inter → system-ui; Georgia italic.
 
 | Estilo | Tamaño | Peso | Interlineado | Espaciado | Mayúsculas | Uso |
 |---|---|---|---|---|---|---|
-| Display | 43–69 px (`clamp(45px, 4.35vw, 69px)`) | 300 | 1,075 | −0,047 em | No | Titular de portada |
-| Frase grande | 46–83 px | 300 | 1,055 | −0,055 em | No | Banda taupe, una línea por idea |
-| H2 | 35–68 px | 300 | 1,055 | −0,047 em | No | Títulos de sección |
-| Tarjeta | 21 px | 300 | 1,3 | −0,03 em | No | Tarjetas de valores |
-| Frase destacada | 18 px | 300 | 1,55 | 0 | No | Junto a un párrafo, en Graphite |
-| Nombre | 22 px (17 px en enlaces) | 500 | 1 | −0,055 em | Sí | `GEMMA OÑA` |
-| Cuerpo | 14–15 px | 400 | 1,75–1,85 | 0 | No | Párrafos en Smoke |
-| Botón | 13 px (14 px en el embudo) | 500 | 1,2 | 0 | No | Botones píldora con flecha `↗` |
-| Etiqueta | 10,5 px | 500 | 1,7 | 0,17 em | Sí | Encima de cada titular, en Graphite |
-| Texto sobre foto | 9–11 px | 500 | 1,4 | 0,13–0,15 em | Sí | Frase abajo a la izquierda, nombre arriba a la derecha |
+| Display | 38–83 px (`clamp(2.4rem, 9vw, 5.2rem)`) | 700 | 0,90 | −0,045 em | No | Titular de portada |
+| H2 | 30–48 px (`clamp(1.9rem, 9vw, 3rem)`) | 700 | 0,92 | −0,045 em | No | Títulos de sección |
+| Énfasis | igual que su titular | 400 cursiva | igual | −0,02 em | No | Palabra en DM Serif Display Italic, color Coral oscuro |
+| Lista grande | 20 px móvil / 30 px escritorio | 600 | 1,25 | −0,045 em | No | "¿Te suena?" |
+| H3 | 16–18 px | 700 | 1,3 | −0,045 em | No | Títulos de tarjeta |
+| Cuerpo | 16–18 px | 500 | 1,625 | 0 | No | Párrafos (en Graphite) |
+| Botón | 13 px | 700 | 1,15 | 0 | Sí | Botones píldora |
+| Barra | 12 px | 700 | 1 | 0 | Sí | Nombre y subtítulo superiores |
+| Etiqueta | 11 px | 700 | 1 | 0 | Sí | Etiquetas en Coral oscuro, numeración |
+| Vertical | 10 px | 700 | 1 | 0 | Sí | Etiqueta vertical sobre la foto (opacidad 75 %) |
 
-### Redes (lienzo de 1080 px)
-
-| Estilo | Tamaño | Peso | Uso |
-|---|---|---|---|
-| Gancho | 104 px (88 px con foto) | 300 | Post, portada de carrusel, portada de reel |
-| Titular | 76 px | 300 | Diapositiva interior, story |
-| Apoyo | 34 px, interlineado 1,6 | 400 | Texto en Smoke, máximo 3 líneas |
-| Etiqueta | 24 px, espaciado 0,17 em | 500 | Con punto coral de 12 px; numeración `02 / 06` |
-| Botón | 30 px | 500 | Píldora negra con flecha `↗` |
-| Texto sobre foto | 22 px, espaciado 0,15 em | 500 | Blanco, mayúsculas |
+En los textos de `sitio/src/contenido.json`, la palabra de énfasis se marca entre asteriscos: `Otra *manera* de ganarse la vida`.
+La palabra va en Coral oscuro y sola: sin subrayado, recuadro ni ningún otro adorno.
 
 ---
 
@@ -121,16 +95,17 @@ Coral oscuro (`#af562c`). En titulares largos de varias líneas, la segunda mita
 
 | Token | Valor |
 |---|---|
-| Ancho máximo de contenido | 1280 px |
-| Margen lateral | 54 px escritorio · 32 px hasta 1000 px · 20 px móvil |
-| Separación entre secciones | 132–145 px escritorio · 75–85 px móvil |
-| Separación entre botones y tarjetas | 12–14 px |
-| Relleno de tarjetas | 30 px (20 px en móvil) |
-| Cabecera | 76 px de alto (73 px en móvil) |
-| Ancho máximo del embudo | 480 px (enlaces) · 560 px (cuestionario) |
-| Margen en redes | 96 px |
+| Margen lateral móvil | 18 px |
+| Margen lateral escritorio | 32 px |
+| Ancho máximo de contenido | 1152 px |
+| Ancho máximo página de enlaces | 480 px |
+| Separación vertical entre secciones | 80 px móvil / 112 px escritorio |
+| Separación entre botones | 12 px |
+| Separación entre tarjetas | 12 px |
+| Relleno interno de tarjetas | 24 px móvil / 32 px escritorio |
+| Altura de botón | 54–62 px |
 
-Portada en escritorio: dos columnas (texto 46 % · foto 54 %). Historia: 43 % foto · 57 % texto.
+Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de pantalla completa.
 
 ---
 
@@ -138,61 +113,52 @@ Portada en escritorio: dos columnas (texto 46 % · foto 54 %). Historia: 43 % fo
 
 | Token | Valor | Uso |
 |---|---|---|
-| Radio píldora | 9999 px | Botones y etiquetas sobre foto |
-| Radio panel | 24 px | Fotos grandes, bloque del webinar, tarjeta de contacto |
-| Radio tarjeta | 20 px | Tarjetas de valores, opciones del cuestionario, fotos medianas |
-| Radio campo | 14 px (12 px en contacto) | Campos de formulario |
-| Radio en redes | 40 px | Fotos y bloques en piezas de 1080 px |
-| Líneas | 1 px continua en Stone | Separadores, bordes, filas de listas |
-| Sombras | Solo el botón de reproducir y el diálogo | |
+| Radio píldora | 36 px | Botón relleno principal |
+| Radio tarjeta | 22,5 px | Botón con borde, tarjetas, foto en escritorio, formulario |
+| Radio campo | 18 px | Campos del formulario |
+| Línea separadora | 1 px discontinua (dashed), Ash | Entre secciones y filas de listas |
+| Borde de tarjeta | 1 px sólido, Ink | Tarjetas de pilares y botón con borde |
+| Sombras | Ninguna | |
 
 ---
 
 ## 5. Componentes
 
-**Botón oscuro:** fondo Ink, texto Eggshell, píldora, 46 px de alto, 13 px 500, flecha `↗` a 22 px. Hover Graphite y sube 2 px.
+**Botón principal (relleno):** fondo Ink, texto Eggshell, radio 36 px, 13 px bold mayúsculas, texto a la izquierda y número `01` a la derecha (11 px, opacidad 60 %). Hover: Graphite.
 
-**Botón lila:** fondo Lila, texto Ink (13,3 : 1). Hover `#beb2ff`. Acción secundaria junto al oscuro; nunca dos juntos.
+**Botón secundario (borde):** transparente, borde 1 px Ink, radio 22,5 px, número en Graphite. Hover: negro al 5 %.
 
-**Botón claro:** fondo Eggshell, borde `#e5e5e5`, texto Ink. Hover Stone.
+**Etiqueta de sección:** `01 —— ¿TE SUENA?` en 11 px bold Coral oscuro, con una raya de 32 × 1 px entre el número y el texto.
 
-**Enlace subrayado:** 13 px 500 en Lila oscuro con línea de 1 px del mismo color; la flecha se separa al pasar el ratón.
-Los enlaces dentro de un párrafo también van en Lila oscuro.
+**Lista numerada:** filas separadas por líneas discontinuas Ash, número 11 px Graphite y texto grande.
 
-**Etiqueta (kicker):** 10,5 px 500, espaciado 0,17 em, mayúsculas, Graphite. Con punto Coral de 5 px cuando abre una pieza,
-o en píldora Coral o Lila con letra Ink cuando tiene que verse primero.
+**Tarjeta de pilar:** borde Ink, radio 22,5 px, título y número a la derecha, descripción en Graphite.
 
-**Tarjeta de valor:** borde Stone, radio 20 px, frase en 21 px 300 arriba y número en 10 px Smoke abajo; tres por fila.
+**Tarjeta de paso:** fondo Lila sin borde, número grande en Coral oscuro (36 px, 800), título en Ink y texto en Graphite.
 
-**Cuestionario:** campos blancos con borde Stone y radio 14 px; opciones blancas con radio 20 px y letra en círculo;
-la elegida con borde Ink, fondo Taupe y letra en Coral; barra de progreso de 2 px en Coral.
+**Formulario:** contenedor transparente con borde Stone, campos transparentes con borde Stone y radio 18 px, placeholder Ash, botón como el principal.
 
-**Anillos:** dos círculos de 1 px en Smoke al 20 % y 17 % con un disco Coral al 55 % dentro, cortados por la esquina
-superior derecha de un bloque Taupe. Uno por pieza como mucho.
-
-**Foco (accesibilidad):** contorno de 2 px en Graphite, separado 4 px.
+**Foco (accesibilidad):** contorno de 1 px discontinuo en Ink, separado 4 px.
 
 ---
 
 ## 6. Fotografía
 
-- Fotos de exterior y de su día a día con luz natural: perfil al atardecer (`portada.jpg`), mirador de montaña
-  (`vida.jpg`), su historia (`historia.jpg`) y trabajando en casa (`foto.jpg`). Están en `sitio/public/`.
-- Siempre dentro de un bloque con esquinas redondeadas; nunca a sangre en la web.
-- Tratamiento suave y algo apagado: `saturate(.63) contrast(.88) sepia(.09)` en la portada, `saturate(.65) contrast(.9)`
-  en el resto y `saturate(.75) contrast(.94) sepia(.06)` en el retrato de Instagram.
-- Encuadre: portada `center 40%`, vida `center 45%`, retrato `center 22%`.
-- Nada de fotos de producto, de dinero ni de lujo.
+- Retrato con luz natural trabajando en casa (portátil, taza, plantas y madera). Archivo: `sitio/public/foto.jpg` (900 × 1198).
+  Otras fotos suyas en `sitio/public/fotos/` (perfil al atardecer, mirador de montaña, historia).
+- Tratamiento: `sepia(.06) saturate(1.02) contrast(1.12) brightness(.94)`.
+- Encuadre: centrado horizontal, foco vertical al 35 % (cara en el tercio superior).
+- Proporción: 1 : 1,02 en móvil, 4 : 5 en escritorio.
+- Etiqueta vertical "GEMMA — 01" a la derecha, girada 90°.
 
 ---
 
 ## 7. Tono y movimiento
 
-- Primera persona y desde la calma: "a mi ritmo", "sin prisas", "sin compromiso", "míralo con calma".
-- Frases cortas, a veces sin verbo: "La montaña. La playa por la mañana. Salir con mi perra."
-- Se habla del negocio y del estilo de vida, nunca del producto (ver `estrategia/normas-comunicacion.md`).
-- Sin emojis en la interfaz.
-- Transiciones de 0,25 s en fondo, color y desplazamiento. Se desactivan con `prefers-reduced-motion`.
+- Igual que Alejandro: primera persona, cercano, sin promesas. Titulares en frases normales con una palabra de énfasis en cursiva y en Coral oscuro;
+  mayúsculas solo en botones, etiquetas y barra; frases normales en párrafos.
+- Sin emojis en la interfaz. Sin cifras de dinero, sin producto ni marca, sin afirmaciones de salud (ver `estrategia/normas-comunicacion.md`).
+- Transiciones de 0,2 s solo en color de fondo y borde. Se desactivan con `prefers-reduced-motion`.
 
 ---
 
@@ -202,76 +168,69 @@ superior derecha de un bloque Taupe. Uno por pieza como mucho.
 
 ```css
 :root {
-  --color-eggshell: #fdfcfc;
-  --color-taupe: #f5f3f1;
-  --color-stone: #ebe8e4;
-  --color-ink: #000000;
-  --color-graphite: #44403b;
-  --color-smoke: #777169;
-  --color-ash: #a59f97;
-  --color-coral: #ffa174;
-  --color-coral-hover: #ff8f5c;
-  --color-coral-deep: #af562c;
-  --color-lila: #d0c7ff;
-  --color-lila-hover: #beb2ff;
-  --color-lila-deep: #6952e0;
-  --fuente-titulo: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --fuente-cuerpo: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --tracking-titular: -0.047em;
-  --radius-pill: 9999px;
-  --radius-panel: 24px;
-  --radius-card: 20px;
-  --radius-field: 14px;
-  --gutter-mobile: 20px;
-  --gutter-desktop: 54px;
-  --content-max: 1280px;
+  --eggshell: #fdfcfc;
+  --lila: #d0c7ff;
+  --stone: #ebe8e4;
+  --ash: #a59f97;
+  --graphite: #44403b;
+  --ink: #000000;
+  --coral-deep: #af562c;
+  --coral: #ffa174;
+  --font: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-accent: 'DM Serif Display', Georgia, serif; /* cursiva */
+  --tracking-titular: -0.045em;
+  --radius-pill: 36px;
+  --radius-card: 22.5px;
+  --radius-field: 18px;
+  --gutter-mobile: 18px;
+  --gutter-desktop: 32px;
+  --content-max: 1152px;
 }
 ```
+
+En la web, estos colores se llaman por su papel (`--color-fondo`, `--color-superficie`, `--color-borde`, `--color-linea`,
+`--color-secundario`, `--color-texto`, `--color-texto-hover`, `--color-acento`) y salen de `contenido.json → colores`.
 
 ### Tokens (JSON, formato Design Tokens / Tokens Studio para Figma)
 
 ```json
 {
   "color": {
-    "eggshell": { "$type": "color", "$value": "#fdfcfc" },
-    "taupe":    { "$type": "color", "$value": "#f5f3f1" },
-    "stone":    { "$type": "color", "$value": "#ebe8e4" },
-    "ink":      { "$type": "color", "$value": "#000000" },
-    "graphite": { "$type": "color", "$value": "#44403b" },
-    "smoke":    { "$type": "color", "$value": "#777169" },
-    "ash":      { "$type": "color", "$value": "#a59f97" },
-    "coral":    { "$type": "color", "$value": "#ffa174" },
+    "eggshell":  { "$type": "color", "$value": "#fdfcfc" },
+    "lila":      { "$type": "color", "$value": "#d0c7ff" },
+    "stone":     { "$type": "color", "$value": "#ebe8e4" },
+    "ash":       { "$type": "color", "$value": "#a59f97" },
+    "graphite":  { "$type": "color", "$value": "#44403b" },
+    "ink":       { "$type": "color", "$value": "#000000" },
     "coralDeep": { "$type": "color", "$value": "#af562c" },
-    "lila":     { "$type": "color", "$value": "#d0c7ff" },
-    "lilaDeep": { "$type": "color", "$value": "#6952e0" }
+    "coral":     { "$type": "color", "$value": "#ffa174" }
   },
   "font": {
-    "titulo": { "$type": "fontFamily", "$value": "Inter Tight" },
-    "cuerpo": { "$type": "fontFamily", "$value": "Inter" },
+    "family": { "$type": "fontFamily", "$value": "Inter Tight" },
+    "accent": { "$type": "fontFamily", "$value": "DM Serif Display" },
     "weight": {
-      "light":  { "$type": "fontWeight", "$value": 300 },
-      "regular": { "$type": "fontWeight", "$value": 400 },
-      "medium": { "$type": "fontWeight", "$value": 500 }
+      "regular":   { "$type": "fontWeight", "$value": 400 },
+      "medium":    { "$type": "fontWeight", "$value": 500 },
+      "semibold":  { "$type": "fontWeight", "$value": 600 },
+      "bold":      { "$type": "fontWeight", "$value": 700 },
+      "extrabold": { "$type": "fontWeight", "$value": 800 }
     }
   },
   "radius": {
-    "pill":  { "$type": "dimension", "$value": "9999px" },
-    "panel": { "$type": "dimension", "$value": "24px" },
-    "card":  { "$type": "dimension", "$value": "20px" },
-    "field": { "$type": "dimension", "$value": "14px" }
+    "pill":  { "$type": "dimension", "$value": "36px" },
+    "card":  { "$type": "dimension", "$value": "22.5px" },
+    "field": { "$type": "dimension", "$value": "18px" }
   },
   "space": {
-    "gutterMobile":  { "$type": "dimension", "$value": "20px" },
-    "gutterDesktop": { "$type": "dimension", "$value": "54px" },
+    "gutterMobile":  { "$type": "dimension", "$value": "18px" },
+    "gutterDesktop": { "$type": "dimension", "$value": "32px" },
     "gap":           { "$type": "dimension", "$value": "12px" },
-    "contentMax":    { "$type": "dimension", "$value": "1280px" }
+    "contentMax":    { "$type": "dimension", "$value": "1152px" }
   }
 }
 ```
 
 ### Para Canva / Kit de marca
 
-- Colores: `#fdfcfc`, `#f5f3f1`, `#000000`, `#777169`, `#ffa174`, `#af562c`, `#d0c7ff`, `#6952e0`
-- Títulos: Inter Tight Light (300), espaciado −5 %, frases normales, palabra destacada en `#af562c` · Etiquetas: Inter Medium,
-  mayúsculas, espaciado +17 % · Texto: Inter Regular en `#777169` · Botones: píldora negra o lila (`#d0c7ff`, letra negra) con flecha ↗
-- Coral `#ffa174` y lila `#d0c7ff` nunca como color de letra sobre fondo claro: solo de fondo, con letra negra encima.
+- Colores: `#fdfcfc`, `#d0c7ff`, `#44403b`, `#000000`, `#af562c`
+- Títulos: Inter Tight Bold, espaciado −4 %, frases normales · Énfasis: DM Serif Display Italic en `#af562c` · Etiquetas: Inter Tight Bold, mayúsculas · Texto: Inter Tight Medium · Notas: Caveat

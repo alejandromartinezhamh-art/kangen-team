@@ -5,7 +5,7 @@ import { embudo, persona, webinar } from '../config';
 import VideoWebinar from '../componentes/VideoWebinar';
 import Enfasis from '../componentes/Enfasis';
 
-// Página del webinar (el enlace del email). Textos: contenido.json → webinar. Estilos: embudo.css.
+// Página del webinar (el enlace del email). Textos: contenido.json → webinar. Mismo diseño que el de Alejandro.
 
 // Id del lead: llega en el enlace del email (?l=) o se guardó al terminar el cuestionario.
 function useIdLead() {
@@ -77,66 +77,71 @@ export default function Webinar() {
 
   return (
     <>
-      <header className="cabecera">
-        <div className="cabecera-inner">
-          <Link to="/l/instagram" className="marca">
-            {embudo.general.marca}
-          </Link>
-          <span className="kicker">{t.barra}</span>
-        </div>
-      </header>
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-[18px] pt-[18px] text-xs font-bold uppercase sm:px-8">
+        <Link to="/" className="no-underline">{embudo.general.marca}</Link>
+        <span className="text-secundario">{t.barra}</span>
+      </div>
 
-      <main className="contenedor e-webinar">
-        <p className="kicker e-punto">{t.etiqueta}</p>
-        <h1 className="display e-webinar-titulo">
+      <header className="mx-auto max-w-6xl px-[18px] pb-10 pt-14 sm:px-8 sm:pt-20">
+        <p className="mb-3 text-[11px] font-bold uppercase text-acento">{t.etiqueta}</p>
+        <h1 className="max-w-4xl text-[clamp(2.2rem,8vw,4.6rem)] font-bold leading-[0.9]">
           <Enfasis texto={t.titulo} />
         </h1>
-        <p className="e-webinar-texto">{t.texto}</p>
+        <p className="mt-6 max-w-2xl font-medium leading-relaxed text-secundario sm:text-lg">{t.texto}</p>
+      </header>
 
-        <div className="webinar-wrap e-webinar-marco">
-          <VideoWebinar onProgreso={hayVideo ? onProgreso : undefined} />
-          {hayVideo && !desbloqueado && (
-            <div className="e-visto">
-              <span className="kicker">
-                {t.visto} {visto} %
-              </span>
-              <div className="e-progreso" aria-hidden="true">
-                <div style={{ width: `${visto}%` }} />
-              </div>
+      <main className="mx-auto max-w-6xl px-[18px] sm:px-8">
+        <VideoWebinar onProgreso={hayVideo ? onProgreso : undefined} />
+
+        {hayVideo && !desbloqueado && (
+          <div className="mt-4 flex items-center gap-4 text-[11px] font-bold uppercase text-secundario">
+            <span className="flex-none">
+              {t.visto} {visto} %
+            </span>
+            <div className="h-[2px] flex-1 bg-[color:var(--form-borde)]" aria-hidden="true">
+              <div className="h-full bg-acento transition-[width] duration-500" style={{ width: `${visto}%` }} />
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        <section className="e-siguiente">
+        <hr className="my-16 border-0 border-t border-dashed border-linea sm:my-24" />
+
+        <section className="grid gap-10 pb-20 lg:grid-cols-[1fr_1.2fr] lg:items-start sm:pb-28">
           <div>
-            <p className="kicker e-punto">{t.siguienteEtiqueta}</p>
-            <h2 className="display">
+            <p className="mb-6 flex items-center gap-3 text-[11px] font-bold uppercase text-acento">
+              <span>01</span>
+              <span className="h-px w-8 bg-acento" aria-hidden="true" />
+              <span>{t.siguienteEtiqueta}</span>
+            </p>
+            <h2 className="text-[clamp(1.6rem,7.5vw,3rem)] font-bold leading-[0.92]">
               <Enfasis texto={t.siguienteTitulo} />
             </h2>
-            <p className="e-texto">{!desbloqueado ? t.textoAntes : whatsapp ? t.textoWhatsapp : t.textoSinWhatsapp}</p>
+            <p className="mt-6 font-medium leading-relaxed text-secundario">
+              {!desbloqueado ? t.textoAntes : whatsapp ? t.textoWhatsapp : t.textoSinWhatsapp}
+            </p>
           </div>
-          <div>
+          <div className="lg:pt-12">
             {desbloqueado && whatsapp ? (
               <a
                 href={whatsapp}
                 target="_blank"
                 rel="noopener"
                 onClick={() => evento(id, 'whatsapp_clic')}
-                className="btn btn-oscuro e-boton"
+                className="flex min-h-[64px] w-full items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-7 text-[14px] font-bold uppercase leading-[1.15] text-fondo no-underline transition hover:bg-[color:var(--color-texto-hover)]"
               >
                 <span>{t.boton}</span>
-                <span className="flecha" aria-hidden="true">↗</span>
+                <span className="text-[11px] opacity-60">→</span>
               </a>
             ) : !desbloqueado ? (
-              <div className="e-bloqueado" aria-disabled="true">
+              <div
+                className="flex min-h-[64px] w-full items-center justify-between gap-4 rounded-[36px] border border-dashed border-linea px-7 text-[14px] font-bold uppercase leading-[1.15] text-secundario"
+                aria-disabled="true"
+              >
                 <span>{t.bloqueado}</span>
-                <span>{visto} %</span>
+                <span className="text-[11px]">{visto} %</span>
               </div>
             ) : null}
-            <p className="e-aviso">
-              Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada
-              persona.
-            </p>
+            <p className="mt-6 text-[11px] font-medium uppercase leading-relaxed text-secundario">{t.aviso}</p>
           </div>
         </section>
       </main>

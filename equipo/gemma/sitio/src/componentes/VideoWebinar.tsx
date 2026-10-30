@@ -125,12 +125,12 @@ export default function VideoWebinar({ onProgreso }: { onProgreso?: Progreso }) 
   const yt = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);
   const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/(\w+))?/);
   return (
-    <div className="e-video">
+    <div className="relative aspect-video overflow-hidden rounded-[22.5px] border border-[color:var(--form-borde)] bg-superficie">
       {!url ? (
-        <div className="e-video-pronto">
-          <span className="play-btn" aria-hidden="true">▶</span>
-          <p className="kicker">{embudo.webinar.prontoEtiqueta}</p>
-          <p className="e-video-aviso">{embudo.webinar.prontoTexto}</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+          <span className="text-[11px] font-bold uppercase text-acento">{embudo.webinar.prontoEtiqueta}</span>
+          <p className="titular text-xl font-bold sm:text-3xl">{embudo.webinar.prontoTitulo}</p>
+          <p className="text-sm font-medium text-secundario">{embudo.webinar.prontoTexto}</p>
         </div>
       ) : yt ? (
         <YouTube id={yt[1]} onProgreso={onProgreso} />

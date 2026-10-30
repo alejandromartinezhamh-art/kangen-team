@@ -1,4 +1,4 @@
-import { Fragment, useState, type ButtonHTMLAttributes, type FormEvent } from 'react';
+import { Fragment, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { enEditor } from '@equipo/compartido';
 import { embudo, persona } from '../config';
@@ -7,7 +7,7 @@ import Enfasis from '../componentes/Enfasis';
 
 // Cuestionario previo al webinar, una pantalla por paso (cuestionario.ts). Al enviar guarda el
 // lead (/api/lead → hoja de Google), y la hoja le envía el enlace del webinar por email.
-// Textos: contenido.json → cuestionario. Estilos: embudo.css.
+// Textos: contenido.json → cuestionario. Mismo diseño que el de Alejandro.
 
 const { pasos } = cuestionario;
 // Pasos que cuentan en "03 / 08": todo menos las pantallas de solo texto
@@ -15,6 +15,14 @@ const numerados = pasos.map((p, i) => (p.tipo === 'info' ? 0 : pasos.slice(0, i 
 const totalNumerados = Math.max(...numerados);
 const num = (i: number) => String(i).padStart(2, '0');
 const sinAsteriscos = (t: string) => t.replaceAll('*', '');
+
+const botonLleno =
+  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-6 text-[13px] font-bold uppercase leading-[1.15] text-fondo no-underline transition hover:bg-[color:var(--color-texto-hover)] disabled:opacity-50';
+const botonBorde =
+  'flex min-h-[58px] w-full items-center justify-between gap-4 rounded-[22.5px] border px-6 py-3 text-left text-[13px] font-bold uppercase leading-[1.25] transition hover:bg-[rgba(0,0,0,.05)]';
+const campo =
+  'w-full rounded-[18px] border border-[color:var(--form-borde)] bg-transparent px-4 py-3 text-base text-inherit outline-none placeholder:text-[color:var(--form-placeholder)] focus:border-texto';
+const titular = 'text-[clamp(1.9rem,8.5vw,3rem)] font-bold leading-[0.95] [text-wrap:balance]';
 
 const tipoCampo: Record<Campo, { type: string; autoComplete: string; inputMode?: 'tel' | 'email' }> = {
   nombre: { type: 'text', autoComplete: 'name' },
@@ -28,7 +36,7 @@ function Rico({ texto }: { texto: string }) {
   return (
     <>
       {texto.split(/\*\*([^*]+)\*\*/).map((parte, i) =>
-        i % 2 ? <b key={i}>{parte}</b> : <Fragment key={i}>{parte}</Fragment>,
+        i % 2 ? <b key={i} className="font-bold text-texto">{parte}</b> : <Fragment key={i}>{parte}</Fragment>,
       )}
     </>
   );
@@ -38,14 +46,17 @@ function Parrafos({ textos, lista }: { textos?: string[]; lista?: string[] }) {
   return (
     <>
       {textos?.map((t) => (
-        <p key={t} className="e-texto">
+        <p key={t} className="mt-4 font-medium leading-relaxed text-secundario">
           <Rico texto={t} />
         </p>
       ))}
       {lista && (
-        <ul className="e-lista">
+        <ul className="mt-4 space-y-2">
           {lista.map((t) => (
-            <li key={t}>{t}</li>
+            <li key={t} className="flex gap-3 font-medium leading-relaxed text-secundario">
+              <span className="text-acento" aria-hidden="true">—</span>
+              <span>{t}</span>
+            </li>
           ))}
         </ul>
       )}
@@ -58,15 +69,6 @@ function pasoInicial(params: URLSearchParams) {
   if (!enEditor()) return 0;
   const n = Number(params.get('paso'));
   return Number.isInteger(n) && n >= 0 && n < pasos.length ? n : 0;
-}
-
-function Boton({ texto, ...props }: { texto: string } & ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button {...props} className="btn btn-oscuro e-boton">
-      <span>{texto}</span>
-      <span className="flecha" aria-hidden="true">→</span>
-    </button>
-  );
 }
 
 function nuevoId() {
@@ -138,18 +140,18 @@ export default function Cuestionario() {
   }
 
   return (
-    <div className="e-cuestionario">
-      <div className="e-barra">
+    <div className="mx-auto flex min-h-[100svh] max-w-[560px] flex-col px-[18px]">
+      <div className="flex items-center justify-between pb-4 pt-[18px] text-xs font-bold uppercase leading-none">
         {i > 0 && estado !== 'enviado' ? (
-          <button type="button" onClick={atras} className="kicker">
+          <button type="button" onClick={atras} className="uppercase">
             {cuestionario.atras}
           </button>
         ) : (
-          <Link to="/l/instagram" className="marca">
+          <Link to="/" className="no-underline">
             {embudo.general.marca}
           </Link>
         )}
-        <span className="kicker">
+        <span className="text-secundario">
           {estado === 'enviado'
             ? cuestionario.gracias.etiqueta
             : numerados[i]
@@ -157,21 +159,24 @@ export default function Cuestionario() {
               : cuestionario.etiqueta}
         </span>
       </div>
-      <div className="e-progreso" aria-hidden="true">
-        <div style={{ width: `${estado === 'enviado' ? 100 : (i / pasos.length) * 100}%` }} />
+      <div className="h-[2px] bg-[color:var(--form-borde)]" aria-hidden="true">
+        <div
+          className="h-full bg-acento transition-[width] duration-300"
+          style={{ width: `${estado === 'enviado' ? 100 : (i / pasos.length) * 100}%` }}
+        />
       </div>
 
-      <main className="e-paso">
+      <main className="flex flex-1 flex-col justify-center py-10">
         {estado === 'enviado' ? (
           <section>
-            <h1 className="display e-titulo">
+            <h1 className={titular}>
               <Enfasis texto={cuestionario.gracias.titulo} />
             </h1>
-            <p className="e-texto">{cuestionario.gracias.texto}</p>
-            <div className="e-botones">
-              <Link to={`/webinar?l=${id}`} className="btn btn-oscuro e-boton">
+            <p className="mt-5 font-medium leading-relaxed text-secundario">{cuestionario.gracias.texto}</p>
+            <div className="mt-8 flex flex-col gap-3">
+              <Link to={`/webinar?l=${id}`} className={botonLleno}>
                 <span>{cuestionario.gracias.boton}</span>
-                <span className="flecha" aria-hidden="true">↗</span>
+                <span className="text-[11px] opacity-60">→</span>
               </Link>
               {persona.whatsapp && (
                 <a
@@ -179,24 +184,27 @@ export default function Cuestionario() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => avisarClic(id)}
-                  className="btn btn-claro e-boton"
+                  className={`${botonBorde} border-texto no-underline`}
                 >
                   <span>{cuestionario.gracias.whatsapp}</span>
-                  <span className="flecha" aria-hidden="true">↗</span>
+                  <span className="text-[11px] text-secundario">→</span>
                 </a>
               )}
             </div>
           </section>
         ) : paso.tipo === 'info' ? (
           <section key={i}>
-            <h1 className="display e-titulo">
+            <h1 className={titular}>
               <Enfasis texto={paso.titulo} />
             </h1>
-            <Parrafos textos={paso.parrafos} lista={paso.lista} />
-            <Parrafos textos={paso.cierre} />
-            <div className="e-botones">
-              <Boton type="button" onClick={siguiente} texto={paso.boton} />
+            <div className="mt-2">
+              <Parrafos textos={paso.parrafos} lista={paso.lista} />
+              <Parrafos textos={paso.cierre} />
             </div>
+            <button type="button" onClick={siguiente} className={`${botonLleno} mt-8`}>
+              <span>{paso.boton}</span>
+              <span className="text-[11px] opacity-60">→</span>
+            </button>
           </section>
         ) : paso.tipo === 'campo' ? (
           <section key={i}>
@@ -206,10 +214,10 @@ export default function Cuestionario() {
                 siguiente();
               }}
             >
-              <label htmlFor={`campo-${paso.campo}`} className="display e-titulo">
+              <label htmlFor={`campo-${paso.campo}`} className={`block ${titular}`}>
                 <Enfasis texto={paso.texto} />
               </label>
-              {paso.ayuda && <p className="e-texto">{paso.ayuda}</p>}
+              {paso.ayuda && <p className="mt-4 font-medium leading-relaxed text-secundario">{paso.ayuda}</p>}
               <input
                 id={`campo-${paso.campo}`}
                 {...tipoCampo[paso.campo]}
@@ -217,12 +225,13 @@ export default function Cuestionario() {
                 placeholder={paso.placeholder}
                 value={datos[paso.campo]}
                 onChange={(e) => setDatos((d) => ({ ...d, [paso.campo]: e.target.value }))}
-                className="e-campo"
+                className={`${campo} mt-8`}
                 autoFocus
               />
-              <div className="e-botones">
-                <Boton type="submit" texto={cuestionario.siguiente} />
-              </div>
+              <button type="submit" className={`${botonLleno} mt-4`}>
+                <span>{cuestionario.siguiente}</span>
+                <span className="text-[11px] opacity-60">→</span>
+              </button>
             </form>
           </section>
         ) : paso.tipo === 'texto' ? (
@@ -233,33 +242,34 @@ export default function Cuestionario() {
                 siguiente();
               }}
             >
-              <label htmlFor="respuesta" className="display e-titulo">
+              <label htmlFor="respuesta" className={`block ${titular}`}>
                 <Enfasis texto={paso.texto} />
               </label>
-              {paso.ayuda && <p className="e-texto">{paso.ayuda}</p>}
+              {paso.ayuda && <p className="mt-4 font-medium text-secundario">{paso.ayuda}</p>}
               <textarea
                 id="respuesta"
                 rows={3}
-                className="e-campo"
+                className={`${campo} mt-8`}
                 value={respuestas[i] ?? ''}
                 onChange={(e) => setRespuestas((r) => ({ ...r, [i]: e.target.value }))}
                 required={!paso.opcional}
                 placeholder={cuestionario.placeholderRespuesta}
                 autoFocus
               />
-              <div className="e-botones">
-                <Boton type="submit" texto={cuestionario.siguiente} />
-              </div>
+              <button type="submit" className={`${botonLleno} mt-4`}>
+                <span>{cuestionario.siguiente}</span>
+                <span className="text-[11px] opacity-60">→</span>
+              </button>
             </form>
           </section>
         ) : (
           <section key={i}>
             <Parrafos textos={paso.antes} lista={paso.lista} />
             <Parrafos textos={paso.despues} />
-            <h1 className={`display e-titulo ${paso.antes ? 'e-separado' : ''}`}>
+            <h1 className={`${titular} ${paso.antes ? 'mt-8' : ''}`}>
               <Enfasis texto={paso.texto} />
             </h1>
-            <div className="e-opciones" role="radiogroup">
+            <div className="mt-8 flex flex-col gap-3" role="radiogroup">
               {paso.opciones.map((o, n) => {
                 const elegida = respuestas[i] === o;
                 return (
@@ -272,38 +282,42 @@ export default function Cuestionario() {
                       setRespuestas((r) => ({ ...r, [i]: o }));
                       if (!paso.final) setTimeout(siguiente, 180);
                     }}
-                    className="e-opcion"
+                    className={`${botonBorde} ${elegida ? 'border-texto bg-[rgba(0,0,0,.04)]' : 'border-[color:var(--form-borde)]'}`}
                   >
                     <span>{o}</span>
-                    <span className="e-letra">{String.fromCharCode(65 + n)}</span>
+                    <span className="flex-none text-[11px] text-secundario">{String.fromCharCode(65 + n)}</span>
                   </button>
                 );
               })}
             </div>
             {paso.final && (
-              <form onSubmit={enviar} className="e-envio">
+              <form onSubmit={enviar} className="mt-6 space-y-4">
                 {/* Campo trampa para bots: las personas no lo ven */}
                 <input name="web" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-                <label className="e-consentimiento">
-                  <input name="consentimiento" type="checkbox" required />
+                <label className="flex items-start gap-3 text-sm leading-snug text-secundario">
+                  <input name="consentimiento" type="checkbox" required className="mt-[3px] accent-[var(--color-texto)]" />
                   <span>
-                    Acepto la <Link to="/privacidad">política de privacidad</Link> y que {persona.nombre} me envíe el
-                    webinar y me contacte sobre este proyecto.
+                    Acepto la{' '}
+                    <Link to="/privacidad" className="underline">
+                      política de privacidad
+                    </Link>{' '}
+                    y que {persona.nombre} me envíe el webinar y me contacte sobre este proyecto.
                   </span>
                 </label>
-                <Boton
-                  type="submit"
-                  disabled={!respuestas[i] || estado === 'enviando'}
-                  texto={estado === 'enviando' ? cuestionario.enviando : cuestionario.boton}
-                />
-                {estado === 'error' && <p className="e-error">{cuestionario.error}</p>}
+                <button type="submit" disabled={!respuestas[i] || estado === 'enviando'} className={botonLleno}>
+                  <span>{estado === 'enviando' ? cuestionario.enviando : cuestionario.boton}</span>
+                  <span className="text-[11px] opacity-60">→</span>
+                </button>
+                {estado === 'error' && (
+                  <p className="text-center text-sm text-[color:var(--color-error)]">{cuestionario.error}</p>
+                )}
               </form>
             )}
           </section>
         )}
       </main>
 
-      <footer className="e-aviso">
+      <footer className="pb-[14px] text-[10px] font-medium uppercase leading-relaxed text-secundario">
         Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada
         persona.
       </footer>
