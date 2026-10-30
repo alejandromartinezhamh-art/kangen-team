@@ -5,8 +5,8 @@ Referencia completa de la identidad visual de Gemma para pasarla a cualquier her
 La fuente es su web (`sitio/src/index.css`, `embudo.css` y `contenido.json`), que sale de la carpeta de Drive
 `Landing Kangen Gemma / 08 Design`. Ejemplo de otro sistema completo: `equipo/alejandro/design.md`.
 
-**Concepto:** claro, tranquilo y con mucho aire. Titulares muy finos en negro con la segunda parte en gris suave,
-fotos de exterior con esquinas redondeadas, etiquetas pequeñas muy espaciadas con un punto coral y botones negros en píldora.
+**Concepto:** claro, tranquilo y con mucho aire. Titulares muy finos en negro con una palabra en coral,
+fotos de exterior con esquinas redondeadas, etiquetas pequeñas muy espaciadas con un punto coral y botones negros y lila en píldora.
 
 ---
 
@@ -21,11 +21,28 @@ fotos de exterior con esquinas redondeadas, etiquetas pequeñas muy espaciadas c
 | `graphite` | Graphite | `#44403b` | Etiquetas pequeñas, listas, texto oscuro secundario |
 | `smoke` | Smoke | `#777169` | Párrafos y la parte suave (énfasis) de los titulares |
 | `ash` | Ash | `#a59f97` | Notas legales y detalles muy suaves (ver contraste) |
-| `coral` | Coral | `#ffa174` | Acento: punto de las etiquetas, anillos, progreso. **Nunca texto** |
-| `lila` | Lila | `#d0c7ff` | Fondo de color: banda de la posibilidad, fondo de fotos y del arte |
+| `coral` | Coral | `#ffa174` | Relleno: punto de las etiquetas, etiqueta píldora, anillos, progreso. **Nunca como letra sobre claro** |
+| `coral-deep` | Coral oscuro | `#af562c` | Letra: la palabra destacada del titular y los números grandes |
+| `lila` | Lila | `#d0c7ff` | Relleno: botón secundario, bandas y bloques de color, fondo de fotos. **Nunca como letra sobre claro** |
+| `lila-deep` | Lila oscuro | `#6952e0` | Letra: enlaces dentro del texto y enlace subrayado |
 
-También: `#ffffff` para campos del cuestionario y textos sobre foto, `#e5e5e5` para el borde del botón claro
-y `#b42318` para errores.
+También: `#ff8f5c` (hover coral), `#beb2ff` (hover del botón lila), `#ffffff` para campos del cuestionario
+y textos sobre foto, `#e5e5e5` para el borde del botón claro y `#b42318` para errores.
+
+### Coral y lila: dos tonos de cada uno
+
+Coral y lila son muy claros: como letra sobre el fondo de Gemma no se leen (1,9 : 1 y 1,5 : 1). Por eso cada uno tiene
+un tono claro para rellenar, con letra negra encima, y un tono oscuro (mismo matiz) para usar como letra.
+
+- **El toque en la letra es coral:** la palabra marcada (`*así*`) va en Coral oscuro, una o dos palabras por titular.
+  En titulares largos de varias líneas, la segunda mitad puede seguir en Smoke.
+- **El toque en los botones es lila:** botón principal Ink, botón secundario Lila con letra Ink. Nunca dos botones lila juntos.
+- **Etiqueta píldora:** "WEBINAR GRATUITO" en píldora Coral o "GUARDA ESTE POST" en píldora Lila, con letra Ink. Una por pieza.
+- **Como mucho dos toques por pieza** (por ejemplo, la palabra coral y un botón lila). El punto de las etiquetas no cuenta.
+- Sobre un bloque Lila, la palabra en Coral oscuro solo en titulares (3,2 : 1); los párrafos van en Graphite.
+- Sobre fondo Ink (oscuro), Coral y Lila sí funcionan como letra (10,6 : 1 y 13,3 : 1).
+- En redes, una pieza de 1080 px se ve en el móvil a un tercio: el texto de apoyo de 34 px se lee como uno de 12 px
+  y necesita 4,5 : 1. Solo los titulares (76 px o más) cuentan como texto grande.
 
 ### Contraste (WCAG)
 
@@ -38,7 +55,19 @@ y `#b42318` para errores.
 | Graphite sobre Lila | 6,5 : 1 | Todo |
 | Smoke sobre Lila | 3,1 : 1 | Solo texto grande |
 | Ash sobre Eggshell | 2,6 : 1 | No llega al mínimo de texto. La web lo usa en notas de 11 px; en piezas nuevas usa Smoke |
-| Coral sobre Eggshell | 1,9 : 1 | Solo decoración |
+| Ink sobre Coral | 10,6 : 1 | Todo (etiquetas y botones coral) |
+| Ink sobre Lila | 13,3 : 1 | Todo (botón y bloques lila) |
+| Graphite sobre Coral | 5,2 : 1 | Todo |
+| Coral oscuro sobre Eggshell | 4,9 : 1 | Todo |
+| Coral oscuro sobre Taupe | 4,5 : 1 | Todo |
+| Coral oscuro sobre White | 5,0 : 1 | Todo |
+| Coral oscuro sobre Lila | 3,2 : 1 | Solo titulares |
+| Lila oscuro sobre Eggshell | 5,3 : 1 | Todo |
+| Lila oscuro sobre Taupe | 4,9 : 1 | Todo |
+| Coral sobre Ink | 10,6 : 1 | Todo (fondo oscuro) |
+| Lila sobre Ink | 13,3 : 1 | Todo (fondo oscuro) |
+| Coral sobre Eggshell | 1,9 : 1 | Nunca para texto, solo relleno y decoración |
+| Lila sobre Eggshell | 1,5 : 1 | Nunca para texto, solo relleno y decoración |
 
 ### Degradados sobre la foto
 
@@ -58,8 +87,9 @@ Vivir bien:             linear-gradient(0deg, rgba(20,25,20,.28), transparent 55
 | Texto | [Inter](https://fonts.google.com/specimen/Inter) | 400, 500 | Párrafos, etiquetas, botones, formularios |
 
 Titulares siempre en 300, en frases normales, nunca en negrita ni en mayúsculas.
-**Énfasis:** la palabra marcada entre asteriscos en `contenido.json` (`Otra *manera* de ganarse la vida`) o la segunda
-mitad del titular va en Smoke. Es la única forma de destacar dentro de un titular: ni negrita, ni cursiva, ni otro color.
+**Énfasis:** la palabra marcada entre asteriscos en `contenido.json` (`Otra *manera* de ganarse la vida`) va en
+Coral oscuro (`#af562c`). En titulares largos de varias líneas, la segunda mitad puede ir en Smoke. Ni negrita ni cursiva.
+(Hoy la web la pinta en Smoke con la clase `.suave`; pasarla a Coral oscuro es cambiar esa clase.)
 
 | Estilo | Tamaño | Peso | Interlineado | Espaciado | Mayúsculas | Uso |
 |---|---|---|---|---|---|---|
@@ -122,11 +152,15 @@ Portada en escritorio: dos columnas (texto 46 % · foto 54 %). Historia: 43 % fo
 
 **Botón oscuro:** fondo Ink, texto Eggshell, píldora, 46 px de alto, 13 px 500, flecha `↗` a 22 px. Hover Graphite y sube 2 px.
 
+**Botón lila:** fondo Lila, texto Ink (13,3 : 1). Hover `#beb2ff`. Acción secundaria junto al oscuro; nunca dos juntos.
+
 **Botón claro:** fondo Eggshell, borde `#e5e5e5`, texto Ink. Hover Stone.
 
-**Enlace subrayado:** 13 px 500 con línea de 1 px en Ink debajo; la flecha se separa al pasar el ratón.
+**Enlace subrayado:** 13 px 500 en Lila oscuro con línea de 1 px del mismo color; la flecha se separa al pasar el ratón.
+Los enlaces dentro de un párrafo también van en Lila oscuro.
 
-**Etiqueta (kicker):** 10,5 px 500, espaciado 0,17 em, mayúsculas, Graphite. Con punto Coral de 5 px cuando abre una pieza.
+**Etiqueta (kicker):** 10,5 px 500, espaciado 0,17 em, mayúsculas, Graphite. Con punto Coral de 5 px cuando abre una pieza,
+o en píldora Coral o Lila con letra Ink cuando tiene que verse primero.
 
 **Tarjeta de valor:** borde Stone, radio 20 px, frase en 21 px 300 arriba y número en 10 px Smoke abajo; tres por fila.
 
@@ -176,7 +210,11 @@ superior derecha de un bloque Taupe. Uno por pieza como mucho.
   --color-smoke: #777169;
   --color-ash: #a59f97;
   --color-coral: #ffa174;
+  --color-coral-hover: #ff8f5c;
+  --color-coral-deep: #af562c;
   --color-lila: #d0c7ff;
+  --color-lila-hover: #beb2ff;
+  --color-lila-deep: #6952e0;
   --fuente-titulo: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --fuente-cuerpo: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --tracking-titular: -0.047em;
@@ -203,7 +241,9 @@ superior derecha de un bloque Taupe. Uno por pieza como mucho.
     "smoke":    { "$type": "color", "$value": "#777169" },
     "ash":      { "$type": "color", "$value": "#a59f97" },
     "coral":    { "$type": "color", "$value": "#ffa174" },
-    "lila":     { "$type": "color", "$value": "#d0c7ff" }
+    "coralDeep": { "$type": "color", "$value": "#af562c" },
+    "lila":     { "$type": "color", "$value": "#d0c7ff" },
+    "lilaDeep": { "$type": "color", "$value": "#6952e0" }
   },
   "font": {
     "titulo": { "$type": "fontFamily", "$value": "Inter Tight" },
@@ -231,6 +271,7 @@ superior derecha de un bloque Taupe. Uno por pieza como mucho.
 
 ### Para Canva / Kit de marca
 
-- Colores: `#fdfcfc`, `#f5f3f1`, `#000000`, `#777169`, `#ffa174`, `#d0c7ff`
-- Títulos: Inter Tight Light (300), espaciado −5 %, frases normales, palabra de énfasis en `#777169` · Etiquetas: Inter Medium,
-  mayúsculas, espaciado +17 % · Texto: Inter Regular en `#777169` · Botón: píldora negra con flecha ↗
+- Colores: `#fdfcfc`, `#f5f3f1`, `#000000`, `#777169`, `#ffa174`, `#af562c`, `#d0c7ff`, `#6952e0`
+- Títulos: Inter Tight Light (300), espaciado −5 %, frases normales, palabra destacada en `#af562c` · Etiquetas: Inter Medium,
+  mayúsculas, espaciado +17 % · Texto: Inter Regular en `#777169` · Botones: píldora negra o lila (`#d0c7ff`, letra negra) con flecha ↗
+- Coral `#ffa174` y lila `#d0c7ff` nunca como color de letra sobre fondo claro: solo de fondo, con letra negra encima.
