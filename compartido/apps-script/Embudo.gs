@@ -35,6 +35,14 @@ const PERSONAS = {
     responder: '',
     estilo: { boton: '#000000', textoBoton: '#fdfcfc', titulo: '#000000', texto: '#44403b', suave: '#777169', mayusculas: true },
   },
+  helena: {
+    nombre: 'Helena Saigí',
+    web: 'https://helena-saigi.vercel.app',
+    foto: 'https://helena-saigi.vercel.app/foto-email.jpg',
+    aviso: '',
+    responder: '',
+    estilo: { boton: '#1f2a22', textoBoton: '#f8f5ee', titulo: '#1f2a22', texto: '#575e57', suave: '#646b63', mayusculas: true },
+  },
 };
 
 // Persona de esta hoja (una de PERSONAS). Se usa en probar().
