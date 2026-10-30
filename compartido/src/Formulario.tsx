@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { CampoTelefono } from './Telefono';
 import type { ConfigPersona } from './tipos';
 
 interface Props {
@@ -57,7 +58,7 @@ export function Formulario({ persona, origen, textoBoton = 'Quiero más informac
     <form onSubmit={enviar} className={`${tarjeta} space-y-4`}>
       <input name="nombre" required placeholder="Nombre" className={campo} autoComplete="name" />
       <input name="email" type="email" required placeholder="Email" className={campo} autoComplete="email" />
-      <input name="telefono" type="tel" required placeholder="Teléfono (WhatsApp)" className={campo} autoComplete="tel" />
+      <CampoTelefono name="telefono" required placeholder="Teléfono (WhatsApp)" clase={campo} />
       <textarea name="mensaje" rows={3} placeholder="¿Qué te gustaría cambiar en tu día a día? (opcional)" className={campo} />
       {/* Campo trampa para bots: las personas no lo ven */}
       <input name="web" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />

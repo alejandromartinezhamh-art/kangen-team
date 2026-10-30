@@ -152,7 +152,7 @@
         "campo": "telefono",
         "texto": "Tu *WhatsApp*",
         "ayuda": "Te escribiré yo personalmente, así que revisa que el número sea correcto.",
-        "placeholder": "+34 600 000 000"
+        "placeholder": "600 000 000"
       },
       {
         "tipo": "campo",
