@@ -4,7 +4,7 @@ Referencia completa de la identidad visual de Alejandro para pasarla a cualquier
 (Figma, Canva, Framer, Webflow, Lovable, editores de vídeo…).
 La fuente original es su página de enlaces ("Alejandro — enlaces"); la web de `sitio/` la aplica.
 
-**Concepto:** oscuro cálido, editorial, sin sombras. Titulares en grotesca apretada con una palabra en cursiva serif, líneas discontinuas,
+**Concepto:** oscuro cálido, editorial, sin sombras. Titulares en grotesca apretada con una palabra en cursiva serif y en naranja, líneas discontinuas,
 botones píldora numerados y un único acento naranja usado con mucha moderación.
 
 ---
@@ -22,7 +22,7 @@ botones píldora numerados y un único acento naranja usado con mucha moderació
 | `secundario` | Sand | `#cdb69c` | 205, 182, 156 | Texto secundario, subtítulos, números de botón |
 | `texto` | Cream | `#ffedd7` | 255, 237, 215 | Texto principal y botón relleno |
 | `texto-hover` | Cream claro | `#fff6ea` | 255, 246, 234 | Hover del botón relleno |
-| `acento` | Ember | `#dc5000` | 220, 80, 0 | Solo etiquetas pequeñas y números grandes. Máximo 1–2 por pantalla |
+| `acento` | Ember | `#dc5000` | 220, 80, 0 | Palabra de énfasis de los titulares, etiquetas pequeñas y números grandes. Máximo 1–2 por pantalla |
 
 Hover del botón con borde: `rgba(255, 237, 215, 0.06)` (crema al 6 %).
 
@@ -56,13 +56,13 @@ linear-gradient(to bottom, transparent 60%, rgba(16,9,4,.55) 100%)
 
 ## 2. Tipografía
 
-Estilo editorial: una grotesca apretada con interlineado muy cerrado, más una palabra de énfasis en cursiva serif.
+Estilo editorial: una grotesca apretada con interlineado muy cerrado, más una palabra de énfasis en cursiva serif y en Ember.
 Titulares en frases normales (no en mayúsculas); las mayúsculas quedan para botones, etiquetas y barra superior.
 
 | Rol | Familia | Pesos | Uso |
 |---|---|---|---|
 | Principal | [Inter Tight](https://fonts.google.com/specimen/Inter+Tight) | 400–800 | Titulares, textos, botones, etiquetas |
-| Énfasis | [DM Serif Display](https://fonts.google.com/specimen/DM+Serif+Display) Italic | 400 | 1–2 palabras dentro de un titular (*manera*, *empecé*) |
+| Énfasis | [DM Serif Display](https://fonts.google.com/specimen/DM+Serif+Display) Italic | 400 | 1–2 palabras dentro de un titular (*manera*, *empecé*), en Ember |
 | Notas a mano (solo redes) | [Caveat](https://fonts.google.com/specimen/Caveat) | 500–700 | Anotaciones con flecha en carruseles |
 
 Alternativas si no están disponibles: Inter → system-ui; Georgia italic.
@@ -73,7 +73,7 @@ estas son las equivalentes gratuitas de Google Fonts.
 |---|---|---|---|---|---|---|
 | Display | 38–83 px (`clamp(2.4rem, 9vw, 5.2rem)`) | 700 | 0,90 | −0,045 em | No | Titular de portada |
 | H2 | 30–48 px (`clamp(1.9rem, 9vw, 3rem)`) | 700 | 0,92 | −0,045 em | No | Títulos de sección |
-| Énfasis | igual que su titular | 400 cursiva | igual | −0,02 em | No | Palabra en DM Serif Display Italic |
+| Énfasis | igual que su titular | 400 cursiva | igual | −0,02 em | No | Palabra en DM Serif Display Italic, color Ember |
 | Lista grande | 20 px móvil / 30 px escritorio | 600 | 1,25 | −0,045 em | No | "¿Te suena?" |
 | H3 | 16–18 px | 700 | 1,3 | −0,045 em | No | Títulos de tarjeta |
 | Cuerpo | 16–18 px | 500 | 1,625 | 0 | No | Párrafos (en Sand) |
@@ -83,6 +83,7 @@ estas son las equivalentes gratuitas de Google Fonts.
 | Vertical | 10 px | 700 | 1 | 0 | Sí | Etiqueta vertical sobre la foto (opacidad 75 %) |
 
 En los textos de `sitio/src/config.ts`, la palabra de énfasis se marca entre asteriscos: `Otra *manera* de ganarse la vida`.
+La palabra va en Ember y sola: sin subrayado, recuadro ni ningún otro adorno.
 
 ---
 
@@ -149,7 +150,7 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
 
 ## 7. Tono y movimiento
 
-- Titulares en frases normales con una palabra de énfasis en cursiva; mayúsculas solo en botones, etiquetas y barra; frases normales en párrafos.
+- Titulares en frases normales con una palabra de énfasis en cursiva y en Ember; mayúsculas solo en botones, etiquetas y barra; frases normales en párrafos.
 - Sin emojis en la interfaz. Sin cifras de dinero (ver `estrategia/normas-comunicacion.md`).
 - Transiciones de 0,2 s solo en color de fondo y borde. Se desactivan con `prefers-reduced-motion`.
 
@@ -223,4 +224,4 @@ Portada en escritorio: dos columnas (texto 1,1 fr · foto 1 fr), alto mínimo de
 ### Para Canva / Kit de marca
 
 - Colores: `#100904`, `#382416`, `#cdb69c`, `#ffedd7`, `#dc5000`
-- Títulos: Inter Tight Bold, espaciado −4 %, frases normales · Énfasis: DM Serif Display Italic · Etiquetas: Inter Tight Bold, mayúsculas · Texto: Inter Tight Medium · Notas: Caveat
+- Títulos: Inter Tight Bold, espaciado −4 %, frases normales · Énfasis: DM Serif Display Italic en `#dc5000` · Etiquetas: Inter Tight Bold, mayúsculas · Texto: Inter Tight Medium · Notas: Caveat

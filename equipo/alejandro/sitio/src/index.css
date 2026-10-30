@@ -51,7 +51,7 @@ h3,
   letter-spacing: -0.045em;
 }
 
-/* Palabra de énfasis dentro de un titular: *así* en los textos de config.ts */
+/* Palabra de énfasis dentro de un titular: *así* en los textos de config.ts. Va en ember, sin adornos. */
 .titular em,
 h1 em,
 h2 em,
@@ -60,6 +60,7 @@ h3 em {
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.02em;
+  color: var(--color-acento);
 }
 
 a:focus-visible,
