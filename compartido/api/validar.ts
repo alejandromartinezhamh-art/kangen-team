@@ -9,6 +9,16 @@ function texto(v: unknown, max = MAX): string {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
 }
 
+/**
+ * Teléfono solo con cifras y con prefijo: "+34 600 000 000" → "34600000000". Así la hoja no lo toma por una
+ * fórmula (un "+" delante da #ERROR!) y sirve tal cual para wa.me. Sin prefijo, un móvil español lleva el 34.
+ */
+function telefono(v: unknown): string {
+  let n = texto(v, 40).replace(/\D/g, '').replace(/^00/, '');
+  if (n.length === 9 && /^[6789]/.test(n)) n = '34' + n;
+  return n;
+}
+
 function respuestas(v: unknown): Record<string, string> | undefined {
   if (!v || typeof v !== 'object' || Array.isArray(v)) return undefined;
   const limpias: Record<string, string> = {};
@@ -51,7 +61,7 @@ export async function leerLead(
     origen: texto(datos.origen),
     nombre: texto(datos.nombre),
     email: texto(datos.email),
-    telefono: texto(datos.telefono),
+    telefono: telefono(datos.telefono),
     mensaje: texto(datos.mensaje),
     consentimiento: datos.consentimiento === true,
     id: texto(datos.id, 40) || undefined,
