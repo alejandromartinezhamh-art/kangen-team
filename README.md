@@ -12,7 +12,8 @@ Lee `estrategia/` antes de crear nada.
 estrategia/            Mensaje común y normas de comunicación (obligatorias)
   plantillas/          Para incorporar a alguien nuevo o replicar el sistema: guía, cuestionario en blanco, mensajes y checklist
   cuestionario-avatar/ Cuestionario de historia y avatar de cada persona del equipo
-compartido/            Código común: formulario, páginas legales y API de leads
+compartido/            Código común: el embudo entero (src/embudo: Instagram, cuestionario, webinar y web),
+                       formulario, páginas legales, editor visual, API de leads y script de la hoja
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
 scripts/               Utilidades (crear persona nueva)
 equipo/
@@ -59,11 +60,26 @@ Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
    En Drive, todo está también en `Kangen PRO TEAM/Templates`.
 
 1. Rellenar `equipo/<persona>/brief.md` y subir referencias a `referencias/`.
-2. Definir `design.md` y aplicarlo en `sitio/src/index.css`, `sitio/tailwind.config.js` e `sitio/index.html`.
+2. Definir `design.md` y aplicar sus colores en `sitio/src/index.css` y `sitio/src/contenido.json` (colores), y el
+   color de fondo en `sitio/index.html` (theme-color).
 3. Textos, colores, letras, fotos y enlaces en `sitio/src/contenido.json` (lo que cambia el editor visual);
-   datos legales en `sitio/src/config.ts`; diseño de la portada en `sitio/src/paginas/Inicio.tsx`.
-4. Una landing por campaña en `sitio/src/landings/` y registrarla en `landings/index.ts`.
+   datos legales y dominio en `sitio/src/config.ts`. Fotos en `sitio/public/` (`foto.jpg` y `foto-email.jpg`).
+4. Las páginas son las mismas para todo el equipo (`compartido/src/embudo`): no se copian ni se tocan por persona.
+   Su web principal (`/`) se publica cuando sus textos están revisados: `webPublicada` en `sitio/src/App.tsx`.
 5. Activar su editor visual (abajo) y darle el enlace `/editar` y la contraseña.
+
+### Cómo está hecha cada web
+
+Cada `equipo/<persona>/sitio/src` tiene solo sus datos:
+
+| Archivo | Qué es |
+|---|---|
+| `App.tsx` | `<Embudo persona={persona} contenido={contenido} webPublicada={…} />` y nada más |
+| `config.ts` | Nombre, dominio, email y datos legales |
+| `contenido.json` | Todo lo que se ve: textos, colores, letras, fotos, enlaces (vídeo y WhatsApp) y emails |
+| `index.css` | Colores de partida (los de `contenido.json` van por encima) |
+
+Un arreglo o una mejora en `compartido/src/embudo` llega a todas las webs a la vez.
 
 ## Editor visual: cada persona cambia su web sin pedírselo a nadie
 
@@ -90,16 +106,16 @@ Sin espacios ni tildes. HEIC del iPhone: exportar a JPG antes de usar en la web.
   anterior. Cualquier publicación se puede deshacer desde Versiones (o con git).
 
 **Activarlo en una web** (una vez, 5 minutos):
-1. Su `sitio/src/contenido.json`, `main.tsx` con `montar(App, contenido)`, la ruta `/editar` en `App.tsx`
-   (con las páginas editables) y `contenidoWeb()` en `vite.config.ts`. La plantilla ya viene así; ejemplo
-   completo: `equipo/gemma/sitio`.
+1. Todas las webs ya vienen preparadas (`<Embudo>` incluye `/editar`); no hay que tocar código.
 2. Un token de GitHub (uno para todo el equipo): github.com → Settings → Developer settings →
    Fine-grained tokens → solo este repositorio → permiso **Contents: Read and write**.
 3. En su proyecto de Vercel → Settings → Environment Variables (Production):
    `EDITOR_GITHUB_TOKEN` = el token y `EDITOR_CLAVE` = una contraseña larga para ella. Volver a desplegar.
 
 Para Claude: los textos nuevos de una página van siempre en `contenido.json` (nunca escritos en el componente),
-así se pueden editar. Página nueva = su sección en `contenido.json` + una línea en `paginasEditor` de `App.tsx`.
+así se pueden editar. Texto nuevo = su clave en el tipo `ContenidoEmbudo` (`compartido/src/embudo/tipos.ts`) y en el
+`contenido.json` de **todas** las webs y de `plantilla/` (si falta en alguna, no compila). Página nueva = su ruta en
+`compartido/src/embudo/Embudo.tsx` y una línea en `paginasEditor` del mismo archivo.
 
 ## Desarrollo local
 
@@ -118,9 +134,11 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 
 ### Alejandro
 
-- **Vercel** (proyecto `kangen`): https://alejandromartinez.vercel.app — `/l/instagram` y `/webinar`
+- **Vercel** (proyecto `alejandromartinez`, compila desde la raíz con `vercel.json`): https://alejandromartinez.vercel.app —
+  su web (`/`), `/l/instagram`, `/cuestionario` y `/webinar`
   (`kangen-ochre.vercel.app` redirige aquí, así que los enlaces antiguos siguen funcionando)
-- **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): misma web, formulario guardando en D1
+- **Editor**: https://alejandromartinez.vercel.app/editar. Necesita `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en el proyecto `alejandromartinez`.
+- **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): copia de la misma web, formulario guardando en D1
 
 ### Gemma
 
@@ -137,25 +155,22 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 - **Leads**: necesita su hoja con `Embudo.gs` (`PERSONA = 'helena'`) instalada con su cuenta de Google, y `LEADS_WEBHOOK_URL` y
   `LEADS_WEBHOOK_SECRET` en el proyecto.
 
-## Publicación (Cloudflare Pages, recomendado)
+## Publicación (Vercel, la que usamos)
 
-Un proyecto de Pages por persona, todos conectados a este repositorio:
+Un proyecto de Vercel por persona, todos conectados a este repositorio (rama `main`):
 
-- **Directorio raíz:** `equipo/<persona>/sitio` · **Compilación:** `npm run build` · **Salida:** `dist`
-- **Enlace D1:** variable `DB` → base de datos `leads-equipo` (tabla `leads`, compartida por todo el equipo)
-- El formulario usa `sitio/functions/api/lead.ts` → `compartido/api/lead-cloudflare.ts`
-
-## Publicación alternativa (Vercel)
-
-Un proyecto de Vercel por persona, todos conectados a este repositorio:
-
-- **Root Directory:** `equipo/<persona>/sitio`
-- **Framework:** Vite
-- **Variable de entorno:** `LEADS_WEBHOOK_URL`, el destino donde se guardan los leads (Google Sheets, Make, etc.)
-- **Editor visual:** `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` (ver "Editor visual")
-- **Dominio:** subdominio del dominio común (`persona.dominio.com`) o dominio propio.
+- **Root Directory:** `equipo/<persona>/sitio` · **Framework:** Vite
+- **Variables de entorno:** `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` (la URL y la clave del script de su hoja,
+  ver `compartido/apps-script/README.md`); `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` (ver "Editor visual")
+- **Dominio:** de momento `<proyecto>.vercel.app`; más adelante, subdominio de un dominio común o dominio propio.
 
 Cada lead llega con `persona` y `origen` (landing) para medir qué contenido y qué anuncio funciona.
+
+### Cloudflare (alternativa, sin usar para el equipo)
+
+Solo la copia de la web de Alejandro (Worker `kangen-team`). Para otra persona haría falta un proyecto de Pages con
+directorio raíz `equipo/<persona>/sitio`, compilación `npm run build`, salida `dist` y el enlace D1 `DB` →
+`leads-equipo`; el formulario usa `sitio/functions/api/lead.ts` → `compartido/api/lead-cloudflare.ts`.
 
 ## Embudo de Instagram (cuestionario → webinar)
 

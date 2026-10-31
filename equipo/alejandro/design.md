@@ -82,7 +82,7 @@ estas son las equivalentes gratuitas de Google Fonts.
 | Etiqueta | 11 px | 700 | 1 | 0 | Sí | Etiquetas en Ember, numeración |
 | Vertical | 10 px | 700 | 1 | 0 | Sí | Etiqueta vertical sobre la foto (opacidad 75 %) |
 
-En los textos de `sitio/src/config.ts`, la palabra de énfasis se marca entre asteriscos: `Otra *manera* de ganarse la vida`.
+En los textos de `sitio/src/contenido.json`, la palabra de énfasis se marca entre asteriscos: `Otra *manera* de ganarse la vida`.
 La palabra va en Ember y sola: sin subrayado, recuadro ni ningún otro adorno.
 
 ---

@@ -58,12 +58,13 @@ con vista previa igual a lo que llega. Cómo llegan a la hoja, sin que nada se r
 nuevos) y publica una versión nueva (Implementar → Gestionar implementaciones → lápiz → Nueva versión). Hasta entonces,
 la hoja sigue enviando sus emails de siempre.
 
-## Otra persona del equipo (ejemplo: Gemma)
+## Otra persona del equipo (ejemplos: Gemma y Helena)
 
 Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mismo para todas.
 
-1. **Su web**: copia entera la carpeta `equipo/gemma/sitio`. Es la misma web y el mismo embudo que los de Alejandro
-   (Instagram, cuestionario, webinar y emails), con su editor. En `contenido.json` cambia solo lo suyo: `colores`
+1. **Su web**: `npm run nueva-persona -- "<Nombre>" <proyecto>.vercel.app` (o, si ya tiene carpeta, la de
+   `plantilla/sitio`). Es la misma web y el mismo embudo para todo el equipo (`compartido/src/embudo`: Instagram,
+   cuestionario, webinar y emails), con su editor. En su `contenido.json` cambia solo lo suyo: `colores`
    (por papel: fondo, superficie, líneas, texto, acento, estructura…), `email.colores`, `general.marca`, `fotos`,
    la firma del email y su nombre en los textos. Su WhatsApp y el vídeo del webinar van en `enlaces` (o desde su editor).
    No cambies las preguntas ni su `columna`: así todas las hojas tienen las mismas columnas.

@@ -19,6 +19,9 @@
   --color-estructura: #6952e0; /* lila oscuro: numeración, flechas y letras de las opciones */
   --color-error: #b42318;
   --color-primario: var(--color-texto);
+  /* Fondos suaves del color del texto: opciones al pasar el ratón y opción elegida */
+  --tinte-hover: color-mix(in srgb, var(--color-texto) 5%, transparent);
+  --tinte-elegida: color-mix(in srgb, var(--color-texto) 4%, transparent);
   --fuente-titulo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
   --fuente-cuerpo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
   --fuente-acento: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* cursiva de énfasis en titulares */

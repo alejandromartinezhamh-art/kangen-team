@@ -22,18 +22,5 @@ export const persona: ConfigPersona = {
   },
 };
 
-// Todo lo editable (textos, colores, fuentes, fotos, enlaces y emails) vive en contenido.json.
-// Lo cambia el editor de la web (/editar); también se puede cambiar a mano.
-export const { textos, fotos } = contenido;
-// Se lee al pintar (no al importar) para que el editor pueda cambiarlo.
-export const webinar = () => contenido.enlaces.webinar;
-
-// Embudo de Instagram: /l/instagram → /cuestionario → email con el webinar → /webinar.
-// El vídeo es enlaces.webinar de contenido.json (YouTube, Vimeo o .mp4). Vacío = aviso de "muy pronto"
-// y el botón de WhatsApp sale desde el principio; con vídeo, al ver `porcentajeWhatsapp` %.
-export const embudo = {
-  general: contenido.general,
-  instagram: contenido.instagram,
-  webinar: contenido.webinar,
-  porcentajeWhatsapp: 80,
-};
+// Todo lo demás (textos, colores, fuentes, fotos, enlaces y emails) vive en contenido.json y lo cambia el
+// editor de la web (/editar). Las páginas son las de compartido/src/embudo.

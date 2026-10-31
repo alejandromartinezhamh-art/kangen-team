@@ -5,9 +5,10 @@ import contenido from './contenido.json';
 export const persona: ConfigPersona = {
   id: '__ID__',
   nombre: '__NOMBRE__',
-  dominio: 'PENDIENTE',
+  dominio: '__DOMINIO__',
   email: 'PENDIENTE',
   // Su WhatsApp vive en contenido.json (enlaces.whatsapp) para poder cambiarlo desde el editor.
+  // Sin él no salen los botones de WhatsApp.
   get whatsapp() {
     return contenido.enlaces.whatsapp.replace(/\D/g, '') || undefined;
   },
@@ -21,7 +22,5 @@ export const persona: ConfigPersona = {
   },
 };
 
-// Todo lo que se ve (textos, colores, letras, fotos y enlaces) vive en contenido.json, para poder
-// cambiarlo desde el editor de la web (/editar). Ningún texto visible se escribe en los componentes.
-// Todo habla de negocio y estilo de vida, nunca de producto (ver estrategia/normas-comunicacion.md).
-export const { textos, fotos } = contenido;
+// Todo lo demás (textos, colores, fuentes, fotos, enlaces y emails) vive en contenido.json y lo cambia el
+// editor de la web (/editar). Las páginas son las de compartido/src/embudo.

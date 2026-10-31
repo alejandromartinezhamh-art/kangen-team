@@ -1,0 +1,335 @@
+{
+  "_etiquetas": {
+    "colores": {
+      "fondo": [
+        "Fondo",
+        "Fondo de todas las páginas"
+      ],
+      "superficie": [
+        "Superficie",
+        "Tarjetas de los pasos y caja del vídeo"
+      ],
+      "borde": [
+        "Bordes",
+        "Bordes de los campos y del formulario"
+      ],
+      "linea": [
+        "Líneas",
+        "Líneas discontinuas que separan secciones y filas"
+      ],
+      "secundario": [
+        "Texto secundario",
+        "Párrafos, subtítulos y números de los botones"
+      ],
+      "texto": [
+        "Texto y botones",
+        "Titulares, texto principal y botón principal"
+      ],
+      "texto-hover": [
+        "Botón al pasar el ratón",
+        "Botón principal al pasar el ratón"
+      ],
+      "acento": [
+        "Acento",
+        "Etiquetas, números grandes y la palabra en cursiva"
+      ],
+      "estructura": [
+        "Estructura",
+        "Numeración, flechas y letras de las opciones"
+      ],
+      "error": [
+        "Error",
+        "Mensajes de error del formulario"
+      ]
+    },
+    "fotos": {
+      "retrato": "Foto principal",
+      "email": "Firma del email"
+    },
+    "campos": {
+      "enlaces.webinar": "Vídeo del webinar (enlace de YouTube, Vimeo o .mp4). Vacío = aviso de \"muy pronto\"",
+      "enlaces.whatsapp": "Tu WhatsApp: solo números, con prefijo y sin + (p. ej. 34600000000)"
+    },
+    "fuentes": {
+      "titulo": "Titulares",
+      "cuerpo": "Texto"
+    }
+  },
+  "fuentes": {
+    "titulo": "Inter Tight",
+    "cuerpo": "Inter Tight"
+  },
+  "colores": {
+    "fondo": "#faf7f2",
+    "superficie": "#ece6dc",
+    "borde": "#e4ddd2",
+    "linea": "#b9ae9f",
+    "secundario": "#57534e",
+    "texto": "#1c1917",
+    "texto-hover": "#44403c",
+    "acento": "#9a3412",
+    "estructura": "#57534e",
+    "error": "#b42318"
+  },
+  "fotos": {
+    "retrato": "/foto.jpg",
+    "email": "/foto-email.jpg"
+  },
+  "enlaces": {
+    "webinar": "",
+    "whatsapp": ""
+  },
+  "general": {
+    "marca": "Rocío"
+  },
+  "instagram": {
+    "barra": "Enlaces",
+    "etiqueta": "Emprendimiento y bienestar",
+    "boton": "Webinar: Otra manera de ganarse la vida",
+    "privacidad": "Política de privacidad"
+  },
+  "cuestionario": {
+    "etiqueta": "Webinar gratuito",
+    "atras": "← Atrás",
+    "siguiente": "Siguiente",
+    "placeholderRespuesta": "Escribe aquí tu respuesta",
+    "pasos": [
+      {
+        "tipo": "info",
+        "titulo": "¿Y si tu trabajo no fuera la *única* opción?",
+        "parrafos": [
+          "Si sientes que tu trabajo se lo lleva todo y te gustaría construir algo propio, este cuestionario de **1 minuto** te dirá si esta forma de emprender encaja contigo."
+        ],
+        "boton": "Descubrir si es para mí"
+      },
+      {
+        "tipo": "info",
+        "titulo": "Hola, soy *Rocío*",
+        "parrafos": [
+          "Antes de empezar, quiero dejar algo claro: esto **no es un empleo** ni un dinero rápido. Es un negocio propio, por cuenta propia, y lo que consigas depende de lo que tú le dediques.",
+          "Por eso quiero que sepas cómo trabajo:"
+        ],
+        "lista": [
+          "No necesitas experiencia: aprendes desde cero.",
+          "No lo haces en solitario: hay un equipo que te acompaña desde el primer día.",
+          "Sin jefes ni horarios impuestos: lo organizas a tu ritmo.",
+          "Puedes empezar compaginándolo con lo que ya haces."
+        ],
+        "cierre": [
+          "Busco personas con ganas de construir algo propio con constancia, y me apasiona acompañarlas en ese camino."
+        ],
+        "boton": "Seguir"
+      },
+      {
+        "tipo": "opciones",
+        "antes": [
+          "Las siguientes preguntas son para conocerte (menos de 1 minuto). Me ayudan a saber desde dónde partes y si es un buen momento para que trabajemos juntos."
+        ],
+        "texto": "¿Cuánto te *comprometes* a hacer un cambio en tu vida en los próximos 3-6 meses?",
+        "opciones": [
+          "Al 100 %: estoy listo/a para actuar con constancia",
+          "Me da curiosidad, pero aún no estoy listo/a para comprometerme"
+        ],
+        "columna": "¿Cuánto te comprometes a hacer un cambio en tu vida en los próximos 3-6 meses?"
+      },
+      {
+        "tipo": "campo",
+        "campo": "nombre",
+        "texto": "¿Cómo te *llamas*?",
+        "ayuda": "Yo soy Rocío, ¡con ganas de hablar contigo!",
+        "placeholder": "Nombre y apellidos"
+      },
+      {
+        "tipo": "campo",
+        "campo": "instagram",
+        "texto": "¿Cuál es tu *Instagram*?",
+        "ayuda": "Lo encuentras arriba del todo en tu perfil. Si no tienes, déjalo en blanco.",
+        "placeholder": "@tuusuario",
+        "opcional": true
+      },
+      {
+        "tipo": "campo",
+        "campo": "telefono",
+        "texto": "Tu *WhatsApp*",
+        "ayuda": "Te escribiré yo personalmente, así que revisa que el número sea correcto.",
+        "placeholder": "600 000 000"
+      },
+      {
+        "tipo": "campo",
+        "campo": "email",
+        "texto": "Tu *email*",
+        "ayuda": "Al enviar el cuestionario te llega el enlace a mi webinar gratuito. Si no lo ves en unos minutos, mira en promociones o spam.",
+        "placeholder": "tu@email.com"
+      },
+      {
+        "tipo": "opciones",
+        "texto": "¿Qué describe *mejor* tu situación actual?",
+        "opciones": [
+          "Trabajo a jornada completa por cuenta ajena",
+          "Trabajo a media jornada por cuenta ajena",
+          "Tengo mi propio negocio o soy autónomo/a",
+          "Ahora mismo no estoy trabajando"
+        ],
+        "columna": "¿Qué describe mejor tu situación actual?"
+      },
+      {
+        "tipo": "opciones",
+        "antes": [
+          "**Esto no es una oferta de empleo.**",
+          "Como cualquier negocio, empezar requiere una inversión, y prefiero que lo sepas desde el principio."
+        ],
+        "texto": "Sabiendo esto, ¿podrías *invertir* en un negocio si la oportunidad encaja contigo?",
+        "opciones": [
+          "Sí, estoy preparado/a y tengo los medios",
+          "Sí, me interesa, pero ahora mismo no tengo los medios y estaría abierto/a a buscar la forma",
+          "No, ahora mismo no puedo o no quiero invertir"
+        ],
+        "columna": "Sabiendo esto, ¿podrías invertir en un negocio si la oportunidad encaja contigo?"
+      },
+      {
+        "tipo": "opciones",
+        "final": true,
+        "antes": [
+          "**Una última cosa antes de enviar.** Para saber si esto es para ti hacen falta dos pasos:"
+        ],
+        "lista": [
+          "Ver el webinar (te llega ahora a tu email).",
+          "Una conversación conmigo, por mensaje o llamada."
+        ],
+        "despues": [
+          "**Si no vas a responder a mis mensajes o no puedes dedicarle un rato a ver la información, mejor no sigas.**"
+        ],
+        "texto": "¿Seguimos?",
+        "opciones": [
+          "Sí, quiero que hablemos por WhatsApp y le dedicaré un rato a ver la información",
+          "Ahora no tengo tiempo para hablar, solo quiero ver el webinar"
+        ],
+        "columna": "¿Seguimos?"
+      }
+    ],
+    "boton": "Enviar",
+    "enviando": "Enviando…",
+    "error": "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.",
+    "gracias": {
+      "etiqueta": "Hecho",
+      "titulo": "Listo, ya lo tienes en tu *email*",
+      "texto": "Si no lo ves en unos minutos, mira en promociones o spam. También puedes verlo ahora mismo.",
+      "boton": "Ver el webinar ahora",
+      "whatsapp": "Escríbeme por WhatsApp",
+      "mensajeWhatsapp": "Hola Rocío, acabo de rellenar tu cuestionario y quiero más información."
+    }
+  },
+  "webinar": {
+    "barra": "Webinar",
+    "etiqueta": "Webinar gratuito · Emprendimiento y bienestar",
+    "titulo": "Otra *manera* de ganarse la vida",
+    "texto": "Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma: al terminar podrás escribirme directamente por WhatsApp.",
+    "prontoEtiqueta": "Muy pronto",
+    "prontoTitulo": "El vídeo estará disponible en breve",
+    "prontoTexto": "Muy pronto podrás verlo aquí.",
+    "visto": "Visto",
+    "siguienteEtiqueta": "Siguiente paso",
+    "siguienteTitulo": "¿Te ha *resonado*?",
+    "textoAntes": "Cuando hayas visto el webinar, aquí te aparecerá el botón para escribirme directamente por WhatsApp.",
+    "textoWhatsapp": "Escríbeme por WhatsApp y lo hablamos. Te contesto yo personalmente, sin compromiso.",
+    "textoSinWhatsapp": "Responde al email en el que te llegó el webinar y lo hablamos. Te contesto yo personalmente, sin compromiso.",
+    "boton": "Escríbeme por WhatsApp",
+    "bloqueado": "Disponible al terminar el webinar",
+    "aviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona.",
+    "mensajeWhatsapp": "Hola Rocío, acabo de ver tu webinar y quiero más información."
+  },
+  "email": {
+    "webinar": {
+      "asunto": "Tu webinar: Otra manera de ganarse la vida",
+      "saludo": "¡Hola, {nombre}!",
+      "antes": [
+        "Gracias por responder el cuestionario. Aquí tienes el webinar:"
+      ],
+      "boton": "Ver el webinar",
+      "despues": [
+        "Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.",
+        "Si tienes cualquier duda, responde a este email: me llega directamente a mí."
+      ]
+    },
+    "recordatorio": {
+      "asunto": "¿Has podido verlo, {nombre}?",
+      "saludo": "¡Hola, {nombre}!",
+      "antes": [
+        "Ayer te envié el webinar y creo que aún no has podido verlo. Te lo dejo aquí otra vez, por si se te pasó:"
+      ],
+      "boton": "Ver el webinar",
+      "despues": [
+        "Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. Y si tienes cualquier duda antes, responde a este email."
+      ]
+    },
+    "despedida": "Un abrazo,",
+    "firma": "Rocío",
+    "pie": "Recibes este email porque lo pediste en el cuestionario. Si no quieres recibir más, responde con la palabra BAJA.",
+    "colores": {
+      "boton": "#1c1917",
+      "textoBoton": "#faf7f2",
+      "titulo": "#1c1917",
+      "texto": "#57534e",
+      "suave": "#78716c"
+    },
+    "mayusculas": true
+  },
+  "textos": {
+    "subtitulo": "Emprendimiento y bienestar",
+    "portadaEtiqueta": "Charla gratuita · Sin compromiso",
+    "titular": "Otra *manera* de ganarse la vida",
+    "entradilla": "Construye algo propio, a tu ritmo y con un equipo que te acompaña desde el primer día. Sin jefes, sin horarios impuestos, sin hacerlo en solitario.",
+    "botonContacto": "Quiero saber cómo funciona",
+    "botonVideo": "Ver el webinar",
+    "doloresEtiqueta": "¿Te suena?",
+    "dolores": [
+      "Tu trabajo ocupa todo tu tiempo y no te deja crecer.",
+      "Tienes ganas de emprender, pero no sabes por dónde empezar ni con quién.",
+      "Buscas un proyecto complementario que encaje con la vida que ya tienes."
+    ],
+    "pilaresEtiqueta": "Lo que encontrarás aquí",
+    "pilares": [
+      {
+        "titulo": "Flexibilidad",
+        "texto": "Tú decides cuánto tiempo le dedicas y cómo lo organizas."
+      },
+      {
+        "titulo": "Formación",
+        "texto": "Marketing, comunicación y liderazgo, aprendidos desde cero."
+      },
+      {
+        "titulo": "Equipo",
+        "texto": "Formaciones, quedadas y apoyo real en el día a día."
+      },
+      {
+        "titulo": "Bienestar",
+        "texto": "Hábitos, mentalidad y tiempo para lo que de verdad importa."
+      }
+    ],
+    "historiaEtiqueta": "Mi historia",
+    "historiaTitulo": "Por qué *empecé*",
+    "historia": [
+      "PENDIENTE: cuenta en 2-3 párrafos cortos por qué empezaste, qué buscabas y qué ha cambiado en tu día a día.",
+      "Habla de tiempo, aprendizaje y personas. Sin cifras de dinero."
+    ],
+    "pasosEtiqueta": "Cómo empezamos",
+    "pasos": [
+      {
+        "titulo": "Rellenas el formulario",
+        "texto": "Solo tus datos básicos, sin compromiso."
+      },
+      {
+        "titulo": "Hablamos 20 minutos",
+        "texto": "Te cuento cómo trabajamos y resuelvo tus dudas."
+      },
+      {
+        "titulo": "Decides con calma",
+        "texto": "Sin presión. Si encaja contigo, empezamos juntos."
+      }
+    ],
+    "contactoEtiqueta": "Hablamos",
+    "contactoTitulo": "¿Lo *hablamos*?",
+    "contactoTexto": "Déjame tus datos y te escribo personalmente. Una charla de 20 minutos, sin compromiso.",
+    "aviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona."
+  }
+}

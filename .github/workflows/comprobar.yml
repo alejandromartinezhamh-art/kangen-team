@@ -1,0 +1,25 @@
+# En cada cambio: normas de comunicación, script de la hoja, que todas las webs compilan y que las funciones
+# de Vercel (api/*.js) están generadas desde compartido/api. Si algo falla, no se fusiona.
+name: Comprobar
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Normas de comunicación y script de la hoja
+        run: npm run comprobar
+      - name: Todas las webs compilan
+        run: npm run build
+      - name: Funciones de Vercel al día (npm run generar-api)
+        run: npm run generar-api && git diff --exit-code

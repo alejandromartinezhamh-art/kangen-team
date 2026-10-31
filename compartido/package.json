@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./embudo": "./src/embudo/index.ts",
     "./api/lead": "./api/lead.ts",
     "./api/lead-cloudflare": "./api/lead-cloudflare.ts",
     "./editor": "./src/editor/Editor.tsx"
