@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build -w sitio-alejandro",
   "outputDirectory": "equipo/alejandro/sitio/dist",
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/((?!api/)[^.]*)", "destination": "/index.html" }]
 }

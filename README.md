@@ -163,6 +163,8 @@ Un proyecto de Vercel por persona, todos conectados a este repositorio (rama `ma
 - **Variables de entorno:** `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` (la URL y la clave del script de su hoja,
   ver `compartido/apps-script/README.md`); `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` (ver "Editor visual")
 - **Dominio:** de momento `<proyecto>.vercel.app`; más adelante, subdominio de un dominio común o dominio propio.
+- **Analítica de visitas:** en el proyecto, *Analytics → Enable* (una vez). El script lo añade solo `compartido/vite.ts`
+  al compilar en Vercel, con la ruta propia del proyecto; sin cookies, así que no cambia el aviso de cookies.
 
 Cada lead llega con `persona` y `origen` (landing) para medir qué contenido y qué anuncio funciona.
 
