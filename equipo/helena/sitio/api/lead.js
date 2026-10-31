@@ -61,27 +61,43 @@ async function leerLead(request) {
 }
 
 // compartido/api/reenviar.ts
+var ESPERA_MS = 600;
+var MAX_PARA_REINTENTAR_MS = 4e3;
 async function reenviar(destino, clave, datos) {
+  const inicio = Date.now();
+  const cuerpo = JSON.stringify({ ...datos, clave: clave ?? "", fecha: (/* @__PURE__ */ new Date()).toISOString() });
+  let resultado = await enviar(destino, cuerpo);
+  if (resultado === "reintentar" && Date.now() - inicio < MAX_PARA_REINTENTAR_MS) {
+    await new Promise((r) => setTimeout(r, ESPERA_MS));
+    resultado = await enviar(destino, cuerpo);
+  }
+  return resultado === "ok";
+}
+async function enviar(destino, cuerpo) {
   try {
     const res = await fetch(destino, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...datos, clave: clave ?? "", fecha: (/* @__PURE__ */ new Date()).toISOString() }),
+      body: cuerpo,
       redirect: "follow"
     });
+    if (res.status >= 500 || res.status === 429) {
+      console.error("El destino de leads fall\xF3", res.status);
+      return "reintentar";
+    }
     if (!res.ok) {
       console.error("El destino de leads respondi\xF3", res.status);
-      return false;
+      return "error";
     }
-    const cuerpo = await res.text();
-    if (cuerpo.includes('"ok":false')) {
-      console.error("El destino de leads rechaz\xF3 el env\xEDo", cuerpo.slice(0, 200));
-      return false;
+    const texto2 = await res.text();
+    if (texto2.includes('"ok":false')) {
+      console.error("El destino de leads rechaz\xF3 el env\xEDo", texto2.slice(0, 200));
+      return "error";
     }
-    return true;
+    return "ok";
   } catch (e) {
     console.error("No se pudo contactar con el destino de leads", e);
-    return false;
+    return "reintentar";
   }
 }
 
