@@ -45,7 +45,7 @@ vivir); tranquilidad; crecer como persona; hacerlo acompañada, no sola.
 
 ### Lo que la frena (objeciones, en orden)
 1. «No sé vender» / «¿cómo le saco rentabilidad a algo que no sé hacer?»
-2. «No tengo tiempo» (con trabajo, hijos o un bebé en camino).
+2. «No tengo tiempo» (con trabajo e hijos pequeños).
 3. «Lo tengo que hablar con mi pareja» (y la pareja frena).
 4. «¿Esto es una pirámide / una estafa?»
 5. «Es mucha inversión.»
