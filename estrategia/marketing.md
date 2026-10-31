@@ -58,65 +58,84 @@ plantillas) y empieza a generar sus propios leads. El sistema se duplica con el 
 
 Léelos antes que nada: un error aquí puede cerrar una cuenta publicitaria o la distribución.
 
+### Qué anunciamos y qué no (decidido el 31 de octubre de 2026)
+**El contenido y los anuncios hablan de negocio, de cambiar de vida, de alternativas y de invertir en uno mismo.
+Nunca de Enagic, del producto ni del agua.** Que una de las opciones, la nuestra, es Enagic se cuenta más tarde, en el
+webinar o en la conversación. Por eso:
+
+- Los anuncios **no son material de Enagic** y no necesitan su aprobación: promocionan la marca personal de cada persona
+  y su contenido.
+- La web, el webinar y la conversación, donde sí aparece la empresa, siguen sus normas (abajo).
+- Si alguien del equipo quiere hablar del producto (ver «Contenido de producto», abajo), eso va aparte y con las reglas
+  de Enagic completas.
+
 ### Normas del equipo
 `mensaje.md` y `normas-comunicacion.md`: negocio y estilo de vida, nunca producto; sin cifras de ingresos ni promesas;
 sin afirmaciones de salud; sin la marca; sin presentarlo como empleo; primera persona y resultados que dependen de cada uno.
 
-### Políticas de Enagic (P&P, resumen en Notion → LEGAL)
-- Nada de afirmaciones de salud, ni explícitas ni implícitas, **tampoco en testimonios** (§9.2).
-- Nada de ingresos ni de enseñar comisiones (§9.3). Nada de publicidad comparativa (§9.1).
-- **El material de marketing necesita aprobación por escrito de Enagic (§9.4).**
-- **Prohibida la publicidad pagada «ciega»** (anuncios sin identificarte como distribuidor).
-- Prensa, radio, TV y vallas solo con autorización (§54). Las P&P se aplican igual en redes sociales.
-
 ### Plataformas
 - **TikTok** prohíbe en anuncios el multinivel centrado en reclutar (política de anuncios, servicios financieros) y sus
-  normas de comunidad limitan el contenido de multinivel. En TikTok: solo estilo de vida y crecimiento personal, nunca
-  invitar al negocio; la llamada a la acción es solo «link en la bio».
-- **Meta** restringe los anuncios de oportunidades de negocio y de ingresos (guías de 2026; confirmar el texto vigente
-  antes de lanzar).
+  normas de comunidad limitan el contenido de multinivel. En TikTok: negocio, alternativas, mentalidad y estilo de vida,
+  nunca invitar al negocio ni al webinar; la llamada a la acción es solo «más en mi perfil».
+- **Meta** restringe los anuncios de oportunidades de negocio y de ingresos. Los anuncios enseñan una idea o una
+  historia; no prometen ingresos ni «únete a mi equipo».
+- **Inversión**: hablamos de invertir en uno mismo (tiempo, formación, un proyecto propio) y de la relación con el
+  dinero. Nunca recomendamos productos financieros ni hablamos de rentabilidades: es asesoramiento regulado y Meta lo
+  trata como servicios financieros.
 - Contenido **realista generado con IA**: se etiqueta como tal en Instagram, Facebook, TikTok y YouTube.
 
-### El conflicto y cómo lo resolvemos
-Enagic pide identificarse como distribuidor en la publicidad pagada; Meta y TikTok restringen anunciar el multinivel.
-Por eso:
+### Lo que viene de Enagic (web, webinar, conversación)
+Resumen de sus P&P en Notion → LEGAL: nada de afirmaciones de salud, tampoco en testimonios (§9.2); nada de ingresos ni
+comisiones (§9.3); nada de publicidad comparativa (§9.1); el material que habla de Enagic o de sus productos necesita su
+aprobación (§9.4); prensa, radio, TV y vallas solo con autorización (§54).
 
-1. **Los anuncios nunca anuncian la oportunidad.** Promocionan contenido de marca personal y de valor (historia, hábitos,
-   emprender con equipo). La conversación sobre el negocio ocurre después, en canales propios: cuestionario, webinar,
-   WhatsApp.
-2. **Antes de gastar el primer euro en anuncios**, consulta por escrito a Enagic (oficina de Europa) con 2-3 ejemplos
-   reales de anuncio y de la web de destino, y guarda la respuesta. Si piden identificarse, se decide con ellos cómo.
-3. El orgánico (sin pagar) sigue las mismas normas y no espera a esa respuesta.
+### Contenido de producto (si alguien lo hace)
+Va en piezas separadas, nunca en anuncios ni en TikTok, sin ninguna afirmación de salud (tampoco «me siento mejor
+desde…») y con el material aprobado por Enagic antes de publicarlo (§9.4). El revisor lo trata como «No pasa» si falta
+cualquiera de estas condiciones.
 
 ### Datos personales
 Medir anuncios (evento de lead a Meta desde el servidor, sin cookies) requiere consentimiento claro y actualizar la
 política de privacidad. Se prepara, y lo valida un abogado antes de activarlo.
 
+### Repositorio público
+Este repositorio es público. **La historia de cada persona, su cuestionario, su salud, su familia y los datos de los
+leads no se guardan aquí**: están en Drive y en Notion (ver `contenido/README.md`).
+
 ---
 
-## 4. Posicionamiento
+## 4. Posicionamiento y a quién le hablamos
 
 - Se construye **la marca personal de cada persona**, nunca la de la empresa. La gente se une a personas.
-- Promesa común: **«Otra manera de ganarse la vida»**: algo propio, a tu ritmo, con un equipo que te acompaña.
-- Cada persona habla desde **su enfoque** (cuestionario de historia y avatar, bloque 0): madre/padre, autónomo,
-  empleado que busca un cambio, segunda etapa… Mismo mensaje, distinta puerta de entrada.
-- Tono: cercano, honesto, sin promesas. Experiencias reales, también los errores.
+- Promesa común: **«Otra manera de ganarse la vida»**: algo propio, a tu ritmo, sin dejar lo que tienes, con un equipo
+  que te acompaña.
+- **A quién** (cliente ideal o ICP): la persona **estable pero estancada**. Definición completa, señales y a quién no
+  queremos atraer: `icp.md`.
+- Cada persona habla desde **su enfoque** (cuestionario, bloque 0: madre/padre, autónomo, empleado que busca un cambio,
+  segunda etapa…) y desde **lo que sabe por su profesión**. Mismo mensaje, distinta puerta de entrada.
+- Tono: cercano, honesto, sin promesas. Experiencias reales, también los errores. «Lo estoy construyendo y lo cuento»
+  vale más que «ya lo he conseguido».
 
 ---
 
-## 5. Pilares de contenido
+## 5. Tipos de contenido (pilares)
 
-Salen de `mensaje.md`. El estratega reparte cada semana según estos pesos y los ajusta con los datos.
+Todo el contenido sale de una de estas seis categorías. El estratega reparte cada semana según los pesos y los ajusta
+con los datos. Cada pilar tiene su etapa del recorrido y dice si se puede convertir en anuncio.
 
-| Pilar | Peso | Para qué (etapa) | Ejemplos |
-|---|---|---|---|
-| Libertad y tiempo | 25 % | Descubrir | Mi lunes de verdad · cómo organizo la semana · lo que hago a las 10 de la mañana |
-| Crecimiento personal | 20 % | Descubrir | Lo que aprendí este mes · un hábito que me cambió · un libro en 30 s |
-| Historia personal | 20 % | Conectar | Por qué empecé · el momento «hasta aquí» · mis miedos del principio |
-| Equipo y comunidad | 15 % | Conectar y decidir | Una formación · una quedada · cómo acompañamos a quien empieza |
-| Detrás de cámaras y dudas | 20 % | Decidir | «¿Es un empleo?» · «¿Necesito experiencia?» · errores que cometí |
+| Pilar | Peso | Etapa | ¿Anuncio? | De qué va | Ejemplos de gancho |
+|---|---|---|---|---|---|
+| **1. Otra manera de ganarse la vida** | 25 % | Descubrir | Sí | Negocio y alternativas: por qué un sueldo tiene techo, cobrar por horas frente a construir algo que no dependa solo de tu tiempo, opciones para emprender sin dejar tu trabajo (autónomo, franquicia, online, en equipo) | «Tu sueldo tiene techo. Estas son las salidas que miré» · «No hace falta dejarlo todo para empezar algo» |
+| **2. Cambiar de vida** | 20 % | Conectar | Sí | Historia personal: el antes, el momento «hasta aquí», lo que ha cambiado (sin cifras) | «No estaba mal en mi trabajo. Ese era el problema» · «El día que dije hasta aquí» |
+| **3. Invertir en ti** | 15 % | Descubrir | Sí, con cuidado | Relación con el dinero, gasto o inversión, invertir tiempo y formación en uno mismo, lo que cuesta quedarse igual. Nunca productos financieros ni rentabilidades | «Gasto o inversión: la pregunta que me hago» · «Lo que me costó quedarme 5 años igual» |
+| **4. Mentalidad** | 15 % | Descubrir y conectar | Sí | Zona de confort, miedo al juicio, merecer más, constancia | «Cuando tu familia duda de ti, habla de sus miedos» · «Permítete querer más» |
+| **5. Construyendo en público** | 15 % | Conectar | No | Detrás de cámaras y equipo: el mes a mes real, errores, cómo trabajamos, la comunidad | «Mes 8: lo que nadie te cuenta» · «Así es una reunión del equipo» |
+| **6. Dudas** | 10 % | Decidir | Nunca | Las objeciones del cuestionario (bloque 8), sin marca: experiencia, tiempo, pareja, «¿es una pirámide?» | «¿Necesito saber vender?» · «¿Cuánto tiempo le dedico de verdad?» |
 
-El último pilar responde a las objeciones del cuestionario (bloque 8): es el que más acerca al lead cualificado.
+- Los pilares 1, 3 y 4 traen gente nueva; el 2 y el 5 generan confianza; el 6 es el que más acerca a pedir hablar.
+- **TikTok**: pilares 1 a 5, nunca el 6 ni invitaciones al negocio.
+- **Anuncios**: solo pilares 1 a 4 y solo piezas que ya han traído leads cualificados en orgánico.
+- La palabra «inversión» se usa siempre como invertir en uno mismo o en un proyecto propio, nunca como rentabilidad.
 
 ---
 
@@ -157,7 +176,7 @@ instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más f
 | **Estratega** | Lunes | Plan de la semana por persona: pilares, formatos, ganchos, a partir del radar y de lo aprendido. | Notion → Calendario (estado Guion) |
 | **Guionista** | Por pieza | Guion con gancho de 3 s, texto por red, código y llamada a la acción. Con la voz y la historia de cada persona. | Ficha de la pieza |
 | **Editor** | Por pieza | Vídeo vertical con **HyperFrames** (subtítulos con sus colores, cortes, música, recursos con IA de Higgsfield) y carruseles desde plantillas HTML diseñadas con Claude Design. | Drive → Editados |
-| **Revisor** | Antes de aprobar | Normas del equipo, de Enagic y de cada plataforma; etiqueta de IA si hace falta. `npm run comprobar`. | Pieza → Para aprobar |
+| **Revisor** | Antes de aprobar | Normas del equipo y de cada plataforma (y de Enagic si una pieza habla del producto); etiqueta de IA si hace falta. `npm run comprobar`. | Pieza → Para aprobar |
 | **Publicador** | Cada 15 min | Publica lo aprobado a su hora: Instagram y Facebook (API de Meta), YouTube (API de YouTube), TikTok (Metricool gratis hasta pasar la auditoría de TikTok). | Pieza → Publicado |
 | **Analista** | Diario | Métricas de cada pieza + calidad de los leads que trajo (hoja de leads y CRM). Qué funciona y por qué. | Notion + `aprendizajes.md` |
 | **Anuncios** | Semanal | Convierte las piezas con más leads cualificados en anuncios, los deja en pausa para aprobar, vigila el gasto y pausa lo que no funciona. | Notion → Anuncios |
@@ -176,7 +195,7 @@ instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más f
 Presupuesto inicial: **menos de 300 € al mes para todo el equipo.** Cada persona con **su propia cuenta publicitaria**
 (anuncia su marca personal, sus leads van a su hoja; si Meta bloquea una, no afecta al resto).
 
-**Requisitos antes del primer euro**: respuesta por escrito de Enagic (sección 3) · consentimiento y privacidad revisados ·
+**Requisitos antes del primer euro**: el anuncio cumple la sección 3 (sin Enagic, producto, agua, salud ni ingresos) · consentimiento y privacidad revisados ·
 cuenta publicitaria y página verificadas.
 
 1. **Solo se anuncia lo que ya funciona en orgánico**: las piezas con más leads cualificados, nunca piezas nuevas.
@@ -236,10 +255,10 @@ cuenta publicitaria y página verificadas.
 
 | Fase | Cuándo | Qué |
 |---|---|---|
-| 0 · Permisos | Ya | Consulta a Enagic · cuentas profesionales · apps de Meta, YouTube y TikTok · cuestionario de historia |
+| 0 · Base personal | Ya | Cuestionario de historia completo · cuentas de redes (`plantillas/04 Crear cuentas de redes.md`) · apps de Meta, YouTube y TikTok |
 | 1 · Base | Semanas 1-2 | Notion (calendario, radar, anuncios) · agentes investigador, estratega, guionista y revisor · códigos de seguimiento · plantillas de vídeo y carrusel |
 | 2 · Piloto orgánico | Semanas 3-6 | Alejandro publica con el sistema · editor y publicador · analista diario · «comenta X» |
-| 3 · Anuncios | Desde la semana 3, si Enagic lo aprueba | Piloto de anuncios < 300 €/mes sobre las piezas ganadoras |
+| 3 · Anuncios | Desde la semana 3, con piezas que ya traen leads cualificados | Piloto de anuncios < 300 €/mes sobre las piezas ganadoras |
 | 4 · Equipo | Mes 3 | Gemma, Helena y el resto · panel comparativo · ritual de los lunes |
 | 5 · Escala | Mes 4+ | Vídeo largo en YouTube, directos, guía gratuita descargable, comunidad |
 
@@ -250,7 +269,8 @@ cuenta publicitaria y página verificadas.
 | Riesgo | Cómo lo cubrimos |
 |---|---|
 | Cierre de la cuenta publicitaria | Nunca anunciar la oportunidad · revisor antes de cada anuncio · cuentas separadas por persona |
-| Sanción de Enagic | Sin salud, ingresos ni marca · consulta por escrito antes de anunciar |
+| Sanción de Enagic | Ni la marca ni el producto en contenido ni anuncios · sin salud ni ingresos · el contenido de producto, aparte y aprobado por Enagic |
+| Datos personales expuestos | Repositorio público: historias, cuestionarios y leads solo en Drive y Notion |
 | Contenido que suena a IA o a copia | Grabado por la persona, con su historia; el investigador adapta estructuras, no copia |
 | Pocos leads cualificados | Se mide por pieza y se ajusta cada semana; el cuestionario y el webinar filtran |
 | Dependencia de una herramienta | APIs oficiales y código propio; Metricool solo para TikTok mientras tanto |

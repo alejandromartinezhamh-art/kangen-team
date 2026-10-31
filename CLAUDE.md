@@ -19,6 +19,7 @@ Contenido actual de Templates:
 | 01 Cuestionario historia y avatar (plantilla).docx | `estrategia/plantillas/01 Cuestionario historia y avatar (plantilla).docx` |
 | 02 Mensajes de WhatsApp (Google Doc) | `estrategia/plantillas/02 Mensajes de WhatsApp.md` |
 | 03 Checklist persona nueva (Google Doc) | `estrategia/plantillas/03 Checklist persona nueva.md` |
+| 04 Crear cuentas de redes (Google Doc) | `estrategia/plantillas/04 Crear cuentas de redes.md` |
 | Landing Kangen NOMBRE (estructura de carpetas) | Estructura descrita en la guía 00 |
 
 ## Normas de comunicación
@@ -36,5 +37,12 @@ fotos). No copies páginas a una persona: cualquier cambio de diseño o de estru
 
 La estrategia de contenido y anuncios está en `estrategia/marketing.md`; el día a día, en `contenido/README.md`. Los agentes
 (investigador, estratega, guionista, revisor, entrevista de historia) tienen sus instrucciones en `.claude/skills/`.
-Nada se publica ni se gasta en anuncios sin la aprobación de la persona en Notion, y ningún anuncio de pago se lanza sin
-la respuesta por escrito de Enagic.
+A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
+alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
+conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la
+persona en Notion.
+
+## Datos personales
+
+El repositorio es **público**. La historia de cada persona (cuestionario de Drive y ficha de voz en Notion), su salud,
+su familia, los datos de los leads y las claves nunca se escriben aquí.

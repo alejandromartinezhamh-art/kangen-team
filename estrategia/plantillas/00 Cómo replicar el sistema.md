@@ -12,6 +12,7 @@ Todo lo que se usa está en la carpeta **Templates** de Drive (`Kangen PRO TEAM/
 | 01 Cuestionario historia y avatar (plantilla) | El cuestionario en blanco que rellena cada persona nueva |
 | 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio |
 | 03 Checklist persona nueva | Lista de pasos para no olvidar nada |
+| 04 Crear cuentas de redes | Paso a paso para abrir Instagram, Facebook, Meta Business, TikTok y YouTube |
 | Landing Kangen NOMBRE (estructura de carpetas) | Las 8 subcarpetas que tiene que tener cada persona en Drive |
 
 ## El sistema en 5 fases
@@ -61,7 +62,8 @@ Del cuestionario se saca:
 | 9 · Voz | Tono de los textos |
 | 12 · Cierre | Titular y llamada a la acción |
 
-Resultado: `equipo/<nombre>/brief.md` completo.
+Resultado: `equipo/<nombre>/brief.md` completo (solo lo que saldrá en la web: el repositorio es público) y su **ficha de
+voz** en Notion → CONTENIDO Y ANUNCIOS → Fichas de voz (su historia completa, privada).
 
 ## Fase 4 · Web y landings
 
@@ -89,26 +91,35 @@ Estructura de la landing (en este orden):
 
 Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` (el día a día). Para una persona nueva:
 
-1. **Su historia y su voz**: en Claude Code, «entrevístame para mi historia» (agente `entrevista-historia`), o con su
-   cuestionario de historia y avatar. Queda en `equipo/<nombre>/contenido/voz.md`.
-2. **Drive**: dentro de `05 Contenido redes`, las carpetas `Brutos`, `Editados` y `Publicados`.
-3. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, y filtrar el calendario por ella.
-4. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
+1. **Su historia y su voz**: rellena su cuestionario de historia y avatar en Drive (o hace la entrevista con Claude:
+   «entrevístame para mi historia», que es el mismo cuestionario en conversación). El agente `entrevista-historia` lo
+   pasa a su **ficha de voz** en Notion → CONTENIDO Y ANUNCIOS → Fichas de voz. Mínimo para empezar a publicar: bloques
+   0, 1, 2, 7 y 9 («Lista para guiones»). Nada de esto va al repositorio, que es público.
+2. **Sus cuentas de redes**: con `04 Crear cuentas de redes` (Instagram profesional de creador, página de Facebook,
+   portfolio comercial de Meta con su cuenta publicitaria, TikTok y canal de YouTube).
+3. **Drive**: dentro de `05 Contenido redes`, las carpetas `Brutos`, `Editados` y `Publicados`.
+4. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, crear su fila en Fichas de voz
+   con el enlace a su cuestionario, y filtrar el calendario por ella.
+5. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
    revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación.
-5. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
+6. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
    hoja de leads.
-6. **Anuncios**: solo cuando haya piezas con leads cualificados, desde su propia cuenta publicitaria, y nunca sin la
-   respuesta por escrito de Enagic.
+7. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
+   negocio, de cambiar de vida, de alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua.
 
 ## Normas (siempre)
 
-- Se habla del negocio y del cambio de estilo de vida, **nunca del producto**.
+- Se habla de negocio, de cambiar de vida, de alternativas y de invertir en uno mismo, **nunca del producto, del agua
+  ni de Enagic** (eso llega en el webinar o en la conversación). A quién: `estrategia/icp.md`.
 - **Nada de cifras de ingresos**, promesas económicas, lujo como gancho ni afirmaciones de salud.
 - No usar la marca en dominios, nombres de página, logos ni anuncios sin autorización.
 - No presentarlo como oferta de empleo.
 - Siempre en primera persona, dejando claro que los resultados dependen de cada persona.
-- Enagic: nada de salud (tampoco en testimonios) ni ingresos; el material de marketing y la publicidad pagada necesitan su visto bueno por escrito.
-- TikTok prohíbe anunciar el multinivel y limita ese contenido: allí, solo estilo de vida y crecimiento personal.
+- Enagic (web, webinar, conversación): nada de salud (tampoco en testimonios) ni ingresos. El contenido de producto, si
+  alguien lo hace, va aparte, nunca en anuncios ni en TikTok, y con el material aprobado por Enagic.
+- Inversión: solo en uno mismo; nunca productos financieros ni rentabilidades.
+- TikTok prohíbe anunciar el multinivel y limita ese contenido: allí, nunca invitar al negocio ni al webinar.
+- El repositorio es público: historias, cuestionarios, datos de leads y claves, solo en Drive, Notion y Vercel.
 - Contenido realista generado con IA: con la etiqueta de IA de cada red.
 
 Detalle completo en `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.

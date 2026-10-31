@@ -8,8 +8,9 @@ description: Guionista del equipo. Escribe el guion de una pieza (vídeo o carru
 ## Lee primero
 - La pieza en el Calendario (Notion, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): pilar, formato, redes, etapa,
   gancho, referencia y su **Código** (`CT-123`).
-- `equipo/<persona>/contenido/voz.md` (sus palabras), `contenido/formatos.md`, `contenido/ganchos.md`,
-  `estrategia/normas-comunicacion.md`.
+- Su **ficha de voz** en Notion (`collection://8fdf7563-98ef-41e5-8899-19349d98657d`): sus palabras, su historia, su
+  persona ideal y lo marcado con ⚠ (no se usa en público). `estrategia/icp.md`, `contenido/formatos.md`,
+  `contenido/ganchos.md`, `estrategia/normas-comunicacion.md`.
 - La web de la persona: `equipo/<persona>/sitio/src/config.ts` (dominio).
 
 ## Vídeo (Reel / TikTok / Short)
@@ -22,7 +23,7 @@ En el cuerpo de la página de la pieza:
 4. **Dónde y cómo grabar**: lugar, luz, ropa, si hace falta un plano extra del día a día.
 5. **Textos por red**:
    - Instagram y Facebook: 3-6 líneas, primera línea = gancho, «enlace en mi perfil», 3-5 hashtags temáticos (sin marca).
-   - TikTok: 1-2 líneas, sin invitar al negocio, «más en mi perfil».
+   - TikTok: 1-2 líneas, sin invitar al negocio ni al webinar, «más en mi perfil».
    - YouTube Shorts: título (máx. 60 caracteres) y descripción con `https://<dominio>/l/instagram?c=CT-123`.
 6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
 
@@ -31,10 +32,13 @@ Texto de cada imagen (portada con la palabra de énfasis entre asteriscos, como 
 25 palabras por imagen, y el texto de la publicación de Instagram y Facebook.
 
 ## Reglas de escritura
-- Primera persona, con sus expresiones de `voz.md`. Si `voz.md` está en PENDIENTE, avisa: el guion será genérico.
+- Primera persona, con sus expresiones de la ficha. Si la ficha no está «Lista para guiones», avisa: el guion será
+  genérico. Nunca uses lo marcado con ⚠.
 - Una sola idea por pieza. Escenas concretas de su vida, no frases motivacionales.
-- Normas: sin cifras de dinero, sin promesas, sin lujo, sin salud, sin producto, sin marca, sin «trabajo/empleo»; los
-  resultados dependen de cada persona.
+- De qué se habla: negocio, cambiar de vida, alternativas, invertir en uno mismo, mentalidad. Nunca Enagic, el
+  producto ni el agua.
+- Normas: sin cifras de dinero ni rentabilidades, sin promesas, sin lujo, sin salud, sin «trabajo/empleo», sin productos
+  financieros; los resultados dependen de cada persona.
 - En TikTok, nunca invitar al negocio ni al webinar de forma directa.
 
 ## Al terminar

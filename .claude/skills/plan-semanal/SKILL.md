@@ -6,10 +6,12 @@ description: Estratega del equipo. Prepara el plan de contenido de la semana de 
 # Plan de contenido semanal
 
 ## Lee primero
-1. `estrategia/marketing.md` (pilares y pesos, formatos, frecuencia, límites) y `estrategia/normas-comunicacion.md`.
-2. `equipo/<persona>/contenido/voz.md`. **Si está casi todo en PENDIENTE, para**: propón hacer antes la entrevista
-   (`entrevista-historia`) o, como mucho, plantea solo piezas que no necesiten su historia (dudas frecuentes, crecimiento
-   personal), avisando de que son genéricas.
+1. `estrategia/marketing.md` (tipos de contenido y pesos en la sección 5, formatos, frecuencia, límites),
+   `estrategia/icp.md` (a quién le hablamos) y `estrategia/normas-comunicacion.md`.
+2. Su **ficha de voz** en Notion (`collection://8fdf7563-98ef-41e5-8899-19349d98657d`). **Si su Estado no es «Lista
+   para guiones», para**: dile qué falta (columna **Faltan**) y propón completarlo con `entrevista-historia`. Como mucho,
+   plantea piezas que no necesiten su historia (pilares Otra manera de ganarse la vida, Invertir en ti, Mentalidad),
+   avisando de que serán genéricas.
 3. `equipo/<persona>/contenido/aprendizajes.md` y `contenido/aprendizajes-equipo.md`: lo que funciona manda sobre los pesos.
 4. Radar (Notion, `collection://ca35d60d-116e-4405-a39a-4c21cfc9c4d7`): referencias con Estado «Nueva» para esa persona
    o para todo el equipo. Si está vacío o es lunes, usa antes `investigar-contenido`.
@@ -18,8 +20,9 @@ description: Estratega del equipo. Prepara el plan de contenido de la semana de 
 
 ## El plan (para 1 hora de grabación)
 - **5 vídeos** (Formato «Reel», Redes Instagram + TikTok + YouTube + Facebook) y **2 carruseles** (Instagram + Facebook).
-- Reparto por pilares según los pesos de `marketing.md` y lo aprendido: al menos 1 de «Detrás de cámaras y dudas» y 1 de
-  «Historia personal».
+- Reparto por pilares según los pesos de `marketing.md` y lo aprendido: al menos 1 de «Cambiar de vida» y 1 de «Dudas»
+  o «Construyendo en público». Cada pieza responde a un dolor, un deseo o una objeción del ICP o de su ficha.
+- Las piezas de «Dudas» no van a TikTok.
 - Etapas: unas 3 de Descubrir, 2 de Conectar y 2 de Decidir.
 - **Fecha**: de martes a domingo, a las 13:00 o las 20:30 (hora de España) salvo que los aprendizajes digan otra cosa;
   como mucho una pieza por día y red.
