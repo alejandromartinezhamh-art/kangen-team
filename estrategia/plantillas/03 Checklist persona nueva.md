@@ -31,6 +31,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Primera versión enviada a la persona
 - [ ] Cambios aplicados y publicada
 - [ ] Editor activado: `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en su proyecto de Vercel
+- [ ] Analítica de visitas activada en su proyecto de Vercel (*Analytics → Enable*)
 - [ ] Mensaje *Tu editor* enviado con su enlace `/editar` y la contraseña
 - [ ] Dominio / enlace en su bio de redes
 
