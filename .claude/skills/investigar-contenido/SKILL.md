@@ -25,7 +25,7 @@ sola llamada (hasta 10).
 | TikToks | `oriane` · `tiktok/posts-search` | 50 créditos | Igual que Instagram |
 | YouTube y Shorts | `youtube-com` · `videos/search_videos`, `video_transcript`, `video_comments` | 5 créditos | `sort: view_count`. Los comentarios dicen qué ha tocado a la gente |
 | Anuncios de Meta | `upspring` · `ads/search`, `ads/detail` | 50 créditos por página | Su base es sobre todo de marcas de EE. UU.: úsala para estructuras de anuncio. Para anuncios en España, la biblioteca de anuncios de Meta (país España, por palabra clave) |
-| Cuentas de referencia | Las mismas capacidades con `handle` | 50 créditos | Las cuentas que el equipo apunta en la pregunta 9.3 del cuestionario y las que ya han dado buenas referencias |
+| Cuentas de referencia | `influencers-club` · `content/posts` (`handle`, `platform`, `count`, `pagination_token`) | 10 créditos por 12 publicaciones | Las cuentas que el equipo apunta en la pregunta 9.3 del cuestionario, las del Radar (columna **Cuenta**) y las cuentas del sector (abajo). Funciona aunque Oriane no tenga la cuenta |
 | Lo que nos funciona a nosotros | Analista (hoja de leads con el código CT-123) | — | Cuando haya datos, manda sobre todo lo demás |
 
 Presupuesto orientativo: unos 300-400 créditos por ronda semanal.
@@ -54,6 +54,29 @@ apúntalo como **Descartada** con el motivo (sirve de ejemplo al equipo).
 **En cualquier idioma.** Busca también en inglés (el mercado es mucho mayor y los formatos llegan antes), portugués,
 italiano o francés, con las frases equivalentes («quit my job», «side hustle while working full time», «9 to 5»,
 «comfort zone»…). No importa el idioma: importa que nos pueda funcionar. Se traduce y se adapta.
+
+## Cuentas del sector
+
+Personas que hacen lo mismo que nosotros: distribuidores que captan gente para el negocio con contenido. Sirven para ver
+**qué estructura y qué embudo les funcionan** (llamadas, publicaciones fijadas, formatos), no el mensaje: casi todo lo que
+les da alcance habla de producto, salud, ingresos o viajes, y eso va como **Descartada**.
+
+Cómo encontrarlas:
+- **No busques «kangen» ni «enagic» en Oriane**: casi no tiene estas cuentas (no nombran la marca en el texto) y «kangen»
+  significa «echar de menos» en indonesio. El 31 de octubre de 2026 costó unos 400 créditos sin resultados útiles.
+- Empieza por las cuentas que ya están en el Radar y **sigue su red**: a quién mencionan, con quién publican en
+  colaboración y qué cuentas de su comunidad las felicitan. Para nombres nuevos, `firecrawl_search` («enagic 6A instagram»,
+  «enagic distributor reels», en cualquier idioma; unos 2-4 créditos).
+- Saca sus publicaciones con `influencers-club` · `content/posts` y compara cada una con la mediana de **su** cuenta.
+
+Lo que se repite en el sector (31 de octubre de 2026, 10 cuentas):
+- Volver a presentarse («Hi, I'm…», «hay caras nuevas por aquí») fijado en el perfil: de lo más comentado en 4 cuentas.
+- «Comenta WEBINAR» (o una palabra clave) en una publicación fijada: es lo que más conversaciones abre en todas.
+- La historia del escéptico («cuando me lo contó, le dije que era una estafa»): 22 veces la mediana de su cuenta.
+- Clips de pocos segundos con una sola frase en pantalla: los vídeos más vistos de varias cuentas.
+- Lo que no se usa: el estilo de vida de viajes y lujo, los testimonios de salud y las cifras. Y quien busca la marca en
+  Google o YouTube encuentra antes las críticas («¿es una estafa?», cientos de miles de visualizaciones) que las historias:
+  por eso no la nombramos en el contenido y la duda se contesta en el webinar.
 
 ## ¿Nos puede funcionar? (el filtro antes de apuntarla)
 
