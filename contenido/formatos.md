@@ -25,6 +25,17 @@ Tipos que funcionan con nuestro mensaje:
 Llamada a la acción: Instagram y Facebook «Te lo cuento en el enlace de mi perfil»; TikTok solo «más en mi perfil», sin
 invitar al negocio; YouTube, enlace en la descripción con `?c=CT-123`.
 
+## Clip corto (vertical 9:16, 5-15 s)
+
+El formato que más alcance ha dado en las cuentas del sector que hemos revisado (tres cuentas; ver el Radar): un plano
+real del día a día, sin hablar a cámara, que se ve entero y se repite solo.
+
+- **Una frase en pantalla** que dice el cliente ideal: «No estoy mal en mi trabajo. Simplemente no es suficiente.»
+- O **la historia en la descripción**: el plano con «Así ha sido de verdad» en pantalla y, debajo, los momentos
+  difíciles contados por escrito.
+- Sin llamada a la acción o, como mucho, «más en mi perfil»: estas piezas son para llegar a gente nueva.
+- Sin playas, viajes ni lujo como resultado del negocio. Se graban 5 en una tarde y sirven para todas las redes.
+
 ## Carrusel (Instagram y Facebook, 1080 × 1350, 5-8 imágenes)
 
 1. Portada: titular con el gancho (palabra de énfasis en cursiva, como en las webs).
