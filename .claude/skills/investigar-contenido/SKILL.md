@@ -47,15 +47,34 @@ Lo aprendido en la primera ronda (31 de octubre de 2026):
 
 Temas (los seis pilares): alternativas a depender de un sueldo, emprender sin dejar el trabajo, cobrar por horas frente
 a construir algo, cambiar de vida a los 30/40/50, la relación con el dinero e invertir en uno mismo, mentalidad y zona de
-confort, construir en público, dudas de quien empieza. En español, y en inglés si el formato es trasladable. **No**
+confort, construir en público, dudas de quien empieza. **No**
 contenido de producto, salud, «hazte rico», bolsa, cripto ni rentabilidades: si algo funciona pero incumple las normas,
 apúntalo como **Descartada** con el motivo (sirve de ejemplo al equipo).
+
+**En cualquier idioma.** Busca también en inglés (el mercado es mucho mayor y los formatos llegan antes), portugués,
+italiano o francés, con las frases equivalentes («quit my job», «side hustle while working full time», «9 to 5»,
+«comfort zone»…). No importa el idioma: importa que nos pueda funcionar. Se traduce y se adapta.
+
+## ¿Nos puede funcionar? (el filtro antes de apuntarla)
+
+Una referencia entra en el Radar solo si cumple las cinco:
+1. **Le habla a nuestro cliente ideal** (`estrategia/icp.md`): el techo, la apatía, querer algo propio sin dejar lo que
+   tiene, poder elegir cómo y dónde vivir. Que funcione con otro público no basta.
+2. **Se puede grabar sin producción**: una persona a cámara con el móvil, en su día a día, en menos de 60 segundos.
+3. **Se puede contar con la historia real** de alguien del equipo (su ficha de voz). Si para adaptarla hay que inventar,
+   no sirve.
+4. **Cabe en un pilar y en las normas** una vez adaptada: sin cifras de dinero, salud, producto ni marca.
+5. **Se entiende en España**: nada que dependa de otro país (cobrar cada dos semanas, planes de pensiones o seguros
+   médicos de EE. UU., jerga local intraducible).
+
+Si no pasa alguna pero tiene algo que aprender (por ejemplo, funciona por motivos que no podemos usar), apúntala como
+**Descartada** y di cuál falla.
 
 ## Qué apuntar (una fila por referencia en el Radar)
 - **Referencia**: título corto · **Enlace** · **Red** · **Formato** · **Cuenta**.
 - **Señal**: los números (visualizaciones frente a seguidores, compartidos, comentarios, meses activo) y la fecha.
-- **Por qué funciona**: gancho (literal), estructura (tramos y duración), emoción, plano, texto en pantalla.
-- **Idea adaptada**: cómo lo haría la persona con su historia y su voz, en 2-3 frases, cumpliendo las normas.
+- **Por qué funciona**: gancho literal (en su idioma y traducido), estructura (tramos y duración), emoción, plano, texto en pantalla.
+- **Idea adaptada**: cómo lo haría la persona con su historia y su voz, en español, en 2-3 frases, cumpliendo las normas.
 - **Pilar**, **Para** (persona o «Todo el equipo»), **Estado** = Nueva.
 
 Entre 5 y 10 referencias por semana es suficiente; mejor pocas y bien explicadas.
