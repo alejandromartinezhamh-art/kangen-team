@@ -31,3 +31,10 @@ Antes de escribir cualquier texto público (webs, landings, anuncios, contenido)
 Las páginas del embudo (Instagram, cuestionario, webinar y web) son las mismas para todo el equipo y viven en
 `compartido/src/embudo`. Cada `equipo/<persona>/sitio` solo tiene sus datos (`config.ts`, `contenido.json`, `index.css`,
 fotos). No copies páginas a una persona: cualquier cambio de diseño o de estructura se hace en `compartido` y llega a todas.
+
+## Marketing y contenido
+
+La estrategia de contenido y anuncios está en `estrategia/marketing.md`; el día a día, en `contenido/README.md`. Los agentes
+(investigador, estratega, guionista, revisor, entrevista de historia) tienen sus instrucciones en `.claude/skills/`.
+Nada se publica ni se gasta en anuncios sin la aprobación de la persona en Notion, y ningún anuncio de pago se lanza sin
+la respuesta por escrito de Enagic.

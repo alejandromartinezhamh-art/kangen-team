@@ -9,13 +9,15 @@ Lee `estrategia/` antes de crear nada.
 ## Estructura
 
 ```
-estrategia/            Mensaje común y normas de comunicación (obligatorias)
+estrategia/            Mensaje común, normas de comunicación (obligatorias) y estrategia de marketing (marketing.md)
   plantillas/          Para incorporar a alguien nuevo o replicar el sistema: guía, cuestionario en blanco, mensajes y checklist
   cuestionario-avatar/ Cuestionario de historia y avatar de cada persona del equipo
 compartido/            Código común: el embudo entero (src/embudo: Instagram, cuestionario, webinar y web),
                        formulario, páginas legales, editor visual, API de leads y script de la hoja
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
-scripts/               Utilidades (crear persona nueva)
+contenido/             Sistema de contenido y anuncios: formatos, ganchos, aprendizajes del equipo (ver su README)
+.claude/skills/        Agentes de contenido: investigador, estratega, guionista, revisor, entrevista de historia
+scripts/               Utilidades (crear persona nueva, comprobar normas, generar funciones)
 equipo/
   alejandro/ anna/ gemma/ helena/ judith/ rocio/
     README.md          Ficha: estado, enlace de Drive, web, Vercel y dominio
@@ -23,8 +25,8 @@ equipo/
     design.md          Sistema de diseño completo (paleta, tipografía, componentes, tokens)
     referencias/       Capturas de webs y perfiles que gustan
     assets/            Fotos y logo elegidos y optimizados para la web (los originales, en Drive)
-    contenido/         Ideas y guiones de publicaciones
-    anuncios/          Una ficha por campaña
+    contenido/         Su voz e historia (voz.md) y lo que le funciona (aprendizajes.md); el calendario está en Notion
+    anuncios/          Creatividades de sus campañas; los anuncios se gestionan en Notion
     sitio/             La web (/) y sus landings (/l/<campaña>)
 ```
 
