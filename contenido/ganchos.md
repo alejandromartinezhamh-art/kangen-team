@@ -9,12 +9,15 @@ sacados de la historia de cada persona están en su ficha de voz (Notion), no aq
 - «No hace falta dejarlo todo para empezar algo nuevo.»
 - «Cobrar por horas tiene un límite: las horas que tiene el día.»
 - «Antes de emprender comparé cuatro opciones. Te cuento qué vi en cada una.»
+- «Si todo depende de que mañana vayas a trabajar, ¿eso es estabilidad?»
 
 ## 2. Cambiar de vida
 - «No estaba mal en mi trabajo. Ese era el problema.»
 - «Un domingo por la tarde me di cuenta de que no quería otro lunes igual.»
 - «Si me hubieras dicho hace dos años que haría esto, no te habría creído.»
 - «Hace un año, a esta hora, estaba en un atasco.»
+- «Todo el mundo lo llamaba estable.»
+- «Así ha sido de verdad.» (clip corto con la historia en la descripción)
 
 ## 3. Invertir en ti
 - «Gasto o inversión: la pregunta que me hago antes de pagar algo.»
@@ -25,6 +28,8 @@ sacados de la historia de cada persona están en su ficha de voz (Notion), no aq
 - «Cuando alguien que quieres duda de ti, casi siempre habla de sus miedos.»
 - «Lo más difícil de empezar algo propio no fue lo que pensaba.»
 - «Tres cosas que he aprendido este mes y que no me enseñó nadie en el colegio.»
+- «Pensaba que lo que tenía era cansancio. Era falta de ilusión.»
+- «Pasé meses viendo vídeos de gente presumiendo de coches. Yo solo quería poder elegir.»
 
 ## 5. Construyendo en público
 - «Voy a contar cómo empiezo en redes, errores incluidos.»
@@ -36,6 +41,8 @@ sacados de la historia de cada persona están en su ficha de voz (Notion), no aq
 - «Me preguntan mucho si hace falta experiencia. Respuesta corta:»
 - «¿Necesito saber vender?»
 - «¿Cuánto tiempo le dedico de verdad?»
+- «Si el problema es que no tienes tiempo, ¿qué cambia esperando a tenerlo?»
+- «Cuando me lo contaron, lo primero que pensé fue que era una estafa.» (solo si es verdad para quien lo cuenta)
 
 ## Nunca
 Ganchos con dinero o rentabilidades, lujo, «sin esfuerzo», salud, producto, agua o marca (ver

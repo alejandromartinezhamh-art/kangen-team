@@ -69,11 +69,16 @@ Cómo encontrarlas:
   «enagic distributor reels», en cualquier idioma; unos 2-4 créditos).
 - Saca sus publicaciones con `influencers-club` · `content/posts` y compara cada una con la mediana de **su** cuenta.
 
-Lo que se repite en el sector (31 de octubre de 2026, 10 cuentas):
+Lo que se repite en el sector (31 de octubre de 2026, 11 cuentas):
 - Volver a presentarse («Hi, I'm…», «hay caras nuevas por aquí») fijado en el perfil: de lo más comentado en 4 cuentas.
 - «Comenta WEBINAR» (o una palabra clave) en una publicación fijada: es lo que más conversaciones abre en todas.
 - La historia del escéptico («cuando me lo contó, le dije que era una estafa»): 22 veces la mediana de su cuenta.
-- Clips de pocos segundos con una sola frase en pantalla: los vídeos más vistos de varias cuentas.
+- Clips de 5-15 segundos con una sola frase en pantalla o con la historia en la descripción: los vídeos más vistos de
+  tres cuentas (hasta 500 veces su mediana); los de 1-2 minutos hablando a cámara llegan a mucha menos gente
+  (formato en `contenido/formatos.md`).
+- Las piezas que solo piden comentar no llegan a gente nueva: en una cuenta, 260-580 visualizaciones frente a 247.000
+  de una historia sin llamada a la acción publicada esos mismos días. La historia trae a la gente; la llamada va en la
+  publicación fijada y en pocas piezas de la semana.
 - Lo que no se usa: el estilo de vida de viajes y lujo, los testimonios de salud y las cifras. Y quien busca la marca en
   Google o YouTube encuentra antes las críticas («¿es una estafa?», cientos de miles de visualizaciones) que las historias:
   por eso no la nombramos en el contenido y la duda se contesta en el webinar.
