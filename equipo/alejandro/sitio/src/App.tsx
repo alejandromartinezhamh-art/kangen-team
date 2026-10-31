@@ -1,30 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { Privacidad, AvisoLegal, Cookies } from '@equipo/compartido';
+import { Embudo } from '@equipo/compartido/embudo';
 import { persona } from './config';
-import Inicio from './paginas/Inicio';
-import Webinar from './paginas/Webinar';
-import Cuestionario from './paginas/Cuestionario';
-import { landings } from './landings';
+import contenido from './contenido.json';
 
-function Landing() {
-  const { slug = '' } = useParams();
-  const Pagina = landings[slug];
-  return Pagina ? <Pagina /> : <Navigate to="/" replace />;
-}
-
+// Toda la web sale de compartido/src/embudo; aquí solo van los datos de esta persona.
+// webPublicada: la web principal (/) solo se publica cuando sus textos se han revisado con
+// estrategia/normas-comunicacion.md; mientras, la raíz lleva a la página de Instagram.
 export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Inicio />} />
-        <Route path="/webinar" element={<Webinar />} />
-        <Route path="/cuestionario" element={<Cuestionario />} />
-        <Route path="/l/:slug" element={<Landing />} />
-        <Route path="/privacidad" element={<Privacidad persona={persona} />} />
-        <Route path="/legal" element={<AvisoLegal persona={persona} />} />
-        <Route path="/cookies" element={<Cookies />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <Embudo persona={persona} contenido={contenido} webPublicada={true} />;
 }

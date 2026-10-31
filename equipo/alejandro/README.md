@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| **Estado** | 🟨 Brief · ✅ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
+| **Estado** | 🟨 Brief · ✅ Diseño · ✅ Textos (falta «Mi historia») · ⬜ Datos legales · ✅ Publicada (web y embudo de Instagram) |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1PQ6EbYJuRMmLg3xquOaciSn15mtlZzBs |
-| **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/alejandro/sitio`) |
+| **Web publicada** | https://alejandromartinez.vercel.app (editor: `/editar`) |
+| **Proyecto Vercel** | `alejandromartinez` (compila desde la raíz del repositorio con `vercel.json`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí

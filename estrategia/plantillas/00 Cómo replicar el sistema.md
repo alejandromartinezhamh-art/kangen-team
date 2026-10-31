@@ -34,7 +34,7 @@ Regla de oro: **solo se avanza con lo que la persona entrega.** Si no hay cuesti
 4. Comparte la carpeta con la persona como **Editor**.
 
 ### En el repositorio
-1. `npm run nueva-persona -- "<Nombre>"`: crea `equipo/<nombre>/` a partir de `plantilla/`.
+1. `npm run nueva-persona -- "<Nombre>" <proyecto>.vercel.app`: crea `equipo/<nombre>/` a partir de `plantilla/`, con su web (embudo y editor) lista para personalizar.
 2. Pon en `equipo/<nombre>/README.md` el enlace a su carpeta de Drive.
 
 ### Mensaje
@@ -67,11 +67,11 @@ Resultado: `equipo/<nombre>/brief.md` completo.
 
 1. `brief.md` completo → `design.md` (colores, tipografías, estilo, a partir de sus referencias).
 2. Fotos elegidas a `02 Fotos seleccionadas web` y optimizadas a `assets/` del repositorio (JPG/WebP, máx. 2000 px, < 500 KB).
-3. Textos, colores, letras, fotos y enlaces en `sitio/src/contenido.json` (nunca escritos en los componentes: así se pueden editar); portada en `sitio/src/paginas/Inicio.tsx`.
-4. Una landing por campaña o enfoque en `sitio/src/landings/`.
-5. Publicar (Cloudflare o Vercel, ver README del repositorio). El nombre del proyecto y el dominio, con su nombre y sin la marca (p. ej. `gemma-ona.vercel.app`).
+3. `npm run nueva-persona -- "<Nombre>" <proyecto>.vercel.app` ya le deja la web completa con el embudo y el editor: las páginas son las mismas para todo el equipo (`compartido/src/embudo`) y no se copian ni se tocan por persona.
+4. Lo suyo va en `equipo/<nombre>/sitio/`: textos, colores, letras, fotos, enlaces y emails en `src/contenido.json` (nunca escritos en el código: así se pueden editar); nombre, dominio, email y datos legales en `src/config.ts`; colores de partida en `src/index.css` y el color de fondo en `index.html` (theme-color); fotos `foto.jpg` (retrato) y `foto-email.jpg` (cuadrada, para la firma) en `public/`.
+5. Publicar en Vercel (ver README del repositorio): un proyecto por persona, Root Directory `equipo/<nombre>/sitio`. El nombre del proyecto y el dominio, con su nombre y sin la marca (p. ej. `gemma-ona.vercel.app`). Su web principal (`/`) se publica cuando los textos están revisados con las normas (`webPublicada` en `src/App.tsx`); hasta entonces la raíz lleva a `/l/instagram`.
 6. **Editor visual**: en su proyecto de Vercel, `EDITOR_GITHUB_TOKEN` (el token del equipo) y `EDITOR_CLAVE` (una contraseña para ella). Envíale el mensaje *Tu editor* de `02 Mensajes de WhatsApp` con `https://<su-web>/editar` y la contraseña. Desde ahí cambia ella sola textos, colores, letras, fotos, el vídeo y los emails, y publica. Detalle en el README del repositorio ("Editor visual").
-7. Embudo de Instagram (opcional): bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `sitio/src/contenido.json`, cada una con su columna fija en la hoja) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo a otra persona: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplo hecho: Gemma, la misma web y el mismo embudo que Alejandro, con sus colores en `equipo/gemma/sitio/src/contenido.json` → `colores`).
+7. **Embudo de Instagram**: bio → `/l/instagram` (un solo botón) → `/cuestionario` (preguntas en `src/contenido.json`, cada una con su columna fija en la hoja) → email con el webinar → `/webinar` (el botón de WhatsApp sale al ver el 80 %). Los leads se guardan en una hoja de Google de su carpeta de Drive, con el script de `compartido/apps-script/`, y se gestionan en su CRM. Para montarlo: `compartido/apps-script/README.md` → "Otra persona del equipo" (ejemplos hechos: Gemma y Helena).
    - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar (estos los puede poner o cambiar ella desde su editor).
    - Los textos del email del webinar y del recordatorio se cambian en su editor (`/editar` → Emails).
    - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.

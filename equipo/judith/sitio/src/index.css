@@ -2,24 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Identidad visual de Judith: cambia estos valores según el brief.md */
+/* Identidad visual de Judith. Estructura común a todo el equipo (titulares apretados con una palabra en
+   cursiva serif, líneas discontinuas, botones píldora, sin sombras); los colores salen de su design.md.
+   Estos son los de partida: cámbialos aquí y en contenido.json (colores), o desde el editor → Diseño. */
 :root {
-  --color-primario: #0f766e;
-  --color-acento: #f59e0b;
-  --color-fondo: #faf7f2;
-  --color-texto: #1c1917;
-  --fuente-titulo: 'Plus Jakarta Sans', sans-serif;
-  --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+  --color-fondo: #faf7f2; /* fondo de todas las páginas */
+  --color-superficie: #ece6dc; /* tarjetas de pasos y caja del vídeo */
+  --color-borde: #e4ddd2; /* bordes de campos */
+  --color-linea: #b9ae9f; /* líneas discontinuas (solo líneas, nunca texto) */
+  --color-secundario: #57534e; /* texto secundario */
+  --color-texto: #1c1917; /* texto y botón principal */
+  --color-texto-hover: #44403c; /* hover del botón principal */
+  --color-acento: #9a3412; /* etiquetas, números grandes y palabra en cursiva */
+  --color-estructura: #57534e; /* numeración, flechas y letras de las opciones */
+  --color-error: #b42318;
+  --color-primario: var(--color-texto);
+  /* Fondos suaves del color del texto: opciones al pasar el ratón y opción elegida */
+  --tinte-hover: color-mix(in srgb, var(--color-texto) 5%, transparent);
+  --tinte-elegida: color-mix(in srgb, var(--color-texto) 4%, transparent);
+  --fuente-titulo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-cuerpo: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --fuente-acento: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* cursiva de énfasis en titulares */
+
+  /* Formulario compartido */
+  --form-fondo: transparent;
+  --form-campo: transparent;
+  --form-borde: var(--color-borde);
+  --form-placeholder: #a8a29e;
+  --form-radio: 22.5px;
+  --campo-radio: 18px;
+  --boton-fondo: var(--color-texto);
+  --boton-texto: var(--color-fondo);
+  --boton-radio: 36px;
+  --boton-mayusculas: uppercase;
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-fondo);
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--color-fondo);
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
-h3 {
+h3,
+.titular {
   font-family: var(--fuente-titulo);
+  letter-spacing: -0.045em;
+}
+
+/* Palabra de énfasis dentro de un titular: *así* en contenido.json. Va en el color de acento, sin adornos. */
+.titular em,
+h1 em,
+h2 em,
+h3 em {
+  font-family: var(--fuente-acento);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-acento);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 1px dashed var(--color-texto);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #fed7aa;
+  color: #1c1917;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
 }

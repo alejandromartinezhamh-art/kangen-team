@@ -24,3 +24,10 @@ Contenido actual de Templates:
 ## Normas de comunicación
 
 Antes de escribir cualquier texto público (webs, landings, anuncios, contenido), aplica `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.
+`npm run comprobar` revisa los textos de las webs contra esas normas (también lo hace GitHub en cada cambio).
+
+## Webs
+
+Las páginas del embudo (Instagram, cuestionario, webinar y web) son las mismas para todo el equipo y viven en
+`compartido/src/embudo`. Cada `equipo/<persona>/sitio` solo tiene sus datos (`config.ts`, `contenido.json`, `index.css`,
+fotos). No copies páginas a una persona: cualquier cambio de diseño o de estructura se hace en `compartido` y llega a todas.

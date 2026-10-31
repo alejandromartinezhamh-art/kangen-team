@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| **Estado** | ⬜ Brief · ⬜ Diseño · ⬜ Textos · ⬜ Datos legales · ⬜ Publicada |
+| **Estado** | ⬜ Brief · ✅ Diseño · ✅ Textos (los del equipo; falta «Mi historia») · ⬜ Datos legales · ✅ Publicada (embudo de Instagram) |
 | **Carpeta de Drive** | https://drive.google.com/drive/folders/1hf_YZ7pFez8MJbFQJZVnm1R2ucPW5t4U |
-| **Web publicada** | PENDIENTE |
-| **Proyecto Vercel** | PENDIENTE (Root Directory: `equipo/gemma/sitio`) |
+| **Web publicada** | https://gemma-ona.vercel.app (editor: `/editar`) |
+| **Proyecto Vercel** | `gemma-ona` (Root Directory: `equipo/gemma/sitio`) |
 | **Dominio** | PENDIENTE |
 
 ## Qué hay aquí

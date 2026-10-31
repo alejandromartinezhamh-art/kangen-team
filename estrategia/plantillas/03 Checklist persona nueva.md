@@ -6,7 +6,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Carpeta `Landing Kangen <Nombre>` creada en Drive con las 8 subcarpetas
 - [ ] Copia del cuestionario en su carpeta, renombrada con su nombre
 - [ ] Carpeta compartida con la persona como Editor
-- [ ] `npm run nueva-persona -- "<Nombre>"` ejecutado en el repositorio
+- [ ] `npm run nueva-persona -- "<Nombre>" <proyecto>.vercel.app` ejecutado en el repositorio (crea su web con el embudo y el editor)
 - [ ] Enlace de Drive puesto en `equipo/<nombre>/README.md`
 - [ ] Mensaje de bienvenida enviado
 
@@ -24,9 +24,10 @@ Nombre: ______________________ Fecha de alta: ____________
 ## Web
 - [ ] `design.md` definido
 - [ ] Fotos seleccionadas y optimizadas en `assets/`
-- [ ] Textos, colores, letras y fotos en `contenido.json`, y portada
-- [ ] Primera landing creada
-- [ ] Revisada con las normas de comunicación
+- [ ] Colores de su `design.md` en `sitio/src/index.css`, `contenido.json` (colores y email → colores) y `index.html` (theme-color)
+- [ ] Fotos `foto.jpg` y `foto-email.jpg` en `sitio/public/`
+- [ ] Textos en `contenido.json` (su nombre, su historia, «claro/clara»…) y datos legales en `config.ts`
+- [ ] Revisada con las normas de comunicación (y `webPublicada` en `App.tsx` para publicar su web principal)
 - [ ] Primera versión enviada a la persona
 - [ ] Cambios aplicados y publicada
 - [ ] Editor activado: `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en su proyecto de Vercel
@@ -35,7 +36,6 @@ Nombre: ______________________ Fecha de alta: ____________
 
 ## Embudo de Instagram (opcional)
 - [ ] Foto para la página de Instagram y la firma del email, y su WhatsApp
-- [ ] `/l/instagram`, `/cuestionario` y `/webinar` con su diseño (ejemplo: `equipo/gemma/sitio`)
 - [ ] Su entrada en `PERSONAS` del script (`compartido/apps-script/Embudo.gs`)
 - [ ] Hoja `Leads webinar <Nombre>` en su carpeta y script instalado, mejor desde su cuenta de Google
 - [ ] Proyecto de Vercel con `LEADS_WEBHOOK_URL` y `LEADS_WEBHOOK_SECRET` de su script
