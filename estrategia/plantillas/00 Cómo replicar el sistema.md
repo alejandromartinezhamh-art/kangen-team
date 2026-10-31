@@ -12,6 +12,7 @@ Todo lo que se usa está en la carpeta **Templates** de Drive (`Kangen PRO TEAM/
 | 01 Cuestionario historia y avatar (plantilla) | El cuestionario en blanco que rellena cada persona nueva |
 | 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio |
 | 03 Checklist persona nueva | Lista de pasos para no olvidar nada |
+| 04 Crear cuentas de redes | Paso a paso para abrir Instagram, Facebook, Meta Business, TikTok y YouTube |
 | Landing Kangen NOMBRE (estructura de carpetas) | Las 8 subcarpetas que tiene que tener cada persona en Drive |
 
 ## El sistema en 5 fases
