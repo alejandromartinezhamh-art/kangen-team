@@ -87,8 +87,18 @@ Estructura de la landing (en este orden):
 
 ## Fase 5 · Contenido y anuncios
 
-- Cada respuesta del cuestionario es una idea de publicación (especialmente los bloques 2, 4, 6 y 8).
-- Una ficha por campaña en `anuncios/` y el mismo mensaje en anuncio y landing.
+Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` (el día a día). Para una persona nueva:
+
+1. **Su historia y su voz**: en Claude Code, «entrevístame para mi historia» (agente `entrevista-historia`), o con su
+   cuestionario de historia y avatar. Queda en `equipo/<nombre>/contenido/voz.md`.
+2. **Drive**: dentro de `05 Contenido redes`, las carpetas `Brutos`, `Editados` y `Publicados`.
+3. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, y filtrar el calendario por ella.
+4. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
+   revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación.
+5. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
+   hoja de leads.
+6. **Anuncios**: solo cuando haya piezas con leads cualificados, desde su propia cuenta publicitaria, y nunca sin la
+   respuesta por escrito de Enagic.
 
 ## Normas (siempre)
 
@@ -97,6 +107,9 @@ Estructura de la landing (en este orden):
 - No usar la marca en dominios, nombres de página, logos ni anuncios sin autorización.
 - No presentarlo como oferta de empleo.
 - Siempre en primera persona, dejando claro que los resultados dependen de cada persona.
+- Enagic: nada de salud (tampoco en testimonios) ni ingresos; el material de marketing y la publicidad pagada necesitan su visto bueno por escrito.
+- TikTok prohíbe anunciar el multinivel y limita ese contenido: allí, solo estilo de vida y crecimiento personal.
+- Contenido realista generado con IA: con la etiqueta de IA de cada red.
 
 Detalle completo en `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.
 

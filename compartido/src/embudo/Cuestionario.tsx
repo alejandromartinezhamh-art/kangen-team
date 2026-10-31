@@ -6,6 +6,7 @@ import type { ConfigPersona } from '../tipos';
 import { useEmbudo } from './contexto';
 import type { Campo, Paso } from './tipos';
 import Enfasis from './Enfasis';
+import { codigoContenido } from './seguimiento';
 
 // Cuestionario previo al webinar (/cuestionario), una pantalla por paso. Al enviar guarda el
 // lead (/api/lead → hoja de Google), y la hoja le envía el enlace del webinar por email.
@@ -94,7 +95,9 @@ export default function Cuestionario() {
   const numerados = pasos.map((p, i) => (p.tipo === 'info' ? 0 : pasos.slice(0, i + 1).filter((q) => q.tipo !== 'info').length));
   const totalNumerados = Math.max(...numerados);
   const [params] = useSearchParams();
-  const origen = ['cuestionario', params.get('o')].filter(Boolean).join('-');
+  // Origen en la hoja: «cuestionario-instagram», y con la pieza de contenido que lo trajo «cuestionario-instagram:CT-123».
+  const c = codigoContenido(params);
+  const origen = ['cuestionario', params.get('o')].filter(Boolean).join('-') + (c ? `:${c}` : '');
   const [i, setI] = useState(() => pasoInicial(params, pasos));
   const [respuestas, setRespuestas] = useState<Record<number, string>>({});
   const [datos, setDatos] = useState<Record<Campo, string>>({ nombre: '', instagram: '', telefono: '', email: '' });

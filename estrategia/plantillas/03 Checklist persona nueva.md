@@ -45,6 +45,10 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Vídeo del webinar puesto y enlace `/l/instagram` en su bio
 - [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
 
-## Contenido y anuncios
-- [ ] Primeras 10 ideas de contenido sacadas del cuestionario
-- [ ] Primera ficha de anuncio
+## Contenido y anuncios (ver `contenido/README.md`)
+- [ ] Entrevista de historia hecha: `equipo/<nombre>/contenido/voz.md` sin PENDIENTE
+- [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
+- [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
+- [ ] Primer plan semanal creado y primera sesión de grabación (1 hora)
+- [ ] Primeras piezas aprobadas y publicadas, con su código en los enlaces
+- [ ] Anuncios: solo con piezas que ya traen leads cualificados, su cuenta publicitaria y la respuesta de Enagic

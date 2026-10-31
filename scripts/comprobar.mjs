@@ -19,7 +19,7 @@ const PROHIBIDO = [
   [/\d[\d.,]*\s*(€|euros?\b|k€)/i, 'cifra de dinero'],
   [/(€|\$)\s*\d/, 'cifra de dinero'],
   [/hazte ric|sin esfuerzo|dinero f[aá]cil|libertad financiera|ingresos pasivos|trabaja (solo )?1 hora/i, 'promesa económica'],
-  [/\b(alcalin\w*|ioniza\w*|antioxidante\w*|cur(a|ar|ación)\b|enfermedad\w*|hidrógeno)/i, 'afirmación de salud o producto'],
+  [/\b(alcalin\w*|ioniza\w*|antioxidante\w*|cur(a|ar|ación)\b|enfermedad\w*|hidrógeno|detox\w*|desintoxica\w*|alivia\w*|sistema inmun\w*)/i, 'afirmación de salud o producto'],
   [/buscamos personal|contratamos|oferta de trabajo|puesto de trabajo|se busca(n)? (personas|gente)/i, 'parece una oferta de empleo'],
 ];
 

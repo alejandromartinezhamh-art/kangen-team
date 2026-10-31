@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { codigoContenido } from './seguimiento';
 import { useEmbudo } from './contexto';
 
 // Página del enlace de la bio de Instagram (/l/instagram). Un solo botón, al cuestionario del webinar.
@@ -6,6 +7,8 @@ import { useEmbudo } from './contexto';
 export default function Instagram() {
   const { persona, contenido } = useEmbudo();
   const { general, instagram: t, fotos } = contenido;
+  // Código de la pieza de contenido que trajo a la persona (?c=CT-123): viaja hasta su fila en la hoja.
+  const c = codigoContenido(useSearchParams()[0]);
   return (
     <div className="relative mx-auto flex h-[100svh] max-w-[480px] flex-col">
       <div className="absolute inset-x-0 top-0 z-[3] flex items-center justify-between px-[18px] pt-[18px] text-xs font-bold uppercase leading-none">
@@ -37,7 +40,7 @@ export default function Instagram() {
         <hr className="my-[clamp(16px,2.6vh,24px)] border-0 border-t border-dashed border-linea" />
         <nav className="flex flex-col gap-3" aria-label="Enlaces">
           <Link
-            to="/cuestionario?o=instagram"
+            to={`/cuestionario?o=instagram${c ? `&c=${c}` : ''}`}
             className="flex min-h-[clamp(54px,7.4vh,62px)] items-center justify-between gap-4 rounded-[36px] border border-texto bg-texto px-6 text-[13px] font-bold uppercase leading-[1.15] text-fondo no-underline transition hover:bg-[color:var(--color-texto-hover)]"
           >
             <span>{t.boton}</span>
