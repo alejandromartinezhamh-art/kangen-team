@@ -18,8 +18,9 @@ Nombre: ______________________ Fecha de alta: ____________
 
 ## Estrategia
 - [ ] Enfoque elegido: ______________________
-- [ ] Avatar definido
-- [ ] `brief.md` completo
+- [ ] Avatar definido (a partir del ICP del equipo, `estrategia/icp.md`)
+- [ ] `brief.md` completo (solo lo que saldrá en la web)
+- [ ] Ficha de voz en Notion «Lista para guiones» (bloques 0, 1, 2, 7 y 9 del cuestionario)
 
 ## Web
 - [ ] `design.md` definido
@@ -46,9 +47,11 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
 
 ## Contenido y anuncios (ver `contenido/README.md`)
-- [ ] Entrevista de historia hecha: `equipo/<nombre>/contenido/voz.md` sin PENDIENTE
+- [ ] Ficha de voz en Notion → Fichas de voz, con el enlace a su cuestionario y «Lista para guiones»
+- [ ] Cuentas creadas con `04 Crear cuentas de redes` (Instagram de creador, página de Facebook, portfolio de Meta con
+      cuenta publicitaria, TikTok, YouTube) y la verificación en dos pasos activada
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
 - [ ] Primer plan semanal creado y primera sesión de grabación (1 hora)
 - [ ] Primeras piezas aprobadas y publicadas, con su código en los enlaces
-- [ ] Anuncios: solo con piezas que ya traen leads cualificados, su cuenta publicitaria y la respuesta de Enagic
+- [ ] Anuncios: solo con piezas que ya traen leads cualificados, desde su cuenta publicitaria, sin Enagic, producto ni agua

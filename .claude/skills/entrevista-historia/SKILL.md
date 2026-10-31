@@ -1,40 +1,45 @@
 ---
 name: entrevista-historia
-description: Entrevista a una persona del equipo, por bloques y con preguntas cortas, para escribir su voz e historia en equipo/<persona>/contenido/voz.md. Úsala cuando alguien diga «entrevístame», «quiero rellenar mi historia», o cuando voz.md esté en PENDIENTE y haya que escribir guiones.
+description: Completa la historia y la voz de una persona del equipo. Pasa su cuestionario de historia y avatar (Drive) a su ficha de voz en Notion o, si le falta, la entrevista por bloques con preguntas cortas. Úsala cuando alguien diga «entrevístame», «he rellenado el cuestionario», «actualiza mi ficha», o cuando una ficha no esté «Lista para guiones».
 ---
 
-# Entrevista de historia y voz
+# Historia y voz de una persona
 
-Sin la historia real de la persona, los guiones suenan genéricos. Esta entrevista sustituye a rellenar el cuestionario
-de historia y avatar (`estrategia/plantillas/01 Cuestionario historia y avatar (plantilla).docx`): las mismas preguntas,
-pero en conversación.
+Sin la historia real de la persona, los guiones suenan genéricos. **La fuente es su cuestionario de historia y avatar**
+(Drive); lo que leen los agentes es su **ficha de voz** (Notion). La entrevista es el mismo cuestionario, en conversación.
 
-## Antes de empezar
-1. Lee `equipo/<persona>/contenido/voz.md` y `equipo/<persona>/brief.md`: no preguntes lo que ya está.
-2. Lee el cuestionario de esa persona si existe relleno en `estrategia/cuestionario-avatar/cuestionario_<persona>.docx`.
+**El repositorio es público: nada de esto se escribe en el repositorio.**
 
-## Cómo entrevistar
+## Dónde está cada cosa
+- Cuestionario: Drive → `Landing Kangen <Persona>` → `Cuestionario historia y avatar - <Persona>.docx` (búscalo por
+  título; el enlace también está en la ficha, columna **Cuestionario**). Preguntas en blanco:
+  `estrategia/plantillas/01 Cuestionario historia y avatar (plantilla).docx`.
+- Ficha: Notion → CONTENIDO Y ANUNCIOS → **Fichas de voz** (`collection://8fdf7563-98ef-41e5-8899-19349d98657d`), una
+  página por persona.
+
+## A · Pasar el cuestionario a la ficha
+Cuando la persona ha escrito en su cuestionario (o al empezar la entrevista):
+1. Lee el cuestionario entero y la ficha actual.
+2. Escribe en la ficha, por secciones (Enfoque, Quién es, Su «antes», Descubrimiento y camino, Cómo trabaja hoy, Su persona
+   ideal, Objeciones, Cómo habla, Lo que puede grabar), con **sus frases literales entre comillas**.
+3. Marca con ⚠ lo que **no se puede usar en público** y por qué: salud (suya o del producto), el producto, el agua, la
+   marca, cifras de dinero, comisiones, «libertad financiera», detalles de su familia o de su empresa actual.
+4. Propón 4-6 ganchos sacados de su historia, ya revisados con `estrategia/normas-comunicacion.md`, con su pilar
+   (`estrategia/marketing.md`, sección 5).
+5. Actualiza **Faltan** (bloques o preguntas sin responder), **Enfoque**, **Revisado** (hoy) y **Estado**:
+   - «Lista para guiones» si están el enfoque (bloque 0) y los bloques 1, 2, 7 y 9.
+   - «A medias» si hay algo; «Sin empezar» si está en blanco.
+
+## B · Entrevista (lo que falte)
+- Pregunta solo lo que está en **Faltan**, en este orden: 0 (enfoque), 9 (voz), 1, 2, 7, y después 3-6, 8, 10-12.
+  Al final, dónde y cuándo puede grabar (lugares, momentos del día, quién puede salir).
 - **Un bloque cada vez y como mucho 3 preguntas por mensaje.** Cortas, concretas, en tono cercano.
 - Pide escenas, no conceptos: «¿A qué hora llegabas a casa?», «¿Qué le decías a tu pareja un domingo por la noche?».
-- Si contesta con audio transcrito o con frases sueltas, perfecto: **guarda sus palabras literales**, son el material.
-- Si algo choca con las normas (cifras de dinero, salud, producto), no lo apuntes como mensaje: explícale con una frase
-  por qué no se puede usar en público.
-- Puede parar cuando quiera; guarda lo que haya y apunta qué bloques faltan.
+- Las notas de voz transcritas o las frases sueltas son perfectas: **guarda sus palabras literales**.
+- Si algo choca con las normas, apúntalo con ⚠ y explícale en una frase por qué no se usará en público.
+- Puede parar cuando quiera: guarda lo que haya en la ficha (sección «Respuestas de la entrevista», por bloque) y dile qué
+  queda.
 
-## Bloques (en este orden)
-1. **Enfoque**: madre/padre, autónomo, empleado que busca un cambio, joven, segunda etapa… (principal y secundario).
-2. **Quién es**: preséntate como en una cena; tres adjetivos que dirían tus amigos; qué te apasiona fuera del trabajo.
-3. **El antes**: un día normal antes de empezar (horarios, con quién, cómo acababa); lo que no soportaba; el momento
-   «hasta aquí» como escena.
-4. **El descubrimiento**: cómo lo conoció; primera reacción sincera; prejuicios; qué le hizo decir que sí; qué dijo su entorno.
-5. **El camino**: lo más difícil del principio; un error; qué le hizo seguir.
-6. **Hoy**: cómo es un martes ahora; qué ha cambiado en tiempo, aprendizaje y personas (sin cifras de dinero).
-7. **Su persona ideal**: a quién le habla; qué le preocupa; frases que le ha oído decir.
-8. **Objeciones**: qué le preguntan más y qué responde.
-9. **Voz**: expresiones suyas; palabras que nunca usaría; temas de los que no quiere hablar.
-10. **Lo que puede grabar**: lugares, momentos del día, si sale su familia.
-
-## Al terminar (o al parar)
-- Escribe `equipo/<persona>/contenido/voz.md` con la estructura que ya tiene, usando sus frases literales entre comillas.
-- Deja «PENDIENTE» en lo que falte y dile qué bloques quedan para la próxima vez.
-- Propón 3 ganchos sacados de su historia para `contenido/ganchos.md` (revisados con las normas).
+## Al terminar
+Resume en el chat: estado de la ficha, qué falta y los ganchos propuestos. Si la persona prefiere escribir, recuérdale que
+puede seguir en su cuestionario de Drive y pedir «actualiza mi ficha» cuando acabe.

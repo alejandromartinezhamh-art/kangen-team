@@ -15,11 +15,12 @@ adaptado a cada red.
 | Cierre | últimos 5-10 s | Conclusión en una frase + llamada a la acción suave. |
 
 Tipos que funcionan con nuestro mensaje:
-- **Historia**: «Hace dos años, un domingo por la tarde…» (pilar Historia personal).
-- **Día real**: «Así es mi martes» con planos del día (Libertad y tiempo).
-- **Lo que aprendí**: 3 cosas en 30 s (Crecimiento personal).
-- **Duda frecuente**: «¿Esto es un trabajo?» respondida a cámara (Detrás de cámaras y dudas).
-- **Equipo**: un momento real de una formación o quedada (Equipo y comunidad).
+- **Idea a cámara**: una idea sobre trabajo, sueldo o alternativas, con un ejemplo propio (Otra manera de ganarse la vida).
+- **Historia**: «Hace dos años, un domingo por la tarde…» (Cambiar de vida).
+- **Gasto o inversión**: una decisión real explicada en 30 s, sin cifras (Invertir en ti).
+- **Lo que aprendí**: 3 cosas en 30 s (Mentalidad).
+- **Día real o equipo**: «Así es mi martes», una formación o una quedada (Construyendo en público).
+- **Duda frecuente**: «¿Esto es un trabajo?» respondida a cámara (Dudas; no en TikTok).
 
 Llamada a la acción: Instagram y Facebook «Te lo cuento en el enlace de mi perfil»; TikTok solo «más en mi perfil», sin
 invitar al negocio; YouTube, enlace en la descripción con `?c=CT-123`.

@@ -6,10 +6,11 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 
 | Qué | Dónde |
 |---|---|
-| Estrategia, normas y mensaje | `estrategia/marketing.md`, `normas-comunicacion.md`, `mensaje.md` |
+| Estrategia, normas, mensaje y cliente ideal | `estrategia/marketing.md`, `normas-comunicacion.md`, `mensaje.md`, `icp.md` |
 | Formatos y banco de ganchos | `contenido/formatos.md`, `contenido/ganchos.md` |
 | Lo aprendido (todo el equipo) | `contenido/aprendizajes-equipo.md` |
-| La voz y la historia de cada persona | `equipo/<persona>/contenido/voz.md` |
+| La historia de cada persona (fuente) | Drive → `Landing Kangen <Persona>` → `Cuestionario historia y avatar - <Persona>.docx` |
+| Su voz, su historia y su persona ideal (lo que leen los agentes) | Notion → CONTENIDO Y ANUNCIOS → **Fichas de voz** |
 | Lo aprendido de cada persona | `equipo/<persona>/contenido/aprendizajes.md` |
 | Calendario, radar y anuncios (aprobar aquí) | Notion → ENAGIC KANGEN - AGUA → **CONTENIDO Y ANUNCIOS** |
 | Vídeos | Drive → `Landing Kangen <Persona>/05 Contenido redes/` → `Brutos`, `Editados`, `Publicados` |
@@ -22,8 +23,23 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Calendario de contenido | `collection://da1053df-19d6-4cfc-8547-c77f511392ae` |
 | Radar de referencias | `collection://ca35d60d-116e-4405-a39a-4c21cfc9c4d7` |
 | Anuncios | `collection://782cf162-312e-435a-8b04-26d329e839a5` |
+| Fichas de voz | `collection://8fdf7563-98ef-41e5-8899-19349d98657d` |
 
 Página: https://app.notion.com/p/40a57db8a61881cabe44ec0a24cde244
+
+## Antes de nada: la ficha de voz
+
+Sin la historia real de la persona, los guiones suenan genéricos. Por eso:
+
+1. Cada persona rellena su **cuestionario de historia y avatar** en Drive (escrito o con notas de voz transcritas), o
+   hace la entrevista con Claude («entrevístame para mi historia»), que es el mismo cuestionario en conversación.
+2. Un agente pasa las respuestas a su **ficha de voz** en Notion, separando lo que se puede contar en público de lo que
+   no (salud, producto, cifras, familia), y apunta en **Faltan** lo que queda.
+3. **Mínimo para publicar**: bloques 0 (enfoque), 1, 2, 7 y 9 → Estado «Lista para guiones». Sin eso, el estratega no
+   prepara la semana.
+
+**El repositorio es público**: ninguna historia, cuestionario relleno, dato de salud o de familia, ni datos de leads se
+guardan aquí.
 
 ## La semana
 
@@ -45,7 +61,7 @@ Página: https://app.notion.com/p/40a57db8a61881cabe44ec0a24cde244
 | Editor (HyperFrames y carruseles) | — | Fase 1: plantillas de vídeo y carrusel |
 | Publicador | — | Fase 2: necesita las apps de Meta, YouTube y TikTok |
 | Analista | — | Fase 2: necesita las apps y la hoja de leads de cada persona |
-| Anuncios | — | Fase 3: necesita la respuesta de Enagic y la cuenta publicitaria |
+| Anuncios | — | Fase 3: necesita la cuenta publicitaria y piezas que ya traigan leads cualificados |
 
 Para usarlos: en Claude Code, pide por ejemplo «prepara el plan de la semana de Alejandro» o «entrevístame para mi
 historia». Las tareas programadas de los lunes y los domingos se activan cuando el piloto esté en marcha.

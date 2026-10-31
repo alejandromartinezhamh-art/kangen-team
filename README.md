@@ -25,7 +25,7 @@ equipo/
     design.md          Sistema de diseño completo (paleta, tipografía, componentes, tokens)
     referencias/       Capturas de webs y perfiles que gustan
     assets/            Fotos y logo elegidos y optimizados para la web (los originales, en Drive)
-    contenido/         Su voz e historia (voz.md) y lo que le funciona (aprendizajes.md); el calendario está en Notion
+    contenido/         Lo que le funciona (aprendizajes.md); su historia y su voz están en Drive y Notion, no aquí
     anuncios/          Creatividades de sus campañas; los anuncios se gestionan en Notion
     sitio/             La web (/) y sus landings (/l/<campaña>)
 ```
@@ -36,6 +36,9 @@ equipo/
   Lo suben las propias personas.
 - **GitHub (este repositorio)**: solo lo que la web usa, ya elegido y optimizado (JPG/WebP de 2000 px como máximo, menos de 500 KB),
   más los textos y el diseño. Cada `README.md` de persona enlaza a su carpeta de Drive.
+- **El repositorio es público.** Aquí solo va lo que ya es público (la web) o no es personal. Los cuestionarios rellenos,
+  las historias sin filtrar, la salud, la familia, los datos de leads y las claves van en Drive, Notion o Vercel.
+  `brief.md` solo recoge lo que saldrá en la web.
 
 Estructura de Drive recomendada:
 
