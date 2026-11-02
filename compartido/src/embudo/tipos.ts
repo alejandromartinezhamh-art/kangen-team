@@ -42,7 +42,8 @@ interface Titulado {
  *  ni toca "tipo", "campo" ni "columna". */
 export type ContenidoEmbudo = Contenido & {
   fotos: { retrato: string; email?: string };
-  enlaces: { webinar: string; whatsapp: string };
+  /** curso: vídeo de bienvenida del curso (vacío = sin vídeo) */
+  enlaces: { webinar: string; curso: string; whatsapp: string };
   general: { marca: string };
   instagram: { barra: string; etiqueta: string; boton: string; privacidad: string };
   cuestionario: {
@@ -75,6 +76,41 @@ export type ContenidoEmbudo = Contenido & {
     bloqueado: string;
     aviso: string;
     mensajeWhatsapp: string;
+  };
+  /** Curso privado (/curso): textos de cada persona. Las lecciones son comunes (compartido/curso/curso.json). */
+  curso: {
+    barra: string;
+    accesoEtiqueta: string;
+    accesoTitulo: string;
+    accesoTexto: string;
+    campoEmail: string;
+    campoContrasena: string;
+    boton: string;
+    entrando: string;
+    errorAcceso: string;
+    errorTecnico: string;
+    olvido: string;
+    mensajeOlvido: string;
+    /** {nombre} = el nombre del lead */
+    saludo: string;
+    etiqueta: string;
+    titulo: string;
+    texto: string;
+    bienvenidaTexto: string[];
+    progreso: string;
+    empezar: string;
+    seguir: string;
+    siguiente: string;
+    anterior: string;
+    todas: string;
+    hecha: string;
+    enPreparacion: string;
+    finalTitulo: string;
+    finalTexto: string;
+    finalBoton: string;
+    mensajeWhatsapp: string;
+    aviso: string;
+    salir: string;
   };
   textos: {
     subtitulo: string;

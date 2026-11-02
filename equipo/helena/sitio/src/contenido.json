@@ -48,6 +48,7 @@
     },
     "campos": {
       "enlaces.webinar": "Vídeo del webinar (enlace de YouTube, Vimeo o .mp4). Vacío = aviso de \"muy pronto\"",
+      "enlaces.curso": "Vídeo de bienvenida del curso (YouTube, Vimeo o .mp4). Vacío = sin vídeo, solo el texto",
       "enlaces.whatsapp": "Tu WhatsApp: solo números, con prefijo y sin + (p. ej. 34600000000)"
     },
     "fuentes": {
@@ -77,6 +78,7 @@
   },
   "enlaces": {
     "webinar": "",
+    "curso": "",
     "whatsapp": "34676201810"
   },
   "general": {
@@ -262,6 +264,18 @@
         "Búscate un rato tranquilo: al terminarlo podrás escribirme directamente por WhatsApp. Y si tienes cualquier duda antes, responde a este email."
       ]
     },
+    "curso": {
+      "asunto": "Tu acceso al curso, {nombre}",
+      "saludo": "¡Hola, {nombre}!",
+      "antes": [
+        "Como te dije, aquí tienes tu acceso al curso donde te explico el negocio con todo detalle: cómo funciona, los números y el día a día."
+      ],
+      "boton": "Entrar al curso",
+      "despues": [
+        "Míratelo con calma y a tu ritmo. Al final tienes un botón para escribirme por WhatsApp y lo hablamos.",
+        "Si tienes cualquier duda, responde a este email."
+      ]
+    },
     "despedida": "Un abrazo,",
     "firma": "Helena Saigí",
     "pie": "Recibes este email porque lo pediste en el cuestionario. Si no quieres recibir más, responde con la palabra BAJA.",
@@ -273,6 +287,42 @@
       "suave": "#646b63"
     },
     "mayusculas": true
+  },
+  "curso": {
+    "barra": "Curso privado",
+    "accesoEtiqueta": "Acceso privado",
+    "accesoTitulo": "El *curso*",
+    "accesoTexto": "Entra con tu email y la contraseña que te llegaron en el email de acceso.",
+    "campoEmail": "Tu email",
+    "campoContrasena": "Contraseña",
+    "boton": "Entrar",
+    "entrando": "Comprobando…",
+    "errorAcceso": "Ese email o esa contraseña no son correctos. Cópialos tal cual del email de acceso.",
+    "errorTecnico": "Ahora mismo no se puede entrar. Inténtalo en un rato o escríbeme.",
+    "olvido": "¿No encuentras la contraseña? Escríbeme y te envío una nueva.",
+    "mensajeOlvido": "Hola Helena, no encuentro la contraseña del curso.",
+    "saludo": "Hola, {nombre}",
+    "etiqueta": "Curso · El negocio en detalle",
+    "titulo": "Todo lo que necesitas *saber*",
+    "texto": "Cómo funciona, los números y el día a día, a tu ritmo. Al terminar, lo hablamos.",
+    "bienvenidaTexto": [
+      "Antes de entrar en los detalles, quiero contarte por qué estoy aquí y qué vas a encontrar en este curso.",
+      "Míralo con calma y apunta todas tus dudas: al final lo hablamos por WhatsApp."
+    ],
+    "progreso": "lecciones vistas",
+    "empezar": "Empezar el curso",
+    "seguir": "Seguir donde lo dejaste",
+    "siguiente": "Siguiente lección",
+    "anterior": "Anterior",
+    "todas": "Todas las lecciones",
+    "hecha": "Vista",
+    "enPreparacion": "Vídeo en preparación: aquí tienes el resumen por escrito.",
+    "finalTitulo": "¿Lo *hablamos*?",
+    "finalTexto": "Ya lo tienes todo. Si te ha resonado y quieres dar el paso, o te ha quedado cualquier duda, escríbeme por WhatsApp y lo hablamos. Te contesto yo, sin compromiso.",
+    "finalBoton": "Escríbeme por WhatsApp",
+    "mensajeWhatsapp": "Hola Helena, he terminado el curso y me gustaría hablarlo contigo.",
+    "aviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona.",
+    "salir": "Salir"
   },
   "textos": {
     "subtitulo": "Emprendimiento y bienestar",

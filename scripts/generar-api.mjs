@@ -2,7 +2,8 @@
 // archivos sueltos sin imports: Vercel no compila TypeScript importado desde otros paquetes del repositorio.
 //   sitio/api/lead.js    formulario y cuestionario → hoja de Google
 //   sitio/api/editor.js  editor visual (/editar): lee y publica contenido.json de esa persona
-// Uso: npm run generar-api   (ejecutar tras cambiar compartido/api/)
+//   sitio/api/curso.js   curso privado (/curso): acceso, lecciones y progreso (lleva dentro compartido/curso/curso.json)
+// Uso: npm run generar-api   (ejecutar tras cambiar compartido/api/ o compartido/curso/curso.json)
 import { build } from 'esbuild';
 import { readdirSync, rmSync, existsSync } from 'node:fs';
 
@@ -17,7 +18,7 @@ const destinos = [
 for (const { dir, persona } of destinos) {
   const viejo = `${dir}/api/lead.ts`;
   if (existsSync(viejo)) rmSync(viejo);
-  for (const nombre of ['lead', 'editor']) {
+  for (const nombre of ['lead', 'editor', 'curso']) {
     await build({
       entryPoints: [`compartido/api/${nombre}.ts`],
       bundle: true,

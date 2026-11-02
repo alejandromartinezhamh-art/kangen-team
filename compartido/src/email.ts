@@ -22,6 +22,8 @@ export interface ColoresEmail {
 export interface TextosEmail {
   webinar: PlantillaEmail;
   recordatorio: PlantillaEmail;
+  /** Acceso al curso (lo envía el CRM: "Dar acceso al curso"), con su usuario y su contraseña antes del botón */
+  curso?: PlantillaEmail;
   despedida: string;
   firma: string;
   pie: string;
@@ -47,6 +49,17 @@ function boton(t: TextosEmail, url: string, texto: string) {
   );
 }
 
+/** Usuario y contraseña del curso, en una caja. */
+function cajaAcceso(t: TextosEmail, acceso: { usuario: string; contrasena: string }) {
+  const fila = (k: string, v: string) =>
+    `<span style="color:${t.colores.suave}">${k}</span><br><b style="font-size:18px;color:${t.colores.titulo};` +
+    `letter-spacing:0.02em">${escapar(v)}</b>`;
+  return (
+    `<span style="display:block;border:1px solid ${t.colores.suave};border-radius:16px;padding:14px 18px">` +
+    `${fila('Usuario', acceso.usuario)}<br><br>${fila('Contraseña', acceso.contrasena)}</span>`
+  );
+}
+
 function firma(t: TextosEmail, foto: string) {
   const nombre = `<span style="font-weight:${t.mayusculas ? 700 : 500};color:${t.colores.titulo}">${escapar(t.firma)}</span>`;
   if (!foto) return `<p style="margin:0 0 18px">${escapar(t.despedida)}<br>${nombre}</p>`;
@@ -63,13 +76,14 @@ function firma(t: TextosEmail, foto: string) {
 /** Asunto y HTML de un email, como los envía Embudo.gs. */
 export function htmlEmail(
   t: TextosEmail,
-  tipo: 'webinar' | 'recordatorio',
-  datos: { nombre: string; enlace: string; foto: string },
+  tipo: 'webinar' | 'recordatorio' | 'curso',
+  datos: { nombre: string; enlace: string; foto: string; acceso?: { usuario: string; contrasena: string } },
 ) {
-  const e = t[tipo];
+  const e = t[tipo] ?? t.webinar;
   const parrafos = [
     rico(e.saludo, datos.nombre),
     ...e.antes.map((p) => rico(p, datos.nombre)),
+    ...(datos.acceso ? [cajaAcceso(t, datos.acceso)] : []),
     boton(t, datos.enlace, e.boton),
     ...e.despues.map((p) => rico(p, datos.nombre)),
   ];

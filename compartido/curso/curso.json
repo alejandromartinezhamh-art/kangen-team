@@ -1,0 +1,333 @@
+{
+  "_ayuda": "Curso común del equipo (/curso). Lo ve el lead después de la primera llamada, con su email y su contraseña. Estructura y guion de cada vídeo: estrategia/curso.md. Tras cambiar este archivo: npm run generar-api y npm run comprobar. Textos: **negrita**; una línea que empieza por '- ' es un punto de una lista. Vídeo: enlace de YouTube (oculto), Vimeo o .mp4; vacío = 'vídeo en preparación' y se lee el texto.",
+  "revision": "2026-11-02",
+  "modulos": [
+    {
+      "id": "empieza",
+      "titulo": "Empieza aquí",
+      "lecciones": [
+        {
+          "id": "bienvenida",
+          "tipo": "bienvenida",
+          "titulo": "Bienvenida",
+          "duracion": "3 min",
+          "video": "",
+          "texto": []
+        },
+        {
+          "id": "como-usar",
+          "titulo": "Cómo aprovechar este curso",
+          "duracion": "3 min",
+          "video": "",
+          "texto": [
+            "Este curso es el paso siguiente a nuestra primera conversación. Aquí te explico el negocio con todo detalle: qué es, de dónde sale el dinero, cuánto cuesta empezar, cómo es el día a día y las dudas que tiene todo el mundo.",
+            "Son unas 20 lecciones cortas, menos de dos horas en total. Puedes verlas a tu ritmo y volver cuando quieras: el curso recuerda por dónde vas.",
+            "Tres consejos:",
+            "- **Velo entero** antes de decidir nada.",
+            "- **Apunta tus dudas** en una nota, todas, también las incómodas.",
+            "- Si alguien de tu entorno opina, escúchalo, pero **decide con la información completa** delante.",
+            "Al final tienes un botón para escribirme por WhatsApp y resolver lo que haya quedado en el aire. Sin prisa y sin compromiso: decidir que no también es una buena decisión."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modelo",
+      "titulo": "El modelo de negocio",
+      "lecciones": [
+        {
+          "id": "en-paralelo",
+          "titulo": "Un negocio en paralelo, no un salto al vacío",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "La mayoría de las personas que entran en el equipo tienen un trabajo y no lo dejan para empezar. Construyen esto en las horas que tienen, a su ritmo, y deciden más adelante qué papel quieren que tenga en su vida.",
+            "La idea de fondo es sencilla: un sueldo cambia horas por dinero. Si no trabajas, no cobras, y el techo lo pone otra persona. Un negocio propio te da la opción de construir algo que no dependa solo de tus horas.",
+            "No es mejor ni peor que un empleo: es otra manera, con sus ventajas y sus riesgos. Y lleva tiempo, aprendizaje y constancia. Piensa en meses, no en semanas."
+          ]
+        },
+        {
+          "id": "alto-valor",
+          "titulo": "Recomendar un producto de alto valor",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "Hay dos maneras de vender: muchas cosas baratas con poco margen, o pocas cosas de mucho valor con más margen. En la primera necesitas muchísimos clientes y los gastos fijos se comen lo que ganas. En la segunda, cada conversación cuenta más.",
+            "Aquí recomiendas un producto de alto valor de una empresa con décadas de historia. No fabricas nada, no tienes almacén ni gestionas envíos o cobros: de eso se encarga la empresa. Tu trabajo es darte a conocer, conversar con personas interesadas y acompañarlas.",
+            "Cobras una comisión cuando alguien compra a través de ti. Como el producto es caro, cada venta pesa, y por eso hay que hacerlo bien: sin presionar a nadie y diciendo siempre la verdad."
+          ]
+        },
+        {
+          "id": "sistema",
+          "titulo": "Cómo llega la gente: el sistema",
+          "duracion": "7 min",
+          "video": "",
+          "texto": [
+            "No vas a perseguir a tus amigos ni a tu familia. Trabajamos con un sistema: contenido en redes donde cuentas tu historia, un cuestionario para quien quiere saber más, un webinar y una conversación con quien lo ha visto todo y tiene interés.",
+            "Es el mismo recorrido que has hecho tú hasta llegar aquí. Cada paso filtra: a la conversación solo llega quien ya sabe de qué va y quiere hablar.",
+            "La parte técnica ya está montada: tu web, tu cuestionario, tu hoja de contactos y este curso. Tú te centras en lo que nadie puede hacer por ti: contar tu historia y conversar.",
+            "Primero se construye la base con contenido sin pagar. Los anuncios llegan después, y solo con piezas que ya han demostrado que funcionan."
+          ]
+        },
+        {
+          "id": "legal",
+          "titulo": "¿Es legal? Venta directa y pirámides",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "Es la pregunta más normal del mundo, y conviene responderla bien.",
+            "En España la venta multinivel es legal y está regulada (Ley de Ordenación del Comercio Minorista). Lo que está prohibido es la venta piramidal (Ley de Competencia Desleal): sistemas en los que se gana sobre todo por apuntar a gente nueva, y no por vender un producto a quien lo usa.",
+            "Cómo distinguirlo:",
+            "- Hay un producto real que la gente compra para usarlo.",
+            "- La comisión sale de la venta de ese producto, no de apuntar a nadie.",
+            "- No se paga por entrar ni hay cuotas mensuales.",
+            "- Nadie te obliga a comprar más para mantener tu puesto.",
+            "Aquí cobras cuando alguien compra un producto. Quien quiere además montar su propio negocio también compra el producto: no existe una cuota por apuntarse.",
+            "Aun así, investiga por tu cuenta y pregúntame todo lo que necesites. Si alguien no te deja hacer preguntas, desconfía."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "empresa",
+      "titulo": "La empresa y el producto",
+      "lecciones": [
+        {
+          "id": "la-empresa",
+          "titulo": "La empresa",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "Trabajamos con Enagic, una empresa japonesa fundada en 1974 que fabrica sus propios equipos de tratamiento de agua para casa y vende en muchos países, también en España.",
+            "Por qué la elegimos:",
+            "- Décadas de historia y fábrica propia.",
+            "- Un producto físico, de calidad, que la gente compra para usar en casa.",
+            "- No hay cuotas mensuales ni compras obligatorias para seguir siendo distribuidor.",
+            "- Un plan de compensación que paga por la venta del producto.",
+            "No te lo creas porque te lo diga yo: compruébalo en su web oficial. Al final del curso, en **Documentación oficial**, tienes los enlaces."
+          ]
+        },
+        {
+          "id": "producto",
+          "titulo": "El producto, sin promesas",
+          "duracion": "7 min",
+          "video": "",
+          "texto": [
+            "El producto principal es la K8: un aparato que se conecta al grifo de la cocina, filtra el agua y, por electrólisis, la separa en varios tipos de agua con distinto pH para distintos usos en casa, como beber y cocinar o limpiar.",
+            "Lo que vas a oír de nosotros: qué es, cómo funciona y para qué lo usamos en casa. Lo que no vas a oír nunca: **ninguna promesa sobre tu salud**. En internet circulan muchas sobre el agua; si alguien te las hace, desconfía, y nunca las repitas.",
+            "Es lo que exigen la propia empresa y la ley, y es lo que permite hacer este negocio con la cabeza alta.",
+            "La gama tiene otros productos, como un filtro de ducha o un complemento de cúrcuma, que verás en las maneras de empezar del módulo siguiente."
+          ]
+        },
+        {
+          "id": "distribuidor",
+          "titulo": "Cómo te haces distribuidor",
+          "duracion": "4 min",
+          "video": "",
+          "texto": [
+            "No hay una cuota para apuntarse: te haces distribuidor al comprar un producto para ti, y la licencia es para siempre, sin cuotas mensuales ni mínimos de compra.",
+            "Desde ese momento puedes recomendar el producto, cobrar una comisión por cada venta que se haga a través de ti y acompañar a quien quiera montar su propio negocio.",
+            "Y si un día decides dejarlo, el producto que compraste sigue siendo tuyo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "numeros",
+      "titulo": "Los números",
+      "lecciones": [
+        {
+          "id": "plan",
+          "titulo": "Cómo se cobra: el plan de 8 puntos",
+          "duracion": "10 min",
+          "video": "",
+          "texto": [
+            "Cada vez que se vende un producto, la empresa reparte siempre 8 puntos de comisión entre quien lo vende y las personas que tiene por encima en su equipo. Cuántos de esos puntos cobras tú depende de tu rango.",
+            "Los rangos van de 1A a 6A y suben con las ventas acumuladas, las tuyas y las de tu equipo. Cuanto más alto es tu rango, más puntos cobras por cada venta.",
+            "El valor de un punto depende del producto que se vende: no es lo mismo un aparato que un paquete de varios productos.",
+            "Por encima de 6A hay bonos y rangos superiores. Lo importante al empezar: cada venta cuenta, y tu rango marca cuánto cobras por ella."
+          ],
+          "bloques": [{ "tipo": "rangos" }]
+        },
+        {
+          "id": "maneras-de-empezar",
+          "titulo": "Maneras de empezar",
+          "duracion": "8 min",
+          "video": "",
+          "texto": [
+            "Hay varias maneras de empezar, desde un aparato para tu casa hasta paquetes con varios productos. Cuanto más grande es el paquete, más alto es el rango con el que empiezas y más cobras por cada venta desde el principio. Pero también es más dinero, y más riesgo.",
+            "Todas incluyen la licencia de distribuidor, sin coste aparte.",
+            "Mi consejo: elige la opción que puedas pagar **sin poner en riesgo tu economía** ni la de tu familia. No te recomendamos endeudarte para empezar. Si te lo planteas, habla antes con un asesor de confianza y tómate tu tiempo."
+          ],
+          "bloques": [{ "tipo": "paquetes" }]
+        },
+        {
+          "id": "recuperar",
+          "titulo": "¿En qué venta recuperas la inversión?",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "Es la pregunta que se hace todo el mundo. Con la calculadora de abajo eliges con qué empiezas y te dice en qué venta habrías recuperado lo invertido, si las personas a las que se lo recomiendas eligen lo mismo que tú.",
+            "Léela bien: dice **cuántas ventas harían falta**, no cuántas vas a hacer ni cuándo. Hay personas que no recuperan nunca la inversión y otras que tardan mucho más de lo que pensaban. Depende de tu trabajo, de tu tiempo, de tu entorno y de muchas cosas que nadie controla."
+          ],
+          "bloques": [{ "tipo": "calculadora" }]
+        },
+        {
+          "id": "como-una-empresa",
+          "titulo": "Pensar como una empresa",
+          "duracion": "7 min",
+          "video": "",
+          "texto": [
+            "Desde el primer día, piensa en esto como en un negocio:",
+            "- **Reinvierte**: una parte de lo que ganes vuelve al negocio (formación y, cuando toque, anuncios). Así crece más rápido que si lo gastas todo al principio.",
+            "- **Impuestos**: las comisiones se cobran antes de impuestos. Cuando haya actividad habitual tendrás que darte de alta como autónomo y declararlo. Consulta con una gestoría desde el principio.",
+            "- **Plazos realistas**: date entre 9 y 12 meses para ver si este negocio funciona para ti, no el primer mes.",
+            "- **No dejes tu trabajo** hasta que el negocio lo sustituya de forma estable durante un tiempo.",
+            "- **Con honestidad**: lo normal es que la mayoría de quienes empiezan no lleguen a los rangos más altos. Mejor saberlo desde el principio y decidir con esa información."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dia-a-dia",
+      "titulo": "El día a día",
+      "lecciones": [
+        {
+          "id": "semana",
+          "titulo": "Tu semana tipo",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "Al principio, cuenta con 1 o 2 horas al día, unas 8 o 10 a la semana, repartidas más o menos así:",
+            "- **Contenido** (unas 3 horas): grabar y publicar piezas sobre tu historia y tu cambio, con la ayuda del equipo.",
+            "- **Conversaciones** (unas 3 horas): contestar a quien rellena el cuestionario o ve el webinar, y videollamadas con quien quiere saber más.",
+            "- **Formación** (unas 2 horas): las sesiones del equipo y lo que estés aprendiendo.",
+            "- **Revisión** (media hora): mirar qué ha funcionado esa semana.",
+            "Tu perfil en redes es parte del negocio: quien ve tu contenido entra en tu perfil y tiene que encontrar a una persona real."
+          ]
+        },
+        {
+          "id": "equipo",
+          "titulo": "El sistema y el equipo",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "No empiezas de cero ni lo haces solo. Al entrar tienes:",
+            "- Tu web con tu historia, tu cuestionario y tu webinar, que cambias tú desde un editor.",
+            "- Tu hoja de contactos y un tablero para seguir cada conversación.",
+            "- Este curso, para las personas que lleguen a ti.",
+            "- Ayuda para preparar tu contenido: ideas, guiones y una revisión antes de publicar.",
+            "- Sesiones con el equipo para resolver dudas y ver qué funciona, y acompañamiento directo.",
+            "Lo que nadie puede hacer por ti: contar tu historia, grabar y conversar. Esa parte es tuya."
+          ]
+        },
+        {
+          "id": "seis-semanas",
+          "titulo": "Tus primeras 6 semanas",
+          "duracion": "6 min",
+          "video": "",
+          "texto": [
+            "- **Semana 1**: alta, tu web y tu historia (un cuestionario que rellenas con calma).",
+            "- **Semana 2**: tus cuentas de redes y tu primera sesión de fotos.",
+            "- **Semana 3**: tus primeras piezas de contenido.",
+            "- **Semana 4**: tu webinar y tu embudo funcionando.",
+            "- **Semanas 5 y 6**: primeras conversaciones con personas interesadas y revisión de lo que funciona.",
+            "Cada semana tiene una tarea clara y alguien del equipo que la revisa contigo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "titulo": "Dudas y decisión",
+      "lecciones": [
+        {
+          "id": "dudas",
+          "titulo": "Las dudas de siempre",
+          "duracion": "10 min",
+          "video": "",
+          "texto": [
+            "**¿Y si no sé vender?** No se trata de convencer a nadie. El sistema te trae a personas que ya han visto de qué va y quieren hablar. Tu trabajo es escuchar, contar tu experiencia y responder con honestidad.",
+            "**¿Y si no tengo tiempo?** Casi nadie lo tiene. Por eso se empieza con 1 o 2 horas al día, en paralelo a lo que ya haces. Si ahora mismo no puedes dedicarle ni eso, quizá no es el momento, y está bien.",
+            "**¿Qué va a pensar mi entorno?** Es normal que opinen. Escúchalos, pero decide con la información completa, no con un comentario.",
+            "**¿Recuperaré la inversión?** Nadie te lo puede garantizar: depende de tu trabajo y de cosas que nadie controla. Por eso te pedimos que empieces con lo que puedas permitirte.",
+            "**¿Es una pirámide?** No. Lo vimos en «¿Es legal?»: aquí se cobra por vender un producto, no por apuntar a gente.",
+            "**¿Tengo que pedir un préstamo?** No te lo recomendamos. Si te lo planteas, habla antes con un asesor y no lo hagas con prisa.",
+            "**¿Y si quiero dejarlo?** Puedes dejarlo cuando quieras: no hay cuotas, y el producto que compraste es tuyo."
+          ]
+        },
+        {
+          "id": "para-quien-no",
+          "titulo": "Para quién no es",
+          "duracion": "4 min",
+          "video": "",
+          "texto": [
+            "Este negocio no es para ti si:",
+            "- Buscas dinero rápido o necesitas cobrar algo fijo desde el primer mes.",
+            "- No puedes invertir sin poner en riesgo tu economía.",
+            "- No quieres aparecer en redes ni contar tu historia.",
+            "- Esperas que otra persona haga el trabajo por ti.",
+            "- Ahora mismo no tienes ni unas horas a la semana.",
+            "Y puede serlo si quieres construir algo propio sin dejar lo que tienes, te apetece aprender y tienes ganas de dedicarle constancia durante meses."
+          ]
+        },
+        {
+          "id": "siguiente-paso",
+          "tipo": "final",
+          "titulo": "Siguiente paso",
+          "duracion": "2 min",
+          "video": "",
+          "texto": []
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "titulo": "Extra",
+      "lecciones": [
+        {
+          "id": "documentacion",
+          "titulo": "Documentación oficial",
+          "duracion": "",
+          "video": "",
+          "opcional": true,
+          "texto": [
+            "Aquí tienes la información oficial de la empresa, para que compruebes por tu cuenta todo lo que te he contado."
+          ],
+          "bloques": [
+            {
+              "tipo": "enlaces",
+              "enlaces": [{ "texto": "Web oficial de Enagic", "url": "https://www.enagic.com" }]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cifras": {
+    "_ayuda": "Cifras oficiales. confirmadas = precios y rangos comprobados con la documentación oficial (fuente y fecha). comisionesAprobadas = Enagic ha aprobado por escrito enseñar comisiones y la calculadora (sus normas §9.3 y §9.4). Mientras no, el lead no las ve: solo el equipo en el editor, con un aviso. Precios sin IVA; comisiones, en orden: la de tu propia compra (comisionInicial) y la de la 1.ª, 2.ª, 3.ª… venta del mismo paquete. Las de ahora salen del curso de Becoming Present (sin confirmar).",
+    "confirmadas": false,
+    "comisionesAprobadas": false,
+    "fuente": "",
+    "iva": 21,
+    "rangos": [
+      { "rango": "1A", "ventas": "1 a 2", "puntos": 1 },
+      { "rango": "2A", "ventas": "3 a 10", "puntos": 2 },
+      { "rango": "3A", "ventas": "11 a 20", "puntos": 3 },
+      { "rango": "4A", "ventas": "21 a 50", "puntos": 4 },
+      { "rango": "5A", "ventas": "51 a 100", "puntos": 5 },
+      { "rango": "6A", "ventas": "más de 100", "puntos": 6 }
+    ],
+    "paquetes": [
+      { "id": "k8", "nombre": "K8 + Ukon", "incluye": "1 K8 y el complemento de cúrcuma", "precio": null, "rango": "1A", "comisionInicial": null, "comisiones": [] },
+      { "id": "trifecta", "nombre": "Trifecta", "incluye": "K8, filtro de ducha Anespa y Ukon", "precio": 9500, "rango": "2A", "comisionInicial": 1120, "comisiones": [] },
+      { "id": "quad", "nombre": "Quad", "incluye": "2 K8, Anespa y Ukon", "precio": 14100, "rango": "3A", "comisionInicial": 780, "comisiones": [2565] },
+      { "id": "quintet", "nombre": "Quintet", "incluye": "Lo del Quad y un Emguarde", "precio": 15450, "rango": "3A", "comisionInicial": 1450, "comisiones": [2805] },
+      { "id": "sextet", "nombre": "Sextet", "incluye": "2 K8, Anespa, Ukon y 2 Emguarde", "precio": 16800, "rango": "4A", "comisionInicial": 2120, "comisiones": [4060, 4060, 5075] }
+    ],
+    "aviso": "Esto no es una previsión de ingresos. Calcula cuántas ventas harían falta para recuperar lo invertido; no dice cuántas vas a hacer ni cuándo. Muchas personas no recuperan la inversión. Los resultados dependen de tu trabajo, tu tiempo y el mercado. Comisiones antes de impuestos.",
+    "sinPrecio": "El precio oficial de cada opción te lo enseño en la videollamada, con la lista de precios de la empresa.",
+    "sinRangos": "La tabla oficial de rangos te la enseño en la videollamada, con el plan de compensación de la empresa.",
+    "sinComisiones": "Las comisiones y en qué venta se recupera la inversión te los enseño en la videollamada, con el plan de compensación oficial."
+  }
+}

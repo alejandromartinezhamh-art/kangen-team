@@ -81,11 +81,22 @@ function aplicarEstilos(contenido: Contenido) {
 }
 
 // Dentro del editor, los formularios y eventos no llegan a la hoja: responden "ok" sin enviar nada.
+/** La vista previa del curso (/api/curso, accion "vista") sí sale: solo lee las lecciones con la contraseña del editor. */
+function esVistaDelCurso(ruta: string, opciones?: RequestInit) {
+  if (ruta !== '/api/curso' || typeof opciones?.body !== 'string') return false;
+  try {
+    return (JSON.parse(opciones.body) as { accion?: string }).accion === 'vista';
+  } catch {
+    return false;
+  }
+}
+
 function bloquearEnvios() {
   const original = window.fetch.bind(window);
   window.fetch = (entrada, opciones) => {
     const url = typeof entrada === 'string' ? entrada : entrada instanceof URL ? entrada.href : entrada.url;
-    if (new URL(url, location.href).pathname.startsWith('/api/')) {
+    const ruta = new URL(url, location.href).pathname;
+    if (ruta.startsWith('/api/') && !esVistaDelCurso(ruta, opciones)) {
       return Promise.resolve(new Response('{"ok":true}', { headers: { 'Content-Type': 'application/json' } }));
     }
     return original(entrada, opciones);

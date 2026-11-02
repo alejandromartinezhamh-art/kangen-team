@@ -12,8 +12,9 @@ Lee `estrategia/` antes de crear nada.
 estrategia/            Mensaje común, normas de comunicación (obligatorias) y estrategia de marketing (marketing.md)
   plantillas/          Para incorporar a alguien nuevo o replicar el sistema: guía, cuestionario en blanco, mensajes y checklist
   cuestionario-avatar/ Cuestionario de historia y avatar de cada persona del equipo
-compartido/            Código común: el embudo entero (src/embudo: Instagram, cuestionario, webinar y web),
-                       formulario, páginas legales, editor visual, API de leads y script de la hoja
+compartido/            Código común: el embudo entero (src/embudo: Instagram, cuestionario, webinar, web y curso),
+                       formulario, páginas legales, editor visual, API de leads y del curso, y script de la hoja
+  curso/curso.json     Lecciones del curso privado (/curso), comunes a todo el equipo (guía: estrategia/curso.md)
 plantilla/             Punto de partida de cada persona (no se edita para una persona concreta)
 contenido/             Sistema de contenido y anuncios: formatos, ganchos, aprendizajes del equipo (ver su README)
 .claude/skills/        Agentes de contenido: investigador, estratega, guionista, revisor, entrevista de historia
@@ -140,7 +141,7 @@ El formulario llama a `/api/lead`, que solo existe en Vercel (o con `vercel dev`
 ### Alejandro
 
 - **Vercel** (proyecto `alejandromartinez`, compila desde la raíz con `vercel.json`): https://alejandromartinez.vercel.app —
-  su web (`/`), `/l/instagram`, `/cuestionario` y `/webinar`
+  su web (`/`), `/l/instagram`, `/cuestionario`, `/webinar` y `/curso` (curso privado, con acceso desde el CRM)
   (`kangen-ochre.vercel.app` redirige aquí, así que los enlaces antiguos siguen funcionando)
 - **Editor**: https://alejandromartinez.vercel.app/editar. Necesita `EDITOR_GITHUB_TOKEN` y `EDITOR_CLAVE` en el proyecto `alejandromartinez`.
 - **Cloudflare Workers** (Worker `kangen-team`, `wrangler.jsonc` en la raíz): copia de la misma web, formulario guardando en D1

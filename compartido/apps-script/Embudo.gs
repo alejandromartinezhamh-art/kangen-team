@@ -5,6 +5,10 @@
  * envía desde el Gmail del dueño de la hoja el email con el enlace del webinar, avisa a la
  * persona del equipo y, si a las 24 h no lo ha abierto, manda un recordatorio.
  *
+ * Curso privado (/curso de la web): desde el CRM, "Dar acceso al curso" crea una contraseña, la guarda cifrada
+ * en la hoja y le envía al lead un email con su acceso. /api/curso comprueba aquí la contraseña y apunta
+ * qué lecciones ve. Contenido del curso: compartido/curso/curso.json; estructura: estrategia/curso.md.
+ *
  * Los textos y colores de los emails se cambian desde el editor de la web (/editar → Emails): la web los
  * manda con cada lead y aquí se guardan para el recordatorio. Si no llegan, se usan los de EMAIL_POR_DEFECTO.
  *
@@ -55,8 +59,9 @@ const ID_HOJA = '';
 const CLAVE_INICIAL = '';
 
 // Columnas del CRM, en orden. El script mueve solo hacia delante: al enviar el recordatorio
-// (Nuevo lead → Recontactado), al ver el webinar (→ Vio el vídeo) y al pulsar WhatsApp (→ WhatsApp).
-const ESTADOS = ['Nuevo lead', 'Recontactado', 'Vio el vídeo', 'WhatsApp', 'Videollamada', 'Compra', 'Onboarding', 'Descartado'];
+// (Nuevo lead → Recontactado), al ver el webinar (→ Vio el vídeo), al pulsar WhatsApp (→ WhatsApp) y al darle
+// acceso al curso (→ Curso).
+const ESTADOS = ['Nuevo lead', 'Recontactado', 'Vio el vídeo', 'WhatsApp', 'Videollamada', 'Curso', 'Compra', 'Onboarding', 'Descartado'];
 const DESCARTADO = 'Descartado';
 
 const HOJA = 'Leads';
@@ -65,6 +70,9 @@ const COLUMNAS = [
   'Fecha', 'Id', 'Persona', 'Origen', 'Nombre', 'Email', 'WhatsApp',
   'Email webinar', 'Webinar abierto', 'Webinar visto', 'WhatsApp pulsado', 'Recordatorio', 'Quiere hablar',
   'Mensaje', 'Estado', 'Notas',
+  // Curso: cuándo se le dio acceso, la contraseña cifrada (nunca la de verdad), su última visita, las lecciones
+  // vistas, cuándo lo terminó y cuándo pulsó WhatsApp al final.
+  'Curso alta', 'Curso clave', 'Curso visto', 'Curso progreso', 'Curso terminado', 'Curso WhatsApp',
 ];
 
 // Textos de los emails cuando la web no manda los suyos (contenido.json → email). {nombre} = su nombre;
@@ -79,6 +87,16 @@ const EMAIL_POR_DEFECTO = {
       'Te cuento cómo estoy construyendo algo propio, a mi ritmo y con un equipo que me acompaña. ' +
         'Míralo con calma: cuando lo termines, te aparecerá un botón para escribirme directamente por WhatsApp y lo hablamos.',
       'Si tienes cualquier duda, responde a este email: me llega directamente a mí.',
+    ],
+  },
+  curso: {
+    asunto: 'Tu acceso al curso, {nombre}',
+    saludo: '¡Hola, {nombre}!',
+    antes: ['Como te dije, aquí tienes tu acceso al curso donde te explico el negocio con todo detalle: cómo funciona, los números y el día a día.'],
+    boton: 'Entrar al curso',
+    despues: [
+      'Míratelo con calma y a tu ritmo. Al final tienes un botón para escribirme por WhatsApp y lo hablamos.',
+      'Si tienes cualquier duda, responde a este email.',
     ],
   },
   recordatorio: {
@@ -108,6 +126,12 @@ function doPost(e) {
 
     if (datos.tipo === 'evento') {
       registrarEvento(datos);
+    } else if (datos.tipo === 'curso_entrar') {
+      return respuesta(cursoEntrar(datos));
+    } else if (datos.tipo === 'curso_progreso') {
+      cursoProgreso(datos);
+    } else if (datos.tipo === 'curso_whatsapp') {
+      cursoWhatsapp(datos);
     } else {
       registrarLead(datos);
     }
@@ -251,13 +275,14 @@ function plano(s, nombre) {
 }
 
 // El HTML de los emails es el mismo que pinta la vista previa del editor (compartido/src/email.ts).
-// Si cambias uno, cambia el otro.
-function enviarPlantilla(p, t, e, nombre, email, enlace) {
+// Si cambias uno, cambia el otro. acceso = { usuario, contrasena } (email del curso), va antes del botón.
+function enviarPlantilla(p, t, e, nombre, email, enlace, acceso) {
   const primer = String(nombre).split(' ')[0];
   const estilo = estiloEmail(p, t);
   const firmante = t.firma || p.nombre;
   const parrafos = [rico(e.saludo, primer)]
     .concat(e.antes.map(function (x) { return rico(x, primer); }))
+    .concat(acceso ? [cajaAcceso(estilo, acceso)] : [])
     .concat([boton(estilo, enlace, e.boton)])
     .concat(e.despues.map(function (x) { return rico(x, primer); }));
   const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:' + estilo.texto + ';max-width:520px">' +
@@ -265,12 +290,24 @@ function enviarPlantilla(p, t, e, nombre, email, enlace) {
     firma(estilo, t.despedida, firmante, t.foto || p.foto) +
     '<p style="margin:28px 0 0;font-size:12px;color:' + estilo.suave + '">' + escapar(t.pie) + '</p></div>';
   const texto = [plano(e.saludo, primer)]
-    .concat(e.antes.map(function (x) { return plano(x, primer); }), [enlace], e.despues.map(function (x) { return plano(x, primer); }))
+    .concat(e.antes.map(function (x) { return plano(x, primer); }))
+    .concat(acceso ? ['Usuario: ' + acceso.usuario + '\nContraseña: ' + acceso.contrasena] : [])
+    .concat([enlace], e.despues.map(function (x) { return plano(x, primer); }))
     .concat([t.despedida + '\n' + firmante, t.pie])
     .join('\n\n');
   const opciones = { htmlBody: html, name: firmante };
   if (p.responder) opciones.replyTo = p.responder;
   MailApp.sendEmail(email, plano(e.asunto, primer), texto, opciones);
+}
+
+/** Usuario y contraseña del curso, en una caja. */
+function cajaAcceso(estilo, acceso) {
+  const fila = function (k, v) {
+    return '<span style="color:' + estilo.suave + '">' + k + '</span><br><b style="font-size:18px;color:' + estilo.titulo +
+      ';letter-spacing:0.02em">' + escapar(v) + '</b>';
+  };
+  return '<span style="display:block;border:1px solid ' + estilo.suave + ';border-radius:16px;padding:14px 18px">' +
+    fila('Usuario', acceso.usuario) + '<br><br>' + fila('Contraseña', acceso.contrasena) + '</span>';
 }
 
 function boton(estilo, url, texto) {
@@ -302,6 +339,101 @@ function avisar(p, asunto, d, quiereHablar) {
   if (tel) lineas.push('', (quiereHablar ? 'Escríbele ya: ' : 'WhatsApp: ') + 'https://wa.me/' + tel);
   lineas.push('', 'Hoja: ' + libro().getUrl());
   MailApp.sendEmail(para, asunto, lineas.join('\n'), { name: 'Embudo webinar' });
+}
+
+// ---------- Curso privado (/curso de la web) ----------
+
+/** Contraseña fácil de escribir en el móvil: 4 letras o números, guion, 4 más (sin 0/o, 1/l/i). */
+function nuevaContrasena() {
+  const letras = 'abcdefghjkmnpqrstuvwxyz23456789';
+  const azar = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, '');
+  let c = '';
+  for (let i = 0; i < 8; i++) c += letras[parseInt(azar.substr(i * 4, 4), 16) % letras.length];
+  return c.slice(0, 4) + '-' + c.slice(4);
+}
+
+/** Lo que se guarda en la hoja: sal y huella SHA-256 (con la hoja no se puede saber la contraseña). */
+function huellaContrasena(contrasena, sal) {
+  const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, sal + ':' + contrasena, Utilities.Charset.UTF_8);
+  return bytes.map(function (b) { return ('0' + (b & 255).toString(16)).slice(-2); }).join('');
+}
+
+function contrasenaGuardada(contrasena) {
+  const sal = Utilities.getUuid().replace(/-/g, '').slice(0, 16);
+  return sal + ':' + huellaContrasena(contrasena, sal);
+}
+
+function contrasenaCorrecta(guardada, contrasena) {
+  const partes = String(guardada || '').split(':');
+  const limpia = String(contrasena || '').trim().toLowerCase();
+  return partes.length === 2 && Boolean(limpia) && huellaContrasena(limpia, partes[0]) === partes[1];
+}
+
+/** La fila del lead con acceso al curso para ese email (la más reciente). */
+function filaCurso(hoja, cab, email) {
+  const filas = hoja.getDataRange().getValues();
+  const cEmail = cab.indexOf('Email'), cClave = cab.indexOf('Curso clave');
+  for (let i = filas.length - 1; i >= 1; i--) {
+    if (filas[i][cClave] && String(filas[i][cEmail]).trim().toLowerCase() === email) return i + 1;
+  }
+  return 0;
+}
+
+/** Comprueba el email y la contraseña del curso. Devuelve su id, su nombre y las lecciones que ya ha visto. */
+function cursoEntrar(d) {
+  const hoja = hojaLeads();
+  const cab = cabeceras(hoja, []);
+  const email = String(d.email || '').trim().toLowerCase();
+  const fila = email ? filaCurso(hoja, cab, email) : 0;
+  if (!fila || !contrasenaCorrecta(leer(hoja, fila, cab, 'Curso clave'), d.contrasena)) return { ok: false, error: 'acceso' };
+  poner(hoja, fila, cab, 'Curso visto', ahora());
+  return {
+    ok: true,
+    id: String(leer(hoja, fila, cab, 'Id')),
+    nombre: String(leer(hoja, fila, cab, 'Nombre') || ''),
+    hechas: String(leer(hoja, fila, cab, 'Curso progreso') || '').split(',').filter(String),
+  };
+}
+
+/** Apunta una lección vista; al terminar el curso, avisa para escribirle. */
+function cursoProgreso(d) {
+  const hoja = hojaLeads();
+  const cab = cabeceras(hoja, []);
+  const fila = buscarFila(hoja, cab, d.id, '');
+  if (!fila) return;
+  const hechas = String(leer(hoja, fila, cab, 'Curso progreso') || '').split(',').filter(String);
+  const leccion = String(d.leccion || '').replace(/[^a-z0-9-]/g, '').slice(0, 60);
+  if (leccion && hechas.indexOf(leccion) === -1) hechas.push(leccion);
+  poner(hoja, fila, cab, 'Curso progreso', hechas.join(','));
+  poner(hoja, fila, cab, 'Curso visto', ahora());
+  if (Number(d.total) > 0) PropertiesService.getScriptProperties().setProperty('CURSO_TOTAL', String(Number(d.total)));
+  if (d.terminado === true && !leer(hoja, fila, cab, 'Curso terminado')) {
+    poner(hoja, fila, cab, 'Curso terminado', ahora());
+    avisarCurso(hoja, fila, cab, 'Ha terminado el curso: ');
+  }
+}
+
+/** Ha pulsado WhatsApp al final del curso. */
+function cursoWhatsapp(d) {
+  const hoja = hojaLeads();
+  const cab = cabeceras(hoja, []);
+  const fila = buscarFila(hoja, cab, d.id, '');
+  if (!fila || leer(hoja, fila, cab, 'Curso WhatsApp')) return;
+  poner(hoja, fila, cab, 'Curso WhatsApp', ahora());
+  avisarCurso(hoja, fila, cab, 'Quiere hablar después del curso: ');
+}
+
+function avisarCurso(hoja, fila, cab, asunto) {
+  const p = personaDeFila(hoja, fila, cab);
+  const nombre = leer(hoja, fila, cab, 'Nombre');
+  avisar(p, asunto + nombre, {
+    nombre: nombre, email: leer(hoja, fila, cab, 'Email'), telefono: leer(hoja, fila, cab, 'WhatsApp'), origen: 'curso',
+  }, true);
+}
+
+/** La persona del equipo del lead (la de su web) o, si no está, la de esta hoja. */
+function personaDeFila(hoja, fila, cab) {
+  return PERSONAS[leer(hoja, fila, cab, 'Persona')] || PERSONAS[PERSONA];
 }
 
 // ---------- Recordatorios (activador cada hora, lo crea instalar()) ----------
@@ -443,12 +575,17 @@ function crmDatos(k) {
       pulsado: fecha(col('WhatsApp pulsado')), recordatorio: fecha(col('Recordatorio')), quiereHablar: fecha(col('Quiere hablar')),
       instagram: String(col('Instagram') || ''),
       estado: estadoDe(col('Estado')), notas: String(col('Notas') || ''), respuestas: respuestas,
+      // Curso (nunca la contraseña)
+      cursoAlta: fecha(col('Curso alta')), cursoVisto: fecha(col('Curso visto')), cursoTerminado: fecha(col('Curso terminado')),
+      cursoWhatsapp: fecha(col('Curso WhatsApp')),
+      cursoLecciones: String(col('Curso progreso') || '').split(',').filter(String).length,
     };
   });
   leads.reverse();
   // yo: el nombre de la persona de esta hoja, para el mensaje de WhatsApp de las tarjetas
   const yo = PERSONAS[PERSONA] ? PERSONAS[PERSONA].nombre : '';
-  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo };
+  const totalCurso = Number(PropertiesService.getScriptProperties().getProperty('CURSO_TOTAL')) || 0;
+  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo, totalCurso: totalCurso };
 }
 
 /** Cambia el estado o las notas de un lead desde el CRM. */
@@ -464,6 +601,38 @@ function crmGuardar(k, id, campo, valor) {
     if (!fila) throw new Error('Lead no encontrado');
     poner(hoja, fila, cab, campo, String(valor).slice(0, 2000));
     return true;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/**
+ * Da acceso al curso (o lo vuelve a enviar con una contraseña nueva): guarda la contraseña cifrada, mueve el lead
+ * a "Curso" y le envía el email con su usuario (su email) y su contraseña.
+ */
+function crmDarCurso(k, id) {
+  if (!claveValida(k)) throw new Error('Clave no válida');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const hoja = hojaLeads();
+    const cab = cabeceras(hoja, []);
+    const fila = buscarFila(hoja, cab, id, '');
+    if (!fila) throw new Error('Lead no encontrado');
+    const email = String(leer(hoja, fila, cab, 'Email') || '').trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error('Este lead no tiene un email válido');
+    const p = personaDeFila(hoja, fila, cab);
+    const persona = Object.keys(PERSONAS).filter(function (k2) { return PERSONAS[k2] === p; })[0];
+    const contrasena = nuevaContrasena();
+    const t = textosEmail(persona, null);
+    enviarPlantilla(p, t, t.curso, leer(hoja, fila, cab, 'Nombre'), email, p.web.replace(/\/$/, '') + '/curso',
+      { usuario: email, contrasena: contrasena });
+    // Solo si el email ha salido: así nunca se queda una contraseña que nadie ha recibido.
+    poner(hoja, fila, cab, 'Curso clave', contrasenaGuardada(contrasena));
+    poner(hoja, fila, cab, 'Curso alta', ahora());
+    validacionEstado(hoja, cab);
+    avanzar(hoja, fila, cab, 'Curso');
+    return { estado: estadoDe(leer(hoja, fila, cab, 'Estado')), alta: new Date().toISOString() };
   } finally {
     lock.releaseLock();
   }
@@ -506,6 +675,12 @@ function prepararHoja() {
   const rango = hoja.getRange(2, col, filas, 1);
   const valores = rango.getValues().map(function (f, i) { return [i < hoja.getLastRow() - 1 ? estadoDe(f[0]) : f[0]]; });
   rango.setValues(valores);
+  validacionEstado(hoja, cab);
+}
+
+/** Desplegable de la columna Estado con los nombres de ESTADOS (también los nuevos, como "Curso"). */
+function validacionEstado(hoja, cab) {
+  const rango = hoja.getRange(2, cab.indexOf('Estado') + 1, Math.max(hoja.getMaxRows() - 1, 1), 1);
   rango.setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(ESTADOS, true).setAllowInvalid(false).build());
 }
 

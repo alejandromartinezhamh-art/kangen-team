@@ -46,6 +46,9 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Emails revisados con ella en su editor (`/editar` → Emails)
 - [ ] Vídeo del webinar puesto y enlace `/l/instagram` en su bio
 - [ ] Su web, hoja y CRM en el panel "Webs del equipo" y en Notion
+- [ ] Curso (`estrategia/curso.md`): su vídeo de bienvenida (3 min) en su editor (Diseño → Enlaces), sus textos revisados
+      (editor → Curso y Emails → Acceso al curso) y una prueba: el lead de **probar** movido a *WhatsApp* en su CRM,
+      «Dar acceso al curso» y entrar en `/curso` con el email que le llega
 
 ## Contenido y anuncios (ver `contenido/README.md`)
 - [ ] Ficha de voz en Notion → Fichas de voz, con el enlace a su cuestionario y «Lista para guiones»

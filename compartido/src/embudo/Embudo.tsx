@@ -12,12 +12,14 @@ import Cuestionario from './Cuestionario';
 import Webinar from './Webinar';
 
 // La web entera de una persona del equipo: Instagram (/l/instagram) → cuestionario (/cuestionario) → email con
-// el webinar → webinar (/webinar), más la web principal (/), las páginas legales y el editor visual (/editar).
+// el webinar → webinar (/webinar) → primera conversación → curso privado (/curso, con acceso que da el CRM), más
+// la web principal (/), las páginas legales y el editor visual (/editar).
 // El código es el mismo para todas; cada web solo pone su persona (config.ts), su contenido.json (textos,
 // colores, fotos, enlaces y emails), sus fotos y sus colores de partida (index.css).
 
-// Editor visual (/editar): solo se descarga al abrirlo.
+// Editor visual (/editar) y curso privado (/curso): solo se descargan al abrirlos.
 const Editor = lazy(() => import('../editor/Editor'));
+const Curso = lazy(() => import('./Curso'));
 
 interface Props {
   persona: ConfigPersona;
@@ -43,6 +45,8 @@ export function Embudo({ persona, contenido, webPublicada = false, porcentajeWha
     { nombre: 'Cuestionario', ruta: '/cuestionario', secciones: ['general', 'cuestionario'], pasos: contenido.cuestionario.pasos.length },
     { nombre: 'Webinar', ruta: '/webinar', secciones: ['general', 'webinar'] },
     { nombre: 'Emails', secciones: ['email'], email: true },
+    // Pantalla 1: acceso; pantalla final: el curso por dentro
+    { nombre: 'Curso', ruta: '/curso', secciones: ['general', 'curso'], pasos: 1 },
     { nombre: webPublicada ? 'Web' : 'Web (aún sin publicar)', ruta: '/', secciones: ['textos'] },
   ];
 
@@ -56,6 +60,14 @@ export function Embudo({ persona, contenido, webPublicada = false, porcentajeWha
           <Route path="/" element={webPublicada || enEditor() ? <Inicio /> : <Navigate to="/l/instagram" replace />} />
           <Route path="/webinar" element={<Webinar />} />
           <Route path="/cuestionario" element={<Cuestionario />} />
+          <Route
+            path="/curso"
+            element={
+              <Suspense fallback={null}>
+                <Curso />
+              </Suspense>
+            }
+          />
           <Route path="/l/:slug" element={<Landing landings={todas} />} />
           <Route path="/privacidad" element={<Privacidad persona={persona} />} />
           <Route path="/legal" element={<AvisoLegal persona={persona} />} />
