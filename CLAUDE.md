@@ -22,6 +22,21 @@ Contenido actual de Templates:
 | 04 Crear cuentas de redes (Google Doc) | `estrategia/plantillas/04 Crear cuentas de redes.md` |
 | Landing Kangen NOMBRE (estructura de carpetas) | Estructura descrita en la guía 00 |
 
+## Lista de pendientes (obligatorio)
+
+Todo lo que tenga que hacer Alejandro o cualquier persona del equipo está en **Pendientes del equipo**
+(<https://claude.ai/artifact/6TvDsNPr2Cz3mGE7Jf4SAS>, documento de Claude enlazado arriba en Notion → PAGINAS WEB), con una
+pestaña por persona (Alejandro, Helena, Gemma… y una nueva para cada persona que entre). Así Alejandro hace el seguimiento
+desde un solo sitio.
+
+En cada tarea:
+1. Cualquier cosa que tenga que hacer alguien apunta allí en la misma tarea, en la pestaña de esa persona, con todos los
+   pasos y enlaces: un paso técnico, un dato que nos tiene que pasar, una respuesta que esperamos (por ejemplo, un email
+   al que todavía no ha contestado), un contenido o una decisión. Nunca se queda solo en el chat o en un email.
+2. Lo que depende de Alejandro cuando otra persona conteste va en la pestaña de esa persona, en «Lo que haces tú con…».
+3. Marca como hecho lo que hagas tú y comprueba las tareas que ya se hayan cumplido (por ejemplo, si llega su respuesta).
+4. Nunca escribas tokens, contraseñas ni claves en la lista.
+
 ## Normas de comunicación
 
 Antes de escribir cualquier texto público (webs, landings, anuncios, contenido), aplica `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.

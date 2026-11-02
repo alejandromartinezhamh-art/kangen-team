@@ -9,6 +9,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] `npm run nueva-persona -- "<Nombre>" <proyecto>.vercel.app` ejecutado en el repositorio (crea su web con el embudo y el editor)
 - [ ] Enlace de Drive puesto en `equipo/<nombre>/README.md`
 - [ ] Mensaje de bienvenida enviado
+- [ ] Pestaña con su nombre en «Pendientes del equipo» (documento de Claude, enlazado arriba en Notion → PAGINAS WEB), con todo lo que le toca hacer
 
 ## Material (lo entrega la persona)
 - [ ] Cuestionario relleno
