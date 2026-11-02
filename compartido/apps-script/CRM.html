@@ -68,6 +68,12 @@
   .boton.curso { grid-column: 1 / -1; width: 100%; cursor: pointer; padding: 6px 10px; text-align: center; }
   .boton.curso.seguro { background: var(--acento); border-color: var(--acento); color: var(--tarjeta); }
   .boton.curso:disabled { opacity: .6; cursor: default; }
+  .acceso-curso { grid-column: 1 / -1; background: var(--ok-fondo); border-radius: 12px; padding: 10px 12px; font-size: 12px; line-height: 1.5; }
+  .acceso-curso b { font-size: 14px; letter-spacing: .02em; }
+  .acceso-curso .boton { margin-top: 8px; background: var(--tinta); color: var(--tarjeta); }
+  .progreso-curso { height: 3px; background: var(--columna); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .va-por { margin-top: 4px; font-size: 12px; color: var(--suave); line-height: 1.4; }
+  .progreso-curso span { display: block; height: 100%; background: var(--ok); }
   .mover { grid-column: 1 / -1; width: 100%; min-height: 34px; border-radius: 12px; border: 1px solid var(--borde); background: var(--tarjeta); padding: 0 10px; font-size: 12px; font-weight: 600; }
 
   details { margin-top: 8px; border-top: 1px dashed var(--borde); padding-top: 6px; }
@@ -128,7 +134,13 @@
   var arrastrado = null;
 
   // Explicación bajo el nombre de algunas columnas
-  var AYUDA = { 'Vio el vídeo': 'Vio el webinar, aún sin WhatsApp', 'Recontactado': 'Recordatorio enviado o le has escrito', 'Curso': 'Tiene acceso al curso' };
+  var AYUDA = {
+    'Vio el vídeo': 'Vio el webinar, aún sin WhatsApp', 'Recontactado': 'Recordatorio enviado o le has escrito',
+    'Videollamada': 'Primera llamada; después, acceso al curso', 'Curso': 'Tiene acceso al curso',
+    'Segunda llamada': 'Terminó el curso o pidió hablar'
+  };
+  // Acceso al curso recién creado: se enseña una vez en su tarjeta (hasta recargar), para mandarlo también por WhatsApp
+  var accesos = {};
 
   function $(id) { return document.getElementById(id); }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -167,9 +179,9 @@
     if (l.pulsado) s.push('<span class="senal acento">Pulsó WhatsApp · ' + dia(l.pulsado) + '</span>');
     if (l.cursoAlta) {
       if (l.cursoTerminado) s.push('<span class="senal si">Curso terminado · ' + dia(l.cursoTerminado) + '</span>');
-      else if (l.cursoVisto) s.push('<span class="senal si">Curso · ' + l.cursoLecciones + (datos.totalCurso ? ' de ' + datos.totalCurso : '') + ' lecciones</span>');
+      else if (l.cursoVisto) s.push('<span class="senal si">Curso ' + l.cursoPorcentaje + ' % · ' + esc(hace(l.cursoVisto)) + '</span>');
       else s.push('<span class="senal espera">Curso sin abrir · acceso ' + dia(l.cursoAlta) + '</span>');
-      if (l.cursoWhatsapp) s.push('<span class="senal acento">WhatsApp desde el curso · ' + dia(l.cursoWhatsapp) + '</span>');
+      if (l.cursoWhatsapp) s.push('<span class="senal acento">Pide la segunda llamada · ' + dia(l.cursoWhatsapp) + '</span>');
     }
     return s.join('');
   }
@@ -177,7 +189,13 @@
   function tarjeta(l) {
     var tel = telefono(l.telefono);
     var yo = primerNombre(datos.yo);
-    var mensaje = 'Hola ' + primerNombre(l.nombre) + (yo ? ', soy ' + yo : '') + '. Te escribo porque rellenaste el cuestionario del webinar.';
+    // El mensaje de WhatsApp de la tarjeta cambia con la etapa
+    var hola = 'Hola ' + primerNombre(l.nombre) + (yo ? ', soy ' + yo : '') + '. ';
+    var mensaje = l.estado === 'Segunda llamada'
+      ? hola + 'He visto que has terminado el curso. ¿Cuándo te va bien que hagamos la segunda llamada?'
+      : l.estado === 'Curso'
+        ? hola + '¿Qué tal vas con el curso? Si te surge cualquier duda, escríbeme por aquí.'
+        : hola + 'Te escribo porque rellenaste el cuestionario del webinar.';
     var opciones = datos.estados.map(function (e) { return '<option' + (e === l.estado ? ' selected' : '') + '>' + esc(e) + '</option>'; }).join('');
     var respuestas = Object.keys(l.respuestas).map(function (p) { return '<dt>' + esc(p) + '</dt><dd>' + esc(l.respuestas[p]) + '</dd>'; }).join('');
     // Ha dado señales (vídeo visto o WhatsApp) y sigue en las primeras columnas: no dejarlo escapar
@@ -193,11 +211,16 @@
         (l.instagram ? '<br><a target="_blank" rel="noopener" href="https://instagram.com/' + encodeURIComponent(l.instagram.replace(/^@/, '')) + '">' + esc(l.instagram) + '</a>' : '') +
       '</div>' +
       '<div class="senales">' + senales(l) + '</div>' +
+      (l.cursoAlta && l.cursoVisto && !l.cursoTerminado
+        ? '<div class="progreso-curso" title="Curso: ' + l.cursoPorcentaje + ' %"><span style="width:' + Math.min(100, l.cursoPorcentaje) + '%"></span></div>' +
+          (l.cursoUltima ? '<div class="va-por">Va por: ' + esc(l.cursoUltima) + '</div>' : '')
+        : '') +
       '<div class="acciones">' +
         (tel ? '<a class="boton lleno" target="_blank" rel="noopener" href="https://wa.me/' + tel + '?text=' + encodeURIComponent(mensaje) + '">WhatsApp</a>' : '<span></span>') +
         (l.email ? '<a class="boton" href="mailto:' + esc(l.email) + '">Email</a>' : '<span></span>') +
         '<select class="mover" aria-label="Mover a">' + opciones + '</select>' +
         (curso ? '<button type="button" class="boton curso">' + (l.cursoAlta ? 'Reenviar acceso al curso' : 'Dar acceso al curso') + '</button>' : '') +
+        (accesos[l.id] ? cajaAcceso(l, accesos[l.id], tel) : '') +
       '</div>' +
       '<details><summary>Respuestas y notas</summary>' +
         (respuestas ? '<dl>' + respuestas + '</dl>' : '') +
@@ -205,6 +228,16 @@
         '<div class="guardado"></div>' +
       '</details>' +
     '</article>';
+  }
+
+  /** El acceso recién creado: usuario, contraseña y el botón para mandárselo también por WhatsApp. */
+  function cajaAcceso(l, a, tel) {
+    var mensaje = 'Hola ' + primerNombre(l.nombre) + ', te acabo de enviar por email el acceso al curso. Por si no lo encuentras: entra en ' +
+      a.enlace + ' con tu email (' + a.usuario + ') y esta contraseña: ' + a.contrasena +
+      '. Míratelo con calma y apunta tus dudas: al terminar, hacemos la segunda llamada.';
+    return '<div class="acceso-curso">Acceso enviado por email. Usuario: <b>' + esc(a.usuario) + '</b><br>Contraseña: <b>' + esc(a.contrasena) + '</b>' +
+      (tel ? '<a class="boton" target="_blank" rel="noopener" href="https://wa.me/' + tel + '?text=' + encodeURIComponent(mensaje) + '">Mandárselo por WhatsApp</a>' : '') +
+      '<br><small>Solo se ve ahora. Si lo pierde, «Reenviar acceso» crea otra contraseña.</small></div>';
   }
 
   function coincide(l) {
@@ -221,6 +254,7 @@
       ['Vieron el vídeo', n(function (l) { return l.visto; })],
       ['En WhatsApp o más', n(desde('WhatsApp'))],
       ['En el curso', n(function (l) { return l.cursoAlta; })],
+      ['Curso terminado', n(function (l) { return l.cursoTerminado; })],
       ['Compras', n(desde('Compra'))]
     ].map(function (k) { return '<div class="kpi"><b>' + k[1] + '</b><span>' + k[0] + '</span></div>'; }).join('');
 
@@ -337,7 +371,7 @@
     b.disabled = true; b.textContent = 'Enviando…';
     google.script.run
       .withSuccessHandler(function (r) {
-        l.cursoAlta = r.alta; l.estado = r.estado; pintar();
+        l.cursoAlta = r.alta; l.estado = r.estado; accesos[l.id] = r; pintar();
         aviso(primerNombre(l.nombre) + ': acceso al curso enviado');
       })
       .withFailureHandler(function (err) { pintar(); aviso('No se ha enviado: ' + err.message, true); })

@@ -5,9 +5,10 @@
  * envía desde el Gmail del dueño de la hoja el email con el enlace del webinar, avisa a la
  * persona del equipo y, si a las 24 h no lo ha abierto, manda un recordatorio.
  *
- * Curso privado (/curso de la web): desde el CRM, "Dar acceso al curso" crea una contraseña, la guarda cifrada
- * en la hoja y le envía al lead un email con su acceso. /api/curso comprueba aquí la contraseña y apunta
- * qué lecciones ve. Contenido del curso: compartido/curso/curso.json; estructura: estrategia/curso.md.
+ * Después de la primera videollamada, curso privado (/curso de la web): desde el CRM, "Dar acceso al curso" crea
+ * una contraseña, la guarda cifrada en la hoja y le envía al lead un email con su acceso. /api/curso comprueba aquí
+ * la contraseña y apunta qué lecciones ve (porcentaje y por cuál va). Al terminarlo, pasa a "Segunda llamada".
+ * Contenido del curso: compartido/curso/curso.json; estructura: estrategia/curso.md.
  *
  * Los textos y colores de los emails se cambian desde el editor de la web (/editar → Emails): la web los
  * manda con cada lead y aquí se guardan para el recordatorio. Si no llegan, se usan los de EMAIL_POR_DEFECTO.
@@ -59,9 +60,10 @@ const ID_HOJA = '';
 const CLAVE_INICIAL = '';
 
 // Columnas del CRM, en orden. El script mueve solo hacia delante: al enviar el recordatorio
-// (Nuevo lead → Recontactado), al ver el webinar (→ Vio el vídeo), al pulsar WhatsApp (→ WhatsApp) y al darle
-// acceso al curso (→ Curso).
-const ESTADOS = ['Nuevo lead', 'Recontactado', 'Vio el vídeo', 'WhatsApp', 'Videollamada', 'Curso', 'Compra', 'Onboarding', 'Descartado'];
+// (Nuevo lead → Recontactado), al ver el webinar (→ Vio el vídeo), al pulsar WhatsApp (→ WhatsApp), al darle
+// acceso al curso (→ Curso) y al terminar el curso o pedir hablar desde él (→ Segunda llamada).
+const ESTADOS = ['Nuevo lead', 'Recontactado', 'Vio el vídeo', 'WhatsApp', 'Videollamada', 'Curso', 'Segunda llamada',
+  'Compra', 'Onboarding', 'Descartado'];
 const DESCARTADO = 'Descartado';
 
 const HOJA = 'Leads';
@@ -70,9 +72,9 @@ const COLUMNAS = [
   'Fecha', 'Id', 'Persona', 'Origen', 'Nombre', 'Email', 'WhatsApp',
   'Email webinar', 'Webinar abierto', 'Webinar visto', 'WhatsApp pulsado', 'Recordatorio', 'Quiere hablar',
   'Mensaje', 'Estado', 'Notas',
-  // Curso: cuándo se le dio acceso, la contraseña cifrada (nunca la de verdad), su última visita, las lecciones
-  // vistas, cuándo lo terminó y cuándo pulsó WhatsApp al final.
-  'Curso alta', 'Curso clave', 'Curso visto', 'Curso progreso', 'Curso terminado', 'Curso WhatsApp',
+  // Curso: cuándo se le dio acceso, la contraseña cifrada (nunca la de verdad), su última visita, el % visto, la
+  // última lección que ha visto, las lecciones vistas, cuándo lo terminó y cuándo pulsó WhatsApp al final.
+  'Curso alta', 'Curso clave', 'Curso visto', 'Curso %', 'Curso última', 'Curso progreso', 'Curso terminado', 'Curso WhatsApp',
 ];
 
 // Textos de los emails cuando la web no manda los suyos (contenido.json → email). {nombre} = su nombre;
@@ -95,7 +97,7 @@ const EMAIL_POR_DEFECTO = {
     antes: ['Como te dije, aquí tienes tu acceso al curso donde te explico el negocio con todo detalle: cómo funciona, los números y el día a día.'],
     boton: 'Entrar al curso',
     despues: [
-      'Míratelo con calma y a tu ritmo. Al final tienes un botón para escribirme por WhatsApp y lo hablamos.',
+      'Míratelo con calma y a tu ritmo, y apunta tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.',
       'Si tienes cualquier duda, responde a este email.',
     ],
   },
@@ -395,21 +397,30 @@ function cursoEntrar(d) {
   };
 }
 
-/** Apunta una lección vista; al terminar el curso, avisa para escribirle. */
+/**
+ * Apunta una lección vista: la lista, el % de las lecciones que cuentan (d.obligatorias) y la última que ha visto.
+ * Al terminar el curso pasa a "Segunda llamada" y avisa para quedar con él.
+ */
 function cursoProgreso(d) {
   const hoja = hojaLeads();
   const cab = cabeceras(hoja, []);
   const fila = buscarFila(hoja, cab, d.id, '');
   if (!fila) return;
+  const limpio = function (x) { return String(x || '').replace(/[^a-z0-9-]/g, '').slice(0, 60); };
   const hechas = String(leer(hoja, fila, cab, 'Curso progreso') || '').split(',').filter(String);
-  const leccion = String(d.leccion || '').replace(/[^a-z0-9-]/g, '').slice(0, 60);
+  const leccion = limpio(d.leccion);
   if (leccion && hechas.indexOf(leccion) === -1) hechas.push(leccion);
+  const obligatorias = (Array.isArray(d.obligatorias) ? d.obligatorias : []).map(limpio).filter(String);
+  const vistas = obligatorias.filter(function (x) { return hechas.indexOf(x) !== -1; }).length;
   poner(hoja, fila, cab, 'Curso progreso', hechas.join(','));
   poner(hoja, fila, cab, 'Curso visto', ahora());
-  if (Number(d.total) > 0) PropertiesService.getScriptProperties().setProperty('CURSO_TOTAL', String(Number(d.total)));
-  if (d.terminado === true && !leer(hoja, fila, cab, 'Curso terminado')) {
+  if (obligatorias.length) poner(hoja, fila, cab, 'Curso %', Math.round((vistas / obligatorias.length) * 100));
+  if (d.titulo) poner(hoja, fila, cab, 'Curso última', String(d.titulo).slice(0, 120));
+  if (obligatorias.length && vistas === obligatorias.length && !leer(hoja, fila, cab, 'Curso terminado')) {
     poner(hoja, fila, cab, 'Curso terminado', ahora());
-    avisarCurso(hoja, fila, cab, 'Ha terminado el curso: ');
+    validacionEstado(hoja, cab);
+    avanzar(hoja, fila, cab, 'Segunda llamada');
+    avisarCurso(hoja, fila, cab, 'Ha terminado el curso (toca la segunda llamada): ');
   }
 }
 
@@ -420,7 +431,9 @@ function cursoWhatsapp(d) {
   const fila = buscarFila(hoja, cab, d.id, '');
   if (!fila || leer(hoja, fila, cab, 'Curso WhatsApp')) return;
   poner(hoja, fila, cab, 'Curso WhatsApp', ahora());
-  avisarCurso(hoja, fila, cab, 'Quiere hablar después del curso: ');
+  validacionEstado(hoja, cab);
+  avanzar(hoja, fila, cab, 'Segunda llamada');
+  avisarCurso(hoja, fila, cab, 'Quiere la segunda llamada: ');
 }
 
 function avisarCurso(hoja, fila, cab, asunto) {
@@ -577,15 +590,14 @@ function crmDatos(k) {
       estado: estadoDe(col('Estado')), notas: String(col('Notas') || ''), respuestas: respuestas,
       // Curso (nunca la contraseña)
       cursoAlta: fecha(col('Curso alta')), cursoVisto: fecha(col('Curso visto')), cursoTerminado: fecha(col('Curso terminado')),
-      cursoWhatsapp: fecha(col('Curso WhatsApp')),
-      cursoLecciones: String(col('Curso progreso') || '').split(',').filter(String).length,
+      cursoWhatsapp: fecha(col('Curso WhatsApp')), cursoPorcentaje: Number(col('Curso %')) || 0,
+      cursoUltima: String(col('Curso última') || ''),
     };
   });
   leads.reverse();
   // yo: el nombre de la persona de esta hoja, para el mensaje de WhatsApp de las tarjetas
   const yo = PERSONAS[PERSONA] ? PERSONAS[PERSONA].nombre : '';
-  const totalCurso = Number(PropertiesService.getScriptProperties().getProperty('CURSO_TOTAL')) || 0;
-  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo, totalCurso: totalCurso };
+  return { leads: leads, estados: ESTADOS, horasRecordatorio: HORAS_RECORDATORIO, hoja: libro().getUrl(), yo: yo };
 }
 
 /** Cambia el estado o las notas de un lead desde el CRM. */
@@ -608,7 +620,8 @@ function crmGuardar(k, id, campo, valor) {
 
 /**
  * Da acceso al curso (o lo vuelve a enviar con una contraseña nueva): guarda la contraseña cifrada, mueve el lead
- * a "Curso" y le envía el email con su usuario (su email) y su contraseña.
+ * a "Curso" y le envía el email con su usuario (su email) y su contraseña. Devuelve el acceso para que el CRM lo
+ * enseñe una sola vez (y se pueda mandar también por WhatsApp); en la hoja no queda.
  */
 function crmDarCurso(k, id) {
   if (!claveValida(k)) throw new Error('Clave no válida');
@@ -625,14 +638,17 @@ function crmDarCurso(k, id) {
     const persona = Object.keys(PERSONAS).filter(function (k2) { return PERSONAS[k2] === p; })[0];
     const contrasena = nuevaContrasena();
     const t = textosEmail(persona, null);
-    enviarPlantilla(p, t, t.curso, leer(hoja, fila, cab, 'Nombre'), email, p.web.replace(/\/$/, '') + '/curso',
-      { usuario: email, contrasena: contrasena });
+    const enlace = p.web.replace(/\/$/, '') + '/curso';
+    enviarPlantilla(p, t, t.curso, leer(hoja, fila, cab, 'Nombre'), email, enlace, { usuario: email, contrasena: contrasena });
     // Solo si el email ha salido: así nunca se queda una contraseña que nadie ha recibido.
     poner(hoja, fila, cab, 'Curso clave', contrasenaGuardada(contrasena));
     poner(hoja, fila, cab, 'Curso alta', ahora());
     validacionEstado(hoja, cab);
     avanzar(hoja, fila, cab, 'Curso');
-    return { estado: estadoDe(leer(hoja, fila, cab, 'Estado')), alta: new Date().toISOString() };
+    return {
+      estado: estadoDe(leer(hoja, fila, cab, 'Estado')), alta: new Date().toISOString(),
+      usuario: email, contrasena: contrasena, enlace: enlace,
+    };
   } finally {
     lock.releaseLock();
   }

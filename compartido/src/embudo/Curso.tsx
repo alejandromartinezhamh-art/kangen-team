@@ -293,7 +293,7 @@ function Dentro({ curso, nombre, token, hechas, setHechas, params, setParams }: 
       setHechas(nuevas);
       if (!token) return;
       almacen.poner(CLAVE_HECHAS, nuevas);
-      void api({ accion: 'progreso', token, leccion: id, hechas: nuevas });
+      void api({ accion: 'progreso', token, leccion: id });
     },
     [token, setHechas],
   );
