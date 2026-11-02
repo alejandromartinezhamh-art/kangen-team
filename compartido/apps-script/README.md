@@ -1,9 +1,11 @@
 # Embudo de Instagram en una hoja de Google
 
 ```
-Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email con el webinar → /webinar
+Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email con el webinar → /webinar → WhatsApp
                                                       │                                  │
                                                       └─ aviso a la persona del equipo    └─ "Webinar abierto" y "Quiere hablar"
+
+Primera videollamada → CRM: "Dar acceso al curso" → email con usuario y contraseña → /curso → WhatsApp
 ```
 
 - **La web** (`/cuestionario`, preguntas en `sitio/src/contenido.json` → `cuestionario`) envía cada lead a `/api/lead`.
@@ -16,6 +18,8 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
   - avisa a la persona del equipo;
   - a las 24 h manda un recordatorio a quien no ha abierto el webinar (una sola vez).
 - **`/webinar?l=<id>`** apunta en la hoja cuándo lo abre, y el formulario del final marca "Quiere hablar".
+- **El curso privado** (`/curso`, guía en `estrategia/curso.md`): desde el CRM se da acceso; el script crea la
+  contraseña, guarda solo su huella cifrada, envía el email y apunta las lecciones que ve (abajo, «Curso»).
 
 ## Instalación (una vez, unos 10 minutos)
 
@@ -58,6 +62,24 @@ con vista previa igual a lo que llega. Cómo llegan a la hoja, sin que nada se r
 nuevos) y publica una versión nueva (Implementar → Gestionar implementaciones → lápiz → Nueva versión). Hasta entonces,
 la hoja sigue enviando sus emails de siempre.
 
+## Curso privado
+
+- **Dar acceso**: en el CRM, la tarjeta del lead (de *WhatsApp* en adelante) tiene **Dar acceso al curso**. Se toca dos
+  veces (la segunda confirma). El script:
+  - crea una contraseña fácil de escribir (`kmp7-x9ra`) y guarda en la hoja solo su huella cifrada (`Curso clave`);
+  - envía desde tu Gmail el email **Acceso al curso** (se cambia en el editor: `/editar` → Emails → Acceso al curso),
+    con su usuario (su email), la contraseña y el botón a `/curso`;
+  - mueve el lead a **Curso**. Si el email no sale, no guarda nada.
+- **Reenviar acceso al curso** crea una contraseña nueva; la anterior deja de valer.
+- **Lo que apunta solo**: `Curso visto` (última visita), `Curso progreso` (lecciones vistas), `Curso terminado` y
+  `Curso WhatsApp`. Te avisa por email cuando termina el curso y cuando pulsa WhatsApp al final. En el CRM se ve en la
+  tarjeta (*Curso · 5 de 19 lecciones*) y en *En el curso* arriba.
+- **Para activarlo en una hoja que ya funciona**: pega el `Embudo.gs` y el `CRM.html` nuevos, guarda y publica una
+  versión nueva (Implementar → Gestionar implementaciones → lápiz → Versión: *Nueva versión* → Implementar). No pide
+  permisos nuevos. Las columnas nuevas y la etapa *Curso* aparecen solas la primera vez que se usan.
+- Mientras una hoja no se actualice, `/curso` dice que ahora no se puede entrar: nunca crea leads ni envía emails por
+  error.
+
 ## Otra persona del equipo (ejemplos: Gemma y Helena)
 
 Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mismo para todas.
@@ -82,15 +104,17 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 
 `CRM.html` es un tablero privado, en horizontal, con una columna por etapa:
 
-**Nuevo lead → Recontactado → Vio el vídeo → WhatsApp → Videollamada → Compra → Onboarding** (y Descartado).
+**Nuevo lead → Recontactado → Vio el vídeo → WhatsApp → Videollamada → Curso → Compra → Onboarding** (y Descartado).
 
 - **Lo que mueve el script solo, siempre hacia delante:**
   - al enviar el recordatorio: Nuevo lead → Recontactado;
   - al ver el 80 % del webinar: → Vio el vídeo;
-  - al pulsar WhatsApp: → WhatsApp.
+  - al pulsar WhatsApp: → WhatsApp;
+  - al dar acceso al curso: → Curso.
 - **Lo demás lo mueves tú:** arrastrando la tarjeta en el ordenador, o con el desplegable en el móvil.
-- **Cada tarjeta** lleva teléfono, email e Instagram; las señales (vídeo abierto o visto, recordatorio, WhatsApp pulsado); botones de WhatsApp y email; sus respuestas, y notas que se guardan solas.
-- **Hoja y CRM son lo mismo.** El CRM lee la hoja en directo (se refresca cada minuto) y solo escribe Estado y Notas.
+- **Cada tarjeta** lleva teléfono, email e Instagram; las señales (vídeo abierto o visto, recordatorio, WhatsApp pulsado, curso); botones de WhatsApp, email y acceso al curso; sus respuestas, y notas que se guardan solas.
+- **Hoja y CRM son lo mismo.** El CRM lee la hoja en directo (se refresca cada minuto) y solo escribe Estado y Notas
+  (y, con «Dar acceso al curso», las columnas del curso).
   - En la hoja, el menú **Leads → Abrir CRM** abre el tablero.
   - La columna Estado tiene un desplegable con las mismas etapas, así que da igual cambiarlo en un sitio o en el otro.
   - **Leads → Preparar la hoja** vuelve a poner el desplegable si se pierde.
@@ -116,6 +140,6 @@ Es la que va en paneles compartidos, como "Webs del equipo": sin la clave no se 
 ## Límites
 
 - Una cuenta de Gmail normal envía unos **100 emails al día** desde scripts (Google Workspace: 1.500). Cada lead gasta 2
-  (su email y tu aviso) más el recordatorio. Si se queda corto, pasa a una cuenta de Workspace o a un servicio de email.
+  (su email y tu aviso) más el recordatorio; el curso, 1 por acceso y hasta 2 avisos. Si se queda corto, pasa a una cuenta de Workspace o a un servicio de email.
 - Los emails salen de tu Gmail, con tu nombre. Para cambiar de cuenta (p. ej. un Gmail nuevo solo para esto), haz una
   copia de la hoja con esa cuenta y repite la instalación: el script envía siempre desde la cuenta dueña de la hoja.

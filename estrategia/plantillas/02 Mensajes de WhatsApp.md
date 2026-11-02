@@ -62,7 +62,16 @@ Con tus comentarios hago la versión final.
 
 ▪️ *Toca cualquier texto* para cambiarlo.
 ▪️ En *Diseño* cambias colores, letras, fotos y el vídeo del webinar.
-▪️ En *Emails* ves y cambias el email que les llega.
+▪️ En *Emails* ves y cambias los emails que les llegan (el del webinar, el recordatorio y el acceso al curso).
+▪️ En *Curso* cambias tus textos del curso; tu vídeo de bienvenida va en *Diseño → Enlaces*.
 ▪️ Nada cambia en tu web hasta que pulses *Publicar*; en 1-2 minutos ya está. Y si algo no te gusta, en *Versiones* vuelves a la anterior.
 
 Funciona desde el móvil. Antes de publicar, repasa que no haya cifras de dinero, promesas ni nombres de marca o producto 😉
+
+## 7. Acceso al curso (al lead, justo después de darle acceso en el CRM)
+
+Hola <nombre del lead>, como te dije en la llamada, acabo de enviarte el acceso al curso 🙌
+
+Te ha llegado un email con tu usuario y tu contraseña (si no lo ves, mira en *Promociones* o en *Spam*).
+
+Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al final tienes un botón para escribirme por aquí y lo hablamos.

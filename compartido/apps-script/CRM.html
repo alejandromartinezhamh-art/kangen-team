@@ -65,6 +65,9 @@
   .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
   .boton { display: flex; align-items: center; justify-content: center; min-height: 34px; border-radius: 36px; font-size: 11px; font-weight: 700; text-transform: uppercase; text-decoration: none; border: 1px solid var(--tinta); background: transparent; }
   .boton.lleno { background: var(--tinta); color: var(--tarjeta); }
+  .boton.curso { grid-column: 1 / -1; width: 100%; cursor: pointer; padding: 6px 10px; text-align: center; }
+  .boton.curso.seguro { background: var(--acento); border-color: var(--acento); color: var(--tarjeta); }
+  .boton.curso:disabled { opacity: .6; cursor: default; }
   .mover { grid-column: 1 / -1; width: 100%; min-height: 34px; border-radius: 12px; border: 1px solid var(--borde); background: var(--tarjeta); padding: 0 10px; font-size: 12px; font-weight: 600; }
 
   details { margin-top: 8px; border-top: 1px dashed var(--borde); padding-top: 6px; }
@@ -125,7 +128,7 @@
   var arrastrado = null;
 
   // Explicación bajo el nombre de algunas columnas
-  var AYUDA = { 'Vio el vídeo': 'Vio el webinar, aún sin WhatsApp', 'Recontactado': 'Recordatorio enviado o le has escrito' };
+  var AYUDA = { 'Vio el vídeo': 'Vio el webinar, aún sin WhatsApp', 'Recontactado': 'Recordatorio enviado o le has escrito', 'Curso': 'Tiene acceso al curso' };
 
   function $(id) { return document.getElementById(id); }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -162,6 +165,12 @@
       s.push('<span class="senal espera">' + (faltan > 0 ? 'Recordatorio en ' + faltan + ' h' : 'Recordatorio en cola') + '</span>');
     }
     if (l.pulsado) s.push('<span class="senal acento">Pulsó WhatsApp · ' + dia(l.pulsado) + '</span>');
+    if (l.cursoAlta) {
+      if (l.cursoTerminado) s.push('<span class="senal si">Curso terminado · ' + dia(l.cursoTerminado) + '</span>');
+      else if (l.cursoVisto) s.push('<span class="senal si">Curso · ' + l.cursoLecciones + (datos.totalCurso ? ' de ' + datos.totalCurso : '') + ' lecciones</span>');
+      else s.push('<span class="senal espera">Curso sin abrir · acceso ' + dia(l.cursoAlta) + '</span>');
+      if (l.cursoWhatsapp) s.push('<span class="senal acento">WhatsApp desde el curso · ' + dia(l.cursoWhatsapp) + '</span>');
+    }
     return s.join('');
   }
 
@@ -173,6 +182,9 @@
     var respuestas = Object.keys(l.respuestas).map(function (p) { return '<dt>' + esc(p) + '</dt><dd>' + esc(l.respuestas[p]) + '</dd>'; }).join('');
     // Ha dado señales (vídeo visto o WhatsApp) y sigue en las primeras columnas: no dejarlo escapar
     var destacado = (l.visto || l.pulsado) && datos.estados.indexOf(l.estado) <= datos.estados.indexOf('WhatsApp');
+    // Acceso al curso: después de la primera conversación (de WhatsApp en adelante), o para reenviarlo
+    var curso = l.email && l.estado !== 'Descartado' &&
+      (l.cursoAlta || datos.estados.indexOf(l.estado) >= datos.estados.indexOf('WhatsApp'));
     return '<article class="lead' + (destacado ? ' destacado' : '') + '" draggable="true" data-id="' + esc(l.id) + '">' +
       '<div class="cabeza"><span class="nombre">' + esc(l.nombre || 'Sin nombre') + '</span><span class="cuando">' + esc(hace(l.fecha)) + '</span></div>' +
       '<div class="contacto">' +
@@ -185,6 +197,7 @@
         (tel ? '<a class="boton lleno" target="_blank" rel="noopener" href="https://wa.me/' + tel + '?text=' + encodeURIComponent(mensaje) + '">WhatsApp</a>' : '<span></span>') +
         (l.email ? '<a class="boton" href="mailto:' + esc(l.email) + '">Email</a>' : '<span></span>') +
         '<select class="mover" aria-label="Mover a">' + opciones + '</select>' +
+        (curso ? '<button type="button" class="boton curso">' + (l.cursoAlta ? 'Reenviar acceso al curso' : 'Dar acceso al curso') + '</button>' : '') +
       '</div>' +
       '<details><summary>Respuestas y notas</summary>' +
         (respuestas ? '<dl>' + respuestas + '</dl>' : '') +
@@ -207,6 +220,7 @@
       ['Leads', L.length],
       ['Vieron el vídeo', n(function (l) { return l.visto; })],
       ['En WhatsApp o más', n(desde('WhatsApp'))],
+      ['En el curso', n(function (l) { return l.cursoAlta; })],
       ['Compras', n(desde('Compra'))]
     ].map(function (k) { return '<div class="kpi"><b>' + k[1] + '</b><span>' + k[0] + '</span></div>'; }).join('');
 
@@ -307,6 +321,27 @@
     e.target.t = setTimeout(function () {
       guardar(l.id, 'Notas', l.notas, function (ok) { marca.textContent = ok ? 'Guardado' : 'Sin guardar'; });
     }, 800);
+  });
+  // Acceso al curso: primer toque pide confirmación, el segundo envía el email con su usuario y una contraseña nueva
+  tablero.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.boton.curso'); if (!b || b.disabled) return;
+    var l = lead(b.closest('.lead').getAttribute('data-id')); if (!l) return;
+    if (!b.classList.contains('seguro')) {
+      b.classList.add('seguro');
+      b.textContent = l.cursoAlta ? 'Toca otra vez: contraseña nueva a ' + l.email : 'Toca otra vez para enviarlo a ' + l.email;
+      clearTimeout(b.t);
+      b.t = setTimeout(function () { pintar(); }, 6000);
+      return;
+    }
+    clearTimeout(b.t);
+    b.disabled = true; b.textContent = 'Enviando…';
+    google.script.run
+      .withSuccessHandler(function (r) {
+        l.cursoAlta = r.alta; l.estado = r.estado; pintar();
+        aviso(primerNombre(l.nombre) + ': acceso al curso enviado');
+      })
+      .withFailureHandler(function (err) { pintar(); aviso('No se ha enviado: ' + err.message, true); })
+      .crmDarCurso(CLAVE, l.id);
   });
   $('buscar').addEventListener('input', function (e) { texto = e.target.value.trim(); pintar(); });
 

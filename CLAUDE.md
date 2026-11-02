@@ -55,6 +55,8 @@ Antes de escribir cualquier texto público (webs, landings, anuncios, contenido)
 Las páginas del embudo (Instagram, cuestionario, webinar y web) son las mismas para todo el equipo y viven en
 `compartido/src/embudo`. Cada `equipo/<persona>/sitio` solo tiene sus datos (`config.ts`, `contenido.json`, `index.css`,
 fotos). No copies páginas a una persona: cualquier cambio de diseño o de estructura se hace en `compartido` y llega a todas.
+El curso privado (`/curso`, después de la primera llamada) es común: lecciones en `compartido/curso/curso.json`, guía y
+normas en `estrategia/curso.md`. Tras cambiarlo, `npm run generar-api`.
 
 ## Marketing y contenido
 

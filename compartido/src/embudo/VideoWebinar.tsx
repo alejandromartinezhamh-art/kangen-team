@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { useEmbudo } from './contexto';
 
 // Vídeo del webinar (contenido.json → enlaces.webinar): YouTube, Vimeo o archivo .mp4, o aviso de 'muy pronto'
-// si aún no hay enlace. Con onProgreso informa del % visto de verdad (segundos distintos reproducidos,
+// si aún no hay enlace. Reproductor es la caja del vídeo sola (también la usa el curso). Con onProgreso informa del % visto de verdad (segundos distintos reproducidos,
 // así que arrastrar la barra hasta el final no cuenta).
 
 type Progreso = (porcentaje: number) => void;
@@ -119,20 +119,24 @@ function Archivo({ url, onProgreso }: { url: string; onProgreso?: Progreso }) {
   );
 }
 
-export default function VideoWebinar({ onProgreso }: { onProgreso?: Progreso }) {
-  const { contenido, video: url } = useEmbudo();
-  const t = contenido.webinar;
-  const titulo = t.titulo.replaceAll('*', '');
+/** Vídeo de YouTube, Vimeo o archivo .mp4 en una caja 16:9. Sin enlace pinta `pronto` (el aviso de "muy pronto"). */
+export function Reproductor({
+  url,
+  titulo,
+  pronto,
+  onProgreso,
+}: {
+  url: string;
+  titulo: string;
+  pronto?: ReactNode;
+  onProgreso?: Progreso;
+}) {
   const yt = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);
   const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/(\w+))?/);
   return (
     <div className="relative aspect-video overflow-hidden rounded-[22.5px] border border-[color:var(--form-borde)] bg-superficie">
       {!url ? (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-          <span className="text-[11px] font-bold uppercase text-acento">{t.prontoEtiqueta}</span>
-          <p className="titular text-xl font-bold sm:text-3xl">{t.prontoTitulo}</p>
-          <p className="text-sm font-medium text-secundario">{t.prontoTexto}</p>
-        </div>
+        pronto
       ) : yt ? (
         <YouTube id={yt[1]} titulo={titulo} onProgreso={onProgreso} />
       ) : vm ? (
@@ -141,5 +145,24 @@ export default function VideoWebinar({ onProgreso }: { onProgreso?: Progreso }) 
         <Archivo url={url} onProgreso={onProgreso} />
       )}
     </div>
+  );
+}
+
+export default function VideoWebinar({ onProgreso }: { onProgreso?: Progreso }) {
+  const { contenido, video: url } = useEmbudo();
+  const t = contenido.webinar;
+  return (
+    <Reproductor
+      url={url}
+      titulo={t.titulo.replaceAll('*', '')}
+      onProgreso={onProgreso}
+      pronto={
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+          <span className="text-[11px] font-bold uppercase text-acento">{t.prontoEtiqueta}</span>
+          <p className="titular text-xl font-bold sm:text-3xl">{t.prontoTitulo}</p>
+          <p className="text-sm font-medium text-secundario">{t.prontoTexto}</p>
+        </div>
+      }
+    />
   );
 }

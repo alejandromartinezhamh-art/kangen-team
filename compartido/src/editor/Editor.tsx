@@ -90,10 +90,13 @@ function paraVista(c: Contenido, locales: Map<string, string>): Contenido {
   return { ...c, fotos };
 }
 
-function documentoEmail(c: Contenido, tipo: 'webinar' | 'recordatorio') {
+type TipoEmail = 'webinar' | 'recordatorio' | 'curso';
+
+function documentoEmail(c: Contenido, tipo: TipoEmail) {
   const t = c.email as TextosEmail | undefined;
   if (!t?.webinar) return '<p>Esta web no tiene emails.</p>';
-  const { asunto, html } = htmlEmail(t, tipo, { nombre: NOMBRE_EJEMPLO, enlace: '#', foto: c.fotos?.email ?? '' });
+  const acceso = tipo === 'curso' ? { usuario: 'laura@ejemplo.com', contrasena: 'kmp7-x9ra' } : undefined;
+  const { asunto, html } = htmlEmail(t, tipo, { nombre: NOMBRE_EJEMPLO, enlace: '#', foto: c.fotos?.email ?? '', acceso });
   const e = (s: string) => s.replace(/[&<>]/g, (x) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[x]!);
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
 body{margin:0;background:#fff;font-family:Helvetica,Arial,sans-serif;color:#222}
@@ -130,7 +133,7 @@ export default function Editor({ id, nombre, contenido: deLaWeb, paginas }: Prop
   const [iPagina, setIPagina] = useState(0);
   const pagina = paginas[iPagina];
   const [paso, setPaso] = useState<number | 'fin'>(0);
-  const [tipoEmail, setTipoEmail] = useState<'webinar' | 'recordatorio'>('webinar');
+  const [tipoEmail, setTipoEmail] = useState<TipoEmail>('webinar');
   const [dispositivo, setDispositivo] = useState<Dispositivo>(() => (window.innerWidth < 900 ? 'movil' : 'ordenador'));
   const [modo, setModo] = useState<'editar' | 'ver'>('editar');
   const [panel, setPanel] = useState<Panel>(null);
@@ -577,6 +580,11 @@ export default function Editor({ id, nombre, contenido: deLaWeb, paginas }: Prop
               <button type="button" aria-pressed={tipoEmail === 'recordatorio'} onClick={() => setTipoEmail('recordatorio')}>
                 Recordatorio (24 h)
               </button>
+              {Boolean((borrador.email as TextosEmail | undefined)?.curso) && (
+                <button type="button" aria-pressed={tipoEmail === 'curso'} onClick={() => setTipoEmail('curso')}>
+                  Acceso al curso
+                </button>
+              )}
             </div>
           )}
         </div>

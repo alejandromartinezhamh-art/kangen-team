@@ -10,7 +10,7 @@ Todo lo que se usa está en la carpeta **Templates** de Drive (`Kangen PRO TEAM/
 |---|---|
 | 00 Cómo replicar el sistema | Esta guía |
 | 01 Cuestionario historia y avatar (plantilla) | El cuestionario en blanco que rellena cada persona nueva |
-| 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio |
+| 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio, editor, acceso al curso |
 | 03 Checklist persona nueva | Lista de pasos para no olvidar nada |
 | 04 Crear cuentas de redes | Paso a paso para abrir Instagram, Facebook, Meta Business, TikTok y YouTube |
 | Landing Kangen NOMBRE (estructura de carpetas) | Las 8 subcarpetas que tiene que tener cada persona en Drive |
@@ -77,6 +77,11 @@ voz** en Notion → CONTENIDO Y ANUNCIOS → Fichas de voz (su historia completa
    - Necesitas de ella: una foto para la página de Instagram y la firma del email, su WhatsApp y el vídeo del webinar (estos los puede poner o cambiar ella desde su editor).
    - Los textos del email del webinar y del recordatorio se cambian en su editor (`/editar` → Emails).
    - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.
+8. **Curso privado** (`/curso`, guía en `estrategia/curso.md`): después de la primera videollamada, desde su CRM le da al lead
+   acceso a un curso corto donde se explica el negocio en detalle (el modelo, la empresa, los números y el día a día), con un
+   botón de WhatsApp al final. Las lecciones son comunes a todo el equipo (`compartido/curso/curso.json`); lo suyo es su
+   bienvenida: un vídeo de 3 minutos (su editor → Diseño → Enlaces) y sus textos (editor → Curso). El acceso, la contraseña,
+   el email y el progreso los lleva el script de su hoja (`compartido/apps-script/README.md` → "Curso privado").
 
 Estructura de la landing (en este orden):
 1. Titular con el dolor de su avatar (sus palabras).
