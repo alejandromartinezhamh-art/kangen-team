@@ -37,6 +37,14 @@ En cada tarea:
 3. Marca como hecho lo que hagas tú y comprueba las tareas que ya se hayan cumplido (por ejemplo, si llega su respuesta).
 4. Nunca escribas tokens, contraseñas ni claves en la lista.
 
+Cómo se escribe cada tarea (masticada, para hacerla sin pensar):
+- Empieza por el verbo en negrita y lo que tarda: **Vacía la papelera de Drive** (1 min).
+- Lleva el **enlace directo** a la pantalla exacta donde se hace (la papelera, la variable de Vercel, el editor, la hoja),
+  nunca «ve a Drive» o «entra en Vercel». Si un paso solo se puede hacer en una app, di dónde se pulsa.
+- Si hay que escribir a alguien, un enlace de WhatsApp con el mensaje ya escrito (`https://wa.me/<número>?text=…`).
+- Si tiene varios pasos, numerados y cortos: qué pulsar y qué escribir. Si me lo puede pasar a mí, dilo («escríbemelo
+  aquí y lo pongo yo»).
+
 ## Normas de comunicación
 
 Antes de escribir cualquier texto público (webs, landings, anuncios, contenido), aplica `estrategia/mensaje.md` y `estrategia/normas-comunicacion.md`.
