@@ -272,7 +272,7 @@
       ],
       "boton": "Entrar al curso",
       "despues": [
-        "Míratelo con calma y a tu ritmo. Al final tienes un botón para escribirme por WhatsApp y lo hablamos.",
+        "Míratelo con calma y a tu ritmo, y apunta tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.",
         "Si tienes cualquier duda, responde a este email."
       ]
     },
@@ -304,10 +304,10 @@
     "saludo": "Hola, {nombre}",
     "etiqueta": "Curso · El negocio en detalle",
     "titulo": "Todo lo que necesitas *saber*",
-    "texto": "Cómo funciona, los números y el día a día, a tu ritmo. Al terminar, lo hablamos.",
+    "texto": "Cómo funciona, los números y el día a día, a tu ritmo. Al terminar, hacemos una segunda llamada.",
     "bienvenidaTexto": [
       "Antes de entrar en los detalles, quiero contarte por qué estoy aquí y qué vas a encontrar en este curso.",
-      "Míralo con calma y apunta todas tus dudas: al final lo hablamos por WhatsApp."
+      "Míralo con calma y apunta todas tus dudas: al terminar, hacemos una segunda llamada para resolverlas."
     ],
     "progreso": "lecciones vistas",
     "empezar": "Empezar el curso",
@@ -317,10 +317,10 @@
     "todas": "Todas las lecciones",
     "hecha": "Vista",
     "enPreparacion": "Vídeo en preparación: aquí tienes el resumen por escrito.",
-    "finalTitulo": "¿Lo *hablamos*?",
-    "finalTexto": "Ya lo tienes todo. Si te ha resonado y quieres dar el paso, o te ha quedado cualquier duda, escríbeme por WhatsApp y lo hablamos. Te contesto yo, sin compromiso.",
-    "finalBoton": "Escríbeme por WhatsApp",
-    "mensajeWhatsapp": "Hola Judith, he terminado el curso y me gustaría hablarlo contigo.",
+    "finalTitulo": "¿Hacemos la *segunda llamada*?",
+    "finalTexto": "Ya lo tienes todo. Escríbeme por WhatsApp y quedamos para una segunda llamada: resolvemos tus dudas y, si quieres dar el paso, vemos juntos con qué empezar. Sin compromiso.",
+    "finalBoton": "Pedir la segunda llamada",
+    "mensajeWhatsapp": "Hola Judith, he terminado el curso. ¿Cuándo podemos hacer la segunda llamada?",
     "aviso": "Propuesta de emprendimiento por cuenta propia. No es una oferta de empleo y los resultados dependen de cada persona.",
     "salir": "Salir"
   },

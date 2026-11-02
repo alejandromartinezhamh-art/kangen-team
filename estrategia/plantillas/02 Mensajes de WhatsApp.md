@@ -70,8 +70,11 @@ Funciona desde el móvil. Antes de publicar, repasa que no haya cifras de dinero
 
 ## 7. Acceso al curso (al lead, justo después de darle acceso en el CRM)
 
+El CRM ya te prepara este mensaje con su usuario y su contraseña: botón *Mandárselo por WhatsApp* en su tarjeta. Si lo
+escribes tú:
+
 Hola <nombre del lead>, como te dije en la llamada, acabo de enviarte el acceso al curso 🙌
 
 Te ha llegado un email con tu usuario y tu contraseña (si no lo ves, mira en *Promociones* o en *Spam*).
 
-Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al final tienes un botón para escribirme por aquí y lo hablamos.
+Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.

@@ -1,10 +1,11 @@
 # Curso privado: el negocio en detalle
 
-El paso del embudo entre la primera conversación y la decisión. Quien ha visto el webinar y ha hablado con nosotros
+El paso del embudo entre la primera videollamada y la segunda. Quien ha visto el webinar y ha hablado con nosotros
 recibe acceso a un curso corto (unas 20 lecciones, menos de dos horas) donde se lo explicamos todo: el modelo, la
-empresa, los números y el día a día. Al final, un botón de WhatsApp para hablarlo.
+empresa, los números y el día a día. Al final, un botón de WhatsApp para pedir la segunda llamada.
 
-Instagram → cuestionario → webinar → WhatsApp → primera videollamada → **curso** → conversación final → decisión
+Instagram → cuestionario (lead en el CRM) → email con el webinar → webinar → WhatsApp → primera videollamada →
+**curso** (acceso desde el CRM, progreso en el CRM) → segunda llamada → decisión
 
 Se inspira en el «Proceso de Descubrimiento» de Becoming Present (Drive → `Becoming Present`: vídeos, transcripciones y
 el resumen lección a lección). Nos quedamos con el orden (cada lección responde la duda que abre la anterior), el
@@ -17,12 +18,14 @@ préstamo y las historias de «dejé mi trabajo en X meses».
 | Qué | Dónde |
 |---|---|
 | La página | `/curso` de la web de cada persona (por ejemplo, `alejandromartinez.vercel.app/curso`) |
-| Dar acceso | CRM → tarjeta del lead (de *WhatsApp* en adelante) → **Dar acceso al curso** → tocar otra vez para confirmar |
+| Dar acceso | Después de la primera videollamada: CRM → tarjeta del lead (de *WhatsApp* en adelante) → **Dar acceso al curso** → tocar otra vez para confirmar |
 | Lo que recibe el lead | Un email desde el Gmail de la persona con su usuario (su email), una contraseña y el botón para entrar |
+| Lo que ves tú | En la tarjeta, una vez, el usuario y la contraseña creados y el botón **Mandárselo por WhatsApp** (por si el email se pierde) |
 | Si pierde la contraseña | En el CRM, **Reenviar acceso al curso**: le llega una nueva y la anterior deja de valer |
-| Su progreso | En el CRM (*Curso · 5 de 19 lecciones*, *Curso terminado*, *WhatsApp desde el curso*) y en la hoja (columnas *Curso…*) |
-| Avisos | Email a la persona cuando el lead termina el curso y cuando pulsa WhatsApp al final |
-| Etapa del CRM | Al dar acceso, el lead pasa solo a **Curso** (entre *Videollamada* y *Compra*) |
+| Su progreso | En la tarjeta del CRM: *Curso 26 %*, una barra y *Va por: 2.3 Cómo llega la gente*; en la hoja, columnas *Curso…* |
+| Etapas del CRM | Al dar acceso pasa solo a **Curso**; al terminarlo o pedir hablar desde el final, a **Segunda llamada** |
+| Avisos | Email a la persona cuando el lead termina el curso y cuando pide la segunda llamada |
+| WhatsApp de la tarjeta | El mensaje cambia con la etapa: en *Curso*, «¿qué tal vas?»; en *Segunda llamada*, «¿cuándo te va bien?» |
 
 La contraseña no se guarda en la hoja: solo una huella cifrada. La sesión del lead dura 60 días en su navegador.
 
@@ -107,7 +110,7 @@ webinar, empezando por la pregunta que responde y terminando con la siguiente le
 | **6** | **Dudas y decisión** | | | |
 | 6.1 | Las dudas de siempre | 10 | Común | No sé vender · no tengo tiempo · mi entorno · ¿recuperaré la inversión? · ¿es una pirámide? · ¿préstamo? · ¿y si lo dejo? Reconocer el miedo y responder con una acción, sin prometer. |
 | 6.2 | Para quién no es | 4 | Común | La lista de quién no debería entrar (de `estrategia/icp.md`, anti-ICP) y para quién sí. Da credibilidad y filtra. |
-| 6.3 | Siguiente paso | 2 | Común (texto de cada persona) | El botón de WhatsApp. Sin vídeo hace falta poco: el texto de cada persona en su editor. |
+| 6.3 | Siguiente paso | 2 | Común (texto de cada persona) | El botón para pedir la segunda llamada por WhatsApp. Sin vídeo hace falta poco: el texto de cada persona en su editor. |
 | **7** | **Extra** | | | |
 | 7.1 | Documentación oficial | — | — | Enlaces a la documentación oficial. No cuenta para el progreso. |
 
@@ -132,7 +135,9 @@ El curso no es contenido público (solo lo ve quien tiene acceso), pero se aplic
   la lección; tu bienvenida va en tu editor (Diseño → Enlaces).
 - Lecciones de 3 a 10 minutos: mejor varias cortas que una larga. Si una pasa de 10, se parte en dos.
 
-## Después del curso
+## Después del curso: la segunda llamada
 
-El botón final abre WhatsApp con el mensaje de cada persona y avisa por email. La conversación final (dudas, decidir
-con qué empezar, el alta) tendrá su guía junto con el guion de WhatsApp del lead, cuando esté la historia de Alejandro.
+El botón final abre WhatsApp con el mensaje de cada persona («¿cuándo podemos hacer la segunda llamada?»), avisa por
+email y mueve el lead a **Segunda llamada**. Si termina el curso sin pulsarlo, también pasa a esa columna: escríbele
+desde la tarjeta. En la segunda llamada se resuelven las dudas y, si quiere, se decide con qué empezar y se hace el
+alta. Su guía irá con la de la primera llamada y el guion de WhatsApp, cuando esté la historia de Alejandro.

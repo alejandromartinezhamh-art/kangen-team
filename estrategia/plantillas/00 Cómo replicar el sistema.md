@@ -78,8 +78,8 @@ voz** en Notion → CONTENIDO Y ANUNCIOS → Fichas de voz (su historia completa
    - Los textos del email del webinar y del recordatorio se cambian en su editor (`/editar` → Emails).
    - Mejor que instale el script con su propia cuenta de Google: así los emails salen de su Gmail y las respuestas le llegan a ella.
 8. **Curso privado** (`/curso`, guía en `estrategia/curso.md`): después de la primera videollamada, desde su CRM le da al lead
-   acceso a un curso corto donde se explica el negocio en detalle (el modelo, la empresa, los números y el día a día), con un
-   botón de WhatsApp al final. Las lecciones son comunes a todo el equipo (`compartido/curso/curso.json`); lo suyo es su
+   acceso a un curso corto donde se explica el negocio en detalle (el modelo, la empresa, los números y el día a día). En su CRM
+   ve el % que lleva cada uno y, al terminarlo, el lead pasa a «Segunda llamada» (el botón del final la pide por WhatsApp). Las lecciones son comunes a todo el equipo (`compartido/curso/curso.json`); lo suyo es su
    bienvenida: un vídeo de 3 minutos (su editor → Diseño → Enlaces) y sus textos (editor → Curso). El acceso, la contraseña,
    el email y el progreso los lleva el script de su hoja (`compartido/apps-script/README.md` → "Curso privado").
 

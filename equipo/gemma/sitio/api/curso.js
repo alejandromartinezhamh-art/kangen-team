@@ -29,7 +29,7 @@ var curso_default = {
             "- **Velo entero** antes de decidir nada.",
             "- **Apunta tus dudas** en una nota, todas, tambi\xE9n las inc\xF3modas.",
             "- Si alguien de tu entorno opina, esc\xFAchalo, pero **decide con la informaci\xF3n completa** delante.",
-            "Al final tienes un bot\xF3n para escribirme por WhatsApp y resolver lo que haya quedado en el aire. Sin prisa y sin compromiso: decidir que no tambi\xE9n es una buena decisi\xF3n."
+            "Al terminar, me escribes desde el bot\xF3n del final y hacemos una segunda llamada para resolver lo que haya quedado en el aire. Sin prisa y sin compromiso: decidir que no tambi\xE9n es una buena decisi\xF3n."
           ]
         }
       ]
@@ -404,6 +404,7 @@ var DIAS_SESION = 60;
 var curso = JSON.parse(JSON.stringify(curso_default), (k, v) => k.startsWith("_") ? void 0 : v);
 var ids = new Set(curso.modulos.flatMap((m) => m.lecciones.map((l) => l.id)));
 var obligatorias = leccionesObligatorias(curso).map((l) => l.id);
+var titulos = new Map(curso.modulos.flatMap((m, im) => m.lecciones.map((l, il) => [l.id, `${im + 1}.${il + 1} ${l.titulo}`])));
 var responder = (datos, estado = 200) => Response.json(datos, { status: estado });
 var esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
 var texto = (v, max = 200) => typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -501,16 +502,13 @@ async function manejarCurso(request, env) {
     case "progreso": {
       const leccion = texto(datos.leccion, 60);
       if (!ids.has(leccion)) return responder({ ok: false, error: "peticion" }, 400);
-      const hechas = new Set(Array.isArray(datos.hechas) ? datos.hechas : []);
-      hechas.add(leccion);
-      const terminado = obligatorias.every((id) => hechas.has(id));
       const ok = await reenviar(destino, env.LEADS_WEBHOOK_SECRET, {
         tipo: "curso_progreso",
         equipo: sesion.p,
         id: sesion.id,
         leccion,
-        total: obligatorias.length,
-        terminado
+        titulo: titulos.get(leccion) ?? "",
+        obligatorias
       });
       return responder({ ok });
     }

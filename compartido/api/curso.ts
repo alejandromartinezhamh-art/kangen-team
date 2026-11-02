@@ -9,7 +9,7 @@ import { consultar, reenviar } from './reenviar';
 // Acciones (POST, JSON):
 //   entrar    { email, contrasena, persona } → sesión firmada (60 días), su progreso y el curso
 //   curso     { token }                       → el curso (al volver con la sesión guardada)
-//   progreso  { token, leccion, hechas }      → apunta en la hoja la lección vista (y si ha terminado)
+//   progreso  { token, leccion }              → apunta en la hoja la lección vista (la hoja calcula el % y si ha terminado)
 //   whatsapp  { token }                       → apunta en la hoja que ha pulsado WhatsApp al final
 //   vista     { clave }                       → el curso entero para la vista previa del editor (EDITOR_CLAVE)
 //
@@ -32,6 +32,7 @@ const DIAS_SESION = 60;
 const curso = JSON.parse(JSON.stringify(cursoJson), (k, v) => (k.startsWith('_') ? undefined : v)) as Curso;
 const ids = new Set(curso.modulos.flatMap((m) => m.lecciones.map((l) => l.id)));
 const obligatorias = leccionesObligatorias(curso).map((l) => l.id);
+const titulos = new Map(curso.modulos.flatMap((m, im) => m.lecciones.map((l, il) => [l.id, `${im + 1}.${il + 1} ${l.titulo}`] as const)));
 
 type Json = Record<string, unknown>;
 const responder = (datos: Json, estado = 200) => Response.json(datos, { status: estado });
@@ -158,16 +159,14 @@ export async function manejarCurso(request: Request, env: EntornoCurso): Promise
     case 'progreso': {
       const leccion = texto(datos.leccion, 60);
       if (!ids.has(leccion)) return responder({ ok: false, error: 'peticion' }, 400);
-      const hechas = new Set(Array.isArray(datos.hechas) ? datos.hechas : []);
-      hechas.add(leccion);
-      const terminado = obligatorias.every((id) => hechas.has(id));
+      // La hoja junta esta lección con las que ya tenía y calcula el % y si ha terminado.
       const ok = await reenviar(destino, env.LEADS_WEBHOOK_SECRET, {
         tipo: 'curso_progreso',
         equipo: sesion.p,
         id: sesion.id,
         leccion,
-        total: obligatorias.length,
-        terminado,
+        titulo: titulos.get(leccion) ?? '',
+        obligatorias,
       });
       return responder({ ok });
     }

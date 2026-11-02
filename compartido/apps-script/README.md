@@ -5,7 +5,7 @@ Bio de Instagram → /l/instagram → /cuestionario → hoja "Leads" → email c
                                                       │                                  │
                                                       └─ aviso a la persona del equipo    └─ "Webinar abierto" y "Quiere hablar"
 
-Primera videollamada → CRM: "Dar acceso al curso" → email con usuario y contraseña → /curso → WhatsApp
+Primera videollamada → CRM: "Dar acceso al curso" → email con usuario y contraseña → /curso → segunda llamada
 ```
 
 - **La web** (`/cuestionario`, preguntas en `sitio/src/contenido.json` → `cuestionario`) envía cada lead a `/api/lead`.
@@ -69,11 +69,13 @@ la hoja sigue enviando sus emails de siempre.
   - crea una contraseña fácil de escribir (`kmp7-x9ra`) y guarda en la hoja solo su huella cifrada (`Curso clave`);
   - envía desde tu Gmail el email **Acceso al curso** (se cambia en el editor: `/editar` → Emails → Acceso al curso),
     con su usuario (su email), la contraseña y el botón a `/curso`;
-  - mueve el lead a **Curso**. Si el email no sale, no guarda nada.
+  - mueve el lead a **Curso** y te enseña en la tarjeta, una sola vez, el usuario y la contraseña, con el botón
+    **Mandárselo por WhatsApp**. Si el email no sale, no guarda nada.
 - **Reenviar acceso al curso** crea una contraseña nueva; la anterior deja de valer.
-- **Lo que apunta solo**: `Curso visto` (última visita), `Curso progreso` (lecciones vistas), `Curso terminado` y
-  `Curso WhatsApp`. Te avisa por email cuando termina el curso y cuando pulsa WhatsApp al final. En el CRM se ve en la
-  tarjeta (*Curso · 5 de 19 lecciones*) y en *En el curso* arriba.
+- **Lo que apunta solo**: `Curso visto` (última visita), `Curso %`, `Curso última` (la última lección que ha visto),
+  `Curso progreso` (las lecciones vistas), `Curso terminado` y `Curso WhatsApp`. En el CRM se ve en la tarjeta
+  (*Curso 26 %*, una barra y *Va por: …*) y arriba, en *En el curso* y *Curso terminado*.
+- **Al terminar el curso** o al pulsar el botón del final, pasa solo a **Segunda llamada** y te avisa por email.
 - **Para activarlo en una hoja que ya funciona**: pega el `Embudo.gs` y el `CRM.html` nuevos, guarda y publica una
   versión nueva (Implementar → Gestionar implementaciones → lápiz → Versión: *Nueva versión* → Implementar). No pide
   permisos nuevos. Las columnas nuevas y la etapa *Curso* aparecen solas la primera vez que se usan.
@@ -104,13 +106,15 @@ Cada persona tiene **su propia hoja, su script y su CRM**; el código es el mism
 
 `CRM.html` es un tablero privado, en horizontal, con una columna por etapa:
 
-**Nuevo lead → Recontactado → Vio el vídeo → WhatsApp → Videollamada → Curso → Compra → Onboarding** (y Descartado).
+**Nuevo lead → Recontactado → Vio el vídeo → WhatsApp → Videollamada → Curso → Segunda llamada → Compra → Onboarding**
+(y Descartado).
 
 - **Lo que mueve el script solo, siempre hacia delante:**
   - al enviar el recordatorio: Nuevo lead → Recontactado;
   - al ver el 80 % del webinar: → Vio el vídeo;
   - al pulsar WhatsApp: → WhatsApp;
-  - al dar acceso al curso: → Curso.
+  - al dar acceso al curso: → Curso;
+  - al terminar el curso o pedir hablar desde él: → Segunda llamada.
 - **Lo demás lo mueves tú:** arrastrando la tarjeta en el ordenador, o con el desplegable en el móvil.
 - **Cada tarjeta** lleva teléfono, email e Instagram; las señales (vídeo abierto o visto, recordatorio, WhatsApp pulsado, curso); botones de WhatsApp, email y acceso al curso; sus respuestas, y notas que se guardan solas.
 - **Hoja y CRM son lo mismo.** El CRM lee la hoja en directo (se refresca cada minuto) y solo escribe Estado y Notas
