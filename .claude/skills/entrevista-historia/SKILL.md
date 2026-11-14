@@ -21,7 +21,8 @@ Sin la historia real de la persona, los guiones suenan genéricos. **La fuente e
 Cuando la persona ha escrito en su cuestionario (o al empezar la entrevista):
 1. Lee el cuestionario entero y la ficha actual.
 2. Escribe en la ficha, por secciones (Enfoque, Quién es, Su «antes», Descubrimiento y camino, Cómo trabaja hoy, Su persona
-   ideal, Objeciones, Cómo habla, Lo que puede grabar), con **sus frases literales entre comillas**.
+   ideal, Objeciones, Cómo habla, Lo que puede grabar), con **sus frases literales entre comillas**. Deja al final la
+   sección **«Feedback y aprendizajes»** (vacía si es nueva): la mantiene `aprender` y nunca se borra al actualizar.
 3. Marca con ⚠ lo que **no se puede usar en público** y por qué: salud (suya o del producto), el producto, el agua, la
    marca, cifras de dinero, comisiones, «libertad financiera», detalles de su familia o de su empresa actual.
 4. Propón 4-6 ganchos sacados de su historia, ya revisados con `estrategia/normas-comunicacion.md`, con su pilar

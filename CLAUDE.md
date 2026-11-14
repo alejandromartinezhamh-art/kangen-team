@@ -61,11 +61,25 @@ normas en `estrategia/curso.md`. Tras cambiarlo, `npm run generar-api`.
 ## Marketing y contenido
 
 La estrategia de contenido y anuncios está en `estrategia/marketing.md`; el día a día, en `contenido/README.md`. Los agentes
-(investigador, estratega, guionista, revisor, entrevista de historia) tienen sus instrucciones en `.claude/skills/`.
+(investigador, estratega, guionista, revisor, entrevista de historia, aprendizaje) tienen sus instrucciones en `.claude/skills/`.
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
 alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
 conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la
 persona en Notion.
+
+## Cada opinión mejora el sistema (obligatorio)
+
+Siempre que alguien (Alejandro, Gemma, Helena o quien sea) diga qué le gusta o qué no de una idea, un guion, un gancho,
+un texto o un diseño (en el chat, en un comentario o en «Tu comentario» de un documento de ideas, en la propiedad
+**Feedback** de una pieza o reenviado por WhatsApp), en la misma tarea:
+
+1. Usa el agente `aprender` (`.claude/skills/aprender/SKILL.md`): la opinión se convierte en una regla en su ficha de voz
+   (sección «Feedback y aprendizajes») o, si vale para todos, en `contenido/aprendizajes-equipo.md` y en la norma que
+   toque (formatos, ganchos, plantilla de carruseles, instrucciones de los agentes).
+2. Rehaz la pieza con una versión nueva y revisa las demás piezas de esa persona que aún no estén aprobadas.
+3. Cuando una pieza pase a Aprobado o Publicado, compara la versión final con la «Propuesta de Claude» de su página y
+   aprende también de eso. Marca **Aprendido**.
+4. Di en el chat qué has aprendido y qué has cambiado.
 
 ## Datos personales
 

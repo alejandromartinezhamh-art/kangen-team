@@ -106,10 +106,15 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 4. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, crear su fila en Fichas de voz
    con el enlace a su cuestionario, y filtrar el calendario por ella.
 5. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
-   revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación.
-6. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
+   revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación. Los
+   carruseles salen de `contenido/carruseles/plantilla.html` con sus colores (`npm run carrusel`).
+6. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
+   chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz
+   (sección «Feedback y aprendizajes») y rehace las piezas pendientes; al publicar, aprende también de los cambios de
+   la versión final.
+7. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
    hoja de leads.
-7. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
+8. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
    negocio, de cambiar de vida, de alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua.
 
 ## Normas (siempre)

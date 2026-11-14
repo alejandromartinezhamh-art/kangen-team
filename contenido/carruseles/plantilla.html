@@ -1,0 +1,165 @@
+<!doctype html>
+<!--
+  Plantilla de carrusel (Instagram y Facebook, 1080 × 1350). Cómo se usa: contenido/carruseles/README.md.
+  1. Copia este archivo a una carpeta de trabajo FUERA del repositorio (es público) como carrusel.html.
+  2. Pon al lado su foto de portada como foto.jpg (una foto real de su Drive).
+  3. Cambia los colores de :root por los de equipo/<persona>/design.md y el nombre de la barra.
+  4. Escribe los textos: una <section class="slide"> por imagen. Palabra de énfasis: <em>…</em>.
+     Fondo lila: class="slide lila" (alterna). Numeración: «02 / 08».
+  5. npm run carrusel -- <carpeta>  → 01.png, 02.png… y hoja.png (todas juntas para revisarlas).
+  Los colores de partida son los de Gemma (equipo/gemma/design.md).
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Carrusel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #fdfcfc;      /* fondo */
+    --lila: #d0c7ff;       /* superficie: diapositivas alternas y líneas */
+    --texto: #000000;      /* texto */
+    --secundario: #44403b; /* texto secundario */
+    --acento: #af562c;     /* palabra de énfasis y etiquetas */
+    --estructura: #6952e0; /* numeración, flechas y «Desliza →» */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: 'Inter Tight', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .slide {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    background: var(--fondo); color: var(--texto);
+    padding: 64px 76px; display: flex; flex-direction: column;
+    margin: 0 auto 40px;
+  }
+  .slide.lila { background: var(--lila); }
+
+  /* Barra superior: nombre y numeración */
+  .barra { display: flex; justify-content: space-between; align-items: center;
+    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .barra .num { color: var(--estructura); font-variant-numeric: tabular-nums; }
+  .lila .barra .num { color: var(--secundario); }
+  .raya { border-top: 3px dashed var(--lila); margin-top: 28px; }
+  .lila .raya { border-top-color: rgba(105, 82, 224, .35); }
+
+  /* Bloque de texto centrado entre la barra y el pie */
+  .contenido { margin: auto 0; }
+  .etiqueta { display: flex; align-items: center; gap: 22px;
+    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
+  .etiqueta .linea { width: 76px; border-top: 3px solid currentColor; }
+  .lila .etiqueta { color: var(--secundario); }
+
+  h1, h2 { font-weight: 700; letter-spacing: -0.045em; line-height: .92; }
+  h1 { font-size: 118px; }
+  h2 { font-size: 124px; margin-top: 48px; }
+  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400;
+    letter-spacing: -0.02em; color: var(--acento); }
+
+  .cuerpo { margin-top: 60px; font-size: 50px; font-weight: 500; line-height: 1.38; color: var(--secundario); max-width: 880px; }
+  .cuerpo p + p { margin-top: 26px; }
+  .cuerpo strong { color: var(--texto); font-weight: 700; }
+
+  .pie { display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--estructura); }
+  .lila .pie { color: var(--secundario); }
+  .pie .yo { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--secundario); }
+
+  /* Nota a mano con flecha (una por carrusel como mucho) */
+  .nota { margin: 36px 0 0 300px; font-family: 'Caveat', cursive; font-weight: 600; font-size: 60px;
+    line-height: 1; color: var(--estructura); transform: rotate(-4deg); }
+  .nota svg { display: block; }
+
+  /* Portada con foto */
+  .portada h1 { margin-top: 72px; }
+  .foto { margin-top: 56px; flex: 1; border-radius: 40px; overflow: hidden; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%;
+    filter: sepia(.06) saturate(1.02) contrast(1.12) brightness(.94); display: block; }
+  .portada .pie { margin-top: 40px; }
+
+  /* Cierre */
+  .boton { margin-top: 64px; display: flex; width: fit-content; align-items: center; gap: 48px;
+    background: var(--texto); color: var(--fondo); border-radius: 72px; padding: 34px 44px;
+    font-size: 30px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .boton span { opacity: .6; font-size: 24px; }
+</style>
+</head>
+<body>
+
+<!-- Portada -->
+<section class="slide portada">
+  <div class="barra"><span>Nombre</span><span class="num">01 / 05</span></div>
+  <div class="raya"></div>
+  <h1>Titular de la portada con una palabra en <em>cursiva</em></h1>
+  <div class="foto"><img src="foto.jpg" alt=""></div>
+  <div class="pie"><span class="yo">Una frase corta</span><span>Desliza →</span></div>
+</section>
+
+<!-- Una idea por imagen (fondo claro) -->
+<section class="slide">
+  <div class="barra"><span>Nombre</span><span class="num">02 / 05</span></div>
+  <div class="raya"></div>
+  <div class="contenido">
+    <div class="etiqueta"><span>01</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Titular con una palabra en <em>cursiva</em>.</h2>
+    <div class="cuerpo">
+      <p>Primera frase corta.</p>
+      <p>Segunda frase, con una palabra en <strong>negrita</strong>.</p>
+    </div>
+  </div>
+  <div class="pie"><span></span><span>Desliza →</span></div>
+</section>
+
+<!-- Una idea por imagen (fondo lila, alterna) -->
+<section class="slide lila">
+  <div class="barra"><span>Nombre</span><span class="num">03 / 05</span></div>
+  <div class="raya"></div>
+  <div class="contenido">
+    <div class="etiqueta"><span>02</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Otro titular <em>corto</em>.</h2>
+    <div class="cuerpo">
+      <p>Máximo 25 palabras por imagen.</p>
+    </div>
+  </div>
+  <div class="pie"><span></span><span>Desliza →</span></div>
+</section>
+
+<!-- Con nota a mano -->
+<section class="slide">
+  <div class="barra"><span>Nombre</span><span class="num">04 / 05</span></div>
+  <div class="raya"></div>
+  <div class="contenido">
+    <div class="etiqueta"><span>03</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Titular con <em>nota</em>.</h2>
+    <div class="cuerpo">
+      <p>La nota señala estas dos frases.</p>
+      <p>Y queda debajo, a la derecha.</p>
+    </div>
+    <div class="nota">
+      <svg width="120" height="90" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M60 86 C 40 66, 26 44, 22 10"/>
+        <path d="M22 10 L 8 34"/>
+        <path d="M22 10 L 40 30"/>
+      </svg>
+      <span style="display:block; margin: 4px 0 0 40px;">nota a mano</span>
+    </div>
+  </div>
+  <div class="pie"><span></span><span>Desliza →</span></div>
+</section>
+
+<!-- Cierre -->
+<section class="slide">
+  <div class="barra"><span>Nombre</span><span class="num">05 / 05</span></div>
+  <div class="raya"></div>
+  <div class="contenido">
+    <h2 style="margin-top: 0;">Pregunta final con una palabra en <em>cursiva</em>?</h2>
+    <div class="cuerpo">
+      <p>Te lo cuento en el enlace de mi perfil.</p>
+    </div>
+    <div class="boton">Enlace en mi perfil <span>→</span></div>
+  </div>
+  <div class="pie"><span class="yo">Una frase sobre quién eres.</span><span>Guarda este post</span></div>
+</section>
+
+</body>
+</html>

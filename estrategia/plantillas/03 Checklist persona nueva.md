@@ -57,5 +57,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
 - [ ] Primer plan semanal creado y primera sesión de grabación (1 hora)
+- [ ] Sabe dónde dar su opinión de cada pieza (en el chat o en **Feedback** de la pieza) y su ficha tiene la sección
+      «Feedback y aprendizajes»
 - [ ] Primeras piezas aprobadas y publicadas, con su código en los enlaces
 - [ ] Anuncios: solo con piezas que ya traen leads cualificados, desde su cuenta publicitaria, sin Enagic, producto ni agua
