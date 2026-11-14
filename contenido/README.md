@@ -9,9 +9,10 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Estrategia, normas, mensaje y cliente ideal | `estrategia/marketing.md`, `normas-comunicacion.md`, `mensaje.md`, `icp.md` |
 | Formatos y banco de ganchos | `contenido/formatos.md`, `contenido/ganchos.md` |
 | Lo aprendido (todo el equipo) | `contenido/aprendizajes-equipo.md` |
+| Plantilla de carruseles | `contenido/carruseles/` (`npm run carrusel`) |
 | La historia de cada persona (fuente) | Drive → `Landing Kangen <Persona>` → `Cuestionario historia y avatar - <Persona>.docx` |
 | Su voz, su historia y su persona ideal (lo que leen los agentes) | Notion → CONTENIDO Y ANUNCIOS → **Fichas de voz** |
-| Lo aprendido de cada persona | `equipo/<persona>/contenido/aprendizajes.md` |
+| Lo aprendido de cada persona | Datos: `equipo/<persona>/contenido/aprendizajes.md` · Opiniones sobre su voz: su ficha de voz, sección «Feedback y aprendizajes» |
 | Calendario, radar y anuncios (aprobar aquí) | Notion → ENAGIC KANGEN - AGUA → **CONTENIDO Y ANUNCIOS** |
 | Vídeos | Drive → `Landing Kangen <Persona>/05 Contenido redes/` → `Brutos`, `Editados`, `Publicados` |
 | Instrucciones de los agentes | `.claude/skills/<agente>/SKILL.md` |
@@ -49,6 +50,20 @@ guardan aquí.
 4. **La persona aprueba** en Notion (Estado → Aprobado). Nada se publica ni se gasta sin eso.
 5. Publicador y analista, cada día. **Domingo**: informe y aprendizajes.
 
+## Cada opinión mejora el sistema
+
+Cualquiera (Alejandro, la propia persona, otra del equipo) puede decir qué le gusta y qué no de una idea o de una pieza:
+en el chat, en un comentario o en la columna «Tu comentario» del documento de ideas, o en la propiedad **Feedback** de
+la pieza en el Calendario. Cada vez, el agente `aprender`:
+
+1. Convierte la opinión en una regla y la apunta: lo de una persona, en su ficha de voz (sección «Feedback y
+   aprendizajes», privada); lo que vale para todos, en `contenido/aprendizajes-equipo.md` o en la norma que toque.
+2. Rehace la pieza (v2, v3…) y revisa las demás piezas de esa persona que aún no se han aprobado.
+3. Cuando la pieza se aprueba o se publica, compara la versión final con la «Propuesta de Claude» que deja `guion` en
+   la página y aprende de lo que cambió. Marca **Aprendido**.
+
+`plan-semanal`, `guion` y `revisar-normas` leen esas reglas antes de escribir o revisar.
+
 ## Agentes
 
 | Agente | Instrucciones | Estado |
@@ -58,7 +73,8 @@ guardan aquí.
 | Estratega | `.claude/skills/plan-semanal` | Listo |
 | Guionista | `.claude/skills/guion` | Listo |
 | Revisor | `.claude/skills/revisar-normas` | Listo |
-| Editor (HyperFrames y carruseles) | — | Fase 1: plantillas de vídeo y carrusel |
+| Aprendizaje | `.claude/skills/aprender` | Listo |
+| Editor (HyperFrames y carruseles) | Carruseles: `contenido/carruseles/` | Carruseles listos; vídeo: fase 1 |
 | Publicador | — | Fase 2: necesita las apps de Meta, YouTube y TikTok |
 | Analista | — | Fase 2: necesita las apps y la hoja de leads de cada persona |
 | Anuncios | — | Fase 3: necesita la cuenta publicitaria y piezas que ya traigan leads cualificados |

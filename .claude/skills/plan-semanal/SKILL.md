@@ -12,7 +12,9 @@ description: Estratega del equipo. Prepara el plan de contenido de la semana de 
    para guiones», para**: dile qué falta (columna **Faltan**) y propón completarlo con `entrevista-historia`. Como mucho,
    plantea piezas que no necesiten su historia (pilares Otra manera de ganarse la vida, Invertir en ti, Mentalidad),
    avisando de que serán genéricas.
-3. `equipo/<persona>/contenido/aprendizajes.md` y `contenido/aprendizajes-equipo.md`: lo que funciona manda sobre los pesos.
+3. `equipo/<persona>/contenido/aprendizajes.md`, `contenido/aprendizajes-equipo.md` y la sección **«Feedback y
+   aprendizajes»** de su ficha: lo que funciona y lo que le gusta mandan sobre los pesos. Si hay piezas suyas con
+   **Feedback** o en Aprobado, Programado o Publicado sin **Aprendido**, usa antes `aprender`.
 4. Radar (Notion, `collection://ca35d60d-116e-4405-a39a-4c21cfc9c4d7`): referencias con Estado «Nueva» para esa persona
    o para todo el equipo. Si está vacío o es lunes, usa antes `investigar-contenido`.
 5. Calendario (Notion, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): lo de las últimas 2 semanas, para no repetir

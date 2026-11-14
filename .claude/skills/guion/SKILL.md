@@ -9,8 +9,11 @@ description: Guionista del equipo. Escribe el guion de una pieza (vídeo o carru
 - La pieza en el Calendario (Notion, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): pilar, formato, redes, etapa,
   gancho, referencia y su **Código** (`CT-123`).
 - Su **ficha de voz** en Notion (`collection://8fdf7563-98ef-41e5-8899-19349d98657d`): sus palabras, su historia, su
-  persona ideal y lo marcado con ⚠ (no se usa en público). `estrategia/icp.md`, `contenido/formatos.md`,
-  `contenido/ganchos.md`, `estrategia/normas-comunicacion.md`.
+  persona ideal y lo marcado con ⚠ (no se usa en público). Su sección **«Feedback y aprendizajes»** manda sobre todo
+  lo demás: son las opiniones de su equipo y de ella misma sobre piezas anteriores.
+- `contenido/aprendizajes-equipo.md`, `estrategia/icp.md`, `contenido/formatos.md`, `contenido/ganchos.md`,
+  `estrategia/normas-comunicacion.md`.
+- Si la pieza ya tiene algo en **Feedback** (una versión anterior), usa antes `aprender`: la versión nueva sale de ahí.
 - La web de la persona: `equipo/<persona>/sitio/src/config.ts` (dominio).
 
 ## Vídeo (Reel / TikTok / Short)
@@ -28,8 +31,14 @@ En el cuerpo de la página de la pieza:
 6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
 
 ## Carrusel
-Texto de cada imagen (portada con la palabra de énfasis entre asteriscos, como en las webs: `Otra *manera*`), máximo
-25 palabras por imagen, y el texto de la publicación de Instagram y Facebook.
+1. **Texto de cada imagen** en una tabla (#, etiqueta, titular, texto): portada con la palabra de énfasis entre
+   asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura de `contenido/formatos.md`.
+2. **Texto de la publicación** de Instagram y Facebook.
+3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
+   colores de `equipo/<persona>/design.md`, los textos y su foto de portada (`foto.jpg`, una foto real de su Drive), y
+   genera las imágenes con `npm run carrusel -- <carpeta>`. Mira el resultado antes de darlo por bueno.
+4. Sube los PNG y el HTML a Drive → `05 Contenido redes/Editados/CT-<código> <título> (v1)` y pon esa carpeta en
+   **Archivo**. Estado = Editado.
 
 ## Reglas de escritura
 - Primera persona, con sus expresiones de la ficha. Si la ficha no está «Lista para guiones», avisa: el guion será
@@ -42,4 +51,8 @@ Texto de cada imagen (portada con la palabra de énfasis entre asteriscos, como 
 - En TikTok, nunca invitar al negocio ni al webinar de forma directa.
 
 ## Al terminar
-Estado de la pieza = Guion (o se queda en Guion), **Revisión** = Pendiente. Pasa la pieza por `revisar-normas`.
+- Al final de la página, un desplegable (`<toggle heading="h3">`) «Propuesta de Claude, versión N (no tocar: sirve
+  para aprender de los cambios)» con el texto tal y como lo propones. `aprender` lo compara con la versión final.
+- Estado de la pieza = Guion (o Editado si ya tiene las imágenes), **Revisión** = Pendiente. Pasa la pieza por
+  `revisar-normas`.
+- Di a quien la pidió dónde dejar su opinión: en el chat o en la propiedad **Feedback** de la pieza.

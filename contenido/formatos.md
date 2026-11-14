@@ -43,7 +43,8 @@ real del día a día, sin hablar a cámara, que se ve entero y se repite solo.
 7. Resumen o pregunta para comentar.
 8. Llamada a la acción.
 
-Se generan desde plantillas HTML con los colores y las letras de cada persona (Claude Design).
+Se generan desde `contenido/carruseles/plantilla.html` con los colores y las letras de cada persona
+(`npm run carrusel`; pasos en `contenido/carruseles/README.md`).
 
 ## Historias (Instagram, a diario)
 

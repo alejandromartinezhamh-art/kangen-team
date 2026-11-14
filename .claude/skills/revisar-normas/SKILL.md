@@ -30,6 +30,8 @@ y se explica por qué.
 8. **IA**: si hay personas, lugares o hechos realistas generados con IA, la casilla **Etiqueta IA** debe estar marcada.
 9. **Copia**: si la pieza sale del Radar, que no copie texto, vídeo ni música de la referencia.
 10. **Privacidad**: nada de lo marcado con ⚠ en su ficha de voz (salud, familia, su empresa actual…).
+11. **Lo que ya dijeron que no**: nada que contradiga una regla de la sección «Feedback y aprendizajes» de su ficha
+    ni de `contenido/aprendizajes-equipo.md`. Si choca, no pasa: cita la regla.
 
 Además, si el texto está en un archivo del repositorio, ejecuta `npm run comprobar`.
 
