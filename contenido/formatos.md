@@ -44,7 +44,9 @@ real del día a día, sin hablar a cámara, que se ve entero y se repite solo.
 8. Llamada a la acción.
 
 Se generan desde `contenido/carruseles/plantilla.html` con los colores y las letras de cada persona
-(`npm run carrusel`; pasos en `contenido/carruseles/README.md`).
+(`npm run carrusel`; pasos en `contenido/carruseles/README.md`). Nunca todas las imágenes iguales: al menos 4
+composiciones distintas (foto a sangre, polaroid, lista, gráfica, foto partida, cita…), nunca dos iguales seguidas, al
+menos 3 fotos reales de la persona y un hilo visual (el camino de puntos) que cruce todas las imágenes.
 
 ## Historias (Instagram, a diario)
 
