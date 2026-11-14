@@ -28,12 +28,21 @@ una regla que los demás agentes (`plan-semanal`, `guion`, `revisar-normas`) lee
      con el mismo formato, y si es una norma fija, el archivo que la manda (`contenido/formatos.md`,
      `contenido/ganchos.md`, `equipo/<persona>/design.md` o la instrucción del agente en `.claude/skills/`).
      **El repositorio es público**: ahí nunca va su historia, su salud, su familia ni nada marcado con ⚠.
+     **Si no puedes escribir en el repositorio** (Claude en la web, o una persona que no es Alejandro): no toques los
+     archivos. Crea una fila en Notion → **Propuestas para todo el equipo**
+     (`collection://41857db8-a618-8110-99bf-000bb8441638`) con la regla en **Qué cambiar** (sin datos personales),
+     de dónde sale en **Por qué**, quién opinó en **De**, el tema en **Sobre** y la pieza en **Pieza**.
    - **Solo a esa pieza** (un dato, un error): se corrige la pieza y basta.
 3. **Aplícala ya**:
    - La pieza o la idea de la que habla: reescríbela (o rehaz las imágenes) y súbele la versión (v2, v3…).
    - Las demás piezas de esa persona en Idea, Guion, Grabado o Editado: revísalas con la regla nueva y cámbialas si
      les afecta. Las que ya están en Para aprobar o después, no se tocan sin preguntar.
 4. **Marca** **Aprendido** en la pieza y deja en **Notas** una línea: «Aprendido el <fecha>: <reglas>».
+
+## Propuestas pendientes (solo en una sesión con el repositorio)
+Mira las filas de **Propuestas para todo el equipo** en Estado «Nueva». Aplica cada una al archivo que toque (como en el
+paso 2) y pásala a «Aplicada», o a «Descartada» con el motivo en **Por qué** si choca con las normas o con otra regla.
+Si cambias un agente (`.claude/skills/`), regenera su paquete para Claude en la web (`contenido/agentes-web/README.md`).
 
 ## Al terminar
 Resume en el chat, en pocas líneas: qué reglas nuevas hay y dónde están, qué piezas o ideas has cambiado y qué sigue

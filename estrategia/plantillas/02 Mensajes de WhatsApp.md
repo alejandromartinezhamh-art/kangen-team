@@ -78,3 +78,13 @@ Hola <nombre del lead>, como te dije en la llamada, acabo de enviarte el acceso 
 Te ha llegado un email con tu usuario y tu contraseña (si no lo ves, mira en *Promociones* o en *Spam*).
 
 Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.
+
+## 8. Tu Claude (privado, cuando la invitas a la organización de Claude)
+
+<Nombre>, te acabo de invitar a nuestro equipo en Claude 🙌 Ahí tienes los mismos agentes que uso yo para el contenido.
+
+1️⃣ Acepta la invitación del email que te ha llegado de Claude (mira en *Promociones* o en *Spam*).
+2️⃣ En Claude → *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
+3️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
+
+Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉

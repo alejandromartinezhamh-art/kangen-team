@@ -81,6 +81,17 @@ un texto o un diseño (en el chat, en un comentario o en «Tu comentario» de un
    aprende también de eso. Marca **Aprendido**.
 4. Di en el chat qué has aprendido y qué has cambiado.
 
+En una sesión con el repositorio, aplica también las filas nuevas de Notion → «Propuestas para todo el equipo» (lo que
+el equipo aprende desde Claude en la web, donde no puede escribir aquí).
+
+## El equipo en Claude (plan Team)
+
+Gemma, Helena y las demás usan los agentes desde su propio Claude, sin acceso a GitHub ni a Vercel
+(`contenido/agentes-web/README.md`). Nunca les des acceso al código ni le pongas una clave a su Claude. Si cambias un
+agente (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
+Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1YMn-nNSC2rvmjfHGYICNFErYPYcrI7fq`)
+sustituyendo los anteriores, y apunta en la pestaña de Alejandro de Pendientes que los vuelva a subir a la organización.
+
 ## Datos personales
 
 El repositorio es **público**. La historia de cada persona (cuestionario de Drive y ficha de voz en Notion), su salud,

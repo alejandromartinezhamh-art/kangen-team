@@ -16,6 +16,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Calendario, radar y anuncios (aprobar aquí) | Notion → ENAGIC KANGEN - AGUA → **CONTENIDO Y ANUNCIOS** |
 | Vídeos | Drive → `Landing Kangen <Persona>/05 Contenido redes/` → `Brutos`, `Editados`, `Publicados` |
 | Instrucciones de los agentes | `.claude/skills/<agente>/SKILL.md` |
+| El equipo en Claude (plan Team): accesos y paquete de agentes | `contenido/agentes-web/README.md` (`npm run paquete-agentes`) |
 
 ### Notion (para los agentes)
 
@@ -25,6 +26,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Radar de referencias | `collection://ca35d60d-116e-4405-a39a-4c21cfc9c4d7` |
 | Anuncios | `collection://782cf162-312e-435a-8b04-26d329e839a5` |
 | Fichas de voz | `collection://8fdf7563-98ef-41e5-8899-19349d98657d` |
+| Propuestas para todo el equipo | `collection://41857db8-a618-8110-99bf-000bb8441638` |
 
 Página: https://app.notion.com/p/40a57db8a61881cabe44ec0a24cde244
 
@@ -80,7 +82,7 @@ la pieza en el Calendario. Cada vez, el agente `aprender`:
 | Anuncios | — | Fase 3: necesita la cuenta publicitaria y piezas que ya traigan leads cualificados |
 
 Para usarlos: en Claude Code, pide por ejemplo «prepara el plan de la semana de Alejandro» o «entrevístame para mi
-historia». Las tareas programadas de los lunes y los domingos se activan cuando el piloto esté en marcha.
+historia». El resto del equipo los usa desde su propio Claude, sin acceso al código: `contenido/agentes-web/README.md`. Las tareas programadas de los lunes y los domingos se activan cuando el piloto esté en marcha.
 
 ## Seguimiento de cada pieza
 
