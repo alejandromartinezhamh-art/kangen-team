@@ -109,16 +109,23 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 5. **Su Claude**: invitarla como miembro a la organización de Claude (plan Team). Los agentes le aparecen solos; ella
    conecta Notion y Google Drive y trabaja su contenido sin depender de nadie (mensaje 8 de `02 Mensajes de WhatsApp`).
    **Nunca** le des acceso a GitHub ni a Vercel: así nadie puede tocar el código. Detalle en `contenido/agentes-web/README.md`.
-6. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
-   revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación. Los
-   carruseles salen de `contenido/carruseles/plantilla.html` con sus colores (`npm run carrusel`).
-7. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
+6. **Su estrategia y sus 100 días** (una vez, cuando su ficha está «Lista para guiones»): «prepara la estrategia y los
+   100 días de <nombre>» (agente `estrategia-100-dias`, método en `estrategia/perfil-y-100-dias.md`). Sale: la idea de
+   su perfil, su presentación, lo fijado y las destacadas de cada red; 100 piezas ordenadas por fases en el Calendario
+   (propiedades **Día** y **Fase**, vista «<Nombre> · 100 días»); y en su Drive, «<Nombre> · Empezamos: tu perfil y tu
+   primera grabación». Se le manda con el mensaje 9 de `02 Mensajes de WhatsApp`. No se empieza a publicar sin los 14
+   primeros días preparados.
+7. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
+   revisor): toma las 7 piezas siguientes de su plan. Graba en una sesión de 30 a 60 minutos y aprueba las piezas en
+   Notion. Nada se publica sin su aprobación. Los carruseles salen de `contenido/carruseles/plantilla.html` con sus
+   colores (`npm run carrusel`).
+8. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
    chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz
    (sección «Feedback y aprendizajes») y rehace las piezas pendientes; al publicar, aprende también de los cambios de
    la versión final.
-8. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
+9. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
    hoja de leads.
-9. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
+10. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
    negocio, de cambiar de vida, de alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua.
 
 ## Normas (siempre)

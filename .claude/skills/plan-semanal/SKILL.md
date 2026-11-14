@@ -20,6 +20,19 @@ description: Estratega del equipo. Prepara el plan de contenido de la semana de 
 5. Calendario (Notion, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): lo de las últimas 2 semanas, para no repetir
    temas ni ganchos.
 
+## Si tiene plan de 100 días
+Si en el Calendario hay piezas suyas con **Día** (las crea `estrategia-100-dias`; el método está en
+`estrategia/perfil-y-100-dias.md`), **no inventes la semana**:
+1. Toma las 7 siguientes por **Día** que sigan en Estado «Idea» y ponles **Fecha** a partir de su día de salida.
+2. Ajústalas con lo aprendido: cambia el gancho o el formato si hace falta, nunca el hilo ni la fase. Si hay una pieza
+   ganadora (20 % mejor en envíos por alcance, o trajo a alguien que pide hablar), rehazla en el hueco reservado.
+3. Escribe los guiones con `guion`. Las piezas del diario y los balances se escriben con una nota de voz suya de esa
+   semana: pídesela.
+4. Prepara la lista de grabación de ese lote (abajo).
+
+Si no tiene plan y su ficha está «Lista para guiones», usa antes `estrategia-100-dias`. Lo que sigue es para una semana
+suelta, sin plan.
+
 ## El plan (para 1 hora de grabación)
 - **5 vídeos** (Formato «Reel», Redes Instagram + TikTok + YouTube + Facebook) y **2 carruseles** (Instagram + Facebook).
 - Reparto por pilares según los pesos de `marketing.md` y lo aprendido: al menos 1 de «Cambiar de vida» y 1 de «Dudas»

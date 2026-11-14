@@ -153,12 +153,17 @@ fondo pensados para que parezcan días distintos. Lo demás lo produce el sistem
 
 Horarios de partida: 13:00 y 20:30 (hora de España). El analista los cambia con los datos.
 
+**Los 100 primeros días no se improvisan.** El perfil de cada persona (presentación, lo fijado y las destacadas de cada
+red) y sus 100 primeras piezas, en orden y por fases, se definen una vez con `estrategia/perfil-y-100-dias.md`. El
+estratega de los lunes toma de ese plan las 7 piezas siguientes.
+
 ---
 
 ## 7. Llamadas a la acción y seguimiento
 
 - **Principal**: «Link en mi bio» → `/l/instagram` → cuestionario.
 - **Palabra clave** (fase 2): «Comenta TIEMPO y te envío el webinar» → mensaje automático de Instagram con el enlace.
+  Cada persona usa una palabra de su mundo (`perfil-y-100-dias.md`, sección 5).
 - **Historias**: sticker de enlace.
 - **Cada pieza tiene un código** (`CT-123`, en el calendario de Notion). Los enlaces llevan `?c=CT-123`, el código llega al
   cuestionario y queda en la columna «Origen» de la hoja: así el analista sabe qué pieza trajo cada lead.
@@ -173,6 +178,7 @@ instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más f
 | Agente | Cuándo | Qué hace | Entrega |
 |---|---|---|---|
 | **Investigador** | Semanal y a demanda | Busca contenido que ya funciona en el tema (Reels, TikToks, Shorts, anuncios activos desde hace meses en la biblioteca de anuncios de Meta) y explica por qué funciona. Adapta la estructura, nunca copia. | Notion → Radar |
+| **Estratega de perfil** | Una vez por persona | La idea de su perfil, su presentación, lo fijado y las destacadas de cada red, y sus 100 primeras piezas ordenadas por fases (`perfil-y-100-dias.md`). | Documento de estrategia + Notion → Calendario (Día y Fase) |
 | **Estratega** | Lunes | Plan de la semana por persona: pilares, formatos, ganchos, a partir del radar y de lo aprendido. | Notion → Calendario (estado Guion) |
 | **Guionista** | Por pieza | Guion con gancho de 3 s, texto por red, código y llamada a la acción. Con la voz y la historia de cada persona. | Ficha de la pieza |
 | **Editor** | Por pieza | Vídeo vertical con **HyperFrames** (subtítulos con sus colores, cortes, música, recursos con IA de Higgsfield) y carruseles desde plantillas HTML diseñadas con Claude Design. | Drive → Editados |

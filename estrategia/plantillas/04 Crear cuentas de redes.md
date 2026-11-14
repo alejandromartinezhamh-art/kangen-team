@@ -43,8 +43,8 @@ móvil**: son su marca personal y nadie más es dueño de ellas.
    (Si no lo ves ahí, busca «cuenta profesional» en el buscador de Configuración.)
 3. Elige **Creador**. Categoría: **Creador de contenido digital** (o la más cercana). Puedes ocultar la categoría en
    el perfil.
-4. **Editar perfil**: nombre (tu nombre y, si quieres, tu enfoque: «Gemma · Emprender sin dejarlo todo»), foto, bio y
-   enlace `https://<tu-web>/l/instagram`.
+4. **Editar perfil**: nombre (tu nombre y tu idea en tres o cuatro palabras), foto, bio y enlace
+   `https://<tu-web>/l/instagram`. El nombre, la bio y el título del enlace te los pasamos ya escritos (ver al final).
 5. **Verificación en dos pasos**: Configuración → Centro de cuentas → Contraseña y seguridad → Autenticación en dos
    pasos → App de autenticación.
 
@@ -98,13 +98,22 @@ móvil**: son su marca personal y nadie más es dueño de ellas.
 
 ---
 
-## Tu bio (Instagram, TikTok y YouTube)
+## Tu bio (Instagram, TikTok, Facebook y YouTube)
 
-Máximo 150 caracteres en Instagram. Cuatro líneas:
+**No tienes que inventarla.** Cuando tu cuestionario está completo, te preparamos tu estrategia y te llega un documento
+a tu Drive, «<Tu nombre> · Empezamos: tu perfil y tu primera grabación», con el nombre, la bio y el enlace de cada red
+para copiar y pegar. Si una frase no suena a ti, cámbiala y dínoslo.
 
-1. **Quién eres**: tu nombre, tu ciudad o tu profesión.
-2. **Qué estás construyendo**, desde tu enfoque: «Empecé algo propio sin dejar mi trabajo».
-3. **Por qué seguirte**: «Lo cuento todo, también los errores».
-4. **La llamada**: «👇 Webinar gratuito: otra manera de ganarse la vida» (en TikTok: «Más en mi Instagram»).
+Por si quieres entender cómo está hecha. Máximo 150 caracteres en Instagram, cuatro líneas:
+
+1. **De dónde vienes y qué has empezado**: «15 años en la misma oficina. Empecé algo propio, en paralelo».
+2. **Cómo lo cuentas**: «Lo cuento tal cual, dudas y errores incluidos».
+3. **Dónde vives**, para que te sientan cerca.
+4. **La llamada al enlace**: «👇 Te enseño cómo lo hago».
+
+En TikTok, una sola frase y **sin el enlace de tu web**. En Facebook y YouTube, la misma frase.
+
+Después te diremos qué tres publicaciones se fijan arriba y te pasaremos las portadas de tus seis historias destacadas:
+Empieza aquí, Mi historia, 100 días, Dudas, Mensajes y Equipo.
 
 Sin cifras, sin promesas, sin la marca, sin el agua ni el producto, y sin «trabajo» ni «buscamos gente».

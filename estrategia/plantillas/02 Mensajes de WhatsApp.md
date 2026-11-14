@@ -88,3 +88,18 @@ Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas.
 3️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
+
+## 9. Tu plan y tu primera grabación (privado, cuando su estrategia y sus 100 días están hechos)
+
+Hola <Nombre>! Ya tenemos tu estrategia y tus 100 primeros días de contenido 🙌 Salimos el <día de salida>.
+
+Para llegar necesito cuatro cosas antes del <fecha límite>. En total es algo más de una hora y no tienes que hablar a cámara:
+
+1️⃣ Poner tu perfil: es copiar y pegar.
+2️⃣ Grabar tu primer lote: planos cortos de tu día y dos notas de voz.
+3️⃣ Subir 10 fotos nuevas de tu día a día.
+4️⃣ Contestarme tres preguntas con una nota de voz.
+
+Lo tienes todo paso a paso aquí: <enlace a «<Nombre> · Empezamos: tu perfil y tu primera grabación» en su Drive>
+
+Cualquier duda, me dices 😊
