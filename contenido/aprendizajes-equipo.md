@@ -8,7 +8,12 @@ las opiniones sobre su voz, en su ficha de voz (privada). Aquí nunca va nada pe
 Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién es la opinión · qué cambiamos.
 
 ## Opiniones y versiones finales
-Todavía ninguna.
+- 2026-11-14 · Carrusel CT-1 (v1): todas las imágenes con el mismo diseño y una sola foto; «muy aburrido, se ve
+  estático» · opinión de Alejandro · Regla: cada carrusel con al menos 4 composiciones distintas, nunca dos iguales
+  seguidas, al menos 3 fotos reales y un hilo visual que cruce todas las imágenes. Plantilla de carruseles rehecha con
+  8 composiciones (`contenido/carruseles/`).
+- 2026-11-14 · Carrusel CT-1 (v2): con 8 composiciones, 6 fotos reales y el camino de puntos «me gusta bastante más» ·
+  opinión de Alejandro · Se mantiene la regla anterior como estándar de todos los carruseles.
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.

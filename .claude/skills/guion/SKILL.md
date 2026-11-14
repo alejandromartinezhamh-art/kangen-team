@@ -31,8 +31,11 @@ En el cuerpo de la página de la pieza:
 6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
 
 ## Carrusel
-1. **Texto de cada imagen** en una tabla (#, etiqueta, titular, texto): portada con la palabra de énfasis entre
-   asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura de `contenido/formatos.md`.
+1. **Texto de cada imagen** en una tabla (#, composición, foto, etiqueta, titular, texto): portada con la palabra de
+   énfasis entre asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura de
+   `contenido/formatos.md`. Elige la composición de cada imagen y sus fotos con las reglas de
+   `contenido/carruseles/README.md`: al menos 4 composiciones distintas, nunca dos iguales seguidas y al menos 3 fotos
+   reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer).
 2. **Texto de la publicación** de Instagram y Facebook.
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
    colores de `equipo/<persona>/design.md`, los textos y su foto de portada (`foto.jpg`, una foto real de su Drive), y

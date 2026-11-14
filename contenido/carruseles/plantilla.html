@@ -1,13 +1,17 @@
 <!doctype html>
 <!--
-  Plantilla de carrusel (Instagram y Facebook, 1080 × 1350). Cómo se usa: contenido/carruseles/README.md.
-  1. Copia este archivo a una carpeta de trabajo FUERA del repositorio (es público) como carrusel.html.
-  2. Pon al lado su foto de portada como foto.jpg (una foto real de su Drive).
-  3. Cambia los colores de :root por los de equipo/<persona>/design.md y el nombre de la barra.
-  4. Escribe los textos: una <section class="slide"> por imagen. Palabra de énfasis: <em>…</em>.
-     Fondo lila: class="slide lila" (alterna). Numeración: «02 / 08».
-  5. npm run carrusel -- <carpeta>  → 01.png, 02.png… y hoja.png (todas juntas para revisarlas).
-  Los colores de partida son los de Gemma (equipo/gemma/design.md).
+  Plantilla de carrusel (Instagram y Facebook, 1080 × 1350). Cómo se usa y reglas: contenido/carruseles/README.md.
+  Copia este archivo FUERA del repositorio (es público) como carrusel.html y pon al lado las fotos reales de la persona
+  con los nombres que usa cada imagen (foto-portada.jpg, foto-2.jpg…). Colores de :root = equipo/<persona>/design.md.
+
+  Composiciones (una <section> cada una; usa al menos 4 distintas y nunca dos iguales seguidas):
+    portada   foto a sangre y titular abajo            polaroid  foto girada con pie escrito a mano
+    lista     lista tachada o checklist                grafica   el camino dibuja una curva (subidas y bajadas)
+    partida   foto arriba y texto abajo                semana    calendario, pasos o iconos
+    cita      foto a sangre oscura con la frase        cierre    foto redonda, pregunta y botón
+  El camino: línea de puntos que entra por la izquierda a la altura en que salió de la imagen anterior (mismo número
+  en el «M0 …» de la siguiente). Así se ve continuo al deslizar. Empieza con un punto en la portada y acaba en el cierre.
+  Los colores de partida son los de Gemma.
 -->
 <html lang="es">
 <head>
@@ -15,150 +19,243 @@
 <title>Carrusel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
+  /* Colores de equipo/<persona>/design.md (aquí, los de Gemma) */
   :root {
-    --fondo: #fdfcfc;      /* fondo */
-    --lila: #d0c7ff;       /* superficie: diapositivas alternas y líneas */
-    --texto: #000000;      /* texto */
-    --secundario: #44403b; /* texto secundario */
-    --acento: #af562c;     /* palabra de énfasis y etiquetas */
-    --estructura: #6952e0; /* numeración, flechas y «Desliza →» */
+    --fondo: #fdfcfc; --lila: #d0c7ff; --texto: #000; --secundario: #44403b;
+    --acento: #af562c; --acento-claro: #ffa174; --estructura: #6952e0; --borde: #ebe8e4;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #222; font-family: 'Inter Tight', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  .slide {
-    position: relative; width: 1080px; height: 1350px; overflow: hidden;
-    background: var(--fondo); color: var(--texto);
-    padding: 64px 76px; display: flex; flex-direction: column;
-    margin: 0 auto 40px;
-  }
-  .slide.lila { background: var(--lila); }
 
-  /* Barra superior: nombre y numeración */
+  /* ---------- Base de cada imagen ---------- */
+  .slide { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--fondo);
+    color: var(--texto); margin: 0 auto 40px; }
+  .slide.lila { background: var(--lila); }
+  .capa { position: absolute; inset: 0; padding: 64px 76px; display: flex; flex-direction: column; z-index: 3; }
+  .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;
+    filter: sepia(.06) saturate(1.02) contrast(1.08) brightness(.97); }
+  .velo { position: absolute; inset: 0; z-index: 1; }
+
+  /* El camino: una línea de puntos que entra por la izquierda y sale por la derecha a la misma altura
+     que entra en la siguiente imagen. Al deslizar se ve continua. */
+  svg.camino { position: absolute; inset: 0; width: 1080px; height: 1350px; z-index: 2; overflow: visible; }
+  svg.camino path { fill: none; stroke: var(--estructura); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1 22; }
+  svg.camino .meta { fill: var(--acento); }
+  .sobre-foto svg.camino path { stroke: var(--fondo); }
+  .portada svg.camino path { stroke: var(--estructura); } /* la portada acaba en fondo claro */
+  .cita .capa { color: var(--fondo); }
+
+  /* Barra superior */
   .barra { display: flex; justify-content: space-between; align-items: center;
     font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .barra .num { color: var(--estructura); font-variant-numeric: tabular-nums; }
   .lila .barra .num { color: var(--secundario); }
-  .raya { border-top: 3px dashed var(--lila); margin-top: 28px; }
-  .lila .raya { border-top-color: rgba(105, 82, 224, .35); }
+  .sobre-foto .barra, .sobre-foto .barra .num { color: var(--fondo); }
 
-  /* Bloque de texto centrado entre la barra y el pie */
-  .contenido { margin: auto 0; }
-  .etiqueta { display: flex; align-items: center; gap: 22px;
-    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
+  /* Texto */
+  .etiqueta { display: flex; align-items: center; gap: 22px; font-size: 26px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
   .etiqueta .linea { width: 76px; border-top: 3px solid currentColor; }
   .lila .etiqueta { color: var(--secundario); }
-
+  .sobre-foto .etiqueta { color: var(--fondo); }
   h1, h2 { font-weight: 700; letter-spacing: -0.045em; line-height: .92; }
-  h1 { font-size: 118px; }
-  h2 { font-size: 124px; margin-top: 48px; }
-  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400;
-    letter-spacing: -0.02em; color: var(--acento); }
-
-  .cuerpo { margin-top: 60px; font-size: 50px; font-weight: 500; line-height: 1.38; color: var(--secundario); max-width: 880px; }
-  .cuerpo p + p { margin-top: 26px; }
+  h1 { font-size: 112px; }
+  h2 { font-size: 118px; margin-top: 40px; }
+  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; color: var(--acento); }
+  .sobre-foto em { color: var(--acento-claro); }
+  .cuerpo { font-size: 44px; font-weight: 500; line-height: 1.36; color: var(--secundario); }
+  .cuerpo p + p { margin-top: 18px; }
   .cuerpo strong { color: var(--texto); font-weight: 700; }
+  .sobre-foto .cuerpo { color: rgba(253,252,252,.92); }
+  .mano { font-family: 'Caveat', cursive; font-weight: 700; color: var(--estructura); line-height: 1; }
 
-  .pie { display: flex; justify-content: space-between; align-items: flex-end;
-    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--estructura); }
-  .lila .pie { color: var(--secundario); }
-  .pie .yo { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--secundario); }
+  /* ---------- 1 · Portada con foto a sangre ---------- */
+  .portada .velo { background: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, transparent 16%, transparent 42%,
+    rgba(253,252,252,.88) 63%, #fdfcfc 74%); }
+  .portada h1 { margin-top: auto; margin-bottom: 150px; }
 
-  /* Nota a mano con flecha (una por carrusel como mucho) */
-  .nota { margin: 36px 0 0 300px; font-family: 'Caveat', cursive; font-weight: 600; font-size: 60px;
-    line-height: 1; color: var(--estructura); transform: rotate(-4deg); }
-  .nota svg { display: block; }
+  /* ---------- 2 · Polaroid ---------- */
+  .polaroid { position: absolute; z-index: 3; right: 82px; top: 610px; width: 430px; background: #fff;
+    border: 2px solid var(--borde); padding: 22px 22px 0; transform: rotate(5deg); }
+  .polaroid img { display: block; width: 100%; height: 430px; object-fit: cover; object-position: 50% 35%; }
+  .polaroid .pie { font-family: 'Caveat', cursive; font-weight: 700; font-size: 50px; color: var(--secundario);
+    text-align: center; padding: 14px 0 20px; }
 
-  /* Portada con foto */
-  .portada h1 { margin-top: 72px; }
-  .foto { margin-top: 56px; flex: 1; border-radius: 40px; overflow: hidden; }
-  .foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%;
-    filter: sepia(.06) saturate(1.02) contrast(1.12) brightness(.94); display: block; }
-  .portada .pie { margin-top: 40px; }
+  /* ---------- 3 · Lista tachada ---------- */
+  .lista { margin-top: 44px; background: var(--fondo); border-radius: 36px; padding: 26px 48px; }
+  .lista li { list-style: none; display: flex; align-items: center; gap: 26px; padding: 18px 0;
+    font-size: 46px; font-weight: 600; color: var(--secundario); border-bottom: 3px dashed var(--lila); }
+  .lista li:last-child { border-bottom: none; }
+  .lista .hecho span { text-decoration: line-through; text-decoration-color: var(--acento); text-decoration-thickness: 5px; }
+  .lista .marca { width: 44px; height: 44px; border-radius: 50%; background: var(--estructura); color: var(--fondo);
+    display: grid; place-items: center; font-size: 26px; font-weight: 800; flex: none; }
+  .lista .vacia { background: transparent; border: 4px solid var(--acento); }
+  .lista .pregunta { font-family: 'Caveat', cursive; font-size: 66px; font-weight: 700; color: var(--acento); }
 
-  /* Cierre */
-  .boton { margin-top: 64px; display: flex; width: fit-content; align-items: center; gap: 48px;
-    background: var(--texto); color: var(--fondo); border-radius: 72px; padding: 34px 44px;
+  /* ---------- 5 · Foto partida ---------- */
+  .partida .arriba { position: absolute; left: 0; top: 0; width: 100%; height: 600px; object-fit: cover;
+    object-position: 50% 30%; z-index: 0; filter: sepia(.06) contrast(1.06); }
+  .partida .velo { height: 600px; background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, transparent 22%); }
+  .partida .bloque { margin-top: 580px; }
+  .partida h2 { font-size: 100px; }
+
+  /* ---------- 6 · Semana ---------- */
+  .semana { display: grid; grid-template-columns: repeat(7, 1fr); gap: 22px; margin-top: 50px; }
+  .dia { height: 290px; background: var(--fondo); border-radius: 26px; display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between; padding: 22px 0 16px; }
+  .dia b { font-size: 34px; color: var(--secundario); }
+  .dia i { font-style: normal; width: 84%; height: 96px; border-radius: 18px; background: var(--estructura);
+    color: var(--fondo); font-size: 22px; font-weight: 700; display: grid; place-items: center; text-transform: uppercase; letter-spacing: .04em; }
+  .dia.libre i { background: transparent; }
+  .redonda { width: 210px; height: 210px; border-radius: 50%; object-fit: cover; border: 8px solid var(--fondo); }
+
+  /* ---------- 7 · Foto con cita ---------- */
+  .cita .velo { background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 16%, transparent 40%,
+    rgba(24,18,14,.72) 66%, rgba(24,18,14,.86) 100%); }
+  .cita .bloque { margin-top: auto; margin-bottom: 150px; }
+
+  /* ---------- 8 · Cierre ---------- */
+  .yo { display: flex; align-items: center; gap: 34px; margin-top: 70px; }
+  .yo img { width: 260px; height: 260px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 10px solid var(--lila); }
+  .boton { margin-top: 46px; display: flex; width: fit-content; align-items: center; gap: 44px;
+    background: var(--texto); color: var(--fondo); border-radius: 72px; padding: 32px 44px;
     font-size: 30px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-  .boton span { opacity: .6; font-size: 24px; }
 </style>
 </head>
 <body>
 
-<!-- Portada -->
-<section class="slide portada">
-  <div class="barra"><span>Nombre</span><span class="num">01 / 05</span></div>
-  <div class="raya"></div>
-  <h1>Titular de la portada con una palabra en <em>cursiva</em></h1>
-  <div class="foto"><img src="foto.jpg" alt=""></div>
-  <div class="pie"><span class="yo">Una frase corta</span><span>Desliza →</span></div>
+<!-- 1 · Portada: foto a sangre -->
+<section class="slide portada sobre-foto">
+  <img class="fondo" src="foto-portada.jpg" alt="" style="object-position: 50% 100%;">
+  <div class="velo"></div>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M120 1240 C 400 1205, 720 1280, 1080 1240"/><circle class="meta" cx="120" cy="1240" r="16"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">01 / 08</span></div>
+    <h1>Titular de portada con una palabra en <em style="color: var(--acento);">cursiva</em></h1>
+  </div>
+  <div class="mano" style="position:absolute; z-index:3; right:80px; bottom:150px; font-size:56px; transform: rotate(-4deg);">desliza, te lo cuento →</div>
 </section>
 
-<!-- Una idea por imagen (fondo claro) -->
+<!-- 2 · Polaroid -->
 <section class="slide">
-  <div class="barra"><span>Nombre</span><span class="num">02 / 05</span></div>
-  <div class="raya"></div>
-  <div class="contenido">
-    <div class="etiqueta"><span>01</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Titular con una palabra en <em>cursiva</em>.</h2>
-    <div class="cuerpo">
-      <p>Primera frase corta.</p>
-      <p>Segunda frase, con una palabra en <strong>negrita</strong>.</p>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 300 1205, 700 1295, 1080 1260"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">02 / 08</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>01</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Una idea por imagen, con <em>énfasis</em>.</h2>
+    <div class="cuerpo" style="width: 440px; margin-top: 56px;">
+      <p>Frases cortas.</p>
+      <p>Máximo 25 palabras.</p>
+      <p>Una en <strong>negrita</strong>.</p>
     </div>
   </div>
-  <div class="pie"><span></span><span>Desliza →</span></div>
+  <div class="polaroid"><img src="foto-2.jpg" alt=""><div class="pie">pie escrito a mano</div></div>
 </section>
 
-<!-- Una idea por imagen (fondo lila, alterna) -->
+<!-- 3 · Lista tachada -->
 <section class="slide lila">
-  <div class="barra"><span>Nombre</span><span class="num">03 / 05</span></div>
-  <div class="raya"></div>
-  <div class="contenido">
-    <div class="etiqueta"><span>02</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Otro titular <em>corto</em>.</h2>
-    <div class="cuerpo">
-      <p>Máximo 25 palabras por imagen.</p>
-    </div>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1260 C 350 1300, 700 1200, 1080 1240"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">03 / 08</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>02</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Una lista que <em>se tacha</em>.</h2>
+    <ul class="lista">
+      <li class="hecho"><b class="marca">✓</b><span>Primer punto</span></li>
+      <li class="hecho"><b class="marca">✓</b><span>Segundo punto</span></li>
+      <li class="hecho"><b class="marca">✓</b><span>Tercer punto</span></li>
+      <li class="hecho"><b class="marca">✓</b><span>Cuarto punto</span></li>
+      <li><b class="marca vacia"></b><span class="pregunta">¿y ahora?</span></li>
+    </ul>
+    <div class="cuerpo" style="margin-top: 34px;"><p>Una frase que cierra la idea.</p></div>
   </div>
-  <div class="pie"><span></span><span>Desliza →</span></div>
 </section>
 
-<!-- Con nota a mano -->
+<!-- 4 · Gráfica: el camino dibuja la curva -->
 <section class="slide">
-  <div class="barra"><span>Nombre</span><span class="num">04 / 05</span></div>
-  <div class="raya"></div>
-  <div class="contenido">
-    <div class="etiqueta"><span>03</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Titular con <em>nota</em>.</h2>
-    <div class="cuerpo">
-      <p>La nota señala estas dos frases.</p>
-      <p>Y queda debajo, a la derecha.</p>
-    </div>
-    <div class="nota">
-      <svg width="120" height="90" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M60 86 C 40 66, 26 44, 22 10"/>
-        <path d="M22 10 L 8 34"/>
-        <path d="M22 10 L 40 30"/>
-      </svg>
-      <span style="display:block; margin: 4px 0 0 40px;">nota a mano</span>
-    </div>
+  <svg class="camino" viewBox="0 0 1080 1350">
+    <path d="M0 1240 C 120 1150, 170 720, 280 720 C 400 720, 420 1060, 540 1060 C 660 1060, 690 660, 800 660 C 930 660, 960 1210, 1080 1250" style="stroke-width: 12; stroke-dasharray: 1 26;"/>
+    <circle class="meta" cx="800" cy="660" r="20"/>
+  </svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">04 / 08</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>03</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Una curva que <em>cuenta</em> algo.</h2>
+    <div class="cuerpo" style="margin-top: 30px; font-size: 40px;"><p>Una frase corta que la explica.</p></div>
   </div>
-  <div class="pie"><span></span><span>Desliza →</span></div>
+  <div class="mano" style="position:absolute; z-index:3; left:600px; top:575px; font-size:50px; transform: rotate(-3deg);">«el punto alto»</div>
+  <div class="mano" style="position:absolute; z-index:3; left:330px; top:1095px; font-size:50px; transform: rotate(2deg);">«el punto bajo»</div>
 </section>
 
-<!-- Cierre -->
-<section class="slide">
-  <div class="barra"><span>Nombre</span><span class="num">05 / 05</span></div>
-  <div class="raya"></div>
-  <div class="contenido">
-    <h2 style="margin-top: 0;">Pregunta final con una palabra en <em>cursiva</em>?</h2>
-    <div class="cuerpo">
-      <p>Te lo cuento en el enlace de mi perfil.</p>
+<!-- 5 · Foto partida -->
+<section class="slide partida sobre-foto-arriba">
+  <img class="arriba" src="foto-5.jpg" alt="">
+  <div class="velo"></div>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1250 C 400 1290, 700 1210, 1080 1240"/></svg>
+  <div class="capa">
+    <div class="barra" style="color: var(--fondo);"><span>Nombre</span><span class="num" style="color: var(--fondo);">05 / 08</span></div>
+    <div class="bloque">
+      <div class="etiqueta"><span>04</span><span class="linea"></span><span>Etiqueta</span></div>
+      <h2>La foto arriba y la idea <em>abajo</em>.</h2>
+      <div class="cuerpo" style="margin-top: 30px;"><p>Una o dos frases, con una parte en <strong>negrita</strong>.</p></div>
     </div>
-    <div class="boton">Enlace en mi perfil <span>→</span></div>
   </div>
-  <div class="pie"><span class="yo">Una frase sobre quién eres.</span><span>Guarda este post</span></div>
+</section>
+
+<!-- 6 · Semana -->
+<section class="slide lila">
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 300 1210, 760 1290, 1080 1255"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">06 / 08</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>05</span><span class="linea"></span><span>Etiqueta</span></div>
+    <h2>Una semana, unos <em>pasos</em>.</h2>
+    <div class="cuerpo" style="margin-top: 30px; font-size: 40px;"><p>Lo que cuenta el dibujo, en una frase.</p></div>
+    <div class="semana">
+      <div class="dia"><b>L</b><i>tarde</i></div>
+      <div class="dia libre"><b>M</b><i></i></div>
+      <div class="dia"><b>X</b><i>tarde</i></div>
+      <div class="dia"><b>J</b><i>tarde</i></div>
+      <div class="dia libre"><b>V</b><i></i></div>
+      <div class="dia"><b>S</b><i>tarde</i></div>
+      <div class="dia libre"><b>D</b><i></i></div>
+    </div>
+    <div style="display:flex; align-items:center; gap: 28px; margin-top: 34px;">
+      <img class="redonda" src="foto-6.jpg" alt="" style="object-position: 40% 30%;">
+      <div class="mano" style="font-size: 54px; transform: rotate(-3deg);">una nota a mano</div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · Foto con cita -->
+<section class="slide cita sobre-foto">
+  <img class="fondo" src="foto-7.jpg" alt="" style="object-position: 70% 40%;">
+  <div class="velo"></div>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1255 C 400 1220, 700 1290, 1080 1240"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">07 / 08</span></div>
+    <div class="bloque">
+      <div class="etiqueta"><span>06</span><span class="linea"></span><span>Etiqueta</span></div>
+      <h2>La frase <em>importante</em>.</h2>
+      <div class="cuerpo" style="margin-top: 30px;"><p>Sobre la foto, con el velo oscuro para que se lea bien.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Cierre -->
+<section class="slide">
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 250 1280, 520 1215, 880 1245"/><circle class="meta" cx="900" cy="1246" r="18"/></svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">08 / 08</span></div>
+    <div class="yo">
+      <img src="foto-cierre.jpg" alt="">
+      <div class="mano" style="font-size: 58px; transform: rotate(-3deg);">quién es, en una<br>frase a mano</div>
+    </div>
+    <h2 style="margin-top: 60px; font-size: 108px;">La pregunta final con una palabra en <em>cursiva</em>?</h2>
+    <div class="cuerpo" style="margin-top: 30px;"><p>Te lo cuento en el enlace de mi perfil.</p></div>
+    <div class="boton">Enlace en mi perfil <span style="opacity:.6">→</span></div>
+  </div>
+  <div class="mano" style="position:absolute; z-index:3; right:76px; bottom:150px; font-size:46px;">guárdalo para luego</div>
 </section>
 
 </body>
