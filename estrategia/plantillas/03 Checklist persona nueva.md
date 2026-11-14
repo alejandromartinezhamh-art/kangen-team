@@ -56,6 +56,9 @@ Nombre: ______________________ Fecha de alta: ____________
       cuenta publicitaria, TikTok, YouTube) y la verificación en dos pasos activada
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
+- [ ] Notion: invitada a editar el Calendario, el Radar y «Propuestas para todo el equipo», y solo su ficha de voz
+- [ ] Invitada como miembro a la organización de Claude (plan Team), con Notion y Google Drive conectados (mensaje 8)
+- [ ] Sin acceso a GitHub ni a Vercel (nunca)
 - [ ] Primer plan semanal creado y primera sesión de grabación (1 hora)
 - [ ] Sabe dónde dar su opinión de cada pieza (en el chat o en **Feedback** de la pieza) y su ficha tiene la sección
       «Feedback y aprendizajes»

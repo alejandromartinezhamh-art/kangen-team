@@ -11,6 +11,7 @@
     "generar-api": "node scripts/generar-api.mjs",
     "comprobar": "node scripts/comprobar.mjs",
     "carrusel": "node scripts/carrusel.mjs",
+    "paquete-agentes": "node scripts/paquete-agentes.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"
   },

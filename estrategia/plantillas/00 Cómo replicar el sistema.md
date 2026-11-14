@@ -10,7 +10,7 @@ Todo lo que se usa está en la carpeta **Templates** de Drive (`Kangen PRO TEAM/
 |---|---|
 | 00 Cómo replicar el sistema | Esta guía |
 | 01 Cuestionario historia y avatar (plantilla) | El cuestionario en blanco que rellena cada persona nueva |
-| 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio, editor, acceso al curso |
+| 02 Mensajes de WhatsApp | Textos listos para copiar: bienvenida, envío del cuestionario, recordatorio, editor, acceso al curso, su Claude |
 | 03 Checklist persona nueva | Lista de pasos para no olvidar nada |
 | 04 Crear cuentas de redes | Paso a paso para abrir Instagram, Facebook, Meta Business, TikTok y YouTube |
 | Landing Kangen NOMBRE (estructura de carpetas) | Las 8 subcarpetas que tiene que tener cada persona en Drive |
@@ -104,17 +104,21 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    portfolio comercial de Meta con su cuenta publicitaria, TikTok y canal de YouTube).
 3. **Drive**: dentro de `05 Contenido redes`, las carpetas `Brutos`, `Editados` y `Publicados`.
 4. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, crear su fila en Fichas de voz
-   con el enlace a su cuestionario, y filtrar el calendario por ella.
-5. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
+   con el enlace a su cuestionario, y filtrar el calendario por ella. Invitarla con permiso de editar el Calendario, el
+   Radar y «Propuestas para todo el equipo», y de las Fichas de voz **solo la suya** (lleva su historia personal).
+5. **Su Claude**: invitarla como miembro a la organización de Claude (plan Team). Los agentes le aparecen solos; ella
+   conecta Notion y Google Drive y trabaja su contenido sin depender de nadie (mensaje 8 de `02 Mensajes de WhatsApp`).
+   **Nunca** le des acceso a GitHub ni a Vercel: así nadie puede tocar el código. Detalle en `contenido/agentes-web/README.md`.
+6. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
    revisor). Graba en una sesión de 1 hora y aprueba las piezas en Notion. Nada se publica sin su aprobación. Los
    carruseles salen de `contenido/carruseles/plantilla.html` con sus colores (`npm run carrusel`).
-6. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
+7. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
    chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz
    (sección «Feedback y aprendizajes») y rehace las piezas pendientes; al publicar, aprende también de los cambios de
    la versión final.
-7. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
+8. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
    hoja de leads.
-8. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
+9. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
    negocio, de cambiar de vida, de alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua.
 
 ## Normas (siempre)

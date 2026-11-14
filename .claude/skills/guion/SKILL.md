@@ -37,6 +37,9 @@ En el cuerpo de la página de la pieza:
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
    colores de `equipo/<persona>/design.md`, los textos y su foto de portada (`foto.jpg`, una foto real de su Drive), y
    genera las imágenes con `npm run carrusel -- <carpeta>`. Mira el resultado antes de darlo por bueno.
+   Si no puedes ejecutarlo (Claude en la web), deja el `carrusel.html` y la foto en la carpeta de Drive del paso 4,
+   enséñalo como vista previa si puedes, y pon en **Notas** «Faltan las imágenes»: las genera la siguiente sesión con el
+   repositorio.
 4. Sube los PNG y el HTML a Drive → `05 Contenido redes/Editados/CT-<código> <título> (v1)` y pon esa carpeta en
    **Archivo**. Estado = Editado.
 
