@@ -38,7 +38,8 @@ En el cuerpo de la página de la pieza:
    énfasis entre asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura de
    `contenido/formatos.md`. Elige la composición de cada imagen y sus fotos con las reglas de
    `contenido/carruseles/README.md`: al menos 4 composiciones distintas, nunca dos iguales seguidas y al menos 3 fotos
-   reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer).
+   reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer). Si el movimiento cuenta la idea, marca en
+   la tabla **una o dos imágenes con movimiento** y qué se mueve (README, «Imágenes con movimiento»).
 2. **Texto de la publicación** de Instagram y Facebook.
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
    colores de `equipo/<persona>/design.md`, los textos y su foto de portada (`foto.jpg`, una foto real de su Drive), y

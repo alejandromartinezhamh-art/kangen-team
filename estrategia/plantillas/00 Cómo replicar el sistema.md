@@ -118,7 +118,7 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 7. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
    revisor): toma las 7 piezas siguientes de su plan. Graba en una sesión de 30 a 60 minutos y aprueba las piezas en
    Notion. Nada se publica sin su aprobación. Los carruseles salen de `contenido/carruseles/plantilla.html` con sus
-   colores (`npm run carrusel`). Los vídeos sin hablar a cámara (su voz o textos sobre sus clips y fotos) se montan con
+   colores (`npm run carrusel`; las imágenes con movimiento, con `npm run carrusel-animado`). Los vídeos sin hablar a cámara (su voz o textos sobre sus clips y fotos) se montan con
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`).
 8. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
    chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz

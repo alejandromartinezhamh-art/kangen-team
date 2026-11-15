@@ -43,5 +43,27 @@ nueva en la plantilla con las mismas letras y colores, y se añade aquí.
 6. Sube los PNG y el `carrusel.html` a Drive → `Landing Kangen <Persona>/05 Contenido redes/Editados/CT-<código>
    <título> (v1)` y pon la carpeta en **Archivo** de la pieza.
 
+## Imágenes con movimiento
+
+Un carrusel puede llevar **una o dos imágenes con movimiento** (un vídeo corto de 5 a 7 segundos en lugar de una imagen
+quieta). Se usan cuando el movimiento cuenta la idea, no para adornar:
+
+| Qué se mueve | Para qué |
+|---|---|
+| Una bola que recorre el camino mientras se dibuja | Subidas y bajadas, un recorrido, pasos |
+| El titular entrando palabra a palabra sobre un vídeo real de la persona | La frase importante, con ella o su día de fondo |
+| Una lista que se va marcando o tachando | Lo que se cumple, lo que se descarta |
+
+Cómo se hace:
+
+1. Copia `plantilla-animada.html` a una carpeta de trabajo fuera del repositorio con el nombre `index.html`, con los
+   colores de la persona, y pon dentro la imagen del carrusel que quieres animar (el mismo HTML que en `carrusel.html`).
+2. Las animaciones van en la línea de tiempo `tl` de GSAP. Para dibujar una línea de puntos poco a poco, una máscara con
+   el mismo trazado y `strokeDasharray: largo + ' ' + largo`. Para un vídeo de fondo, recórtalo antes a 1080 × 1350 con
+   `ffmpeg` y ponlo como `<video class="fondo clip" muted data-start="0" data-duration="6">`.
+3. `npm run carrusel-animado -- <carpeta>` → `animada.mp4`. Mira varios fotogramas antes de darlo por bueno.
+4. Instagram y Facebook admiten mezclar imágenes y vídeos en un carrusel; TikTok, en modo fotos, no. Guarda siempre
+   también la imagen quieta: es la que va a TikTok.
+
 Cada versión nueva (v2, v3…) va en su propia carpeta. Lo que se aprenda de las opiniones sobre el diseño se apunta con
 el agente `aprender` y, si vale para todos, se cambia aquí y en la plantilla.
