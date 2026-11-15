@@ -100,6 +100,6 @@ Para llegar necesito cuatro cosas antes del <fecha límite>. En total es algo m�
 3️⃣ Subir 10 fotos nuevas de tu día a día.
 4️⃣ Contestarme tres preguntas con una nota de voz.
 
-Lo tienes todo paso a paso aquí: <enlace a «<Nombre> · Empezamos: tu perfil y tu primera grabación» en su Drive>
+Lo tienes todo paso a paso aquí: <enlace a su documento «Empezamos: tu perfil y tu primera grabación»>
 
 Cualquier duda, me dices 😊
