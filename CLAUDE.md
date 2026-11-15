@@ -8,6 +8,8 @@ Cada vez que cambie algo del proceso (preguntas del cuestionario, mensajes, paso
 
 1. Actualiza `estrategia/plantillas/` en el repositorio.
 2. Actualiza la carpeta **Templates** de Drive (`Kangen PRO TEAM/Templates`, id `154ciUgPYhPW7E5XPHwMpjLB1FHdhB9SZ`) con los mismos cambios.
+   Las copias listas para subir salen de `npm run plantillas-drive` (`dist/plantillas-drive/`): se suben como documento
+   de Google y se manda a la papelera la versión anterior.
 3. Si cambia el cuestionario, regenera también la versión en blanco (sin nombre) y sustituye `01 Cuestionario historia y avatar (plantilla)` en ambos sitios.
 4. Avisa al usuario de qué plantillas has actualizado.
 
