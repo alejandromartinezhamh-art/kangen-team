@@ -23,7 +23,10 @@ En el cuerpo de la página de la pieza:
 2. **Guion**: frases cortas (menos de 12 palabras), numeradas por plano, con lo que se ve («a cámara en la cocina»,
    «plano del portátil»). 30-60 s en total (≈ 75-150 palabras).
 3. **Cierre** + llamada a la acción hablada.
-4. **Dónde y cómo grabar**: lugar, luz, ropa, si hace falta un plano extra del día a día.
+4. **Dónde y cómo grabar**: lugar, luz, ropa, si hace falta un plano extra del día a día. Los clips, en vertical, en
+   1080p y de 5 a 8 segundos (los archivos de más de 10 MB no se pueden recoger de Drive). Si la pieza lleva **voz en
+   off**, escribe el texto para leer: la persona lo graba con la grabadora del móvil y lo sube a `Brutos` con el nombre
+   `CT-<código> voz`. El montaje lo hace `editor-video` (`contenido/videos/README.md`) en una sesión con el repositorio.
 5. **Textos por red**:
    - Instagram y Facebook: 3-6 líneas, primera línea = gancho, «enlace en mi perfil», 3-5 hashtags temáticos (sin marca).
    - TikTok: 1-2 líneas, sin invitar al negocio ni al webinar, «más en mi perfil».
