@@ -24,6 +24,12 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
   persona tiene su perfil definido red por red y sus 100 primeras piezas ordenadas por fases, cada una con su «por qué
   hoy» (`estrategia/perfil-y-100-dias.md`, agente `estrategia-100-dias`). La semana sale de ese plan.
 
+- 2026-11-15 · Los carruseles eran todos de imágenes quietas; «ahora se lleva el motion: la imagen moviéndose, la
+  bolita subiendo y bajando por la montaña rusa… no únicamente un carrusel estático» · opinión de Alejandro · Regla:
+  cuando el movimiento cuenta la idea, el carrusel lleva una o dos imágenes con movimiento (un vídeo de 5 a 7 segundos:
+  un recorrido que se dibuja, una lista que se marca, el titular entrando sobre un vídeo real de la persona). Se hacen
+  con `npm run carrusel-animado` (`contenido/carruseles/README.md`).
+
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.
 - Los ganchos con una escena concreta («un domingo por la tarde…») retendrán más que los genéricos.

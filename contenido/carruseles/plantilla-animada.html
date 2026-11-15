@@ -1,0 +1,166 @@
+<!doctype html>
+<!-- Plantilla de una imagen de carrusel con movimiento (1080 × 1350). Cópiala fuera del repositorio como index.html,
+     cambia colores y textos y ejecútala con: npm run carrusel-animado -- <carpeta>. Guía: README.md, «Imágenes con movimiento».
+     Todo lo que se mueve va en la línea de tiempo «tl» de GSAP: el render avanza fotograma a fotograma, así que no sirven
+     las animaciones de CSS ni setTimeout. -->
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1350" />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/MotionPathPlugin.min.js"></script>
+<style>
+
+  /* Colores de la persona (equipo/<persona>/design.md): cambia solo estas variables */
+  :root {
+    --fondo: #fdfcfc; --lila: #d0c7ff; --texto: #000; --secundario: #44403b;
+    --acento: #af562c; --acento-claro: #ffa174; --estructura: #6952e0; --borde: #ebe8e4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: 'Inter Tight', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  /* ---------- Base de cada imagen ---------- */
+  .slide { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--fondo);
+    color: var(--texto); margin: 0 auto 40px; }
+  .slide.lila { background: var(--lila); }
+  .capa { position: absolute; inset: 0; padding: 64px 76px; display: flex; flex-direction: column; z-index: 3; }
+  .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;
+    filter: sepia(.06) saturate(1.02) contrast(1.08) brightness(.97); }
+  .velo { position: absolute; inset: 0; z-index: 1; }
+
+  /* El camino: una línea de puntos que entra por la izquierda y sale por la derecha a la misma altura
+     que entra en la siguiente imagen. Al deslizar se ve continua. */
+  svg.camino { position: absolute; inset: 0; width: 1080px; height: 1350px; z-index: 2; overflow: visible; }
+  svg.camino path { fill: none; stroke: var(--estructura); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1 22; }
+  svg.camino .meta { fill: var(--acento); }
+  .sobre-foto svg.camino path { stroke: var(--fondo); }
+  .portada svg.camino path { stroke: var(--estructura); } /* la portada acaba en fondo claro */
+  .cita .capa { color: var(--fondo); }
+
+  /* Barra superior */
+  .barra { display: flex; justify-content: space-between; align-items: center;
+    font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .barra .num { color: var(--estructura); font-variant-numeric: tabular-nums; }
+  .lila .barra .num { color: var(--secundario); }
+  .sobre-foto .barra, .sobre-foto .barra .num { color: var(--fondo); }
+
+  /* Texto */
+  .etiqueta { display: flex; align-items: center; gap: 22px; font-size: 26px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
+  .etiqueta .linea { width: 76px; border-top: 3px solid currentColor; }
+  .lila .etiqueta { color: var(--secundario); }
+  .sobre-foto .etiqueta { color: var(--fondo); }
+  h1, h2 { font-weight: 700; letter-spacing: -0.045em; line-height: .92; }
+  h1 { font-size: 112px; }
+  h2 { font-size: 118px; margin-top: 40px; }
+  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; color: var(--acento); }
+  .sobre-foto em { color: var(--acento-claro); }
+  .cuerpo { font-size: 44px; font-weight: 500; line-height: 1.36; color: var(--secundario); }
+  .cuerpo p + p { margin-top: 18px; }
+  .cuerpo strong { color: var(--texto); font-weight: 700; }
+  .sobre-foto .cuerpo { color: rgba(253,252,252,.92); }
+  .mano { font-family: 'Caveat', cursive; font-weight: 700; color: var(--estructura); line-height: 1; }
+
+  /* ---------- 1 · Portada con foto a sangre ---------- */
+  .portada .velo { background: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, transparent 16%, transparent 42%,
+    rgba(253,252,252,.88) 63%, #fdfcfc 74%); }
+  .portada h1 { margin-top: auto; margin-bottom: 150px; }
+
+  /* ---------- 2 · Polaroid ---------- */
+  .polaroid { position: absolute; z-index: 3; right: 82px; top: 610px; width: 430px; background: #fff;
+    border: 2px solid var(--borde); padding: 22px 22px 0; transform: rotate(5deg); }
+  .polaroid img { display: block; width: 100%; height: 430px; object-fit: cover; object-position: 50% 35%; }
+  .polaroid .pie { font-family: 'Caveat', cursive; font-weight: 700; font-size: 50px; color: var(--secundario);
+    text-align: center; padding: 14px 0 20px; }
+
+  /* ---------- 3 · Lista tachada ---------- */
+  .lista { margin-top: 44px; background: var(--fondo); border-radius: 36px; padding: 26px 48px; }
+  .lista li { list-style: none; display: flex; align-items: center; gap: 26px; padding: 18px 0;
+    font-size: 46px; font-weight: 600; color: var(--secundario); border-bottom: 3px dashed var(--lila); }
+  .lista li:last-child { border-bottom: none; }
+  .lista .hecho span { text-decoration: line-through; text-decoration-color: var(--acento); text-decoration-thickness: 5px; }
+  .lista .marca { width: 44px; height: 44px; border-radius: 50%; background: var(--estructura); color: var(--fondo);
+    display: grid; place-items: center; font-size: 26px; font-weight: 800; flex: none; }
+  .lista .vacia { background: transparent; border: 4px solid var(--acento); }
+  .lista .pregunta { font-family: 'Caveat', cursive; font-size: 66px; font-weight: 700; color: var(--acento); }
+
+  /* ---------- 5 · Foto partida ---------- */
+  .partida .arriba { position: absolute; left: 0; top: 0; width: 100%; height: 600px; object-fit: cover;
+    object-position: 50% 30%; z-index: 0; filter: sepia(.06) contrast(1.06); }
+  .partida .velo { height: 600px; background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, transparent 22%); }
+  .partida .bloque { margin-top: 580px; }
+  .partida h2 { font-size: 100px; }
+
+  /* ---------- 6 · Semana ---------- */
+  .semana { display: grid; grid-template-columns: repeat(7, 1fr); gap: 22px; margin-top: 50px; }
+  .dia { height: 290px; background: var(--fondo); border-radius: 26px; display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between; padding: 22px 0 16px; }
+  .dia b { font-size: 34px; color: var(--secundario); }
+  .dia i { font-style: normal; width: 84%; height: 96px; border-radius: 18px; background: var(--estructura);
+    color: var(--fondo); font-size: 22px; font-weight: 700; display: grid; place-items: center; text-transform: uppercase; letter-spacing: .04em; }
+  .dia.libre i { background: transparent; }
+  .redonda { width: 210px; height: 210px; border-radius: 50%; object-fit: cover; border: 8px solid var(--fondo); }
+
+  /* ---------- 7 · Foto con cita ---------- */
+  .cita .velo { background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 16%, transparent 40%,
+    rgba(24,18,14,.72) 66%, rgba(24,18,14,.86) 100%); }
+  .cita .bloque { margin-top: auto; margin-bottom: 150px; }
+
+  /* ---------- 8 · Cierre ---------- */
+  .yo { display: flex; align-items: center; gap: 34px; margin-top: 70px; }
+  .yo img { width: 260px; height: 260px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 10px solid var(--lila); }
+  .boton { margin-top: 46px; display: flex; width: fit-content; align-items: center; gap: 44px;
+    background: var(--texto); color: var(--fondo); border-radius: 72px; padding: 32px 44px;
+    font-size: 30px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+
+  html, body { margin: 0; width: 1080px; height: 1350px; overflow: hidden; background: var(--fondo); }
+  .slide { margin: 0; }
+  #bola { fill: var(--acento); stroke: var(--fondo); stroke-width: 8; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="6.6" data-width="1080" data-height="1350">
+<section class="slide">
+  <svg class="camino" viewBox="0 0 1080 1350">
+    <defs>
+      <mask id="mascara" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1350">
+        <path id="trazo" d="M0 1240 C 120 1150, 170 720, 280 720 C 400 720, 420 1060, 540 1060 C 660 1060, 690 660, 800 660 C 930 660, 960 1210, 1080 1250" style="stroke: #fff; stroke-width: 44; stroke-linecap: butt;"/>
+      </mask>
+    </defs>
+    <path id="via" d="M0 1240 C 120 1150, 170 720, 280 720 C 400 720, 420 1060, 540 1060 C 660 1060, 690 660, 800 660 C 930 660, 960 1210, 1080 1250" style="stroke-width: 12; stroke-dasharray: 1 26;" mask="url(#mascara)"/>
+    <circle id="bola" cx="0" cy="0" r="26"/>
+  </svg>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">04 / 08</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>03</span><span class="linea"></span><span>Cada semana</span></div>
+    <h2 id="titulo">Es una <em>montaña rusa</em>.</h2>
+    <div id="texto" class="cuerpo" style="margin-top: 30px; font-size: 40px;"><p>Los dos tipos de día son normales.</p></div>
+  </div>
+  <div id="nota1" class="mano" style="position:absolute; z-index:3; left:560px; top:560px; font-size:50px; transform: rotate(-3deg);">«¡lo veo clarísimo!»</div>
+  <div id="nota2" class="mano" style="position:absolute; z-index:3; left:330px; top:1095px; font-size:50px; transform: rotate(2deg);">«esto no le interesa a nadie»</div>
+</section>
+</div>
+<script>
+  gsap.registerPlugin(MotionPathPlugin);
+  const tl = gsap.timeline({ paused: true });
+  const via = document.querySelector('#via');
+  const largo = via.getTotalLength();
+  // A qué parte del camino llega la bola cuando pasa por una x dada.
+  const parte = (x) => { for (let i = 0; i <= 500; i++) { if (via.getPointAtLength((largo * i) / 500).x >= x) return i / 500; } return 1; };
+  const salida = 0.9, viaje = 4.4;
+  gsap.set('#trazo', { strokeDasharray: largo + ' ' + largo, strokeDashoffset: largo });
+  gsap.set('#bola', { opacity: 0 });
+  tl.fromTo('#titulo', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 0.1);
+  tl.fromTo('#texto', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, 0.45);
+  tl.set('#bola', { opacity: 1 }, salida);
+  tl.to('#bola', { motionPath: { path: '#via', align: '#via', alignOrigin: [0.5, 0.5] }, duration: viaje, ease: 'none' }, salida);
+  tl.to('#trazo', { strokeDashoffset: 0, duration: viaje, ease: 'none' }, salida);
+  tl.fromTo('#nota2', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, salida + viaje * parte(540));
+  tl.fromTo('#nota1', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, salida + viaje * parte(800));
+  tl.to('#bola', { opacity: 0, duration: 0.2 }, salida + viaje - 0.12);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

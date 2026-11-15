@@ -11,6 +11,7 @@
     "generar-api": "node scripts/generar-api.mjs",
     "comprobar": "node scripts/comprobar.mjs",
     "carrusel": "node scripts/carrusel.mjs",
+    "carrusel-animado": "node scripts/carrusel-animado.mjs",
     "paquete-agentes": "node scripts/paquete-agentes.mjs",
     "plantillas-drive": "node scripts/plantillas-drive.mjs",
     "video": "node scripts/video.mjs",
