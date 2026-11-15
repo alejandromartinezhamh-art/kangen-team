@@ -13,6 +13,7 @@
     "carrusel": "node scripts/carrusel.mjs",
     "paquete-agentes": "node scripts/paquete-agentes.mjs",
     "plantillas-drive": "node scripts/plantillas-drive.mjs",
+    "video": "node scripts/video.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"
   },

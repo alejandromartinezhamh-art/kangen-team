@@ -11,6 +11,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Formatos y banco de ganchos | `contenido/formatos.md`, `contenido/ganchos.md` |
 | Lo aprendido (todo el equipo) | `contenido/aprendizajes-equipo.md` |
 | Plantilla de carruseles | `contenido/carruseles/` (`npm run carrusel`) |
+| Vídeos con su voz o con textos en pantalla | `contenido/videos/` (`npm run video`) |
 | La historia de cada persona (fuente) | Drive → `Landing Kangen <Persona>` → `Cuestionario historia y avatar - <Persona>.docx` |
 | Su voz, su historia y su persona ideal (lo que leen los agentes) | Notion → CONTENIDO Y ANUNCIOS → **Fichas de voz** |
 | Lo aprendido de cada persona | Datos: `equipo/<persona>/contenido/aprendizajes.md` · Opiniones sobre su voz: su ficha de voz, sección «Feedback y aprendizajes» |
@@ -81,7 +82,7 @@ la pieza en el Calendario. Cada vez, el agente `aprender`:
 | Guionista | `.claude/skills/guion` | Listo |
 | Revisor | `.claude/skills/revisar-normas` | Listo |
 | Aprendizaje | `.claude/skills/aprender` | Listo |
-| Editor (HyperFrames y carruseles) | Carruseles: `contenido/carruseles/` | Carruseles listos; vídeo: fase 1 |
+| Editor (vídeos y carruseles) | `.claude/skills/editor-video` · Carruseles: `contenido/carruseles/` | Listo (solo en sesiones con el repositorio) |
 | Publicador | — | Fase 2: necesita las apps de Meta, YouTube y TikTok |
 | Analista | — | Fase 2: necesita las apps y la hoja de leads de cada persona |
 | Anuncios | — | Fase 3: necesita la cuenta publicitaria y piezas que ya traigan leads cualificados |
