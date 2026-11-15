@@ -32,7 +32,8 @@ desde un solo sitio.
 En cada tarea:
 1. Cualquier cosa que tenga que hacer alguien apunta allí en la misma tarea, en la pestaña de esa persona, con todos los
    pasos y enlaces: un paso técnico, un dato que nos tiene que pasar, una respuesta que esperamos (por ejemplo, un email
-   al que todavía no ha contestado), un contenido o una decisión. Nunca se queda solo en el chat o en un email.
+   al que todavía no ha contestado), un contenido o una decisión que solo esa persona puede tomar. Nunca se queda solo
+   en el chat o en un email.
 2. Lo que depende de Alejandro cuando otra persona conteste va en la pestaña de esa persona, en «Lo que haces tú con…».
 3. Marca como hecho lo que hagas tú y comprueba las tareas que ya se hayan cumplido (por ejemplo, si llega su respuesta).
 4. Nunca escribas tokens, contraseñas ni claves en la lista.
@@ -44,6 +45,15 @@ Cómo se escribe cada tarea (masticada, para hacerla sin pensar):
 - Si hay que escribir a alguien, un enlace de WhatsApp con el mensaje ya escrito (`https://wa.me/<número>?text=…`).
 - Si tiene varios pasos, numerados y cortos: qué pulsar y qué escribir. Si me lo puede pasar a mí, dilo («escríbemelo
   aquí y lo pongo yo»).
+
+## Decide tú (obligatorio)
+
+Lo que Claude puede decidir, lo decide y lo ejecuta: estrategia, orden de las piezas, formatos, ganchos, diseño,
+herramientas, textos. No se pregunta ni se apunta en Pendientes como «decide…» o «elige…». En el chat se dice en una
+línea qué se ha decidido y por qué; si después no funciona, se cambia y se aprende (`aprender`).
+
+Pendientes es solo para lo que únicamente puede hacer una persona: grabar, poner algo en su cuenta, aprobar su pieza,
+pagar, dar un dato o un acceso, o decidir algo de su vida privada o que cueste dinero.
 
 ## Normas de comunicación
 
@@ -61,7 +71,10 @@ normas en `estrategia/curso.md`. Tras cambiarlo, `npm run generar-api`.
 ## Marketing y contenido
 
 La estrategia de contenido y anuncios está en `estrategia/marketing.md`; el día a día, en `contenido/README.md`. Los agentes
-(investigador, estratega, guionista, revisor, entrevista de historia, aprendizaje) tienen sus instrucciones en `.claude/skills/`.
+(investigador, estratega de perfil, estratega, guionista, revisor, entrevista de historia, aprendizaje) tienen sus
+instrucciones en `.claude/skills/`. El perfil de cada persona (presentación, fijadas, destacadas) y sus 100 primeras
+piezas en orden se definen una vez con `estrategia/perfil-y-100-dias.md` (agente `estrategia-100-dias`); la semana sale
+de ese plan, no se improvisa.
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
 alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
 conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la

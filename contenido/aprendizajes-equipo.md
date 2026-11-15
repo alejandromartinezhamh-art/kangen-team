@@ -15,6 +15,15 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
 - 2026-11-14 · Carrusel CT-1 (v2): con 8 composiciones, 6 fotos reales y el camino de puntos «me gusta bastante más» ·
   opinión de Alejandro · Se mantiene la regla anterior como estándar de todos los carruseles.
 
+- 2026-11-14 · Las decisiones de contenido (qué herramientas usar, qué 10 ideas hacer) estaban apuntadas como tareas
+  para decidir; «no quiero que sea pendientes: si lo publicamos y no funciona, ya te lo diré» · opinión de Alejandro ·
+  Regla: lo que Claude puede decidir, lo decide y lo ejecuta, y lo explica en una línea. Pendientes es solo para lo que
+  únicamente puede hacer una persona (`CLAUDE.md`, «Decide tú»).
+- 2026-11-14 · Había ideas sueltas, pero faltaba la estrategia: qué poner en la presentación, en las destacadas y en lo
+  fijado, y por qué se publica cada cosa y en qué orden · opinión de Alejandro · Regla: antes de producir piezas, cada
+  persona tiene su perfil definido red por red y sus 100 primeras piezas ordenadas por fases, cada una con su «por qué
+  hoy» (`estrategia/perfil-y-100-dias.md`, agente `estrategia-100-dias`). La semana sale de ese plan.
+
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.
 - Los ganchos con una escena concreta («un domingo por la tarde…») retendrán más que los genéricos.

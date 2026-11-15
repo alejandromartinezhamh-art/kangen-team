@@ -59,7 +59,12 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Notion: invitada a editar el Calendario, el Radar y «Propuestas para todo el equipo», y solo su ficha de voz
 - [ ] Invitada como miembro a la organización de Claude (plan Team), con Notion y Google Drive conectados (mensaje 8)
 - [ ] Sin acceso a GitHub ni a Vercel (nunca)
-- [ ] Primer plan semanal creado y primera sesión de grabación (1 hora)
+- [ ] Estrategia y 100 días hechos (`estrategia/perfil-y-100-dias.md`): documento de estrategia, 100 piezas con Día y
+      Fase en el Calendario y su vista «<Nombre> · 100 días»
+- [ ] «<Nombre> · Empezamos: tu perfil y tu primera grabación» en su Drive y enviado (mensaje 9)
+- [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
+- [ ] Primer lote grabado (días 1 a 14) y día de salida fijado
+- [ ] Primer plan semanal creado a partir de su plan de 100 días
 - [ ] Sabe dónde dar su opinión de cada pieza (en el chat o en **Feedback** de la pieza) y su ficha tiene la sección
       «Feedback y aprendizajes»
 - [ ] Primeras piezas aprobadas y publicadas, con su código en los enlaces

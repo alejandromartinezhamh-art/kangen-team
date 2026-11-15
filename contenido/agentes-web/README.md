@@ -9,7 +9,7 @@ propietario de la organización y las demás son miembros.
 | Qué | Alejandro | Resto del equipo |
 |---|---|---|
 | Claude (organización Team) | Propietario | Miembro |
-| Agentes `guion`, `aprender`, `revisar-normas`, `plan-semanal`, `entrevista-historia` | Los sube a la organización | Les aparecen solos |
+| Agentes `guion`, `aprender`, `revisar-normas`, `plan-semanal`, `estrategia-100-dias`, `entrevista-historia` | Los sube a la organización | Les aparecen solos |
 | Notion → CONTENIDO Y ANUNCIOS | Todo | Editar el Calendario, el Radar y «Propuestas para todo el equipo». De las Fichas de voz, **solo la suya** (lleva su historia personal) |
 | Drive | Todo | Su carpeta `Landing Kangen <Persona>` |
 | Su web | Todo | Su editor (`/editar`): textos, colores, fotos y emails |

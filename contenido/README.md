@@ -7,6 +7,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Qué | Dónde |
 |---|---|
 | Estrategia, normas, mensaje y cliente ideal | `estrategia/marketing.md`, `normas-comunicacion.md`, `mensaje.md`, `icp.md` |
+| Perfil de cada red y plan de 100 días (el método) | `estrategia/perfil-y-100-dias.md` |
 | Formatos y banco de ganchos | `contenido/formatos.md`, `contenido/ganchos.md` |
 | Lo aprendido (todo el equipo) | `contenido/aprendizajes-equipo.md` |
 | Plantilla de carruseles | `contenido/carruseles/` (`npm run carrusel`) |
@@ -46,7 +47,10 @@ guardan aquí.
 
 ## La semana
 
-1. **Lunes**: `investigar-contenido` → `plan-semanal` (que usa `guion` para cada pieza). Calendario listo en Notion.
+0. **Una vez por persona**: `estrategia-100-dias` define su perfil (presentación, fijadas, destacadas) y sus 100
+   primeras piezas en orden, con **Día** y **Fase** en el Calendario, y le deja en Drive la lista de su primera grabación.
+1. **Lunes**: `investigar-contenido` → `plan-semanal`, que toma las 7 piezas siguientes de su plan (y usa `guion` para
+   cada una). Calendario listo en Notion.
 2. **Sesión de grabación** (1 hora): la persona graba los guiones y sube los vídeos a `Brutos`.
 3. Editor → `revisar-normas` → la pieza queda **Para aprobar**.
 4. **La persona aprueba** en Notion (Estado → Aprobado). Nada se publica ni se gasta sin eso.
@@ -72,6 +76,7 @@ la pieza en el Calendario. Cada vez, el agente `aprender`:
 |---|---|---|
 | Entrevista de historia | `.claude/skills/entrevista-historia` | Listo |
 | Investigador | `.claude/skills/investigar-contenido` | Listo |
+| Estratega de perfil (100 días) | `.claude/skills/estrategia-100-dias` | Listo |
 | Estratega | `.claude/skills/plan-semanal` | Listo |
 | Guionista | `.claude/skills/guion` | Listo |
 | Revisor | `.claude/skills/revisar-normas` | Listo |

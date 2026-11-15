@@ -13,6 +13,8 @@ const salida = path.join(raiz, 'dist', 'agentes-web');
 const AGENTES = {
   'entrevista-historia':
     'Pasa el cuestionario de historia de una persona del equipo a su ficha de voz en Notion o la entrevista con preguntas cortas. Úsala con «entrevístame» o «actualiza mi ficha».',
+  'estrategia-100-dias':
+    'Define la estrategia de perfil de una persona del equipo y sus 100 primeras piezas, por fases, en el Calendario de Notion. Úsala una vez por persona o cuando pidan su estrategia.',
   'plan-semanal':
     'Prepara el plan de contenido de la semana de una persona en el Calendario de Notion: pilar, formato, fecha, gancho y guion. Úsala los lunes o cuando pidan el plan de la semana.',
   guion:
@@ -30,6 +32,7 @@ const REFERENCIAS = [
   'estrategia/mensaje.md',
   'estrategia/normas-comunicacion.md',
   'estrategia/icp.md',
+  'estrategia/perfil-y-100-dias.md',
   'contenido/README.md',
   'contenido/formatos.md',
   'contenido/ganchos.md',
