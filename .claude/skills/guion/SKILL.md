@@ -58,6 +58,8 @@ En el cuerpo de la página de la pieza:
    repositorio.
 4. Sube los PNG y el HTML a Drive → `05 Contenido redes/Editados/CT-<código> <título> (v1)` y pon esa carpeta en
    **Archivo**. Estado = Editado.
+5. Si la persona tiene **estudio** (`contenido/estudio/README.md`), deja también la pieza allí (`piezas/CT-<código>`,
+   con las mismas imágenes): es donde ella y Alejandro cambian fotos, textos y dibujos sin otra herramienta.
 
 ## Reglas de escritura
 - Primera persona, con sus expresiones de la ficha. Si la ficha no está «Lista para guiones», avisa: el guion será

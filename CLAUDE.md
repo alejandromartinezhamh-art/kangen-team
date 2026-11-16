@@ -78,6 +78,8 @@ instrucciones en `.claude/skills/`. El perfil de cada persona (presentación, fi
 piezas en orden se definen una vez con `estrategia/perfil-y-100-dias.md` (agente `estrategia-100-dias`); la semana sale
 de ese plan, no se improvisa. Los vídeos con la voz de la persona o con textos en pantalla se montan con
 `npm run video` (`contenido/videos/README.md`, agente `editor-video`); la voz publicada es siempre la suya, nunca generada.
+Cada persona tiene su **estudio** en Claude (`contenido/estudio/README.md`) para ver y cambiar sus carruseles y montar
+sus vídeos; en cada sesión con el repositorio, genera lo que esté en «Listo» allí.
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
 alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
 conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la

@@ -15,7 +15,8 @@ Aprendidas de las opiniones de Alejandro sobre los carruseles de Gemma (14 y 16 
 - **El tamaño se adapta**: los titulares llevan `class="ajustar"` y crecen o encogen hasta llenar su hueco. Una frase
   corta va enorme; nada de dejar media imagen vacía (el contenido sin foto va en `<div class="centro">`).
 - **Dibujos que señalan**: flechas, círculos, subrayados, rotulador, cinta o pegatinas, como mucho dos por imagen y
-  siempre apuntando a algo (una palabra, una foto, la siguiente imagen).
+  siempre apuntando a algo (una palabra, una foto, la siguiente imagen). El **círculo**, solo en palabras de la primera
+  línea del titular: debajo de otra línea la pisa y parece tachada (ahí, subrayado).
 - **Al menos 3 fotos reales** de la persona, distintas entre sí (en el estilo tipográfico, 1 o 2). Nada de IA salvo
   que se marque con su etiqueta.
 - **Las caras, enteras y sin texto encima.** `npm run carrusel` coloca cada foto sola y no deja entregar si una cara
@@ -80,6 +81,11 @@ Si una idea pide algo que no está, se crea la composición en la plantilla con 
 Los dibujos toman el color de la imagen solos (claros sobre fondo oscuro).
 
 ## Cómo se hace uno
+
+Las piezas de cada persona viven en **su estudio** (`contenido/estudio/README.md`): ahí se ven tal cual saldrán y
+cualquiera del equipo cambia fotos, encuadre, textos, dibujos, imágenes o estilo sin tocar el HTML. Claude las crea allí
+(con las mismas composiciones de esta plantilla) y genera las imágenes finales cuando la pieza está en «Listo». Lo de
+abajo es lo que hay debajo, y lo que se hace directamente en una sesión con el repositorio:
 
 1. El texto de cada imagen está en la pieza del Calendario de Notion, con su **estilo**, su **composición** y su
    **foto** (lo escribe el agente `guion`).

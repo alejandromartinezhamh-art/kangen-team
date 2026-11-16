@@ -45,8 +45,12 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
   pantalla se queda quieto y entero el tiempo de leerlo: unas 3 palabras por segundo y nunca menos de 2 segundos. Lo
   calculan `npm run video` y la plantilla del Reel animado, y `npm run carrusel-animado` no renderiza si no se cumple.
 - 2026-11-16 · «Que pueda elegir yo la foto y editarla, y editar los vídeos con la voz en off sin irnos a otra
-  herramienta» · petición de Alejandro · Se prepara un estudio dentro de Claude para elegir foto y encuadre de cada
-  imagen y montar los vídeos con su voz.
+  herramienta» · petición de Alejandro · Hecho: cada persona tiene su estudio en Claude (`contenido/estudio/README.md`)
+  con su galería; ahí se cambian fotos, encuadre, textos, dibujos e imágenes, se montan los vídeos con su nota de voz y
+  avisa en directo de caras cortadas y textos que no se leen.
+- 2026-11-16 · Revisión de las versiones 2 de Gemma · aprendido al revisarlas · Reglas: el círculo dibujado solo en
+  palabras de la primera línea del titular (debajo pisa la línea de arriba y parece tachado; ahí, subrayado); la hoja
+  de libreta, con letra grande y alta, para que no deje media imagen vacía; los largos varían de verdad (de 3 a 8).
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.
