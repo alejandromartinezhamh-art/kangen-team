@@ -61,6 +61,14 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
    envía en el chat y quien lo recibe lo guarda en `Editados`. En un ordenador con la carpeta de Drive sincronizada, se
    copia directamente. En la pieza: **Estado** = Editado.
 
+## En el estudio
+
+Cada vídeo también se monta en el **estudio** de la persona (`contenido/estudio/README.md`): planos en orden, el trozo
+de cada clip (deslizando), el texto de cada plano, cuánto dura, el gancho y su nota de voz (m4a del iPhone o de
+WhatsApp; las de WhatsApp se preparan solas en el navegador). Se ve en marcha con su voz y avisa si un texto no da tiempo
+a leerse o si un clip se acaba antes. Lo que guarda es lo mismo que `pieza.json`: `npm run estudio -- preparar` lo
+escribe y `npm run video` lo monta, con subtítulos.
+
 ## Reel animado (sin grabar nada)
 
 Para las piezas que son solo una idea: texto en movimiento sobre **dos fotos reales** de la persona, con un recorrido

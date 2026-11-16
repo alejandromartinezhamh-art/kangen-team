@@ -291,10 +291,11 @@
   .burbuja .hora { display: block; margin-top: 8px; font-size: 24px; font-weight: 600; opacity: .55; text-align: right; }
 
   /* nota: hoja de libreta o pósit con letra a mano */
-  .hoja { position: relative; margin-top: 60px; background: #fffef8; padding: 70px 70px 80px 120px; box-shadow: 0 18px 40px rgba(0,0,0,.12);
+  .hoja { position: relative; margin-top: 60px; min-height: 640px; background: #fffef8; padding: 82px 70px 80px 124px; box-shadow: 0 18px 40px rgba(0,0,0,.12);
     background-image: linear-gradient(to right, transparent 92px, color-mix(in srgb, var(--acento-claro) 70%, transparent) 92px, color-mix(in srgb, var(--acento-claro) 70%, transparent) 95px, transparent 95px),
-      repeating-linear-gradient(to bottom, transparent 0 77px, color-mix(in srgb, var(--lila) 80%, transparent) 77px 79px); }
-  .hoja .mano { font-size: 74px; line-height: 78px; color: var(--texto); }
+      repeating-linear-gradient(to bottom, transparent 0 95px, color-mix(in srgb, var(--lila) 80%, transparent) 95px 97px); }
+  /* Letra grande y la hoja alta: llena la imagen (las rayas van cada 96 px, como las líneas) */
+  .hoja .mano { font-size: 88px; line-height: 96px; color: var(--texto); }
   .posit { position: absolute; z-index: 4; width: 420px; padding: 50px 44px 60px; background: #fff2a8; box-shadow: 0 16px 34px rgba(0,0,0,.14); }
   .posit .mano { color: var(--texto); font-size: 60px; }
 

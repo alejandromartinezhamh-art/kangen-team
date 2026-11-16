@@ -12,7 +12,9 @@ description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de
 - Su ficha de voz: lo marcado ⚠ y su sección «Feedback y aprendizajes». `contenido/aprendizajes-equipo.md`.
 
 ## Pasos
-1. **Material**: en Drive → `Landing Kangen <Persona>/05 Contenido redes/Brutos`, su voz (`CT-<código> voz`) y sus
+1. **Material**: si la pieza está en su **estudio** (`contenido/estudio/README.md`) y en «Listo», ya trae los planos,
+   los textos, los tiempos y la voz: bájalos y escribe `pieza.json` con `npm run estudio -- preparar`, y sigue en el
+   paso 2. Si no, en Drive → `Landing Kangen <Persona>/05 Contenido redes/Brutos`, su voz (`CT-<código> voz`) y sus
    clips. Bájalos a una carpeta de trabajo fuera del repositorio. Si falta la voz o un plano, no lo inventes: apúntalo
    en su pestaña de Pendientes y, si quieres enseñar el formato, haz una maqueta con `"vozDePrueba": true`.
 2. **Mira cada clip entero**: `npm run video -- <carpeta> --planos` hace `planos.jpg` con un fotograma por segundo de

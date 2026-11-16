@@ -15,6 +15,7 @@
     "paquete-agentes": "node scripts/paquete-agentes.mjs",
     "plantillas-drive": "node scripts/plantillas-drive.mjs",
     "video": "node scripts/video.mjs",
+    "estudio": "node scripts/estudio.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"
   },

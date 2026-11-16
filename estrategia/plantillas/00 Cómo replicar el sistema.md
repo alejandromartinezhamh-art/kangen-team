@@ -123,6 +123,10 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`). Los Reels animados (solo texto en
    movimiento sobre dos fotos suyas, sin grabar nada) salen de `contenido/videos/plantilla-reel-animado.html` con
    `npm run carrusel-animado`.
+   **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips,
+   donde ve cada carrusel tal cual saldrá y lo cambia sin otra herramienta (fotos, encuadre, textos, flechas y
+   pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz. Cuando pulsa «Listo», Claude lo genera con
+   las herramientas de siempre. Se crea al empezar su contenido y se comparte con ella como Editor.
 8. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
    chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz
    (sección «Feedback y aprendizajes») y rehace las piezas pendientes; al publicar, aprende también de los cambios de
