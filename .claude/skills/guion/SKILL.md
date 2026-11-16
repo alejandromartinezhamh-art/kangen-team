@@ -24,7 +24,9 @@ En el cuerpo de la página de la pieza:
    «plano del portátil»). 30-60 s en total (≈ 75-150 palabras).
 3. **Cierre** + llamada a la acción hablada.
 4. **Dónde y cómo grabar**: lugar, luz, ropa, si hace falta un plano extra del día a día. Los clips, en vertical, en
-   1080p y de 5 a 8 segundos (los archivos de más de 10 MB no se pueden recoger de Drive). Si la pieza lleva **voz en
+   1080p y de 5 a 8 segundos (los archivos de más de 10 MB no se pueden recoger de Drive). Cada plano tiene que enseñar
+   lo que dice su texto (nada de suelo, pies ni techo). Cada texto en pantalla, el tiempo de leerlo: unas 3 palabras
+   por segundo y nunca menos de 2 segundos; si una frase no cabe, se parte o se acorta. Si la pieza lleva **voz en
    off**, escribe el texto para leer: la persona lo graba con la grabadora del móvil y lo sube a `Brutos` con el nombre
    `CT-<código> voz`. El montaje lo hace `editor-video` (`contenido/videos/README.md`) en una sesión con el repositorio.
 5. **Textos por red**:
@@ -34,16 +36,23 @@ En el cuerpo de la página de la pieza:
 6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
 
 ## Carrusel
-1. **Texto de cada imagen** en una tabla (#, composición, foto, etiqueta, titular, texto): portada con la palabra de
-   énfasis entre asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura de
-   `contenido/formatos.md`. Elige la composición de cada imagen y sus fotos con las reglas de
-   `contenido/carruseles/README.md`: al menos 4 composiciones distintas, nunca dos iguales seguidas y al menos 3 fotos
-   reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer). Si el movimiento cuenta la idea, marca en
-   la tabla **una o dos imágenes con movimiento** y qué se mueve (README, «Imágenes con movimiento»).
+1. **Texto de cada imagen** en una tabla (#, composición, foto, etiqueta, titular, texto, adorno): portada con la
+   palabra de énfasis entre asteriscos, como en las webs (`Otra *manera*`), máximo 25 palabras por imagen. Estructura
+   de `contenido/formatos.md`. Con las reglas de `contenido/carruseles/README.md`:
+   - **Cuántas imágenes**: las que pida la idea (3 para una idea con giro, 5 para una lista corta o un antes y
+     después, 7-10 para una historia o una guía), nunca un número fijo.
+   - **Estilo visual** (álbum, revista, tipográfico o documental): distinto del de sus tres carruseles anteriores
+     (mira la propiedad **Estilo visual** en el Calendario) y ponlo en la pieza.
+   - **Composiciones**: al menos 4 distintas, nunca dos iguales seguidas; la foto que va en cada una tiene que caber
+     sin cortar la cara (una selfie no va en una franja estrecha).
+   - **Adornos**: como mucho dos por imagen (flecha, círculo, subrayado, pegatina…) y que señalen algo.
+   - **Fotos**: al menos 3 reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer).
+   - Si el movimiento cuenta la idea, marca **una o dos imágenes con movimiento** y qué se mueve.
 2. **Texto de la publicación** de Instagram y Facebook.
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
    colores de `equipo/<persona>/design.md`, los textos y su foto de portada (`foto.jpg`, una foto real de su Drive), y
-   genera las imágenes con `npm run carrusel -- <carpeta>`. Mira el resultado antes de darlo por bueno.
+   genera las imágenes con `npm run carrusel -- <carpeta>`. Si avisa de una cara cortada o con texto encima, cambia la
+   composición, la foto o el sitio del texto. Mira cada imagen a tamaño real antes de darlo por bueno.
    Si no puedes ejecutarlo (Claude en la web), deja el `carrusel.html` y la foto en la carpeta de Drive del paso 4,
    enséñalo como vista previa si puedes, y pon en **Notas** «Faltan las imágenes»: las genera la siguiente sesión con el
    repositorio.

@@ -2,16 +2,27 @@
 <!--
   Plantilla de carrusel (Instagram y Facebook, 1080 × 1350). Cómo se usa y reglas: contenido/carruseles/README.md.
   Copia este archivo FUERA del repositorio (es público) como carrusel.html y pon al lado las fotos reales de la persona
-  con los nombres que usa cada imagen (foto-portada.jpg, foto-2.jpg…). Colores de :root = equipo/<persona>/design.md.
+  (foto-1.jpg, foto-2.jpg…). Colores de :root = equipo/<persona>/design.md (aquí, los de Gemma).
 
-  Composiciones (una <section> cada una; usa al menos 4 distintas y nunca dos iguales seguidas):
-    portada   foto a sangre y titular abajo            polaroid  foto girada con pie escrito a mano
-    lista     lista tachada o checklist                grafica   el camino dibuja una curva (subidas y bajadas)
-    partida   foto arriba y texto abajo                semana    calendario, pasos o iconos
-    cita      foto a sangre oscura con la frase        cierre    foto redonda, pregunta y botón
-  El camino: línea de puntos que entra por la izquierda a la altura en que salió de la imagen anterior (mismo número
-  en el «M0 …» de la siguiente). Así se ve continuo al deslizar. Empieza con un punto en la portada y acaba en el cierre.
-  Los colores de partida son los de Gemma.
+  1. ESTILO: una clase en <body> cambia todo el carrusel. Cada carrusel usa un estilo distinto de los tres anteriores
+     de la persona.
+       album        papel, fotos con cinta, letra a mano, flechas y garabatos      (cercano, diario)
+       revista      serif grande, líneas finas, foto con marco, mucho aire         (elegante, reflexivo)
+       tipografico  palabras enormes sobre bloques de color, poca foto             (directo, frases)
+       documental   la foto manda: a sangre, texto corto en franjas                (vivencial, su día)
+  2. COMPOSICIONES: una <section class="slide …"> por imagen. Al menos 4 distintas y nunca dos iguales seguidas.
+       Portadas   portada-foto · portada-tipo · portada-collage · portada-revista
+       Con foto   partida · cita · polaroid · collage · mitad (antes/ahora)
+       Sin foto   lista · grafica · numero · pasos · dos · chat · nota · mito · pregunta · semana
+       Final      cierre · cierre-tipo
+  3. ADORNOS (como mucho dos por imagen, y que señalen algo): .flecha, .circulo, .subrayado, .rotulador, .cinta,
+     .pegatina, .destellos, .mano (nota escrita a mano). Se colocan con style="left/top/rotate".
+  4. TAMAÑO: los titulares con class="ajustar" crecen o encogen solos hasta llenar su hueco (data-max = tamaño máximo
+     en px, data-alto = alto máximo en px). Frase corta → letra enorme; frase larga → más pequeña, sin salirse.
+  5. FOTOS: npm run carrusel las encuadra solas para que la cara quede entera y sin texto encima (y avisa si no cabe).
+     Con data-encuadre="fijo" se respeta el object-position que pongas.
+  6. LARGO: no hay número fijo de imágenes: 3 para una idea con giro, 5 para una lista o un antes y después, 7-10 para
+     una historia o una guía. Ajusta la numeración (02 / 05).
 -->
 <html lang="es">
 <head>
@@ -19,244 +30,566 @@
 <title>Carrusel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  /* Colores de equipo/<persona>/design.md (aquí, los de Gemma) */
+  /* ======================= Colores de la persona (equipo/<persona>/design.md) ======================= */
   :root {
     --fondo: #fdfcfc; --lila: #d0c7ff; --texto: #000; --secundario: #44403b;
     --acento: #af562c; --acento-claro: #ffa174; --estructura: #6952e0; --borde: #ebe8e4;
+    /* Derivados: no hace falta tocarlos */
+    --papel: color-mix(in srgb, var(--fondo) 93%, var(--acento-claro));
+    --lila-suave: color-mix(in srgb, var(--lila) 45%, var(--fondo));
+    --oscuro: color-mix(in srgb, var(--texto) 88%, var(--acento));
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #222; font-family: 'Inter Tight', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
-  /* ---------- Base de cada imagen ---------- */
-  .slide { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--fondo);
-    color: var(--texto); margin: 0 auto 40px; }
-  .slide.lila { background: var(--lila); }
+  /* ======================= Base de cada imagen ======================= */
+  /* Cada imagen lleva sus colores en variables: --bg fondo, --tx texto, --tx2 texto suave, --et etiqueta, --num número,
+     --em palabra de énfasis, --mn letra a mano, --trazo y --trazo-sub dibujos, --caja tarjetas y listas. Las clases de
+     fondo (lila, coral, tinta, violeta, sobre-foto) y los estilos cambian las variables, no cada elemento. */
+  .slide { position: relative; width: 1080px; height: 1350px; overflow: hidden; margin: 0 auto 40px;
+    --bg: var(--fondo); --tx: var(--texto); --tx2: var(--secundario); --et: var(--acento); --num: var(--estructura);
+    --em: var(--acento); --mn: var(--estructura); --trazo: var(--estructura); --trazo-sub: var(--acento); --caja: var(--fondo);
+    --linea-lista: var(--lila);
+    background: var(--bg); color: var(--tx); }
+  .slide.lila { --bg: var(--lila); --tx2: var(--secundario); --et: var(--secundario); --num: var(--secundario); --caja: var(--fondo); }
+  .slide.coral { --bg: var(--acento); --tx: var(--fondo); --tx2: color-mix(in srgb, var(--fondo) 90%, transparent); --et: var(--fondo);
+    --num: var(--fondo); --em: var(--fondo); --mn: var(--fondo); --trazo: var(--fondo); --trazo-sub: var(--fondo); --caja: color-mix(in srgb, var(--fondo) 16%, transparent); --linea-lista: color-mix(in srgb, var(--fondo) 40%, transparent); }
+  .slide.tinta, .slide.violeta, .slide.sobre-foto { --tx: var(--fondo); --tx2: color-mix(in srgb, var(--fondo) 90%, transparent); --et: var(--fondo);
+    --num: var(--fondo); --em: var(--acento-claro); --mn: var(--fondo); --trazo: var(--fondo); --trazo-sub: var(--acento-claro);
+    --caja: color-mix(in srgb, var(--fondo) 12%, transparent); --linea-lista: color-mix(in srgb, var(--fondo) 30%, transparent); }
+  .slide.tinta { --bg: var(--oscuro); }
+  .slide.violeta { --bg: var(--estructura); }
   .capa { position: absolute; inset: 0; padding: 64px 76px; display: flex; flex-direction: column; z-index: 3; }
   .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;
-    filter: sepia(.06) saturate(1.02) contrast(1.08) brightness(.97); }
-  .velo { position: absolute; inset: 0; z-index: 1; }
+    filter: sepia(.06) saturate(1.02) contrast(1.06) brightness(.97); }
+  .velo { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  img { display: block; }
 
-  /* El camino: una línea de puntos que entra por la izquierda y sale por la derecha a la misma altura
-     que entra en la siguiente imagen. Al deslizar se ve continua. */
-  svg.camino { position: absolute; inset: 0; width: 1080px; height: 1350px; z-index: 2; overflow: visible; }
-  svg.camino path { fill: none; stroke: var(--estructura); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1 22; }
-  svg.camino .meta { fill: var(--acento); }
-  .sobre-foto svg.camino path { stroke: var(--fondo); }
-  .portada svg.camino path { stroke: var(--estructura); } /* la portada acaba en fondo claro */
-  .cita .capa { color: var(--fondo); }
-
-  /* Barra superior */
+  /* Barra superior: nombre y número */
   .barra { display: flex; justify-content: space-between; align-items: center;
     font-size: 26px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-  .barra .num { color: var(--estructura); font-variant-numeric: tabular-nums; }
-  .lila .barra .num { color: var(--secundario); }
-  .sobre-foto .barra, .sobre-foto .barra .num { color: var(--fondo); }
+  .barra .num { color: var(--num); font-variant-numeric: tabular-nums; }
 
   /* Texto */
   .etiqueta { display: flex; align-items: center; gap: 22px; font-size: 26px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
+    letter-spacing: .08em; text-transform: uppercase; color: var(--et); }
   .etiqueta .linea { width: 76px; border-top: 3px solid currentColor; }
-  .lila .etiqueta { color: var(--secundario); }
-  .sobre-foto .etiqueta { color: var(--fondo); }
-  h1, h2 { font-weight: 700; letter-spacing: -0.045em; line-height: .92; }
+  h1, h2, h3 { font-weight: 700; letter-spacing: -0.045em; line-height: .94; text-wrap: balance; }
   h1 { font-size: 112px; }
-  h2 { font-size: 118px; margin-top: 40px; }
-  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; color: var(--acento); }
-  .sobre-foto em { color: var(--acento-claro); }
-  .cuerpo { font-size: 44px; font-weight: 500; line-height: 1.36; color: var(--secundario); }
+  h2 { font-size: 110px; margin-top: 36px; }
+  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; color: var(--em); }
+  .cuerpo { font-size: 44px; font-weight: 500; line-height: 1.34; color: var(--tx2); text-wrap: pretty; }
   .cuerpo p + p { margin-top: 18px; }
-  .cuerpo strong { color: var(--texto); font-weight: 700; }
-  .sobre-foto .cuerpo { color: rgba(253,252,252,.92); }
-  .mano { font-family: 'Caveat', cursive; font-weight: 700; color: var(--estructura); line-height: 1; }
+  .cuerpo strong { color: var(--tx); font-weight: 700; }
+  .mano { font-family: 'Caveat', cursive; font-weight: 700; color: var(--mn); line-height: 1; }
+  .abs { position: absolute; z-index: 4; }
+  /* Lo que va debajo de la barra, centrado en vertical: así no queda media imagen vacía */
+  .capa > .centro { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 60px; }
 
-  /* ---------- 1 · Portada con foto a sangre ---------- */
-  .portada .velo { background: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, transparent 16%, transparent 42%,
-    rgba(253,252,252,.88) 63%, #fdfcfc 74%); }
-  .portada h1 { margin-top: auto; margin-bottom: 150px; }
+  /* El camino de puntos (hilo que cruza las imágenes; sale a la misma altura a la que entra en la siguiente) */
+  svg.camino { position: absolute; inset: 0; width: 1080px; height: 1350px; z-index: 2; overflow: visible; pointer-events: none; }
+  svg.camino path { fill: none; stroke: var(--trazo); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1 22; }
+  svg.camino .meta { fill: var(--acento); }
 
-  /* ---------- 2 · Polaroid ---------- */
-  .polaroid { position: absolute; z-index: 3; right: 82px; top: 610px; width: 430px; background: #fff;
-    border: 2px solid var(--borde); padding: 22px 22px 0; transform: rotate(5deg); }
-  .polaroid img { display: block; width: 100%; height: 430px; object-fit: cover; object-position: 50% 35%; }
-  .polaroid .pie { font-family: 'Caveat', cursive; font-weight: 700; font-size: 50px; color: var(--secundario);
-    text-align: center; padding: 14px 0 20px; }
+  /* ======================= Adornos dibujados ======================= */
+  /* Flecha a mano: <svg class="flecha abs" style="left:…;top:…;width:220px;rotate:20deg"><use href="#flecha-curva"/></svg> */
+  svg.flecha { width: 200px; height: 140px; color: var(--trazo); overflow: visible; }
+  /* Palabra rodeada con un círculo hecho a mano */
+  .circulo { position: relative; white-space: nowrap; }
+  .circulo::after { content: ''; position: absolute; left: -6%; right: -6%; top: -14%; bottom: -14%; pointer-events: none; background: var(--trazo);
+    -webkit-mask: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 120' preserveAspectRatio='none'%3E%3Cpath d='M152 10 C 70 6 12 26 10 60 C 8 98 92 112 160 110 C 236 108 292 88 290 56 C 288 22 218 6 128 14' fill='none' stroke='%23000' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E"); }
+  /* Subrayado ondulado */
+  .subrayado { position: relative; white-space: nowrap; }
+  .subrayado::after { content: ''; position: absolute; left: -2%; right: -2%; bottom: -0.16em; height: 0.24em; pointer-events: none; background: var(--trazo-sub);
+    -webkit-mask: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 24' preserveAspectRatio='none'%3E%3Cpath d='M4 14 C 40 4 70 22 104 12 S 170 4 206 14 S 270 20 296 8' fill='none' stroke='%23000' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E"); }
+  /* Rotulador: fondo de color detrás de las palabras, con bordes irregulares */
+  .rotulador { background: linear-gradient(100deg, transparent 0.6%, var(--acento-claro) 1.6%, var(--acento-claro) 97%, transparent 98.6%) 0 70% / 100% 46% no-repeat;
+    padding: 0 .05em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .rotulador.lila-r { background-image: linear-gradient(100deg, transparent 0.6%, var(--lila) 1.6%, var(--lila) 97%, transparent 98.6%); }
+  /* Cinta adhesiva para pegar fotos o notas */
+  .cinta { position: absolute; z-index: 5; width: 170px; height: 52px; background: color-mix(in srgb, var(--lila) 70%, transparent);
+    box-shadow: 0 1px 2px rgba(0,0,0,.08); clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 50%); }
+  .cinta.coral-c { background: color-mix(in srgb, var(--acento-claro) 72%, transparent); }
+  /* Pegatina redonda con texto */
+  .pegatina { position: absolute; z-index: 5; width: 210px; height: 210px; border-radius: 50%; display: grid; place-items: center;
+    text-align: center; background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 34px; line-height: 1.02;
+    letter-spacing: -0.01em; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,.14); }
+  .pegatina.lila-p { background: var(--lila); color: var(--texto); }
+  .pegatina.violeta-p { background: var(--estructura); color: var(--fondo); }
+  /* Destellos: tres estrellitas */
+  svg.destellos { position: absolute; z-index: 4; width: 110px; height: 110px; color: var(--em); }
 
-  /* ---------- 3 · Lista tachada ---------- */
-  .lista { margin-top: 44px; background: var(--fondo); border-radius: 36px; padding: 26px 48px; }
-  .lista li { list-style: none; display: flex; align-items: center; gap: 26px; padding: 18px 0;
-    font-size: 46px; font-weight: 600; color: var(--secundario); border-bottom: 3px dashed var(--lila); }
+  /* ======================= Estilos (clase en <body>) ======================= */
+  /* ÁLBUM: papel cálido con grano, fotos con cinta, letra a mano y dibujos */
+  body.album .slide:not(.lila):not(.coral):not(.tinta):not(.violeta):not(.sobre-foto) { --bg: var(--papel); --caja: #fffdf8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E"); }
+  body.album .lista, body.album .burbuja.ella, body.album .tarjeta.si { box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+  body.album .lista { rotate: -1deg; }
+
+  /* REVISTA: blanco, serif grande, líneas finas, nada de cajas de color, mucho aire */
+  body.revista .slide:not(.sobre-foto):not(.tinta) { --bg: var(--fondo); --tx: var(--texto); --tx2: var(--secundario); --et: var(--acento);
+    --num: var(--texto); --em: var(--acento); --mn: var(--estructura); --trazo: var(--estructura); --trazo-sub: var(--acento);
+    --caja: transparent; --linea-lista: color-mix(in srgb, var(--texto) 25%, transparent); }
+  body.revista .slide:not(.sobre-foto):not(.tinta)::after { content: ''; position: absolute; left: 76px; right: 76px; bottom: 100px;
+    border-top: 1px solid color-mix(in srgb, var(--texto) 30%, transparent); z-index: 3; }
+  body.revista h1, body.revista h2 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; line-height: 1; }
+  body.revista .barra { font-weight: 600; letter-spacing: .24em; border-bottom: 1px solid currentColor; padding-bottom: 18px; }
+  body.revista .etiqueta { font-weight: 600; letter-spacing: .22em; }
+  body.revista .etiqueta .linea { border-top-width: 1px; width: 120px; }
+  body.revista .lista { padding: 0; border-radius: 0; border-top: 1px solid var(--tx); }
+  body.revista .lista li { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 60px; color: var(--tx);
+    border-bottom: 1px solid color-mix(in srgb, var(--tx) 25%, transparent); }
+  body.revista .lista .marca { background: transparent; color: var(--acento); border: 1.5px solid var(--acento); font-family: 'Inter Tight'; }
+  body.revista .burbuja, body.revista .burbuja.ella, body.revista .burbuja.yo { align-self: stretch; max-width: none; border-radius: 0; background: transparent;
+    box-shadow: none; color: var(--tx); border-left: 3px solid var(--acento); font-family: 'DM Serif Display', serif; font-style: italic;
+    font-weight: 400; font-size: 60px; padding: 6px 0 6px 40px; }
+  body.revista .burbuja.yo { border-left-color: var(--estructura); color: var(--estructura); }
+  body.revista .burbuja .hora { text-align: left; font-family: 'Inter Tight'; font-style: normal; }
+  body.revista .tarjeta { border-radius: 0; border: 1px solid var(--tx); background: transparent; }
+  body.revista .tarjeta.si { background: var(--lila-suave); }
+  body.revista .paso b { background: transparent; color: var(--tx); border: 1px solid var(--tx); font-family: 'DM Serif Display', serif; font-weight: 400; }
+  body.revista .pasos::before { border-top: 1px solid var(--tx); }
+  body.revista .boton { background: transparent; color: var(--tx); border: 1.5px solid var(--tx); }
+  body.revista .numero .cifra { color: var(--tx); }
+  body.revista .yo img { border: 1px solid var(--tx); padding: 10px; background: var(--fondo); }
+  body.revista svg.camino { display: none; }
+
+  /* TIPOGRÁFICO: bloques de color planos y palabras enormes en mayúsculas */
+  body.tipografico .slide.lila { --bg: var(--estructura); --tx: var(--fondo); --tx2: color-mix(in srgb, var(--fondo) 90%, transparent);
+    --et: var(--fondo); --num: var(--fondo); --em: var(--acento-claro); --mn: var(--fondo); --trazo: var(--fondo); --trazo-sub: var(--acento-claro);
+    --caja: transparent; --linea-lista: var(--fondo); }
+  body.tipografico .slide { --caja: transparent; }
+  body.tipografico h1, body.tipografico h2 { font-weight: 900; text-transform: uppercase; letter-spacing: -0.05em; line-height: .86; }
+  body.tipografico h1 em, body.tipografico h2 em { text-transform: none; font-size: 1.1em; }
+  body.tipografico .barra { font-weight: 800; }
+  body.tipografico .lista { padding: 0; }
+  body.tipografico .lista li { font-size: 70px; font-weight: 900; letter-spacing: -0.04em; color: var(--tx); border-bottom: 6px solid var(--tx); padding: 30px 0; }
+  body.tipografico .lista .marca { background: var(--tx); color: var(--bg); }
+  body.tipografico .lista .vacia { background: transparent; border-color: var(--tx); }
+  body.tipografico .burbuja { font-weight: 800; font-size: 60px; letter-spacing: -0.02em; border-radius: 0; }
+  body.tipografico .burbuja.ella { background: var(--tx); color: var(--bg); }
+  body.tipografico .burbuja.yo { background: var(--acento-claro); color: var(--texto); }
+  body.tipografico .tarjeta { border-radius: 0; }
+  body.tipografico .tarjeta.no { border: 6px solid currentColor; color: var(--tx); }
+  body.tipografico .tarjeta.si { background: var(--acento-claro); color: var(--texto); }
+  body.tipografico .paso b { border-radius: 0; border: none; background: var(--acento); }
+  body.tipografico .pasos::before { border-top: 8px solid var(--tx); }
+  body.tipografico .mano { font-size: 1.15em; }
+  body.tipografico svg.camino { display: none; }
+
+  /* DOCUMENTAL: oscuro y de foto; el texto, corto y en franjas como un subtítulo */
+  body.documental .slide:not(.sobre-foto):not(.partida):not(.portada-collage) { --bg: var(--oscuro); --tx: var(--fondo);
+    --tx2: color-mix(in srgb, var(--fondo) 88%, transparent); --et: var(--acento-claro); --num: var(--fondo); --em: var(--acento-claro);
+    --mn: var(--acento-claro); --trazo: var(--fondo); --trazo-sub: var(--acento-claro); --caja: color-mix(in srgb, var(--fondo) 10%, transparent);
+    --linea-lista: color-mix(in srgb, var(--fondo) 25%, transparent); }
+  body.documental .etiqueta::before { content: ''; width: 18px; height: 18px; border-radius: 50%; background: #e5484d; margin-right: -6px; }
+  body.documental .barra { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-weight: 600; letter-spacing: .04em; }
+  body.documental h1, body.documental h2 { font-weight: 800; letter-spacing: -0.04em; }
+  body.documental .franja { background: var(--fondo); color: var(--texto); padding: 18px 28px; -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.32; }
+  body.documental .burbuja.ella { background: color-mix(in srgb, var(--fondo) 14%, transparent); color: var(--fondo); box-shadow: none; }
+  body.documental .tarjeta.si { background: var(--acento-claro); color: var(--texto); }
+  body.documental .tarjeta.no { color: var(--tx); border-color: color-mix(in srgb, var(--fondo) 40%, transparent); }
+  body.documental .paso span { color: var(--tx); }
+  body.documental .boton { background: var(--fondo); color: var(--texto); }
+  body.documental svg.camino { display: none; }
+  .marco { position: relative; }
+
+  /* ======================= Composiciones ======================= */
+  /* portada-foto: foto a sangre y titular abajo sobre un velo claro */
+  .portada-foto .velo { background: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, transparent 16%, transparent 46%,
+    color-mix(in srgb, var(--fondo) 88%, transparent) 64%, var(--fondo) 74%); }
+  .slide.portada-foto { --tx: var(--texto); --tx2: var(--secundario); --em: var(--acento); --mn: var(--estructura); --trazo: var(--estructura); }
+  .portada-foto .barra { color: var(--fondo); }
+  .portada-foto .barra .num { color: var(--fondo); }
+  .portada-foto h1 { margin-top: auto; margin-bottom: 140px; }
+
+  /* portada-tipo: el titular ocupa la imagen; la foto es una pegatina redonda */
+  .portada-tipo h1 { margin-top: 70px; font-size: 200px; }
+  .portada-tipo .yo-pegatina { position: absolute; z-index: 4; width: 330px; height: 330px; border-radius: 50%; object-fit: cover;
+    border: 12px solid var(--fondo); box-shadow: 0 16px 40px rgba(0,0,0,.18); }
+
+  /* portada-collage: 2 o 3 fotos pegadas con cinta y el titular en una franja */
+  .collage-foto { position: absolute; z-index: 2; object-fit: cover; background: #fff; }
+  .portada-collage h1 { position: absolute; z-index: 6; left: 76px; right: 76px; bottom: 130px; }
+
+  /* portada-revista: cabecera con su nombre, foto recortada grande y titulares de portada */
+  .portada-revista .cabecera { font-family: 'DM Serif Display', serif; font-size: 190px; line-height: .8; letter-spacing: -0.03em; text-transform: uppercase; }
+  .portada-revista .linea-portada { font-size: 30px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-top: 2px solid currentColor; padding-top: 14px; }
+
+  /* partida: foto arriba (alto en data o style) y texto abajo */
+  .partida .arriba { position: absolute; left: 0; top: 0; width: 100%; height: 640px; object-fit: cover; z-index: 0; }
+  .partida .velo { height: 640px; background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, transparent 22%); }
+  .partida .barra, .partida .barra .num { color: var(--fondo); }
+  .partida .bloque { margin-top: 610px; }
+  .partida h2 { font-size: 96px; }
+
+  /* cita: foto a sangre con velo oscuro abajo y la frase */
+  .cita .velo { background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 16%, transparent 40%,
+    rgba(24,18,14,.72) 66%, rgba(24,18,14,.88) 100%); }
+  .cita .capa { color: var(--fondo); }
+  .cita .bloque { margin-top: auto; margin-bottom: 140px; }
+
+  /* polaroid: un recuerdo con pie escrito a mano */
+  .polaroid { position: absolute; z-index: 3; width: 440px; background: #fff; padding: 22px 22px 0; box-shadow: 0 14px 34px rgba(0,0,0,.14); }
+  .polaroid img { width: 100%; height: 440px; object-fit: cover; }
+  .polaroid .pie { font-family: 'Caveat', cursive; font-weight: 700; font-size: 48px; color: var(--secundario); text-align: center; padding: 12px 0 18px; }
+
+  /* collage: fotos sueltas con cinta, notas y flechas */
+  .collage .foto-suelta { position: absolute; z-index: 3; background: #fff; padding: 16px 16px 16px; box-shadow: 0 12px 30px rgba(0,0,0,.15); }
+  .collage .foto-suelta img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* mitad: antes (arriba, en gris) y ahora (abajo) */
+  .mitad { position: absolute; left: 0; width: 100%; height: 675px; overflow: hidden; color: var(--fondo); }
+  .mitad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .mitad.antes img { filter: grayscale(.9) contrast(1.05); }
+  .mitad .sombra { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(24,18,14,.25) 0%, rgba(24,18,14,.1) 35%, rgba(24,18,14,.78) 100%); }
+  .mitad .txt { position: absolute; left: 76px; right: 76px; bottom: 58px; }
+  .mitad h2 { font-size: 78px; margin-top: 18px; }
+
+  /* lista: checklist, casillas vacías o lista tachada */
+  .lista { margin-top: 44px; background: var(--caja); border-radius: 36px; padding: 26px 48px; }
+  .lista li { list-style: none; display: flex; align-items: center; gap: 28px; padding: 26px 0;
+    font-size: 54px; font-weight: 600; color: var(--tx2); border-bottom: 3px dashed var(--linea-lista); }
   .lista li:last-child { border-bottom: none; }
   .lista .hecho span { text-decoration: line-through; text-decoration-color: var(--acento); text-decoration-thickness: 5px; }
-  .lista .marca { width: 44px; height: 44px; border-radius: 50%; background: var(--estructura); color: var(--fondo);
-    display: grid; place-items: center; font-size: 26px; font-weight: 800; flex: none; }
+  .lista .marca { width: 56px; height: 56px; border-radius: 50%; background: var(--estructura); color: var(--fondo);
+    display: grid; place-items: center; font-size: 28px; font-weight: 800; flex: none; }
   .lista .vacia { background: transparent; border: 4px solid var(--acento); }
-  .lista .pregunta { font-family: 'Caveat', cursive; font-size: 66px; font-weight: 700; color: var(--acento); }
+  .lista .pregunta { font-family: 'Caveat', cursive; font-size: 66px; font-weight: 700; color: var(--em); }
 
-  /* ---------- 5 · Foto partida ---------- */
-  .partida .arriba { position: absolute; left: 0; top: 0; width: 100%; height: 600px; object-fit: cover;
-    object-position: 50% 30%; z-index: 0; filter: sepia(.06) contrast(1.06); }
-  .partida .velo { height: 600px; background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, transparent 22%); }
-  .partida .bloque { margin-top: 580px; }
-  .partida h2 { font-size: 100px; }
+  /* grafica: el propio camino dibuja la curva; rótulos debajo de los puntos con .anio */
+  .anio { position: absolute; z-index: 3; transform: translateX(-50%); font-size: 30px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--tx2); white-space: nowrap; }
 
-  /* ---------- 6 · Semana ---------- */
+  /* numero: una cifra enorme (años, días, horas: nunca dinero) y su explicación */
+  .numero .cifra { font-family: 'DM Serif Display', serif; font-size: 520px; line-height: .78; letter-spacing: -0.04em; color: var(--em); }
+  .numero .cifra small { font-family: 'Inter Tight', sans-serif; font-size: 110px; font-weight: 800; letter-spacing: -0.04em; color: var(--tx); }
+
+  /* pasos: tres círculos unidos por puntos */
+  .pasos { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 80px; text-align: center; }
+  .pasos::before { content: ''; position: absolute; left: 17%; right: 17%; top: 73px; border-top: 8px dotted var(--estructura); }
+  .paso b { position: relative; width: 150px; height: 150px; border-radius: 50%; background: var(--estructura); color: var(--fondo);
+    font-size: 64px; font-weight: 800; display: grid; place-items: center; margin: 0 auto 28px; border: 8px solid var(--lila); }
+  .paso span { display: block; font-size: 46px; font-weight: 600; line-height: 1.2; color: var(--tx); }
+
+  /* dos: dos columnas (sí / no, antes / ahora, mito / realidad) */
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 50px; }
+  .tarjeta { border-radius: 34px; padding: 44px 40px 50px; font-size: 48px; font-weight: 600; line-height: 1.25; color: var(--tx); }
+  .tarjeta b { display: block; font-size: 72px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .tarjeta p + p { margin-top: 22px; }
+  .tarjeta.si { background: var(--lila); color: var(--texto); }
+  .tarjeta.no { border: 4px dashed var(--linea-lista); color: var(--tx2); }
+  .tarjeta.no b { color: var(--acento); }
+
+  /* chat: lo que te dices por dentro, en burbujas (nunca mensajes inventados de otras personas) */
+  .burbujas { display: flex; flex-direction: column; gap: 26px; margin-top: 56px; }
+  .burbuja { max-width: 80%; padding: 34px 44px; border-radius: 48px; font-size: 52px; font-weight: 600; line-height: 1.24; }
+  .burbuja.ella { align-self: flex-start; background: var(--caja); color: var(--tx); border-bottom-left-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+  .burbuja.yo { align-self: flex-end; background: var(--estructura); color: var(--fondo); border-bottom-right-radius: 10px; }
+  .burbuja .hora { display: block; margin-top: 8px; font-size: 24px; font-weight: 600; opacity: .55; text-align: right; }
+
+  /* nota: hoja de libreta o pósit con letra a mano */
+  .hoja { position: relative; margin-top: 60px; background: #fffef8; padding: 70px 70px 80px 120px; box-shadow: 0 18px 40px rgba(0,0,0,.12);
+    background-image: linear-gradient(to right, transparent 92px, color-mix(in srgb, var(--acento-claro) 70%, transparent) 92px, color-mix(in srgb, var(--acento-claro) 70%, transparent) 95px, transparent 95px),
+      repeating-linear-gradient(to bottom, transparent 0 77px, color-mix(in srgb, var(--lila) 80%, transparent) 77px 79px); }
+  .hoja .mano { font-size: 74px; line-height: 78px; color: var(--texto); }
+  .posit { position: absolute; z-index: 4; width: 420px; padding: 50px 44px 60px; background: #fff2a8; box-shadow: 0 16px 34px rgba(0,0,0,.14); }
+  .posit .mano { color: var(--texto); font-size: 60px; }
+
+  /* mito: lo que se cree, tachado, y lo que es, escrito a mano */
+  .mito .creencia { font-size: 92px; font-weight: 800; letter-spacing: -0.04em; line-height: .98; color: var(--tx2);
+    text-decoration: line-through; text-decoration-color: var(--acento); text-decoration-thickness: 10px; }
+  .mito .realidad { font-family: 'Caveat', cursive; font-weight: 700; font-size: 96px; line-height: 1; color: var(--mn); margin-top: 60px; }
+
+  /* pregunta: una interrogación gigante detrás de la pregunta */
+  .pregunta-grande { position: absolute; z-index: 1; right: -40px; top: 120px; font-family: 'DM Serif Display', serif; font-size: 1100px;
+    line-height: .8; color: color-mix(in srgb, var(--lila) 70%, transparent); }
+  .lila .pregunta-grande { color: color-mix(in srgb, var(--fondo) 55%, transparent); }
+
+  /* semana: calendario de una semana */
   .semana { display: grid; grid-template-columns: repeat(7, 1fr); gap: 22px; margin-top: 50px; }
-  .dia { height: 290px; background: var(--fondo); border-radius: 26px; display: flex; flex-direction: column;
+  .dia { height: 290px; background: var(--caja); border-radius: 26px; display: flex; flex-direction: column;
     align-items: center; justify-content: space-between; padding: 22px 0 16px; }
-  .dia b { font-size: 34px; color: var(--secundario); }
+  .dia b { font-size: 34px; color: var(--tx2); }
   .dia i { font-style: normal; width: 84%; height: 96px; border-radius: 18px; background: var(--estructura);
     color: var(--fondo); font-size: 22px; font-weight: 700; display: grid; place-items: center; text-transform: uppercase; letter-spacing: .04em; }
   .dia.libre i { background: transparent; }
-  .redonda { width: 210px; height: 210px; border-radius: 50%; object-fit: cover; border: 8px solid var(--fondo); }
 
-  /* ---------- 7 · Foto con cita ---------- */
-  .cita .velo { background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 16%, transparent 40%,
-    rgba(24,18,14,.72) 66%, rgba(24,18,14,.86) 100%); }
-  .cita .bloque { margin-top: auto; margin-bottom: 150px; }
-
-  /* ---------- 8 · Cierre ---------- */
+  /* cierre: foto redonda, pregunta y botón */
   .yo { display: flex; align-items: center; gap: 34px; margin-top: 70px; }
-  .yo img { width: 260px; height: 260px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 10px solid var(--lila); }
+  .yo img { width: 260px; height: 260px; border-radius: 50%; object-fit: cover; border: 10px solid var(--lila); }
   .boton { margin-top: 46px; display: flex; width: fit-content; align-items: center; gap: 44px;
-    background: var(--texto); color: var(--fondo); border-radius: 72px; padding: 32px 44px;
+    background: var(--tx); color: var(--bg); border-radius: 72px; padding: 32px 44px;
     font-size: 30px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  /* cierre-tipo: solo letra, enorme, y el botón */
+  .cierre-tipo h2 { font-size: 170px; margin-top: 120px; }
 </style>
 </head>
-<body>
+<body class="album">
 
-<!-- 1 · Portada: foto a sangre -->
-<section class="slide portada sobre-foto">
-  <img class="fondo" src="foto-portada.jpg" alt="" style="object-position: 50% 100%;">
+<!-- Dibujos reutilizables (flechas y destellos). Se usan con <svg class="flecha abs" …><use href="#flecha-curva"/></svg> -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="flecha-curva" viewBox="0 0 200 140"><path d="M12 24 C 70 10 150 30 168 106" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M140 92 L 170 116 L 184 80" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="flecha-bucle" viewBox="0 0 200 140"><path d="M10 110 C 60 120 70 40 40 46 C 10 52 40 110 110 96 C 150 88 170 60 180 30" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M154 40 L 182 24 L 190 58" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="flecha-recta" viewBox="0 0 200 140"><path d="M14 74 C 70 66 120 72 176 70" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M150 46 L 180 70 L 150 96" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="destellos" viewBox="0 0 110 110"><path d="M38 14 L 44 40 L 70 46 L 44 52 L 38 78 L 32 52 L 6 46 L 32 40 Z M 84 60 L 87 74 L 101 77 L 87 80 L 84 94 L 81 80 L 67 77 L 81 74 Z M 82 8 L 84 18 L 94 20 L 84 22 L 82 32 L 80 22 L 70 20 L 80 18 Z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ Ejemplos: una imagen de cada composición (en este orden no es un carrusel). Copia las que uses y borra el resto. ============ -->
+
+<!-- 1 portada-foto -->
+<section class="slide portada-foto sobre-foto">
+  <img class="fondo" src="foto-1.jpg" alt="" style="object-position: 50% 30%;">
   <div class="velo"></div>
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M120 1240 C 400 1205, 720 1280, 1080 1240"/><circle class="meta" cx="120" cy="1240" r="16"/></svg>
+  <svg class="camino" viewBox="0 0 1080 1350"><path d="M120 1240 C 400 1205, 720 1280, 1080 1240" style="stroke: var(--estructura);"/><circle class="meta" cx="120" cy="1240" r="16"/></svg>
   <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">01 / 08</span></div>
-    <h1>Titular de portada con una palabra en <em style="color: var(--acento);">cursiva</em></h1>
+    <div class="barra"><span>Nombre</span><span class="num">01 / 18</span></div>
+    <h1 class="ajustar" data-max="130" data-alto="330" style="margin-top:auto; margin-bottom:150px;">Titular de portada con su <em>palabra</em></h1>
   </div>
-  <div class="mano" style="position:absolute; z-index:3; right:80px; bottom:150px; font-size:56px; transform: rotate(-4deg);">desliza, te lo cuento →</div>
+  <div class="mano abs" style="right: 80px; bottom: 150px; font-size: 56px; rotate: -4deg;">desliza →</div>
 </section>
 
-<!-- 2 · Polaroid -->
-<section class="slide">
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 300 1205, 700 1295, 1080 1260"/></svg>
+<!-- 2 portada-tipo -->
+<section class="slide portada-tipo">
   <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">02 / 08</span></div>
-    <div class="etiqueta" style="margin-top: 70px;"><span>01</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Una idea por imagen, con <em>énfasis</em>.</h2>
-    <div class="cuerpo" style="width: 440px; margin-top: 56px;">
-      <p>Frases cortas.</p>
-      <p>Máximo 25 palabras.</p>
-      <p>Una en <strong>negrita</strong>.</p>
-    </div>
+    <div class="barra"><span>Nombre</span><span class="num">02 / 18</span></div>
+    <h1 class="ajustar" data-max="230" data-alto="640">Una frase <span class="rotulador">corta</span> y <em>potente</em>.</h1>
   </div>
-  <div class="polaroid"><img src="foto-2.jpg" alt=""><div class="pie">pie escrito a mano</div></div>
+  <img class="yo-pegatina" src="foto-2.jpg" alt="" style="right: 70px; bottom: 110px;">
+  <svg class="flecha abs" style="left: 400px; bottom: 170px; width: 230px; rotate: -10deg;"><use href="#flecha-curva"/></svg>
+  <div class="mano abs" style="left: 90px; bottom: 150px; font-size: 70px; rotate: -4deg;">nota a mano</div>
 </section>
 
-<!-- 3 · Lista tachada -->
-<section class="slide lila">
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1260 C 350 1300, 700 1200, 1080 1240"/></svg>
-  <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">03 / 08</span></div>
-    <div class="etiqueta" style="margin-top: 70px;"><span>02</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Una lista que <em>se tacha</em>.</h2>
-    <ul class="lista">
-      <li class="hecho"><b class="marca">✓</b><span>Primer punto</span></li>
-      <li class="hecho"><b class="marca">✓</b><span>Segundo punto</span></li>
-      <li class="hecho"><b class="marca">✓</b><span>Tercer punto</span></li>
-      <li class="hecho"><b class="marca">✓</b><span>Cuarto punto</span></li>
-      <li><b class="marca vacia"></b><span class="pregunta">¿y ahora?</span></li>
-    </ul>
-    <div class="cuerpo" style="margin-top: 34px;"><p>Una frase que cierra la idea.</p></div>
+<!-- 3 portada-collage -->
+<section class="slide portada-collage">
+  <img class="collage-foto" src="foto-3.jpg" alt="" style="left: 60px; top: 150px; width: 520px; height: 640px; rotate: -4deg; padding: 16px;">
+  <img class="collage-foto" src="foto-4.jpg" alt="" style="right: 60px; top: 230px; width: 470px; height: 560px; rotate: 5deg; padding: 16px;">
+  <div class="cinta" style="left: 230px; top: 128px; rotate: -6deg;"></div>
+  <div class="cinta coral-c" style="right: 190px; top: 210px; rotate: 8deg;"></div>
+  <div class="capa"><div class="barra"><span>Nombre</span><span class="num">03 / 18</span></div></div>
+  <h1 class="ajustar" data-max="130" data-alto="330">Un día normal, con algo <em>propio</em></h1>
+</section>
+
+<!-- 4 portada-revista -->
+<section class="slide portada-revista">
+  <img class="fondo" src="foto-5.jpg" alt="" style="object-position: 75% 30%;">
+  <div class="velo" style="background: linear-gradient(to bottom, rgba(253,252,252,.0) 0%, transparent 55%, rgba(24,18,14,.75) 100%);"></div>
+  <div class="capa" style="color: var(--fondo);">
+    <div class="cabecera">Nombre</div>
+    <div class="linea-portada" style="margin-top: auto; width: 520px;">Serie · Nº 01</div>
+    <h1 class="ajustar" data-max="120" data-alto="320" style="margin-top: 20px; color: var(--fondo);">¿Una pregunta de <em style="color: var(--acento-claro);">portada</em>?</h1>
   </div>
 </section>
 
-<!-- 4 · Gráfica: el camino dibuja la curva -->
-<section class="slide">
-  <svg class="camino" viewBox="0 0 1080 1350">
-    <path d="M0 1240 C 120 1150, 170 720, 280 720 C 400 720, 420 1060, 540 1060 C 660 1060, 690 660, 800 660 C 930 660, 960 1210, 1080 1250" style="stroke-width: 12; stroke-dasharray: 1 26;"/>
-    <circle class="meta" cx="800" cy="660" r="20"/>
-  </svg>
-  <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">04 / 08</span></div>
-    <div class="etiqueta" style="margin-top: 70px;"><span>03</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Una curva que <em>cuenta</em> algo.</h2>
-    <div class="cuerpo" style="margin-top: 30px; font-size: 40px;"><p>Una frase corta que la explica.</p></div>
-  </div>
-  <div class="mano" style="position:absolute; z-index:3; left:600px; top:575px; font-size:50px; transform: rotate(-3deg);">«el punto alto»</div>
-  <div class="mano" style="position:absolute; z-index:3; left:330px; top:1095px; font-size:50px; transform: rotate(2deg);">«el punto bajo»</div>
-</section>
-
-<!-- 5 · Foto partida -->
-<section class="slide partida sobre-foto-arriba">
-  <img class="arriba" src="foto-5.jpg" alt="">
+<!-- 5 partida -->
+<section class="slide partida">
+  <img class="arriba" src="foto-6.jpg" alt="">
   <div class="velo"></div>
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1250 C 400 1290, 700 1210, 1080 1240"/></svg>
   <div class="capa">
-    <div class="barra" style="color: var(--fondo);"><span>Nombre</span><span class="num" style="color: var(--fondo);">05 / 08</span></div>
+    <div class="barra"><span>Nombre</span><span class="num">05 / 18</span></div>
     <div class="bloque">
-      <div class="etiqueta"><span>04</span><span class="linea"></span><span>Etiqueta</span></div>
-      <h2>La foto arriba y la idea <em>abajo</em>.</h2>
-      <div class="cuerpo" style="margin-top: 30px;"><p>Una o dos frases, con una parte en <strong>negrita</strong>.</p></div>
+      <div class="etiqueta"><span>01</span><span class="linea"></span><span>Qué es</span></div>
+      <h2 class="ajustar" data-max="120" data-alto="260">Una idea con <span class="subrayado">cara</span>.</h2>
+      <div class="cuerpo" style="margin-top: 26px;"><p>Texto corto que la explica, <strong>como mucho 25 palabras</strong>.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 6 · Semana -->
-<section class="slide lila">
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 300 1210, 760 1290, 1080 1255"/></svg>
-  <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">06 / 08</span></div>
-    <div class="etiqueta" style="margin-top: 70px;"><span>05</span><span class="linea"></span><span>Etiqueta</span></div>
-    <h2>Una semana, unos <em>pasos</em>.</h2>
-    <div class="cuerpo" style="margin-top: 30px; font-size: 40px;"><p>Lo que cuenta el dibujo, en una frase.</p></div>
-    <div class="semana">
-      <div class="dia"><b>L</b><i>tarde</i></div>
-      <div class="dia libre"><b>M</b><i></i></div>
-      <div class="dia"><b>X</b><i>tarde</i></div>
-      <div class="dia"><b>J</b><i>tarde</i></div>
-      <div class="dia libre"><b>V</b><i></i></div>
-      <div class="dia"><b>S</b><i>tarde</i></div>
-      <div class="dia libre"><b>D</b><i></i></div>
-    </div>
-    <div style="display:flex; align-items:center; gap: 28px; margin-top: 34px;">
-      <img class="redonda" src="foto-6.jpg" alt="" style="object-position: 40% 30%;">
-      <div class="mano" style="font-size: 54px; transform: rotate(-3deg);">una nota a mano</div>
-    </div>
-  </div>
-</section>
-
-<!-- 7 · Foto con cita -->
+<!-- 6 cita -->
 <section class="slide cita sobre-foto">
-  <img class="fondo" src="foto-7.jpg" alt="" style="object-position: 70% 40%;">
+  <img class="fondo" src="foto-7.jpg" alt="">
   <div class="velo"></div>
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1255 C 400 1220, 700 1290, 1080 1240"/></svg>
   <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">07 / 08</span></div>
+    <div class="barra"><span>Nombre</span><span class="num">06 / 18</span></div>
     <div class="bloque">
-      <div class="etiqueta"><span>06</span><span class="linea"></span><span>Etiqueta</span></div>
-      <h2>La frase <em>importante</em>.</h2>
-      <div class="cuerpo" style="margin-top: 30px;"><p>Sobre la foto, con el velo oscuro para que se lea bien.</p></div>
+      <div class="etiqueta"><span>La frase</span></div>
+      <h2 class="ajustar" data-max="110" data-alto="400">La frase importante, sobre una foto <em>suya</em>.</h2>
     </div>
   </div>
 </section>
 
-<!-- 8 · Cierre -->
-<section class="slide">
-  <svg class="camino" viewBox="0 0 1080 1350"><path d="M0 1240 C 250 1280, 520 1215, 880 1245"/><circle class="meta" cx="900" cy="1246" r="18"/></svg>
+<!-- 7 polaroid -->
+<section class="slide lila">
   <div class="capa">
-    <div class="barra"><span>Nombre</span><span class="num">08 / 08</span></div>
-    <div class="yo">
-      <img src="foto-cierre.jpg" alt="">
-      <div class="mano" style="font-size: 58px; transform: rotate(-3deg);">quién es, en una<br>frase a mano</div>
-    </div>
-    <h2 style="margin-top: 60px; font-size: 108px;">La pregunta final con una palabra en <em>cursiva</em>?</h2>
-    <div class="cuerpo" style="margin-top: 30px;"><p>Te lo cuento en el enlace de mi perfil.</p></div>
-    <div class="boton">Enlace en mi perfil <span style="opacity:.6">→</span></div>
+    <div class="barra"><span>Nombre</span><span class="num">07 / 18</span></div>
+    <div class="etiqueta" style="margin-top: 70px;"><span>01</span><span class="linea"></span><span>Antes</span></div>
+    <h2 class="ajustar" data-max="110" data-alto="360">Un recuerdo o un <em>momento</em>.</h2>
   </div>
-  <div class="mano" style="position:absolute; z-index:3; right:76px; bottom:150px; font-size:46px;">guárdalo para luego</div>
+  <div class="polaroid" style="top: 620px; left: 110px; rotate: -4deg;"><img src="foto-8.jpg" alt=""><div class="pie">yo, en aquella época</div></div>
+  <div class="mano abs" style="left: 640px; top: 760px; font-size: 64px; rotate: -6deg;">nota a mano<br>que señala</div>
+  <svg class="flecha abs" style="left: 600px; top: 930px; width: 200px; rotate: 150deg;"><use href="#flecha-curva"/></svg>
 </section>
 
+<!-- 8 collage -->
+<section class="slide collage">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">08 / 18</span></div>
+    <h2 class="ajustar" data-max="104" data-alto="240">Mi tarde de un <em>martes</em></h2>
+  </div>
+  <div class="foto-suelta" style="left: 70px; top: 420px; width: 460px; height: 560px; rotate: -5deg;"><img src="foto-9.jpg" alt=""></div>
+  <div class="foto-suelta" style="left: 520px; top: 560px; width: 480px; height: 600px; rotate: 4deg;"><img src="foto-4.jpg" alt=""></div>
+  <div class="cinta" style="left: 210px; top: 398px; rotate: -8deg;"></div>
+  <div class="cinta coral-c" style="left: 690px; top: 538px; rotate: 6deg;"></div>
+  <div class="mano abs" style="left: 110px; top: 1030px; font-size: 62px; rotate: -3deg;">18:30, café</div>
+  <div class="mano abs" style="left: 600px; top: 1210px; font-size: 62px; rotate: -2deg;">una hora para mí</div>
+</section>
+
+<!-- 9 mitad -->
+<section class="slide" style="background:#18120e;">
+  <div class="mitad antes" style="top: 0;">
+    <img src="foto-3.jpg" alt="" style="object-position: 50% 40%;">
+    <div class="sombra"></div>
+    <div class="txt"><div class="etiqueta" style="color: var(--fondo);"><span>Antes</span><span class="linea"></span></div>
+      <h2>Antes pensaba <em style="color: var(--acento-claro);">esto</em>.</h2></div>
+  </div>
+  <div class="mitad" style="top: 675px;">
+    <img src="foto-10.jpg" alt="">
+    <div class="sombra"></div>
+    <div class="txt"><div class="etiqueta" style="color: var(--fondo);"><span>Ahora</span><span class="linea"></span></div>
+      <h2>Ahora pienso <em style="color: var(--acento-claro);">esto otro</em>.</h2></div>
+  </div>
+</section>
+
+<!-- 10 lista -->
+<section class="slide lila">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">10 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Lo que se repite</span></div>
+    <h2 class="ajustar" data-max="120" data-alto="260">Lo que me <em>repetía</em></h2>
+    <ul class="lista">
+      <li class="hecho"><b class="marca">×</b><span>«Una queja de siempre»</span></li>
+      <li class="hecho"><b class="marca">×</b><span>«Otra queja de siempre»</span></li>
+      <li><b class="marca vacia"></b><span class="pregunta">¿y qué hago yo con eso?</span></li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 numero -->
+<section class="slide coral numero">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">11 / 18</span></div>
+    <div class="centro">
+    <div class="cifra">100<small> días</small></div>
+    <div class="cuerpo" style="margin-top: 40px;"><p>construyendo en público. <strong>Años, días u horas: nunca dinero.</strong></p></div>
+    </div>
+  </div>
+  <svg class="destellos" style="right: 110px; top: 230px; color: var(--fondo);"><use href="#destellos"/></svg>
+</section>
+
+<!-- 12 chat -->
+<section class="slide chat lila">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">12 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Lo que me decía por dentro</span></div>
+    <div class="burbujas">
+      <div class="burbuja ella">¿Y si no sale bien?<span class="hora">23:41</span></div>
+      <div class="burbuja ella">Ya es tarde para empezar algo<span class="hora">23:42</span></div>
+      <div class="burbuja yo">Lo peor que puede pasar es quedarme igual<span class="hora">23:45</span></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 nota -->
+<section class="slide nota">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">13 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Semana 1</span><span class="linea"></span><span>Mi diario</span></div>
+    <div class="hoja"><div class="cinta" style="left: 40%; top: -26px; rotate: -3deg;"></div><div class="mano">Lo que más me cuesta: …<br>Lo que me ha sorprendido: …<br>Lo que haría distinto: …</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 mito -->
+<section class="slide mito">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">14 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Mito</span><span class="linea"></span></div>
+    <div class="creencia" style="margin-top: 40px;">Para empezar algo hay que dejarlo todo.</div>
+    <div class="etiqueta" style="margin-top: 80px;"><span>Realidad</span><span class="linea"></span></div>
+    <div class="realidad" style="margin-top: 20px;">Yo lo hago en paralelo, por las tardes.</div>
+    </div>
+  </div>
+  <svg class="flecha abs" style="left: 800px; top: 610px; width: 180px; rotate: 95deg;"><use href="#flecha-curva"/></svg>
+</section>
+
+<!-- 15 pregunta -->
+<section class="slide lila">
+  <div class="pregunta-grande">?</div>
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">15 / 18</span></div>
+    <h2 class="ajustar" data-max="150" data-alto="620" style="margin-top: auto; margin-bottom: 160px;">¿Una pregunta <em>directa</em>?</h2>
+  </div>
+</section>
+
+<!-- 16 pasos -->
+<section class="slide">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">16 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Tres cosas</span></div>
+    <h2 class="ajustar" data-max="120" data-alto="260">Lo que a mí me <em>sirvió</em></h2>
+    <div class="pasos" style="margin-top: 110px;">
+      <div class="paso"><b>1</b><span>Escuchar primero, sin prejuicios</span></div>
+      <div class="paso"><b>2</b><span>Verlo juntos</span></div>
+      <div class="paso"><b>3</b><span>Dejar de convencer</span></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 dos -->
+<section class="slide tinta">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">17 / 18</span></div>
+    <div class="centro">
+    <div class="etiqueta"><span>Ahora</span></div>
+    <h2 class="ajustar" data-max="120" data-alto="260">He movido mi <em>energía</em>.</h2>
+    <div class="dos" style="margin-top: 70px;">
+      <div class="tarjeta no" style="color: var(--fondo);"><b>Antes</b><p>Quejarme de lo que no cambia.</p></div>
+      <div class="tarjeta si"><b>Ahora</b><p>Construir algo propio.</p></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 cierre-tipo -->
+<section class="slide violeta cierre-tipo">
+  <div class="capa">
+    <div class="barra"><span>Nombre</span><span class="num">18 / 18</span></div>
+    <div class="centro">
+    <h2 class="ajustar" data-max="190" data-alto="620">¿Te <span class="circulo">suena</span>?</h2>
+    <div class="cuerpo" style="margin-top: 40px;"><p>Te leo en comentarios.</p></div>
+    <div class="boton">Guárdalo para luego</div>
+    </div>
+  </div>
+  <div class="pegatina lila-p" style="right: 90px; bottom: 150px; rotate: 10deg;">100 días</div>
+</section>
+
+<script>
+  // Titulares que se ajustan a su hueco: el tamaño más grande (hasta data-max) que cabe en data-alto sin cortar palabras.
+  // Se mide con las letras ya cargadas (npm run carrusel lo vuelve a llamar justo antes de hacer las imágenes).
+  window.ajustarTitulares = () => {
+    for (const el of document.querySelectorAll('.ajustar')) {
+      const max = Number(el.dataset.max) || 120, alto = Number(el.dataset.alto) || 400, min = Number(el.dataset.min) || 54;
+      let tam = max;
+      el.style.fontSize = tam + 'px';
+      while (tam > min && (el.getBoundingClientRect().height > alto || el.scrollWidth > el.clientWidth + 1)) {
+        tam -= 2;
+        el.style.fontSize = tam + 'px';
+      }
+    }
+  };
+  document.fonts.ready.then(() => window.ajustarTitulares());
+</script>
 </body>
 </html>

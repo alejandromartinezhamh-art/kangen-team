@@ -30,6 +30,24 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
   un recorrido que se dibuja, una lista que se marca, el titular entrando sobre un vídeo real de la persona). Se hacen
   con `npm run carrusel-animado` (`contenido/carruseles/README.md`).
 
+- 2026-11-16 · Fotos con la cara cortada (frente, barbilla) porque se encuadraban sin saber dónde estaba la cara ·
+  opinión de Alejandro · Regla: cada foto se coloca según sus caras y una comprobación automática no deja entregar una
+  cara cortada o con texto encima (`npm run carrusel`, `scripts/encuadre.mjs`). Revisión de cada imagen a tamaño real.
+- 2026-11-16 · Los carruseles «se van a parecer unos a otros»: diseño plano, misma estructura y mismo número de
+  imágenes · opinión de Alejandro · Regla: el largo lo marca el contenido (3, 5, 7-10), un estilo por carrusel distinto
+  de los tres anteriores (álbum, revista, tipográfico, documental), titulares que se ajustan a su hueco y dibujos que
+  señalan (flechas, círculos, subrayados, pegatinas). Plantilla nueva con 20 composiciones
+  (`contenido/carruseles/README.md`).
+- 2026-11-16 · Un vídeo con un clip del café apuntando al suelo de la calle · opinión de Alejandro · Regla: cada clip se
+  mira entero antes de usarlo (`npm run video -- <carpeta> --planos`, un fotograma por segundo) y el plano enseña lo que
+  dice su texto: nada de suelo, pies, techo, movidos ni caras de otros.
+- 2026-11-16 · «Algunas letras salen demasiado rápido, cuesta leerlas» · opinión de Alejandro · Regla: cada texto en
+  pantalla se queda quieto y entero el tiempo de leerlo: unas 3 palabras por segundo y nunca menos de 2 segundos. Lo
+  calculan `npm run video` y la plantilla del Reel animado, y `npm run carrusel-animado` no renderiza si no se cumple.
+- 2026-11-16 · «Que pueda elegir yo la foto y editarla, y editar los vídeos con la voz en off sin irnos a otra
+  herramienta» · petición de Alejandro · Se prepara un estudio dentro de Claude para elegir foto y encuadre de cada
+  imagen y montar los vídeos con su voz.
+
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.
 - Los ganchos con una escena concreta («un domingo por la tarde…») retendrán más que los genéricos.

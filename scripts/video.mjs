@@ -1,11 +1,14 @@
-// Vídeo vertical con la voz de la persona (o con textos en pantalla): npm run video -- <carpeta>
+// Vídeo vertical con la voz de la persona (o con textos en pantalla): npm run video -- <carpeta> [--planos]
 // La carpeta de trabajo va fuera del repositorio (es público): lleva pieza.json, la voz y los clips o fotos.
 // Pasos: limpia la voz, la transcribe palabra a palabra, recorta cada clip a 1080 × 1920 y monta una composición de
 // HyperFrames (HTML → MP4) con el gancho arriba y los subtítulos al ritmo de la voz, con los colores de la persona.
+// Con --planos solo hace planos.jpg: un fotograma por segundo de cada clip, para elegir qué trozo usar antes de montar.
+// Cada texto en pantalla dura al menos lo que se tarda en leerlo, y las fotos se recortan alrededor de la cara.
 // Guía y formato de pieza.json: contenido/videos/README.md.
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { carasEnFotos } from './encuadre.mjs';
 
 const HYPERFRAMES = 'hyperframes@0.9.52';
 const ANCHO = 1080;
@@ -36,6 +39,10 @@ const ffmpeg = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args], 
 const duracion = (archivo) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', archivo], { encoding: 'utf8' }).trim());
 const r2 = (n) => Math.round(n * 100) / 100;
+// Lo que se tarda en leer un texto en pantalla: unas 3 palabras por segundo y nunca menos de 2 segundos, quieto.
+// Es la misma cuenta que usa la comprobación de scripts/carrusel-animado.mjs.
+const palabrasDe = (texto) => texto.replace(/\*/g, '').split(/\s+/).filter(Boolean).length;
+const lectura = (texto) => r2(Math.max(2, 0.7 + palabrasDe(texto) / 3));
 const escapar = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // «Otra *manera*» → la palabra entre asteriscos va en cursiva y con el color de énfasis, como en las webs.
 const conEnfasis = (t) => escapar(t).replace(/\*([^*]+)\*/g, '<em>$1</em>');
@@ -88,7 +95,32 @@ function frases(palabras) {
   });
 }
 
+// ---------- Revisar los clips antes de montar: un fotograma por segundo de cada uno, y avisos de luz y nitidez
+function revisarClips(lista) {
+  const filas = [];
+  lista.filter((m) => /\.(mov|mp4|m4v|webm)$/i.test(m.archivo)).forEach((m, i) => {
+    const origen = path.join(carpeta, m.archivo);
+    const fila = path.join(carpeta, `.plano-${i}.jpg`);
+    ffmpeg(['-i', origen, '-vf', 'fps=1,scale=240:426:force_original_aspect_ratio=decrease,pad=240:426:-1:-1:color=black,tile=8x1', '-frames:v', '1', fila]);
+    filas.push({ fila, archivo: m.archivo, segundos: Math.floor(duracion(origen)) });
+    const datos = execFileSync('ffmpeg', ['-v', 'error', '-i', origen, '-vf', 'fps=2,scale=320:-2,blurdetect=block_width=32:block_height=32,signalstats,metadata=print:file=-', '-f', 'null', '-'], { encoding: 'utf8' });
+    const luz = [...datos.matchAll(/YAVG=([\d.]+)/g)].map((x) => Number(x[1]));
+    const borroso = [...datos.matchAll(/lavfi\.blur=([\d.]+)/g)].map((x) => Number(x[1])).sort((a, b) => a - b);
+    const media = luz.reduce((s, x) => s + x, 0) / (luz.length || 1);
+    if (media < 50) console.warn(`Aviso: ${m.archivo} está oscuro (luz media ${Math.round(media)} de 255).`);
+    if (borroso[Math.floor(borroso.length / 2)] > 8) console.warn(`Aviso: ${m.archivo} parece movido o desenfocado.`);
+  });
+  if (!filas.length) return;
+  ffmpeg([...filas.flatMap((f) => ['-i', f.fila]), '-filter_complex', filas.length > 1 ? `vstack=inputs=${filas.length}` : 'null', path.join(carpeta, 'planos.jpg')]);
+  filas.forEach((f) => rmSync(f.fila));
+  console.log('planos.jpg: cada fila es un clip y cada imagen, un segundo (de 0 a 7):');
+  filas.forEach((f, i) => console.log(`  Fila ${i + 1}: ${f.archivo} (${f.segundos} s)`));
+  console.log('Mira que cada plano enseñe lo que dice su texto: nada de suelo, pies, techo, movidos ni caras de otros.');
+}
+
 // ---------- Montaje
+revisarClips(pieza.medios.map((m) => (typeof m === 'string' ? { archivo: m } : m)));
+if (process.argv.includes('--planos')) process.exit(0);
 preparar();
 rmSync(obra, { recursive: true, force: true });
 hf(['init', 'obra', '--example', 'blank', '--resolution', 'portrait', '--non-interactive', '--skip-skills'], { cwd: carpeta, salida: 'ignore' });
@@ -110,7 +142,13 @@ if (pieza.voz) {
 }
 
 // 2. El tiempo de cada clip: los que traen «segundos» lo respetan; el resto se reparte lo que dura la voz.
+//    Un clip con texto dura al menos lo que se tarda en leerlo (sin voz se alarga; con voz, se avisa).
 const medios = pieza.medios.map((m) => (typeof m === 'string' ? { archivo: m } : { ...m }));
+for (const m of medios.filter((m) => m.texto)) {
+  const minimo = r2(lectura(m.texto) + 0.3);
+  if (!pieza.voz && (m.segundos ?? 0) < minimo) m.segundos = minimo;
+  else if (pieza.voz && m.segundos && m.segundos < minimo) console.warn(`Aviso: «${m.texto}» dura ${m.segundos} s y necesita ${minimo} s para leerse.`);
+}
 const fijos = medios.reduce((n, m) => n + (m.segundos ?? 0), 0);
 const libres = medios.filter((m) => !m.segundos).length;
 const total = pieza.voz ? durVoz + 0.8 : fijos + libres * 3;
@@ -122,7 +160,25 @@ medios.forEach((m, i) => {
   t += m.dura;
 });
 
-// 3. Cada clip, recortado a vertical y sin sonido; las fotos, algo más grandes para poder acercarlas despacio.
+// 3. Cada clip, recortado a vertical y sin sonido; las fotos, algo más grandes para poder acercarlas despacio y
+//    recortadas alrededor de la cara (si la hay), para que no se corte ni al acercarse.
+const fotos = medios.filter((m) => !/\.(mov|mp4|m4v|webm)$/i.test(m.archivo));
+const carasFotos = fotos.length ? await carasEnFotos(fotos.map((m) => path.join(carpeta, m.archivo))) : [];
+fotos.forEach((m, i) => (m.medidas = carasFotos[i]));
+function recorteFoto(m) {
+  const W = ANCHO * 1.25, H = ALTO * 1.25;
+  const { ancho, alto, caras } = m.medidas;
+  const k = Math.max(W / ancho, H / alto);
+  const sobraX = ancho * k - W, sobraY = alto * k - H;
+  if (!caras.length) return { x: sobraX / 2, y: sobraY / 2, origen: '50% 45%' };
+  const c = { l: Math.min(...caras.map((x) => x.l)) * k, r: Math.max(...caras.map((x) => x.r)) * k, t: Math.min(...caras.map((x) => x.t)) * k, b: Math.max(...caras.map((x) => x.b)) * k };
+  // La cara, centrada en horizontal y a un tercio de altura (debajo del gancho y lejos de los subtítulos).
+  const x = Math.min(sobraX, Math.max(0, (c.l + c.r) / 2 - W / 2));
+  const y = Math.min(sobraY, Math.max(0, (c.t + c.b) / 2 - H * 0.36));
+  const origen = `${(((c.l + c.r) / 2 - x) / W * 100).toFixed(1)}% ${(((c.t + c.b) / 2 - y) / H * 100).toFixed(1)}%`;
+  if (c.r - c.l > W || c.b - c.t > H * 0.6) console.warn(`Aviso: en ${m.archivo} la cara es muy grande para el vídeo; mira la hoja.`);
+  return { x, y, origen };
+}
 medios.forEach((m, i) => {
   const origen = path.join(carpeta, m.archivo);
   const numero = String(i + 1).padStart(2, '0');
@@ -137,13 +193,15 @@ medios.forEach((m, i) => {
     ffmpeg(['-ss', String(m.desde ?? 0), '-i', origen, '-t', String(m.dura + 0.2), '-vf', filtro.join(','), '-an', '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', path.join(obra, m.src)]);
   } else {
     m.src = `medios/${numero}.jpg`;
-    ffmpeg(['-i', origen, '-vf', `scale=${ANCHO * 1.25}:${ALTO * 1.25}:force_original_aspect_ratio=increase,crop=${ANCHO * 1.25}:${ALTO * 1.25}`, '-q:v', '2', path.join(obra, m.src)]);
+    const { x, y, origen: centro } = recorteFoto(m);
+    m.origen = centro;
+    ffmpeg(['-i', origen, '-vf', `scale=${ANCHO * 1.25}:${ALTO * 1.25}:force_original_aspect_ratio=increase,crop=${ANCHO * 1.25}:${ALTO * 1.25}:${Math.round(x)}:${Math.round(y)}`, '-q:v', '2', path.join(obra, m.src)]);
   }
 });
 if (pieza.musica) copyFileSync(path.join(carpeta, pieza.musica), path.join(obra, 'audio', 'musica' + path.extname(pieza.musica)));
 
 // 4. La composición (HTML). Zona segura: nada de texto en los 250 px de arriba ni en los 420 de abajo (botones de la red).
-const durGancho = r2(Math.min(pieza.segundosGancho ?? 3.4, total));
+const durGancho = r2(Math.min(Math.max(pieza.segundosGancho ?? 3.4, pieza.gancho ? lectura(pieza.gancho) + 0.4 : 0), total));
 const html = `<!doctype html>
 <html lang="es" data-resolution="portrait">
 <head>
@@ -193,12 +251,16 @@ ${pieza.musica ? `  <audio id="musica" class="clip" src="audio/musica${path.extn
 </div>
 <script>
   const tl = gsap.timeline({ paused: true });
-  const medios = ${JSON.stringify(medios.map((m, i) => ({ id: '#m' + i, inicio: m.inicio, dura: m.dura, video: m.video, texto: !!m.texto })))};
+  const medios = ${JSON.stringify(medios.map((m, i) => ({ id: '#m' + i, inicio: m.inicio, dura: m.dura, video: m.video, texto: !!m.texto, origen: m.origen ?? '50% 45%' })))};
   const cues = ${JSON.stringify(cues.map((c, i) => ({ id: '#c' + i, inicio: r2(c.inicio), palabras: c.palabras.map((p) => ({ id: '#' + p.id, a: r2(p.start), b: r2(p.end) })) })))};
   medios.forEach((m, i) => {
     // Las fotos se acercan despacio para que no se vean quietas.
-    if (!m.video) tl.fromTo(m.id, { scale: 1, transformOrigin: '50% 45%' }, { scale: 1.1, duration: m.dura, ease: 'none' }, m.inicio);
-    if (m.texto) tl.fromTo('#r' + i, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power3.out' }, m.inicio);
+    if (!m.video) tl.fromTo(m.id, { scale: 1, transformOrigin: m.origen }, { scale: 1.1, duration: m.dura, ease: 'none' }, m.inicio);
+    // El rótulo entra con calma y se queda quieto; sale un poco antes del corte para que no se monte con el siguiente.
+    if (m.texto) {
+      tl.fromTo('#r' + i, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, m.inicio + 0.1);
+      tl.to('#r' + i, { opacity: 0, duration: 0.25, ease: 'power1.in' }, Math.max(m.inicio + 0.6, m.inicio + m.dura - 0.3));
+    }
   });
   ${pieza.gancho ? `tl.fromTo('#gancho', { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' }, 0.05);
   tl.to('#gancho', { opacity: 0, duration: 0.25, ease: 'power1.in' }, ${r2(durGancho - 0.25)});` : ''}
