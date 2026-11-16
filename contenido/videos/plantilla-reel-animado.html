@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<!--
+  Plantilla de Reel animado (1080 × 1920): solo texto en movimiento sobre dos fotos reales de la persona, sin grabar nada.
+  Cómo se usa (contenido/videos/README.md, «Reel animado»):
+  1. Copia este archivo como index.html en una carpeta de trabajo FUERA del repositorio, con sus dos fotos
+     (foto-1.jpg y foto-2.jpg, verticales).
+  2. Pon sus colores (equipo/<persona>/design.md), su nombre, la serie y los textos de su pieza del Calendario.
+  3. npm run carrusel-animado -- <carpeta> <carpeta>/reel.mp4
+  Cinco escenas: gancho en dos partes, un recorrido con paradas (una frase en cada una), dos ideas y la pregunta final.
+  Si cambias la duración de una escena, cambia también data-duration y los tiempos del final del script.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/MotionPathPlugin.min.js"></script>
+<style>
+  /* Colores de la persona: cámbialos por los de su design.md. */
+  :root {
+    --fondo: #fdfcfc;        /* texto claro sobre la foto */
+    --oscuro: #18120e;       /* velo sobre la foto */
+    --suave: #d0c7ff;        /* serie, años y texto a mano */
+    --enfasis: #ffa174;      /* palabra en cursiva y la bolita */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--oscuro);
+    font-family: 'Inter Tight', system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: var(--fondo); }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    filter: sepia(.06) saturate(1.02) contrast(1.06) brightness(.94); }
+  .velo { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(24,18,14,.55) 0%, rgba(24,18,14,.38) 30%,
+    rgba(24,18,14,.62) 62%, rgba(24,18,14,.86) 100%); }
+  /* Zona segura: nada importante por encima de 250 px ni por debajo de 1480 px (ahí van los botones de cada red). */
+  .barra { position: absolute; left: 76px; right: 76px; top: 250px; display: flex; justify-content: space-between;
+    font-size: 30px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .barra .serie { color: var(--suave); }
+  .escena { position: absolute; left: 76px; right: 76px; top: 520px; }
+  h2 { font-size: 112px; font-weight: 700; letter-spacing: -0.045em; line-height: .96; }
+  h2 + h2 { margin-top: 44px; }
+  h2 .p { display: inline-block; }
+  em { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; color: var(--enfasis); }
+  .mano { font-family: 'Caveat', cursive; font-weight: 700; color: var(--suave); line-height: 1; }
+  .frase { position: absolute; left: 76px; right: 76px; top: 620px; font-size: 118px; font-weight: 700;
+    letter-spacing: -0.045em; line-height: .96; }
+  svg.camino { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+  svg.camino .via { fill: none; stroke: var(--fondo); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 1 26; }
+  svg.camino .parada { fill: var(--oscuro); stroke: var(--fondo); stroke-width: 7; }
+  svg.camino #bola { fill: var(--enfasis); }
+  .rotulo { position: absolute; top: 1262px; transform: translateX(-50%); font-size: 28px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--suave); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="17.6" data-width="1080" data-height="1920">
+  <img id="fotoA" class="foto" src="foto-1.jpg" alt="" />
+  <img id="fotoB" class="foto" src="foto-2.jpg" alt="" />
+  <div class="velo"></div>
+  <div class="barra"><span>Nombre</span><span class="serie">Nombre de la serie</span></div>
+
+  <!-- 1 · El gancho, en dos partes. Cada palabra de la primera va en su <span class="p"> para que entren una a una. -->
+  <div id="e1" class="escena">
+    <h2 id="e1a"><span class="p">La</span> <span class="p">primera</span> <span class="p">parte</span> <span class="p">del</span> <span class="p">gancho…</span></h2>
+    <h2 id="e1b">…y la segunda, con su <em>énfasis</em>.</h2>
+  </div>
+
+  <!-- 2 · Un recorrido con paradas: la bolita avanza y en cada parada aparece una frase.
+       La forma del camino cuenta la idea: plano si nada cambia, hacia arriba si crece, con curvas si sube y baja. -->
+  <div id="e2">
+    <svg class="camino" viewBox="0 0 1080 1920">
+      <defs>
+        <mask id="mascara" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">
+          <path id="trazo" d="M70 1200 C 300 1186, 420 1214, 540 1200 C 660 1186, 800 1214, 1010 1200" style="fill: none; stroke: #fff; stroke-width: 60; stroke-linecap: butt;"/>
+        </mask>
+      </defs>
+      <path id="via" class="via" d="M70 1200 C 300 1186, 420 1214, 540 1200 C 660 1186, 800 1214, 1010 1200" mask="url(#mascara)"/>
+      <g id="paradas"></g>
+      <circle id="bola" cx="0" cy="0" r="30"/>
+    </svg>
+    <div id="rotulos"></div>
+    <div class="frase" id="f1">Primera <em>parada</em>.</div>
+    <div class="frase" id="f2">Segunda <em>parada</em>.</div>
+    <div class="frase" id="f3">Tercera <em>parada</em>.</div>
+    <div class="frase" id="f4">Cuarta <em>parada</em>.</div>
+    <div class="frase" id="f5">Y la <em>última</em>.</div>
+  </div>
+
+  <!-- 3 · Una idea suya, con una línea pequeña delante. -->
+  <div id="e3" class="escena">
+    <h2 id="e3a" style="font-size: 84px; color: var(--suave);">Una línea pequeña:</h2>
+    <h2 id="e3b" style="margin-top: 30px;">y la idea, con su <em>énfasis</em>.</h2>
+  </div>
+
+  <!-- 4 · La segunda idea, en dos partes. -->
+  <div id="e4" class="escena">
+    <h2 id="e4a">La segunda idea empieza aquí…</h2>
+    <h2 id="e4b">…y termina <em>aquí</em>.</h2>
+  </div>
+
+  <!-- 5 · La pregunta final y la llamada, a mano. -->
+  <div id="e5" class="escena" style="top: 600px;">
+    <h2 id="e5a" style="font-size: 124px;">¿La pregunta para quien lo <em>ve</em>?</h2>
+    <div id="e5b" class="mano" style="margin-top: 70px; font-size: 96px; transform: rotate(-4deg); transform-origin: left center;">guárdalo ↓</div>
+  </div>
+</div>
+<script>
+  gsap.registerPlugin(MotionPathPlugin);
+  const tl = gsap.timeline({ paused: true });
+  const via = document.querySelector('#via');
+  const largo = via.getTotalLength();
+
+  // Las paradas: en qué parte del camino cae cada una y qué rótulo lleva debajo. Tantas como frases (#f1, #f2…).
+  const paradas = [
+    { parte: 0.1, rotulo: 'año 1' },
+    { parte: 0.3, rotulo: 'año 2' },
+    { parte: 0.5, rotulo: 'año 3' },
+    { parte: 0.7, rotulo: 'año 4' },
+    { parte: 0.9, rotulo: 'año 5' },
+  ];
+  const ns = 'http://www.w3.org/2000/svg';
+  paradas.forEach((p, i) => {
+    const punto = via.getPointAtLength(largo * p.parte);
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('class', 'parada'); c.setAttribute('id', 'p' + (i + 1));
+    c.setAttribute('cx', punto.x); c.setAttribute('cy', punto.y); c.setAttribute('r', 20);
+    document.querySelector('#paradas').appendChild(c);
+    const r = document.createElement('div');
+    r.className = 'rotulo'; r.id = 'r' + (i + 1); r.style.left = punto.x + 'px'; r.textContent = p.rotulo;
+    document.querySelector('#rotulos').appendChild(r);
+  });
+  const enfasis = getComputedStyle(document.documentElement).getPropertyValue('--enfasis').trim();
+
+  // Estado inicial.
+  gsap.set(['#fotoB', '#e1b', '#e2', '#e3a', '#e3b', '#e4a', '#e4b', '#e5a', '#e5b', '.frase', '.rotulo'], { opacity: 0 });
+  gsap.set('#trazo', { strokeDasharray: largo + ' ' + largo, strokeDashoffset: largo });
+  gsap.set('#bola', { opacity: 0 });
+
+  // Las dos fotos se acercan muy despacio todo el rato; la segunda entra a mitad.
+  tl.fromTo('#fotoA', { scale: 1.04 }, { scale: 1.2, duration: 9.6, ease: 'none' }, 0);
+  tl.fromTo('#fotoB', { scale: 1.04 }, { scale: 1.2, duration: 8.6, ease: 'none' }, 9.0);
+  tl.to('#fotoB', { opacity: 1, duration: 0.7, ease: 'power1.inOut' }, 9.1);
+
+  // 1 · El gancho.
+  tl.fromTo('#e1a .p', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.32, ease: 'power3.out', stagger: 0.11 }, 0.15);
+  tl.fromTo('#e1b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 1.55);
+  tl.to('#e1', { opacity: 0, duration: 0.3 }, 3.15);
+
+  // 2 · El recorrido. No uses onUpdate: al renderizar, la línea de tiempo salta de fotograma en fotograma.
+  const salida = 3.6, viaje = 5.4;
+  tl.to('#e2', { opacity: 1, duration: 0.3 }, 3.4);
+  tl.set('#bola', { opacity: 1 }, salida);
+  tl.to('#bola', { motionPath: { path: '#via', align: '#via', alignOrigin: [0.5, 0.5] }, duration: viaje, ease: 'none' }, salida);
+  tl.to('#trazo', { strokeDashoffset: 0, duration: viaje, ease: 'none' }, salida);
+  paradas.forEach((p, i) => {
+    const t = salida + viaje * p.parte;
+    tl.to('#p' + (i + 1), { fill: enfasis, duration: 0.2 }, t);
+    tl.to('#r' + (i + 1), { opacity: 1, duration: 0.25 }, t);
+    tl.fromTo('#f' + (i + 1), { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' }, t);
+    if (i < paradas.length - 1) tl.to('#f' + (i + 1), { opacity: 0, y: -24, duration: 0.2 }, salida + viaje * paradas[i + 1].parte - 0.22);
+  });
+  tl.to('#e2', { opacity: 0, duration: 0.35 }, 9.35);
+
+  // 3 · La primera idea.
+  tl.fromTo('#e3a', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, 9.85);
+  tl.fromTo('#e3b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 10.45);
+  tl.to('#e3', { opacity: 0, duration: 0.3 }, 12.35);
+
+  // 4 · La segunda idea.
+  tl.fromTo('#e4a', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 12.75);
+  tl.fromTo('#e4b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 13.85);
+  tl.to('#e4', { opacity: 0, duration: 0.3 }, 15.2);
+
+  // 5 · La pregunta y la llamada.
+  tl.fromTo('#e5a', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 15.55);
+  tl.fromTo('#e5b', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, 16.35);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

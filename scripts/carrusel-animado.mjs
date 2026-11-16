@@ -1,7 +1,9 @@
-// Una imagen de carrusel con movimiento (MP4 de 1080 × 1350): npm run carrusel-animado -- <carpeta> [salida.mp4]
+// Una imagen de carrusel con movimiento (MP4 de 1080 × 1350) o un Reel animado (1080 × 1920):
+// npm run carrusel-animado -- <carpeta> [salida.mp4]
 // La carpeta de trabajo (fuera del repositorio) lleva un index.html hecho a partir de
-// contenido/carruseles/plantilla-animada.html y las fotos o vídeos que use. Lo renderiza HyperFrames (HTML → MP4).
-// Guía: contenido/carruseles/README.md, «Imágenes con movimiento».
+// contenido/carruseles/plantilla-animada.html o de contenido/videos/plantilla-reel-animado.html, y las fotos o vídeos
+// que use. El tamaño lo marca la plantilla. Lo renderiza HyperFrames (HTML → MP4).
+// Guías: contenido/carruseles/README.md, «Imágenes con movimiento», y contenido/videos/README.md, «Reel animado».
 import { spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import os from 'node:os';
