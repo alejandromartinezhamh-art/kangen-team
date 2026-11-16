@@ -13,8 +13,9 @@ description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de
 
 ## Pasos
 1. **Material**: si la pieza está en su **estudio** (`contenido/estudio/README.md`) y en «Listo», ya trae los planos,
-   los textos, los tiempos y la voz: bájalos y escribe `pieza.json` con `npm run estudio -- preparar`, y sigue en el
-   paso 2. Si no, en Drive → `Landing Kangen <Persona>/05 Contenido redes/Brutos`, su voz (`CT-<código> voz`) y sus
+   los textos, los tiempos, la voz y lo que haya tocado la persona (velocidad, recortes de la voz, frases quitadas,
+   subtítulos corregidos y letras): bájalos y escribe `pieza.json` con `npm run estudio -- preparar`, y sigue en el
+   paso 2. Respeta esos ajustes; si algo no cumple las normas, díselo en la nota de la pieza en vez de cambiarlo. Si no, en Drive → `Landing Kangen <Persona>/05 Contenido redes/Brutos`, su voz (`CT-<código> voz`) y sus
    clips. Bájalos a una carpeta de trabajo fuera del repositorio. Si falta la voz o un plano, no lo inventes: apúntalo
    en su pestaña de Pendientes y, si quieres enseñar el formato, haz una maqueta con `"vozDePrueba": true`.
 2. **Mira cada clip entero**: `npm run video -- <carpeta> --planos` hace `planos.jpg` con un fotograma por segundo de
@@ -26,7 +27,11 @@ description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de
    se pueda leer (unas 3 palabras por segundo y nunca menos de 2 segundos: el script ya alarga los clips con texto y
    avisa si con voz no da tiempo). Corrige `transcripcion.json` y repite si hace falta.
 5. **Entrega** el vídeo como dice el README (en el chat si la sesión es en la nube) y pon la pieza en **Estado** =
-   Editado. Pásala por `revisar-normas`.
+   Editado. Pásala por `revisar-normas`. Si la pieza venía del estudio, deja allí el vídeo y sus subtítulos con
+   `npm run estudio -- devolver` (pasos en `contenido/estudio/README.md`) para que la persona pueda retocarlo.
+6. **Tus propuestas también van al estudio**: cuando montes un vídeo nuevo de alguien que tiene estudio, déjalo allí
+   (`piezas/<código>` con su `video`, en `borrador`) con la velocidad, los recortes y el estilo de letras que elijas,
+   para que lo vea y lo toque antes de aprobarlo. Lo que cambie respecto a tu propuesta es una opinión: `aprender`.
 
 ## Reel animado
 Si la pieza es un Reel de solo texto (en sus **Notas**: «Reel animado» o «sin grabar»), no hace falta material de

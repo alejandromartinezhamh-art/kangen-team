@@ -154,13 +154,11 @@
   .pantalla .medio { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
   .pantalla .velo-v { position: absolute; inset: 0; z-index: 2;
     background: linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 48%, rgba(0,0,0,.62) 78%, rgba(0,0,0,.7) 100%); }
-  .pantalla .texto-v { position: absolute; left: 90px; right: 90px; z-index: 3; text-align: center; font-weight: 800; letter-spacing: -0.02em;
-    text-shadow: 0 4px 28px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.6); opacity: 0; transition: opacity .25s, translate .3s; }
-  .pantalla .texto-v em { font-family: 'DM Serif Display', serif; font-style: italic; font-weight: 400; letter-spacing: 0; color: var(--acento-v, #ffa174); }
-  .pantalla .gancho { top: 290px; font-size: 88px; line-height: 1.04; }
-  .pantalla .rotulo { top: 660px; font-size: 104px; line-height: 1.04; }
-  .pantalla .subs { position: absolute; left: 90px; right: 90px; top: 1270px; z-index: 3; text-align: center; font-size: 46px; font-weight: 700;
-    color: rgba(255,255,255,.55); border: 3px dashed rgba(255,255,255,.35); border-radius: 30px; padding: 26px; }
+  /* Gancho, rótulos y subtítulos: los estilos salen de scripts/montaje-video.mjs (los mismos que el vídeo final). */
+  .pantalla .texto { opacity: 0; transition: opacity .25s; }
+  .pantalla .cue .dicha { color: var(--resalte); }
+  .pantalla .cue.ejemplo::before { content: 'Ejemplo'; position: absolute; left: 50%; top: -64px; translate: -50% 0; font: 700 30px/1 'Inter Tight', sans-serif;
+    letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.6); padding: 10px 18px; border-radius: 999px; text-shadow: none; }
   .pantalla .zonas { position: absolute; inset: 0; z-index: 4; pointer-events: none; display: none; }
   .pantalla.con-zonas .zonas { display: block; }
   .pantalla .zonas div { position: absolute; left: 0; right: 0; background: rgba(239, 68, 68, .25); border: 3px dashed rgba(239, 68, 68, .7); }
@@ -192,6 +190,29 @@
   .nota-toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); translate: -50% 0; z-index: 60; background: var(--tinta); color: var(--app);
     padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; max-width: calc(100vw - 32px); box-shadow: var(--sombra); }
   .progreso { font-size: 13px; color: var(--marca); font-weight: 600; }
+
+  /* ---------- Letras, ritmo, voz y subtítulos del vídeo ---------- */
+  .check { display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .check input { width: 18px; height: 18px; accent-color: var(--marca); }
+  .muestras { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .muestra { width: 30px; height: 30px; padding: 0; border-radius: 50%; border: 2px solid var(--linea); box-shadow: inset 0 0 0 2px var(--panel); }
+  .muestra.activa { border-color: var(--marca); box-shadow: inset 0 0 0 2px var(--panel), 0 0 0 2px var(--marca); }
+  .muestra.sin { background: repeating-linear-gradient(45deg, var(--campo) 0 5px, var(--linea) 5px 7px); }
+  .muestras input[type="color"] { width: 38px; height: 30px; padding: 2px; border: 1px solid var(--linea); border-radius: 8px; background: var(--campo); cursor: pointer; }
+  .rapidos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .rapido { display: grid; gap: 2px; justify-items: center; padding: 10px 6px 8px; border-radius: 12px; border: 2px solid var(--linea);
+    background: linear-gradient(160deg, #4a423b, #1f1b18); color: #fff; font-size: 12px; font-weight: 700; }
+  .rapido.activo { border-color: var(--marca); }
+  .rapido .ej { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; }
+  .rapido .ej span { padding: 0 .25em; border-radius: .2em; }
+  .frases { display: grid; gap: 6px; max-height: 340px; overflow: auto; padding: 2px; }
+  .frase { display: grid; grid-template-columns: 62px minmax(0, 1fr) 36px; gap: 6px; align-items: center; }
+  .frase input { min-width: 0; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--linea); background: var(--campo); font-weight: 500; }
+  .frase .btn { padding: 5px 0; font-variant-numeric: tabular-nums; }
+  .frase.fuera input { text-decoration: line-through; opacity: .55; }
+  .frase.sonando input { border-color: var(--marca); box-shadow: 0 0 0 1px var(--marca); }
+  .frase.aviso input { border-color: var(--peligro); background: var(--peligro-bg); }
+  .valor { font-variant-numeric: tabular-nums; color: var(--tinta); }
 </style>
 <style>
 /*@PLANTILLA_CSS@*/
@@ -210,6 +231,7 @@
 (() => {
 'use strict';
 /*@COMPOSICIONES@*/
+/*@MONTAJE_VIDEO@*/
 
 // ================================================================ Utilidades
 const $ = (s, r = document) => r.querySelector(s);
@@ -235,6 +257,9 @@ const palabrasDe = (t) => String(t || '').replace(/\*/g, '').split(/\s+/).filter
 const lectura = (t) => r2(Math.max(2, 0.7 + palabrasDe(t) / 3));
 const seg = (n) => `${String(r2(n)).replace('.', ',')} s`;
 const reloj = (n) => { n = Math.max(0, n || 0); return `${Math.floor(n / 60)}:${String(Math.floor(n % 60)).padStart(2, '0')}`; };
+// Duraciones de la voz y del vídeo: en segundos si es menos de un minuto (con un decimal), si no en minutos.
+const cuanto = (n) => (n < 59.95 ? `${(Math.round(n * 10) / 10).toFixed(1).replace('.', ',')} s` : reloj(n));
+const relojFino = (n) => { n = Math.max(0, n || 0); return `${Math.floor(n / 60)}:${(n % 60).toFixed(1).padStart(4, '0').replace('.', ',')}`; };
 const escapar = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const conEnfasis = (t) => escapar(t).replace(/\*([^*]+)\*/g, '<em>$1</em>');
 const blob = (id) => '/_blob/' + id;
@@ -1229,10 +1254,135 @@ async function borrarPieza() {
 }
 
 // ================================================================ Vídeo
-const R = { t: 0, play: false, base: 0, raf: 0, els: [], T: null, plano: 0 };
+// Las cuentas de velocidad, recortes de la voz, subtítulos y letras son las de scripts/montaje-video.mjs (arriba): las
+// mismas que usa npm run video, así que lo que se ve y se oye aquí es lo que sale.
+const R = { t: 0, play: false, base: 0, raf: 0, els: [], T: null, plano: 0, subs: [] };
+const lineaHtml = (t) => (t ? `<span class="linea">${conEnfasis(t)}</span>` : '');
+const estiloDe = (v) => estiloVideo(v?.estilo, { resalte: E.ajustes.colores?.lila, enfasis: E.ajustes.colores?.acentoClaro });
+
+// ---------- La voz: el sonido (para ver dónde calla y para oírla ya recortada) y los trozos que se quedan
+const SONIDOS = new Map(); // asset → Promise<{ muestras, frecuencia, duracion, silencios } | null>
+const SONIDO_LISTO = new Map(); // asset → lo mismo, cuando ya está
+function sonidoDe(asset) {
+  if (!SONIDOS.has(asset)) SONIDOS.set(asset, (async () => {
+    let res = null;
+    try {
+      const datos = await (await fetch(blob(asset))).arrayBuffer();
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const buf = await ctx.decodeAudioData(datos);
+      ctx.close?.();
+      const muestras = new Float32Array(buf.length);
+      for (let c = 0; c < buf.numberOfChannels; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < d.length; i++) muestras[i] += d[i] / buf.numberOfChannels;
+      }
+      res = { muestras, frecuencia: buf.sampleRate, duracion: buf.duration, silencios: silenciosDe(muestras, buf.sampleRate) };
+    } catch { res = null; }
+    SONIDO_LISTO.set(asset, res);
+    return res;
+  })());
+  return SONIDOS.get(asset);
+}
+// Silencios de 0,3 s o más: trozos de 20 ms más bajos que la voz (30 dB por debajo de lo fuerte, y algo por encima del
+// ruido de fondo). Si no hay diferencia clara entre voz y fondo, no se marca nada.
+function silenciosDe(m, fr) {
+  const paso = Math.max(1, Math.round(fr * 0.02)), n = Math.floor(m.length / paso);
+  if (n < 10) return [];
+  const db = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    let s = 0;
+    for (let j = i * paso, f = j + paso; j < f; j++) s += m[j] * m[j];
+    db[i] = 10 * Math.log10(s / paso + 1e-12);
+  }
+  const orden = Float32Array.from(db).sort();
+  const alto = orden[Math.floor(n * 0.95)], bajo = orden[Math.floor(n * 0.1)];
+  if (alto - bajo < 18) return [];
+  const umbral = Math.max(bajo + 6, alto - 30);
+  const lista = [];
+  let ini = -1;
+  for (let i = 0; i <= n; i++) {
+    const callado = i < n && db[i] < umbral;
+    if (callado && ini < 0) ini = i;
+    else if (!callado && ini >= 0) { if (i - ini >= 15) lista.push([r2(ini * paso / fr), r2(i * paso / fr)]); ini = -1; }
+  }
+  return lista;
+}
+// Los trozos de la voz que se quedan. Se guardan en la pieza (voz.tramos) para que el vídeo final use estos mismos.
+// Para las pausas sin subtítulos hace falta el sonido: mientras llega, se calculan sin ellas y luego se rehacen.
+function recalcularVoz() {
+  const voz = E.pieza?.video?.voz;
+  if (!voz?.asset) return;
+  const necesitaSonido = !!voz.pausas && !voz.palabras?.length;
+  const sonido = SONIDO_LISTO.get(voz.asset);
+  if ((necesitaSonido || !voz.duracion) && sonido === undefined) {
+    sonidoDe(voz.asset).then(() => { if (E.pieza?.video?.voz === voz) { recalcularVoz(); cambioVideo({ panel: true }); } });
+  }
+  const duracion = voz.duracion || sonido?.duracion || 0;
+  // Sin sonido no se ven las pausas: entonces no se guardan trozos y el vídeo final las quita con los subtítulos.
+  if (!duracion || (necesitaSonido && !sonido)) { delete voz.tramos; return; }
+  voz.tramos = tramosDeVoz({ ...voz, duracion }, sonido?.silencios || []);
+}
+const tramosVista = (voz) => (Array.isArray(voz.tramos) ? voz.tramos
+  : tramosDeVoz({ ...voz, pausas: false, duracion: voz.duracion || SONIDO_LISTO.get(voz.asset)?.duracion || 0 }));
+const claveVoz = (voz) => (voz?.asset ? `${voz.asset}|${JSON.stringify(tramosVista(voz))}` : '');
+// La voz ya recortada, en WAV, para oírla igual que saldrá (a su velocidad, con el tono de siempre).
+const VISTAS = new Map(); // clave → url (o null mientras se prepara)
+let sinVistaVoz = false;
+function wavDe(m, fr, tramos) {
+  const trozos = tramos.map(([a, b]) => [Math.max(0, Math.round(a * fr)), Math.min(m.length, Math.round(b * fr))]).filter(([a, b]) => b > a);
+  const n = trozos.reduce((s, [a, b]) => s + b - a, 0);
+  const buf = new ArrayBuffer(44 + n * 2), d = new DataView(buf);
+  const txt = (o, t) => [...t].forEach((c, i) => d.setUint8(o + i, c.charCodeAt(0)));
+  txt(0, 'RIFF'); d.setUint32(4, 36 + n * 2, true); txt(8, 'WAVE'); txt(12, 'fmt ');
+  d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true); d.setUint32(24, fr, true);
+  d.setUint32(28, fr * 2, true); d.setUint16(32, 2, true); d.setUint16(34, 16, true); txt(36, 'data'); d.setUint32(40, n * 2, true);
+  const fundido = Math.round(fr * 0.01);
+  let o = 44;
+  for (const [a, b] of trozos) for (let i = a; i < b; i++) {
+    const borde = Math.min(i - a, b - 1 - i);
+    d.setInt16(o, Math.max(-1, Math.min(1, m[i] * (borde < fundido ? borde / fundido : 1))) * 32767, true);
+    o += 2;
+  }
+  return new Blob([buf], { type: 'audio/wav' });
+}
+async function prepararVistaVoz() {
+  const voz = E.pieza?.video?.voz;
+  const clave = claveVoz(voz);
+  if (!clave || sinVistaVoz || VISTAS.has(clave)) return;
+  VISTAS.set(clave, null);
+  const sonido = await sonidoDe(voz.asset);
+  if (!sonido) { VISTAS.delete(clave); return; }
+  const url = URL.createObjectURL(wavDe(sonido.muestras, sonido.frecuencia, tramosVista(voz)));
+  VISTAS.set(clave, url);
+  while (VISTAS.size > 4) { const [k, u] = VISTAS.entries().next().value; if (u) URL.revokeObjectURL(u); VISTAS.delete(k); }
+  const audio = $('#v-voz');
+  if (audio && audio.dataset.clave === clave && audio.dataset.procesada !== '1') ponerFuenteVoz(audio);
+}
+function ponerFuenteVoz(audio) {
+  const voz = E.pieza.video.voz;
+  const clave = claveVoz(voz);
+  const url = sinVistaVoz ? null : VISTAS.get(clave);
+  const seguia = !audio.paused;
+  if (seguia) audio.pause();
+  audio.dataset.clave = clave;
+  audio.dataset.procesada = url ? '1' : '';
+  audio.src = url || blob(voz.asset);
+  audio.preservesPitch = true;
+  audio.defaultPlaybackRate = audio.playbackRate = R.T?.vel || 1;
+  if (!url) prepararVistaVoz();
+  if (seguia) instante(R.t, R.play);
+}
+function alFallarVoz(e) {
+  // Si el navegador no deja oír la voz ya recortada, se oye la original saltando lo que se quita.
+  if (e.target.dataset.procesada !== '1') return;
+  sinVistaVoz = true;
+  ponerFuenteVoz(e.target);
+}
+
 function tiempos(v) {
   const conVoz = !!v?.voz?.asset;
-  const durVoz = v?.voz?.duracion || 0;
+  const vel = velocidadDe(v?.velocidad);
+  const mapa = conVoz ? mapaVoz(tramosVista(v.voz), vel) : null;
   const medios = (v?.medios || []).map((m) => ({ ...m }));
   for (const m of medios) {
     m.minimo = m.texto ? r2(lectura(m.texto) + 0.3) : 0;
@@ -1241,7 +1391,7 @@ function tiempos(v) {
   }
   const fijos = medios.reduce((n, m) => n + m.seg, 0);
   const libres = medios.filter((m) => !m.seg).length;
-  const total = r2(conVoz ? durVoz + 0.8 : fijos + libres * 3) || 0;
+  const total = r2(conVoz ? mapa.total + 0.8 : fijos + libres * (3 / vel)) || 0;
   const reparto = libres ? Math.max(1.5, (total - fijos) / libres) : 0;
   let t = 0;
   medios.forEach((m, i) => {
@@ -1257,12 +1407,18 @@ function tiempos(v) {
   });
   const gancho = v?.gancho || '';
   const durGancho = r2(Math.min(Math.max(3.4, gancho ? lectura(gancho) + 0.4 : 0), total || 3.4));
-  return { medios, total: Math.max(total, t), durGancho, conVoz };
+  return { medios, total: Math.max(total, t), durGancho, conVoz, mapa, vel };
+}
+function calcularVideo() {
+  const v = E.pieza.video;
+  R.T = tiempos(v);
+  R.subs = R.T.conVoz && estiloDe(v).subtitulos && v.voz.palabras?.length ? subtitulosDeVoz(v.voz.palabras, R.T.mapa) : [];
 }
 function pintarVideo() {
   const v = (E.pieza.video ??= { gancho: '', voz: null, medios: [] });
   v.medios ??= [];
   pararVideo();
+  recalcularVoz();
   $('#vista').replaceChildren(h('div', { class: 'zona-video' },
     h('div', { class: 'mesa-video' },
       h('div', { class: 'pantalla', id: 'pantalla' }),
@@ -1280,7 +1436,8 @@ function montarPantalla() {
   const pantalla = $('#pantalla');
   if (!pantalla) return;
   const v = E.pieza.video;
-  R.T = tiempos(v);
+  calcularVideo();
+  const est = estiloDe(v);
   const ancho = Math.min(320, Math.max(220, (pantalla.parentElement.clientWidth || 320) - 8));
   const k = ancho / 1080;
   pantalla.style.width = ancho + 'px';
@@ -1296,17 +1453,21 @@ function montarPantalla() {
     return h('img', { class: 'medio', src: blob(m.asset), alt: '', style: `object-position: ${origen}; transform-origin: ${origen};` });
   });
   for (const el of R.els) if (el.tagName === 'VIDEO') el.muted = true;
-  const escala = h('div', { class: 'escala', style: `transform: scale(${k}); --acento-v: ${E.ajustes.colores?.acentoClaro || '#ffa174'};` },
+  const subs = R.T.conVoz && est.subtitulos ? h('div', { class: 'texto cue' + (R.subs.length ? '' : ' ejemplo'), id: 'v-subs' }) : null;
+  const escala = h('div', { class: 'escala', style: `transform: scale(${k}); --resalte: ${est.resalte};` },
+    h('style', null, cssTextosVideo(est, '.pantalla ')),
     ...R.els,
     R.els.length ? null : h('div', { class: 'sin-medios' }, 'Añade planos (fotos o clips) en el panel →'),
     h('div', { class: 'velo-v' }),
-    h('div', { class: 'texto-v gancho', id: 'v-gancho', html: null }),
-    h('div', { class: 'texto-v rotulo', id: 'v-rotulo' }),
-    R.T.conVoz ? h('div', { class: 'subs' }, 'Aquí salen los subtítulos de tu voz (se ponen al generarlo)') : null,
+    h('div', { class: 'texto gancho', id: 'v-gancho' }),
+    h('div', { class: 'texto rotulo', id: 'v-rotulo' }),
+    subs,
     h('div', { class: 'zonas' }, h('div', { style: 'top: 0; height: 250px' }), h('div', { style: 'bottom: 0; height: 420px' })));
-  const voz = v.voz?.asset ? h('audio', { id: 'v-voz', src: blob(v.voz.asset), preload: 'auto' }) : null;
+  const voz = v.voz?.asset ? h('audio', { id: 'v-voz', preload: 'auto', onerror: alFallarVoz }) : null;
   pantalla.replaceChildren(escala, ...(voz ? [voz] : []));
-  $('#v-gancho').innerHTML = conEnfasis(v.gancho);
+  if (voz) ponerFuenteVoz(voz);
+  $('#v-gancho').innerHTML = lineaHtml(v.gancho);
+  if (subs && !R.subs.length) subs.innerHTML = '<span class="linea"><span>Así</span><span>se</span><span class="dicha">verán</span><span>tus</span><span>subtítulos</span></span>';
   R.t = Math.min(R.t, R.T.total);
   pintarLinea();
   instante(R.t, false);
@@ -1325,10 +1486,10 @@ function pintarLinea() {
     style: `flex-grow: ${Math.max(0.01, m.dura)};`, title: m.texto || '',
     onclick: () => { R.plano = i; buscar(m.inicio + 0.05); pintarPanelVideo(); },
   }, `${i + 1}`, h('small', null, seg(m.dura)))));
-  linea.replaceChildren(
+  linea.replaceChildren(...[
     E.pieza.video.gancho ? h('div', { class: 'pista-gancho' }, h('div', { style: `width: ${(T.durGancho / total) * 100}%` }, `Gancho · ${seg(T.durGancho)}`)) : null,
     pista,
-    h('div', { class: 'cabezal', id: 'cabezal' }));
+    h('div', { class: 'cabezal', id: 'cabezal' })].filter(Boolean));
   colocarCabezal();
 }
 function colocarCabezal() {
@@ -1366,14 +1527,30 @@ function instante(t, enMarcha) {
   if (r) {
     const visible = activo?.texto && t >= activo.inicio + 0.1 && t < Math.max(activo.inicio + 0.6, activo.inicio + activo.dura - 0.3);
     const clave = `${activo?.inicio}|${activo?.texto}`;
-    if (visible && r.dataset.de !== clave) { r.innerHTML = conEnfasis(activo.texto); r.dataset.de = clave; }
+    if (visible && r.dataset.de !== clave) { r.innerHTML = lineaHtml(activo.texto); r.dataset.de = clave; }
     r.style.opacity = visible ? 1 : 0;
   }
+  // Subtítulos: la frase que toca y, dentro, la palabra que se está diciendo.
+  const s = $('#v-subs');
+  if (s && R.subs.length) {
+    const c = R.subs.find((x) => t >= x.inicio && t < x.fin);
+    const clave = c ? String(c.inicio) : '';
+    if (s.dataset.de !== clave) {
+      s.dataset.de = clave;
+      s.innerHTML = c ? `<span class="linea">${c.palabras.map((p, n) => `<span>${escapar(n === c.palabras.length - 1 ? p.text.replace(/[.,;:]+$/, '') : p.text)}</span>`).join('')}</span>` : '';
+    }
+    if (c) s.querySelectorAll('.linea > span').forEach((el, n) => { const p = c.palabras[n]; el.classList.toggle('dicha', t >= p.a && t < Math.max(p.b, p.a + 0.08)); });
+    s.style.opacity = c ? 1 : 0;
+  } else if (s) s.style.opacity = 1;
+  // La voz: la ya recortada va de seguido; la original salta lo que se quita.
   const voz = $('#v-voz');
-  if (voz) {
-    if (enMarcha && t < (E.pieza.video.voz?.duracion || voz.duration || 0)) {
-      if (voz.paused) { voz.currentTime = t; voz.play().catch(() => {}); } else if (Math.abs(voz.currentTime - t) > 0.25) voz.currentTime = t;
+  if (voz && T.mapa) {
+    const objetivo = t < T.mapa.total ? (voz.dataset.procesada === '1' ? t * T.vel : T.mapa.aVoz(t)) : null;
+    if (enMarcha && objetivo != null) {
+      if (voz.paused) { voz.currentTime = objetivo; voz.play().catch(() => {}); } else if (Math.abs(voz.currentTime - objetivo) > 0.25 * T.vel) voz.currentTime = objetivo;
     } else if (!voz.paused) voz.pause();
+    const enVoz = T.mapa.aVoz(t);
+    for (const f of $$('#frases .frase')) f.classList.toggle('sonando', enMarcha && enVoz != null && enVoz >= Number(f.dataset.inicio) && enVoz <= Number(f.dataset.fin));
   }
   colocarCabezal();
 }
@@ -1418,38 +1595,45 @@ function cambioVideo({ pantalla = true, panel = false } = {}) {
   }, 250);
 }
 function actualizarAvisosPlanos() {
-  R.T = tiempos(E.pieza.video);
+  calcularVideo();
   R.T.medios.forEach((m, i) => {
     const caja = $(`#avisos-plano-${i}`);
     if (caja) caja.replaceChildren(...m.avisos.map((a) => h('li', { class: a.startsWith('Lo alargo') ? '' : 'grave' }, a)));
     const info = $(`#info-plano-${i}`);
     if (info) info.textContent = `Del ${seg(m.inicio)} al ${seg(m.inicio + m.dura)}${m.texto ? ` · el texto se lee en ${seg(m.minimo)}` : ''}`;
   });
+  const v = E.pieza.video;
   const g = $('#info-gancho');
-  if (g) g.textContent = E.pieza.video.gancho ? `Se lee en ${seg(lectura(E.pieza.video.gancho))} y se queda ${seg(R.T.durGancho)}.` : '';
+  if (g) g.textContent = v.gancho ? `Se lee en ${seg(lectura(v.gancho))} y se queda ${seg(R.T.durGancho)}.` : '';
+  const iv = $('#info-voz');
+  if (iv && v.voz?.asset) {
+    const grabada = v.voz.duracion || SONIDO_LISTO.get(v.voz.asset)?.duracion || 0;
+    iv.textContent = `Grabada: ${cuanto(grabada)}. En el vídeo suena ${cuanto(R.T.mapa.total)}${grabada - R.T.mapa.total > 0.5 ? ` (${cuanto(grabada - R.T.mapa.total)} menos)` : ''}.`;
+  }
+  const ir = $('#info-ritmo');
+  if (ir) ir.textContent = (v.voz?.asset
+    ? `Tu voz va a ${String(R.T.vel).replace('.', ',')}× y suena con su tono de siempre. `
+    : 'Sin voz, la velocidad cambia lo que dura cada plano sin tiempo fijo; los textos se quedan siempre lo que se tarda en leerlos. ')
+    + `El vídeo dura ${cuanto(R.T.total)}.`;
   pintarLinea();
 }
+
+// ---------- Panel del vídeo
 function pintarPanelVideo() {
   const panel = $('#panel-video');
   if (!panel) return;
   const v = E.pieza.video;
   const T = tiempos(v);
-  const vozDoc = v.voz;
   const entradaVoz = h('input', { type: 'file', accept: 'audio/*,video/mp4,video/webm,.m4a,.opus,.ogg,.mp3,.wav', hidden: true, onchange: (e) => e.target.files[0] && subirVoz(e.target.files[0]) });
   const partes = [
     seccion('Gancho',
       h('label', { class: 'campo' }, 'Lo que se lee en los primeros segundos',
-        h('textarea', { rows: 2, value: v.gancho || '', placeholder: 'Ej.: Cinco años *iguales* no se notan… hasta que se notan.', oninput: (e) => { v.gancho = e.target.value; $('#v-gancho').innerHTML = conEnfasis(v.gancho); cambioVideo({ pantalla: false }); } })),
+        h('textarea', { id: 'v-texto-gancho', rows: 2, value: v.gancho || '', placeholder: 'Ej.: Cinco años *iguales* no se notan… hasta que se notan.', oninput: (e) => { v.gancho = e.target.value; $('#v-gancho').innerHTML = lineaHtml(v.gancho); cambioVideo({ pantalla: false }); } })),
       h('p', { class: 'ayuda' }, 'La palabra entre *asteriscos* sale en cursiva y con su color. ', h('span', { id: 'info-gancho' }))),
-    seccion('Tu voz',
-      vozDoc?.asset
-        ? h('div', { style: 'display: grid; gap: 8px' }, h('audio', { controls: true, src: blob(vozDoc.asset), style: 'width: 100%' }),
-          h('p', { class: 'ayuda' }, `${vozDoc.nombre || 'Nota de voz'} · ${vozDoc.duracion ? seg(vozDoc.duracion) : ''}. El vídeo dura lo que tu voz; los subtítulos salen solos al generarlo.`),
-          h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn peq', onclick: () => entradaVoz.click() }, 'Cambiar'),
-            h('button', { type: 'button', class: 'btn peq peligro', onclick: () => { guardarHistorial(); v.voz = null; cambioVideo({ panel: true }); } }, 'Quitar la voz')))
-        : h('div', { style: 'display: grid; gap: 8px' }, h('p', { class: 'ayuda' }, 'Grábala en el móvil (notas de voz o WhatsApp) y súbela aquí. Sin voz, el vídeo va solo con los textos y cada plano dura lo que se tarda en leerlo.'),
-          E.assets ? h('button', { type: 'button', class: 'btn', onclick: () => entradaVoz.click() }, 'Subir nota de voz') : null),
-      entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' })),
+    seccionVoz(v, entradaVoz),
+    seccionRitmo(v),
+    seccionSubtitulos(v),
+    seccionLetras(v),
     seccion(`Planos (${v.medios.length})`,
       h('div', { class: 'planos' }, T.medios.map((m, i) => tarjetaPlano(m, i))),
       h('div', { class: 'fila', style: 'margin-top: 10px' }, h('button', { type: 'button', class: 'btn', onclick: () => elegirMedio((f) => {
@@ -1460,8 +1644,186 @@ function pintarPanelVideo() {
       }) }, '+ Añadir plano'))),
     panelPieza(),
   ];
-  panel.replaceChildren(...partes);
+  panel.replaceChildren(...partes.filter(Boolean));
+  pintarFrases();
   actualizarAvisosPlanos();
+}
+function seccionVoz(v, entradaVoz) {
+  const voz = v.voz;
+  if (!voz?.asset) {
+    return seccion('Tu voz',
+      h('div', { style: 'display: grid; gap: 8px' }, h('p', { class: 'ayuda' }, 'Grábala en el móvil (notas de voz o WhatsApp) y súbela aquí. Sin voz, el vídeo va solo con los textos y cada plano dura lo que se tarda en leerlo.'),
+        E.assets ? h('button', { type: 'button', class: 'btn', onclick: () => entradaVoz.click() }, 'Subir nota de voz') : null),
+      entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
+  }
+  const dur = voz.duracion || SONIDO_LISTO.get(voz.asset)?.duracion || 0;
+  const hasta = voz.hasta ?? dur;
+  // Recortar el principio y el final: el deslizador enseña el segundo y lo guarda al soltar o al moverlo.
+  const recorte = (etiqueta, campo, valor) => h('label', { class: 'campo' }, h('span', null, `${etiqueta} `, h('span', { class: 'valor', id: `v-${campo}-valor` }, seg(valor))),
+    h('input', { type: 'range', id: `v-${campo}`, min: 0, max: r2(dur), step: 0.1, value: valor, disabled: !dur, onpointerdown: guardarHistorial, onkeydown: guardarHistorial, oninput: (e) => {
+      let val = Number(e.target.value);
+      if (campo === 'desde') val = Math.min(val, (voz.hasta ?? dur) - 1);
+      else val = Math.max(val, (voz.desde || 0) + 1);
+      val = r2(Math.max(0, Math.min(dur, val)));
+      if (campo === 'hasta' && val >= dur - 0.05) delete voz.hasta; else voz[campo] = val;
+      e.target.value = val;
+      $(`#v-${campo}-valor`).textContent = seg(val);
+      recalcularVoz();
+      cambioVideo();
+    } }));
+  return seccion('Tu voz',
+    h('div', { style: 'display: grid; gap: 10px' },
+      h('audio', { controls: true, src: blob(voz.asset), style: 'width: 100%' }),
+      h('p', { class: 'ayuda' }, `${voz.nombre || 'Nota de voz'}. El vídeo dura lo que tu voz, ya recortada.`),
+      recorte('Empieza en el segundo', 'desde', voz.desde || 0),
+      recorte('Termina en el segundo', 'hasta', hasta),
+      h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'v-pausas', checked: !!voz.pausas, onchange: (e) => {
+        guardarHistorial();
+        voz.pausas = e.target.checked;
+        recalcularVoz();
+        cambioVideo({ panel: true });
+      } }), 'Quitar las pausas largas'),
+      h('p', { class: 'ayuda' }, 'Deja medio respiro entre frase y frase: el vídeo va más ágil sin que se note el corte.'),
+      h('p', { class: 'ayuda valor', id: 'info-voz' }),
+      h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn peq', onclick: () => entradaVoz.click() }, 'Cambiar'),
+        h('button', { type: 'button', class: 'btn peq peligro', onclick: () => { guardarHistorial(); v.voz = null; cambioVideo({ panel: true }); } }, 'Quitar la voz'))),
+    entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
+}
+function seccionRitmo(v) {
+  const vel = velocidadDe(v.velocidad);
+  const poner = (x, { panel = false } = {}) => {
+    x = velocidadDe(Math.round(x * 100) / 100);
+    if (x === 1) delete v.velocidad; else v.velocidad = x;
+    $('#v-velocidad-valor').textContent = `${String(x).replace('.', ',')}×`;
+    $$('#rapidos-velocidad .btn').forEach((b) => b.classList.toggle('activo', Number(b.dataset.vel) === x));
+    cambioVideo({ panel });
+  };
+  return seccion('Ritmo',
+    h('div', { class: 'fila', id: 'rapidos-velocidad' }, [0.9, 1, 1.1, 1.2, 1.3].map((x) => h('button', {
+      type: 'button', class: 'btn peq' + (x === vel ? ' activo' : ''), 'data-vel': x,
+      onclick: () => { guardarHistorial(); $('#v-velocidad').value = x; poner(x); } }, `${String(x).replace('.', ',')}×`))),
+    h('label', { class: 'campo' }, h('span', null, 'Velocidad ', h('span', { class: 'valor', id: 'v-velocidad-valor' }, `${String(vel).replace('.', ',')}×`)),
+      h('input', { type: 'range', id: 'v-velocidad', min: VELOCIDAD.min, max: VELOCIDAD.max, step: 0.05, value: vel, onpointerdown: guardarHistorial, onkeydown: guardarHistorial,
+        oninput: (e) => poner(Number(e.target.value)) })),
+    h('p', { class: 'ayuda', id: 'info-ritmo' }));
+}
+function seccionSubtitulos(v) {
+  const voz = v.voz;
+  if (!voz?.asset) return null;
+  const est = estiloDe(v);
+  const mostrar = h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'v-con-subtitulos', checked: est.subtitulos, onchange: (e) => {
+    guardarHistorial();
+    v.estilo = { ...(v.estilo || {}), subtitulos: e.target.checked };
+    cambioVideo({ panel: true });
+  } }), 'Poner subtítulos');
+  if (!voz.palabras?.length) {
+    return seccion('Subtítulos', mostrar,
+      h('p', { class: 'ayuda' }, 'Salen solos de tu voz cuando Claude genera el vídeo. Después aparecen aquí y puedes corregir palabras y quitar frases para acortarlo.'));
+  }
+  return seccion('Subtítulos', mostrar,
+    h('p', { class: 'ayuda' }, 'Corrige lo que esté mal escrito. Con ✂ quitas esa frase de tu voz y del vídeo; con ↺ vuelve.'),
+    h('div', { class: 'frases', id: 'frases' }));
+}
+function pintarFrases() {
+  const caja = $('#frases');
+  const voz = E.pieza?.video?.voz;
+  if (!caja || !voz?.palabras?.length) return;
+  const pal = voz.palabras;
+  const mapa = tiempos(E.pieza.video).mapa;
+  const arriba = caja.scrollTop;
+  caja.replaceChildren(...frasesDeVoz(pal).map((grupo) => {
+    const fuera = grupo.every((k) => pal[k].fuera);
+    const texto = grupo.map((k) => pal[k].text).join(' ');
+    const inicio = pal[grupo[0]].start;
+    const seQueda = !fuera && mapa.seQueda((inicio + pal[grupo[0]].end) / 2);
+    const mal = NORMAS.test(texto);
+    return h('div', { class: 'frase' + (fuera ? ' fuera' : '') + (mal ? ' aviso' : ''), 'data-inicio': inicio, 'data-fin': pal[grupo.at(-1)].end },
+      h('button', { type: 'button', class: 'btn peq', disabled: !seQueda, title: 'Ir a esta frase', onclick: () => buscar(mapa.aVideo(inicio) + 0.01) }, seQueda ? relojFino(mapa.aVideo(inicio)) : '—'),
+      h('input', { type: 'text', value: texto, disabled: fuera, 'aria-label': 'Frase de los subtítulos', title: mal ? 'Habla de dinero, salud, el producto o el agua: eso no va en el contenido.' : '',
+        onfocus: guardarHistorial, onchange: (e) => corregirFrase(grupo, e.target.value) }),
+      h('button', { type: 'button', class: 'btn peq', title: fuera ? 'Volver a ponerla' : 'Quitar esta frase', 'aria-label': fuera ? 'Volver a ponerla' : 'Quitar esta frase',
+        onclick: () => quitarFrase(grupo, !fuera) }, fuera ? '↺' : '✂'));
+  }));
+  caja.scrollTop = arriba;
+}
+function corregirFrase(grupo, texto) {
+  const pal = E.pieza.video.voz.palabras;
+  const nuevas = texto.trim().split(/\s+/).filter(Boolean);
+  if (!nuevas.length) return quitarFrase(grupo, true);
+  const a = pal[grupo[0]].start, b = pal[grupo.at(-1)].end;
+  // Mismas palabras: cada una conserva su tiempo. Si cambian, se reparten el tiempo de la frase.
+  const paso = (b - a) / nuevas.length;
+  const reemplazo = nuevas.length === grupo.length
+    ? grupo.map((k, n) => ({ ...pal[k], text: nuevas[n] }))
+    : nuevas.map((t, n) => ({ text: t, start: r2(a + n * paso), end: r2(a + (n + 1) * paso - (n < nuevas.length - 1 ? 0.02 : 0)), ...(pal[grupo[0]].fuera ? { fuera: true } : {}) }));
+  pal.splice(grupo[0], grupo.length, ...reemplazo);
+  recalcularVoz();
+  cambioVideo();
+  pintarFrases();
+}
+function quitarFrase(grupo, fuera) {
+  guardarHistorial();
+  const pal = E.pieza.video.voz.palabras;
+  for (const k of grupo) { if (fuera) pal[k].fuera = true; else delete pal[k].fuera; }
+  recalcularVoz();
+  cambioVideo();
+  pintarFrases();
+}
+// Contraste entre dos colores (WCAG), para avisar de letras que no se leen.
+function luz(hex) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+const contraste = (a, b) => { const [x, y] = [luz(a), luz(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+function estilosRapidos() {
+  const c = E.ajustes.colores || {};
+  const lila = c.lila || '#d0c7ff', coral = c.acentoClaro || '#ffa174', acento = c.acento || '#af562c', estructura = c.estructura || '#6952e0';
+  return [
+    { nombre: 'Limpio', estilo: { letra: '#ffffff', resalte: lila, enfasis: coral, fondo: '' } },
+    { nombre: 'Caja oscura', estilo: { letra: '#ffffff', resalte: coral, enfasis: coral, fondo: '#000000' } },
+    { nombre: 'Tu color', estilo: { letra: '#000000', resalte: acento, enfasis: acento, fondo: lila } },
+    { nombre: 'Caja blanca', estilo: { letra: '#000000', resalte: estructura, enfasis: acento, fondo: '#ffffff' } },
+  ].map((r) => ({ ...r, estilo: Object.fromEntries(Object.entries(r.estilo).map(([k, x]) => [k, String(x).toLowerCase()])) }));
+}
+function avisosLetras(e) {
+  const avisos = [];
+  const sobre = e.fondo || '#000000';
+  if (!e.fondo && luz(e.letra) < 0.4) avisos.push('Las letras oscuras se pierden sobre el vídeo: ponles una caja clara.');
+  if (e.fondo && contraste(e.letra, e.fondo) < 4.5) avisos.push('Las letras casi no se leen sobre esa caja: cambia el color de la letra o de la caja.');
+  if (contraste(e.resalte, sobre) < 3) avisos.push('La palabra que se está diciendo no destaca: elige otro color para ella.');
+  if (contraste(e.enfasis, sobre) < 3) avisos.push('La palabra en cursiva no se lee bien: elige otro color para ella.');
+  return avisos;
+}
+function seccionLetras(v) {
+  const est = estiloDe(v);
+  const c = E.ajustes.colores || {};
+  const paleta = [...new Set(['#ffffff', '#000000', c.lila, c.acentoClaro, c.acento, c.estructura, '#ffe45e']
+    .filter((x) => /^#[0-9a-f]{6}$/i.test(x || '')).map((x) => x.toLowerCase()))];
+  const poner = (cambios) => { guardarHistorial(); v.estilo = { ...(v.estilo || {}), ...cambios }; cambioVideo({ panel: true }); };
+  const filaColor = (etiqueta, campo, conSin) => h('div', { class: 'campo' }, h('span', null, etiqueta), h('div', { class: 'muestras' },
+    conSin ? h('button', { type: 'button', class: 'muestra sin' + (!est[campo] ? ' activa' : ''), title: 'Sin caja', 'aria-label': 'Sin caja', onclick: () => poner({ [campo]: '' }) }) : null,
+    paleta.map((x) => h('button', { type: 'button', class: 'muestra' + (est[campo] === x ? ' activa' : ''), style: `background: ${x};`, title: x, 'aria-label': `${etiqueta}: ${x}`, onclick: () => poner({ [campo]: x }) })),
+    h('input', { type: 'color', value: est[campo] || '#000000', title: 'Otro color', 'aria-label': `${etiqueta}: otro color`, onchange: (e) => poner({ [campo]: e.target.value }) })));
+  const opciones = (etiqueta, campo, lista) => h('div', { class: 'campo' }, h('span', null, etiqueta), h('div', { class: 'fila' }, lista.map(([id, nombre]) =>
+    h('button', { type: 'button', class: 'btn peq' + (est[campo] === id ? ' activo' : ''), onclick: () => poner({ [campo]: id }) }, nombre))));
+  const rapidos = estilosRapidos();
+  const avisos = avisosLetras(est);
+  return seccion('Letras',
+    h('div', { class: 'rapidos' }, rapidos.map((r) => {
+      const activo = ['letra', 'resalte', 'enfasis', 'fondo'].every((k) => (est[k] || '') === (r.estilo[k] || ''));
+      return h('button', { type: 'button', class: 'rapido' + (activo ? ' activo' : ''), onclick: () => poner(r.estilo) },
+        h('span', { class: 'ej', style: `color: ${r.estilo.letra};` }, h('span', { style: r.estilo.fondo ? `background: ${r.estilo.fondo};` : 'text-shadow: 0 1px 6px rgba(0,0,0,.6);' },
+          'Así ', h('span', { style: `color: ${r.estilo.resalte}; padding: 0;` }, 'se'), ' lee')),
+        r.nombre);
+    })),
+    filaColor('Color de las letras', 'letra'),
+    filaColor('Palabra que se está diciendo', 'resalte'),
+    filaColor('Palabra en cursiva (*así*)', 'enfasis'),
+    filaColor('Caja detrás del texto', 'fondo', true),
+    v.voz?.asset ? opciones('Tamaño de los subtítulos', 'tamano', [['s', 'Pequeña'], ['m', 'Mediana'], ['l', 'Grande']]) : null,
+    v.voz?.asset ? opciones('Dónde van los subtítulos', 'posicion', [['abajo', 'Abajo'], ['centro', 'En el centro']]) : null,
+    avisos.length ? h('ul', { class: 'avisos' }, avisos.map((a) => h('li', { class: 'grave' }, a))) : null,
+    h('p', { class: 'ayuda' }, 'Los colores y la caja valen para el gancho, los textos y los subtítulos de este vídeo.'));
 }
 function tarjetaPlano(m, i) {
   const v = E.pieza.video;

@@ -11,14 +11,22 @@
 //
 //   npm run estudio -- preparar <pieza.json exportada> <carpeta de trabajo>
 //     Convierte una pieza del estudio en lo que usan las herramientas de siempre: carrusel.html (npm run carrusel) o
-//     pieza.json (npm run video). Los archivos del estudio (fotos, clips y voz) tienen que estar ya en la carpeta, cada
-//     uno con su id como nombre (<id>.jpg, <id>.mp4…). La carpeta va fuera del repositorio: es público.
+//     pieza.json (npm run video, con transcripcion.json si la voz ya tiene subtítulos). Los archivos del estudio (fotos,
+//     clips y voz) tienen que estar ya en la carpeta, cada uno con su id como nombre (<id>.jpg, <id>.mp4…). La carpeta
+//     va fuera del repositorio: es público.
+//
+//   npm run estudio -- devolver <pieza.json exportada> <carpeta de trabajo> [--resultado <id>] [--drive <enlace>]
+//     Después de npm run video: escribe para-el-estudio.json con la pieza al día (los subtítulos de su voz, para que
+//     los pueda corregir y quitar frases desde el estudio; y, si se dan, el vídeo subido y el enlace de Drive). Se
+//     guarda en el estudio con ArtifactData (update con file_path).
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const raiz = path.resolve(import.meta.dirname, '..');
 const PLANTILLA = path.join(raiz, 'contenido/carruseles/plantilla.html');
 const PAGINA = path.join(raiz, 'contenido/estudio/estudio.html');
+// Las cuentas del montaje de vídeo (velocidad, recortes de la voz, subtítulos y letras): las mismas que scripts/video.mjs.
+const MONTAJE = path.join(raiz, 'scripts/montaje-video.mjs');
 const [orden, ...args] = process.argv.slice(2);
 
 const leerPlantilla = () => {
@@ -74,6 +82,7 @@ function pagina(destino = path.join(raiz, 'dist/estudio.html'), nombre = '') {
   };
   sustituir('/*@PLANTILLA_CSS@*/', encerrarCss(p.css));
   sustituir('<!--@SIMBOLOS@-->', p.simbolos);
+  sustituir('/*@MONTAJE_VIDEO@*/', readFileSync(MONTAJE, 'utf8').replace(/^export /gm, ''));
   sustituir('/*@COMPOSICIONES@*/', `const COMPOSICIONES = ${JSON.stringify(p.muestras).replace(/<\/(script)/gi, '<\\/$1')};`);
   mkdirSync(path.dirname(destino), { recursive: true });
   writeFileSync(destino, html);
@@ -117,10 +126,16 @@ function preparar(exportada, carpeta) {
 
   if (pieza.formato === 'video') {
     const v = pieza.video ?? {};
+    const voz = v.voz?.asset ? archivo(v.voz.asset) : null;
     const salida = {
       persona: ajustes.clave ?? pieza.persona,
       ...(v.gancho ? { gancho: v.gancho } : {}),
-      ...(v.voz?.asset ? { voz: archivo(v.voz.asset) } : {}),
+      ...(voz ? { voz } : {}),
+      ...(v.velocidad && v.velocidad !== 1 ? { velocidad: v.velocidad } : {}),
+      ...(v.estilo ? { estilo: v.estilo } : {}),
+      // Los trozos de la voz que se quedan, tal cual los ha enseñado el estudio (si no, salen del recorte).
+      ...(voz ? { recorte: { desde: v.voz.desde || 0, hasta: v.voz.hasta ?? null, pausas: !!v.voz.pausas } } : {}),
+      ...(voz && v.voz.tramos?.length ? { tramos: v.voz.tramos } : {}),
       medios: (v.medios ?? []).map((m) => ({
         archivo: archivo(m.asset),
         ...(m.desde ? { desde: m.desde } : {}),
@@ -129,7 +144,9 @@ function preparar(exportada, carpeta) {
       })),
     };
     writeFileSync(path.join(carpeta, 'pieza.json'), JSON.stringify(salida, null, 2));
-    console.log(`pieza.json listo: npm run video -- ${carpeta}`);
+    // Los subtítulos corregidos en el estudio (y las frases quitadas) mandan sobre una transcripción nueva.
+    if (voz && v.voz.palabras?.length) writeFileSync(path.join(carpeta, 'transcripcion.json'), JSON.stringify({ voz, palabras: v.voz.palabras }, null, 1));
+    console.log(`pieza.json listo${voz && v.voz.palabras?.length ? ' (y transcripcion.json)' : ''}: npm run video -- ${carpeta}`);
     return;
   }
 
@@ -154,6 +171,29 @@ function preparar(exportada, carpeta) {
   console.log(`carrusel.html listo (${diapositivas.length} imágenes, estilo ${pieza.estilo}): npm run carrusel -- ${carpeta}`);
 }
 
+function leerExportada(exportada) {
+  const leido = JSON.parse(readFileSync(exportada, 'utf8'));
+  return leido.pieza ?? leido;
+}
+
+function devolver(exportada, carpeta, extra) {
+  carpeta = path.resolve(carpeta);
+  const pieza = leerExportada(exportada);
+  if (pieza.formato !== 'video') throw new Error('devolver es para vídeos: un carrusel solo necesita estado, resultado y drive.');
+  const video = structuredClone(pieza.video ?? {});
+  const t = path.join(carpeta, 'transcripcion.json');
+  if (video.voz?.asset && existsSync(t)) {
+    const leida = JSON.parse(readFileSync(t, 'utf8'));
+    const palabras = Array.isArray(leida) ? leida : leida.palabras;
+    video.voz.palabras = palabras.map((p) => ({ text: String(p.text), start: Number(p.start), end: Number(p.end), ...(p.fuera ? { fuera: true } : {}) }));
+  }
+  const datos = { video, actualizado: Date.now() };
+  if (extra.resultado) Object.assign(datos, { estado: 'hecho', resultado: [{ asset: extra.resultado, tipo: 'video' }] });
+  if (extra.drive) datos.drive = extra.drive;
+  writeFileSync(path.join(carpeta, 'para-el-estudio.json'), JSON.stringify(datos, null, 1));
+  console.log(`para-el-estudio.json listo (${video.voz?.palabras?.length ?? 0} palabras de subtítulos): ArtifactData update de piezas/${pieza.codigo} con file_path.`);
+}
+
 if (orden === 'pagina') {
   const i = args.indexOf('--nombre');
   const nombre = i >= 0 ? args.splice(i, 2)[1] : '';
@@ -161,7 +201,11 @@ if (orden === 'pagina') {
 }
 else if (orden === 'caras' && args[0]) await caras(path.resolve(args[0]));
 else if (orden === 'preparar' && args[1]) preparar(path.resolve(args[0]), args[1]);
+else if (orden === 'devolver' && args[1]) {
+  const valor = (bandera) => { const i = args.indexOf(bandera); return i >= 0 ? args[i + 1] : undefined; };
+  devolver(path.resolve(args[0]), args[1], { resultado: valor('--resultado'), drive: valor('--drive') });
+}
 else {
-  console.error('Uso: npm run estudio -- pagina [salida.html] [--nombre <Nombre>] | caras <carpeta> | preparar <pieza.json> <carpeta>');
+  console.error('Uso: npm run estudio -- pagina [salida.html] [--nombre <Nombre>] | caras <carpeta> | preparar <pieza.json> <carpeta> | devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>]');
   process.exit(1);
 }

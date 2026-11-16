@@ -8,7 +8,11 @@ cambian sin otra herramienta:
   encuadrarla; añadir flechas, notas a mano, pegatinas, destellos o cinta, y moverlos, girarlos o cambiarles el tamaño;
   añadir, duplicar, mover o borrar imágenes; cambiar la composición de una imagen o el estilo de todo el carrusel.
 - **Vídeos**: planos (fotos o clips) en orden, el trozo de cada clip, el texto en pantalla, cuánto dura cada plano, el
-  gancho y su **nota de voz**. Se ve en marcha con la voz y avisa si un texto no da tiempo a leerse.
+  gancho y su **nota de voz**; dónde empieza y acaba la voz y quitar sus pausas largas; la **velocidad**; los
+  **subtítulos** (corregir palabras y quitar frases para acortarlo, cuando Claude ya los ha sacado de la voz); y las
+  **letras**: estilos rápidos, colores, caja, tamaño y altura de los subtítulos. Se ve y se oye en marcha tal cual
+  saldrá (las cuentas son las de `scripts/montaje-video.mjs`, las mismas que `npm run video`) y avisa si un texto no
+  da tiempo a leerse o si un color no se lee.
 - **Avisos en directo**, con las mismas cuentas que `npm run carrusel` y `npm run video`: cara cortada o con texto
   encima (la cara se marca en rojo), más de 25 palabras, composiciones repetidas, pocas fotos, el mismo estilo que un
   carrusel reciente y palabras que no van en el contenido (dinero, salud, el producto, el agua).
@@ -43,8 +47,10 @@ público: la página no lleva datos; las fotos, la voz y los textos viven en el 
      `{ nombre, tipo: "video", duracion, orden }`.
 5. Las piezas: `piezas/<código>` con `{ codigo, titulo, formato: "carrusel" | "imagen" | "video", dia, estilo, slides,
    video, nota, estado: "borrador", notion }`. `slides` es el HTML de cada `<section class="slide …">` con las fotos como
-   `src="/_blob/<id>" data-foto="<id>"`; `video` es `{ gancho, voz: { asset, nombre, duracion }, medios: [{ asset, desde,
-   segundos, texto }] }`, lo mismo que `pieza.json` de `npm run video`.
+   `src="/_blob/<id>" data-foto="<id>"`; `video` es `{ gancho, velocidad, estilo, voz: { asset, nombre, duracion, desde,
+   hasta, pausas, palabras, tramos }, medios: [{ asset, desde, segundos, texto }] }`, lo mismo que `pieza.json` de
+   `npm run video` (`palabras` es la transcripción, con `fuera: true` en las frases quitadas; `tramos`, los trozos de
+   la voz que se quedan, los calcula el estudio).
 6. En Pendientes, en la pestaña de Alejandro: compartir el estudio con esa persona como Editor.
 
 ## Generar lo que está «Listo» (Claude, en cada sesión con el repositorio)
@@ -57,5 +63,8 @@ público: la página no lleva datos; las fotos, la voz y los textos viven en el 
 4. `npm run carrusel -- <carpeta>` o `npm run video -- <carpeta>`: comprueban otra vez las caras y los tiempos.
 5. Subir el resultado a Drive (`Editados/CT-<código> <título> (vN)`), poner la carpeta en **Archivo** de la pieza en
    Notion y, en el estudio, `estado: "hecho"`, `drive` con el enlace y `resultado` con las imágenes o el vídeo subidos
-   (`[{ asset, tipo: "imagen" | "video" }]`).
+   (`[{ asset, tipo: "imagen" | "video" }]`). En un **vídeo con voz**, además, los subtítulos: subir el vídeo al estudio
+   (Artifact `asset: true`), `npm run estudio -- devolver <out_dir>/piezas/<código>.json <carpeta> --resultado <id del
+   vídeo> --drive <enlace>` y ArtifactData `update` de `piezas/<código>` con `file_path` = `<carpeta>/para-el-estudio.json`
+   (y su `if_version`). Así la persona puede corregir palabras y quitar frases en la siguiente vuelta.
 6. Lo que se haya cambiado en el estudio respecto a la propuesta de Claude es una opinión: pasa por `aprender`.

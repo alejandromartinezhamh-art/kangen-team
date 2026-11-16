@@ -46,6 +46,18 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 | `medios` | Clips y fotos, en orden. Sin `segundos`, se reparten lo que dura la voz. `desde` recorta el principio. `texto` pone un rótulo grande mientras dura ese clip |
 | `musica` | Opcional. Suena bajo la voz |
 | `vozDePrueba` | `true` si la voz no es la de la persona: pone el aviso «VOZ DE PRUEBA» |
+| `velocidad` | Opcional, de 0.8 a 1.5 (1 si no se dice). Acelera o frena la voz **sin cambiarle el tono**; sin voz, cambia lo que dura cada plano sin `segundos` (los textos siguen quedándose lo que se tarda en leerlos) |
+| `recorte` | Opcional: `{ "desde": 0.4, "hasta": 41.2, "pausas": true }`. Corta el principio y el final de la voz (en segundos de la grabación) y, con `pausas`, deja cada pausa de más de 0,6 s en 0,3 s |
+| `estilo` | Opcional: `{ "letra", "resalte", "enfasis", "fondo", "tamano", "posicion", "subtitulos" }`. Colores (`#rrggbb`) de las letras, de la palabra que se está diciendo y de la palabra entre asteriscos; `fondo` pone una caja de ese color detrás de los textos; `tamano` de los subtítulos `s`, `m` o `l`; `posicion` `abajo` o `centro`; `subtitulos: false` los quita. Sin estilo: letras blancas, la palabra que se dice en su color de superficie y la de énfasis en su coral |
+| `tramos` | Lo escribe el estudio: los trozos exactos de la voz que se quedan. Si está, manda sobre `recorte` |
+
+**Quitar frases de la voz.** En `transcripcion.json` (lo escribe la primera vez que monta un vídeo con voz), cada
+palabra puede llevar `"fuera": true`: se quita de la voz y de los subtítulos, con un respiro corto entre lo de antes y
+lo de después. Ahí también se corrigen las palabras mal escritas. Mientras `transcripcion.json` sea de la misma voz, no
+se vuelve a transcribir.
+
+Las cuentas de todo esto (velocidad, recortes, subtítulos y estilos de las letras) están en `scripts/montaje-video.mjs`
+y son las mismas que usa el estudio para enseñarlo: lo que se ve allí es lo que sale.
 
 ## Cómo se hace uno
 
@@ -65,9 +77,21 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 
 Cada vídeo también se monta en el **estudio** de la persona (`contenido/estudio/README.md`): planos en orden, el trozo
 de cada clip (deslizando), el texto de cada plano, cuánto dura, el gancho y su nota de voz (m4a del iPhone o de
-WhatsApp; las de WhatsApp se preparan solas en el navegador). Se ve en marcha con su voz y avisa si un texto no da tiempo
-a leerse o si un clip se acaba antes. Lo que guarda es lo mismo que `pieza.json`: `npm run estudio -- preparar` lo
-escribe y `npm run video` lo monta, con subtítulos.
+WhatsApp; las de WhatsApp se preparan solas en el navegador). Y lo que cambia el ritmo y el aspecto, sin pedírselo a
+Claude:
+
+- **Tu voz**: dónde empieza y dónde acaba, y quitar las pausas largas.
+- **Ritmo**: la velocidad (de 0,8× a 1,5×), con el tono de su voz de siempre.
+- **Subtítulos**: después de que Claude monte el vídeo la primera vez, aparecen frase a frase para corregir palabras y
+  quitar frases (✂) para acortarlo. Se pueden quitar del todo.
+- **Letras**: cuatro estilos rápidos (Limpio, Caja oscura, Tu color, Caja blanca) y, uno a uno, el color de las letras,
+  el de la palabra que se está diciendo, el de la palabra en cursiva y la caja; el tamaño y la altura de los
+  subtítulos. Avisa si un color no se lee.
+
+Se ve y se oye en marcha tal cual saldrá (la voz ya recortada y a su velocidad) y avisa si un texto no da tiempo a
+leerse o si un clip se acaba antes. Lo que guarda es lo mismo que `pieza.json`: `npm run estudio -- preparar` lo
+escribe (con `transcripcion.json` si ya hay subtítulos) y `npm run video` lo monta. Después,
+`npm run estudio -- devolver` deja los subtítulos en el estudio para la siguiente vuelta.
 
 ## Reel animado (sin grabar nada)
 
