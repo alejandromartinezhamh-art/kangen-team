@@ -114,3 +114,112 @@ sustituyendo los anteriores, y apunta en la pestaña de Alejandro de Pendientes 
 
 El repositorio es **público**. La historia de cada persona (cuestionario de Drive y ficha de voz en Notion), su salud,
 su familia, los datos de los leads y las claves nunca se escriben aquí.
+
+## Traspaso de sesión (16 de noviembre de 2026) — estado y lo que falta
+
+Escrito para que una sesión nueva siga sin leer la conversación anterior. Cuando las dos tareas de abajo estén hechas,
+quita esta sección (las reglas ya están en `contenido/carruseles/README.md`, `contenido/videos/README.md` y
+`contenido/estudio/README.md`).
+
+### Reglas de diseño y vídeo vigentes (de las opiniones de Alejandro del 14 y 16 de noviembre)
+
+Carruseles (`contenido/carruseles/README.md`):
+- **Largo según la idea**: 3 imágenes para una idea con giro, 5 para una lista corta o un antes y después, de 7 a 10
+  para una historia o una guía. Como mucho 25 palabras por imagen.
+- **Un estilo por carrusel** (`album`, `revista`, `tipografico`, `documental`: clase en `<body>`), distinto del de los
+  tres carruseles anteriores de esa persona; se apunta en la propiedad **Estilo visual** de la pieza en Notion.
+- **Al menos 4 composiciones distintas** y nunca dos iguales seguidas. Titulares con `class="ajustar"`; lo que no lleva
+  foto, en `<div class="centro">`: nada de media imagen vacía.
+- **Dibujos que señalan** (flecha, círculo, subrayado, rotulador, cinta, pegatina, nota a mano): como mucho dos por
+  imagen. El círculo, solo en una palabra de la primera línea del titular; si no, subrayado.
+- **Al menos 3 fotos reales** distintas (en tipográfico, 1 o 2). Nada de IA sin etiqueta.
+- **Caras enteras y sin texto encima**: si la foto no cabe en la composición, se cambia la foto o la composición. Una
+  selfie no va en una franja estrecha (`partida`, `mitad`). Se revisa cada imagen a tamaño real.
+- Textos: solo frases que salgan de su ficha de voz (nunca sentimientos inventados); nada de dinero, ingresos ni
+  «libertad financiera», salud, producto, marca ni agua, ni lujo o viajes como resultado. Gemma ⚠ (nunca en público):
+  salud, producto, el nombre de su empresa, su jefe, el familiar que dudó (sin nombre ni parentesco), su piso, ingresos;
+  el embarazo solo si ella lo decide; nunca la cara de su hijo; su pareja no sale en fotos hasta que ella diga que puede
+  (la pregunta ya está en Pendientes).
+
+Vídeos (`contenido/videos/README.md`):
+- Cada texto en pantalla se queda **quieto y entero** el tiempo de leerlo: `max(2, 0.7 + palabras / 3)` segundos.
+- Cada clip se mira entero antes (`npm run video -- <carpeta> --planos`): fuera los que enseñan suelo, pies o techo,
+  movidos u oscuros, caras de otras personas, matrículas, su empresa o un viaje como resultado.
+- La voz publicada es siempre la suya (`vozDePrueba: true` marca una de prueba). Las fotos se recortan alrededor de la cara.
+
+### Herramientas y cómo se usan
+
+| Archivo | Qué hace | Uso |
+|---|---|---|
+| `contenido/carruseles/plantilla.html` | Plantilla de todos los carruseles: colores de la persona en `:root`, los 4 estilos, 18 composiciones de ejemplo (cada una tras `<!-- N nombre -->`), dibujos (`<symbol>` de flechas y destellos) y `ajustarTitulares()` | Se copia como `carrusel.html` a una carpeta **fuera del repositorio** con las fotos al lado; se dejan solo las imágenes que se usan |
+| `scripts/carrusel.mjs` | Carga las letras, ajusta los titulares, coloca cada foto según sus caras (`scripts/encuadre.mjs`, face-api en Chromium), escribe `encuadre.json`, hace `01.png…` (1080 × 1350) y `hoja.png`. Termina con error 2 si una cara queda cortada o con texto encima | `npm run carrusel -- <carpeta> [--sin-encuadre]` |
+| `scripts/carrusel-animado.mjs` | Imágenes con movimiento y Reels animados (HyperFrames): antes de renderizar comprueba caras y tiempo de lectura | `npm run carrusel-animado -- <carpeta> [salida.mp4]` |
+| `scripts/video.mjs` | Vídeo vertical con su voz (transcrita, con subtítulos) o con textos sobre clips y fotos, desde `pieza.json` | `npm run video -- <carpeta> [--planos]` |
+| `contenido/estudio/estudio.html` | Fuente de la página del **estudio**: ver cada carrusel tal cual saldrá y cambiar fotos (galería), encuadre (arrastrar), textos, formato, dibujos, imágenes, composición y estilo; montar vídeos (planos, trozo de cada clip, textos, tiempos, gancho y nota de voz). Avisa en directo de caras cortadas, textos que no se leen y normas | No se abre tal cual: se monta con `npm run estudio -- pagina` |
+| `scripts/estudio.mjs` | `pagina [salida] --nombre <Nombre>`: monta la página con los estilos y composiciones de la plantilla. `caras <carpeta>`: escribe `caras.json`. `preparar <pieza.json> <carpeta>`: convierte una pieza del estudio (también el JSON que guarda ArtifactData con `out_dir`) en `carrusel.html` o `pieza.json` | Detalle en `contenido/estudio/README.md` |
+
+**Estudio de Gemma**: <https://claude.ai/artifact/ELC7c2bgMHTVcdu8GJ1sZy> (privado: solo Alejandro hasta que lo comparta).
+Publicado desde `dist/estudio-gemma.html` (`npm run estudio -- pagina dist/estudio-gemma.html --nombre Gemma`); desde
+otra sesión, se vuelve a publicar con el Artifact tool pasando su `url` (antes, `action: "read"`). Capacidades `db` y
+`assets`. Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
+han subido `playa-pareja` ni `glaciar` ni el clip de la caminata con caras de otras personas) y `piezas/<código>`
+(estado `borrador` → `listo` → `hecho`). Probado en Chromium con una base de datos simulada (escritorio y móvil), y la
+subida de voz en m4a/webm la acepta el almacén; todavía no lo ha usado una persona en claude.ai. El detector de caras de
+las fotos que se suban desde el estudio se carga de jsDelivr: si claude.ai lo bloquea, la foto queda «sin comprobar» y
+se completa con `npm run estudio -- caras` + ArtifactData. Hay dos archivos de prueba de audio en su almacén (ids
+`9e607165…` y `856a1f7d…`); no molestan.
+
+### Las piezas de Gemma de los días 1 a 28 que no necesitan grabación
+
+La versión 2 de cada una (todas sin caras cortadas ni tapadas según `npm run carrusel`) está en su estudio, en
+`borrador`. Las imágenes generadas solo estaban en la carpeta temporal de la sesión: se vuelven a sacar del estudio.
+
+| Día | Código | Pieza | Formato | v1 | v2 en el estudio | Falta |
+|---|---|---|---|---|---|---|
+| 1 | CT-2 | Me llamo Gemma y esto es lo que estoy construyendo | Carrusel | Editado (Drive en **Archivo**) | Álbum, 6 imágenes | Aprobación → generar → Drive |
+| 2 | CT-3 | Un día más · No estaba mal en mi trabajo | Clip corto | Editado (enviado en el chat) | Vídeo con los clips del café de la calle (enseñan el suelo) | Clips nuevos de Gemma del café en casa → cambiarlos en el estudio → `npm run video` |
+| 5 | CT-6 | La frase · Este año me he dado permiso | Imagen | Editado | Álbum, polaroid | Aprobación → generar → Drive |
+| 7 | CT-8 | No hace falta dejarlo todo para empezar algo nuevo | Carrusel | Editado | Tipográfico, 5 | Aprobación → generar → Drive |
+| 9 | CT-10 | No hace falta estar mal para querer más | Carrusel | Editado | Revista, 7 | Aprobación → generar → Drive |
+| 12 | CT-12 | La frase · Antes pensaba que la estabilidad era lo más seguro | Imagen | Editado | Documental, mitad | Aprobación → generar → Drive |
+| 14 | CT-14 | ¿Qué estoy construyendo exactamente? | Carrusel | Editado | Documental, 8 | Aprobación → generar → Drive |
+| 16 | CT-16 | El techo: mi sueldo solo sube con el IPC | Carrusel | Editado (con imagen con movimiento) | Álbum, 3 | Aprobación → generar → Drive |
+| 17 | CT-17 | Lo que cuesta quedarse cinco años igual | Reel animado | Editado con la plantilla antigua: 12 textos no daba tiempo a leerlos | No va al estudio | Rehacerlo con `contenido/videos/plantilla-reel-animado.html` y `npm run carrusel-animado`, y entregarlo |
+| 19 | CT-19 | La frase · La mente nos fabrica miedos | Imagen | Editado | Tipográfico, chat | Aprobación → generar → Drive |
+| 21 | CT-21 | Dudas reales · ¿Y si tu pareja no lo ve? | Carrusel | Editado (usaba la foto con su pareja) | Tipográfico, 7, sin la foto de la pareja | Aprobación → generar → Drive |
+| 23 | CT-23 | Fui yo la que dejé que eso se normalizara | Carrusel | Editado | Revista, 7 | Aprobación → generar → Drive |
+| 26 | CT-26 | La frase · Nunca es tarde | Imagen | Editado | Revista, partida | Aprobación → generar → Drive |
+| 28 | CT-28 | Dudas reales · ¿No sabrías venderlo? Yo tampoco | Carrusel | Editado | Documental, 7 | Aprobación → generar → Drive |
+
+Son 14 filas: la lista de «15 piezas» de la sesión anterior contaba un carrusel del día 11, pero en el Calendario no hay
+fila de Gemma para el día 11 (el Código pasa de 11 = día 10 a 12 = día 12). Los días 3, 4, 6, 8, 10, 13, 15, 18, 20, 22,
+24, 25 y 27 necesitan que grabe (están en Guion o Idea). La semana 1 sale el **30 de noviembre**.
+
+### Tarea 1 · Estudio dentro de Claude — lo que falta
+
+1. **Pendientes del equipo** (<https://claude.ai/artifact/6TvDsNPr2Cz3mGE7Jf4SAS>, documento de Claude: leerlo antes de
+   tocarlo). Añadir, masticado como dice «Lista de pendientes»:
+   - Pestaña Alejandro: **Comparte tu estudio con Gemma** (2 min): abrir el estudio → Compartir → su cuenta de Claude
+     como **Editor** (así puede subir fotos y clips). **Revisa las piezas v2 en tu estudio** (15 min): cambiar lo que no
+     guste y pulsar «Listo» en cada una; primero las de la semana 1 (días 1, 2, 5 y 7). Y en la tarea que ya existe de
+     volver a subir los 6 agentes a la organización de Claude, cambiar la fecha a «16 de noviembre, 19:42» (zips
+     nuevos ya en Drive → «Agentes de Claude (para subir a la organización)»).
+   - Pestaña Gemma: **Graba tu café en casa y súbelo a tu estudio** (5 min): 2 o 3 clips de 5 a 8 s, en vertical, sin
+     suelo ni caras de otras personas; en el estudio, vídeo del día 2 → Planos → Cambiar → Subir fotos o clips.
+2. Cuando alguien lo use de verdad, mirar si algo falla en claude.ai (detector de caras, subida de voz, guardado) y
+   arreglarlo en `contenido/estudio/estudio.html`, volver a montar y publicar en la misma `url`.
+
+### Tarea 2 · Versión 2 de las piezas de Gemma — lo que falta
+
+1. **Notion** (Calendario, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): en cada pieza de la tabla, **Estilo
+   visual** (CT-2 Álbum, CT-8 Tipográfico, CT-10 Revista, CT-14 Documental, CT-16 Álbum, CT-21 Tipográfico, CT-23
+   Revista, CT-28 Documental, CT-6 Álbum, CT-12 Documental, CT-19 Tipográfico, CT-26 Revista) y en **Notas** «Versión 2
+   en el estudio de Gemma» con el enlace. El Estado sigue en Editado hasta que la aprueben.
+2. **Generar lo aprobado** (en cada sesión, lo que esté en «Listo»): pasos en `contenido/estudio/README.md` → «Generar
+   lo que está Listo». Subir los PNG a Drive → `Landing Kangen Gemma/05 Contenido redes/Editados/CT-<código> <título> (v2)`
+   (el conector sube archivos de hasta unos 3 MB), poner esa carpeta en **Archivo** y en el estudio `estado: "hecho"`,
+   `drive` y `resultado`. Si el documento de estrategia de Gemma en Drive enlaza las versiones 1, cambiar los enlaces.
+3. **Día 17**: rehacer el Reel animado con la plantilla nueva (tabla de arriba).
+4. **Día 2**: cuando lleguen sus clips del café en casa (tarea de Gemma de arriba).
+5. Si se quieren imágenes con movimiento en las v2 (las v1 de los días 1, 7 y 16 tenían), hacerlas con
+   `npm run carrusel-animado` a partir de la imagen ya aprobada.
