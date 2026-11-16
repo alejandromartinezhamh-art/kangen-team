@@ -54,5 +54,24 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
    envía en el chat y quien lo recibe lo guarda en `Editados`. En un ordenador con la carpeta de Drive sincronizada, se
    copia directamente. En la pieza: **Estado** = Editado.
 
+## Reel animado (sin grabar nada)
+
+Para las piezas que son solo una idea: texto en movimiento sobre **dos fotos reales** de la persona, con un recorrido
+que se dibuja (una bolita que avanza y una frase en cada parada). No hay voz ni clips, así que se puede preparar con
+semanas de adelanto.
+
+1. Copia `contenido/videos/plantilla-reel-animado.html` como `index.html` en una carpeta de trabajo fuera del
+   repositorio, con sus dos fotos (`foto-1.jpg` y `foto-2.jpg`, verticales).
+2. Pon sus colores, su nombre, la serie y los textos de la pieza. La plantilla trae cinco escenas (gancho en dos partes,
+   recorrido con paradas, dos ideas y la pregunta final) y unos 17 segundos; la forma del camino cuenta la idea (plano
+   si nada cambia, hacia arriba si crece).
+3. `npm run carrusel-animado -- <carpeta> <carpeta>/reel.mp4` (el mismo comando de las imágenes con movimiento de los
+   carruseles: el tamaño lo marca la plantilla).
+4. Saca varios fotogramas y míralos: que el texto no tape una cara, que quepa en la zona segura y que cada frase se lea
+   en el tiempo que está en pantalla.
+
+Cada frase tiene que salir de su ficha de voz, como en cualquier guion. Las fotos son suyas y reales: no lleva etiqueta
+de IA. La música se pone al publicar, en la aplicación de cada red.
+
 Lo que se aprenda de las opiniones sobre los vídeos se apunta con `aprender` y, si vale para todos, se cambia aquí y en
 `scripts/video.mjs`.

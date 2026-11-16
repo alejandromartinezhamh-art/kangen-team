@@ -1,6 +1,6 @@
 ---
 name: editor-video
-description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de una persona (su nota de voz) o con textos en pantalla sobre sus clips y fotos, con el gancho arriba, subtítulos al ritmo de la voz y sus colores. Úsala cuando una pieza del Calendario (Reel o Clip corto) ya tenga su material en Drive → Brutos, o cuando pidan «monta el vídeo» de una pieza. Solo funciona en una sesión con el repositorio.
+description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de una persona (su nota de voz) o con textos en pantalla sobre sus clips y fotos, con el gancho arriba, subtítulos al ritmo de la voz y sus colores. Úsala cuando una pieza del Calendario (Reel o Clip corto) ya tenga su material en Drive → Brutos, cuando una pieza sea un Reel animado (solo texto en movimiento sobre sus fotos), o cuando pidan «monta el vídeo» de una pieza. Solo funciona en una sesión con el repositorio.
 ---
 
 # Montar un vídeo
@@ -22,6 +22,11 @@ description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de
    lea en un segundo. Corrige `transcripcion.json` y repite si hace falta.
 5. **Entrega** el vídeo como dice el README (en el chat si la sesión es en la nube) y pon la pieza en **Estado** =
    Editado. Pásala por `revisar-normas`.
+
+## Reel animado
+Si la pieza es un Reel de solo texto (en sus **Notas**: «Reel animado» o «sin grabar»), no hace falta material de
+`Brutos`: sigue «Reel animado» del README con `contenido/videos/plantilla-reel-animado.html` y dos fotos reales suyas de
+`01 Fotos originales`. Revisa los fotogramas igual que en el paso 4.
 
 ## Normas
 - La voz publicada es siempre la de la persona. Nada de voz generada sin su permiso por escrito y sin la etiqueta de IA
