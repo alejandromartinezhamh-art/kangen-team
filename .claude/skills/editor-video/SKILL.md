@@ -15,11 +15,14 @@ description: Editor de vídeo del equipo. Monta un vídeo vertical con la voz de
 1. **Material**: en Drive → `Landing Kangen <Persona>/05 Contenido redes/Brutos`, su voz (`CT-<código> voz`) y sus
    clips. Bájalos a una carpeta de trabajo fuera del repositorio. Si falta la voz o un plano, no lo inventes: apúntalo
    en su pestaña de Pendientes y, si quieres enseñar el formato, haz una maqueta con `"vozDePrueba": true`.
-2. **Mira cada clip** antes de usarlo (un fotograma basta): fuera los que enseñen caras de otras personas, matrículas,
-   su empresa o un viaje presentado como resultado.
+2. **Mira cada clip entero**: `npm run video -- <carpeta> --planos` hace `planos.jpg` con un fotograma por segundo de
+   cada uno. Fuera los que apunten al suelo, los pies o el techo, los movidos u oscuros, y los que enseñen caras de
+   otras personas, matrículas, su empresa o un viaje presentado como resultado. El plano tiene que enseñar lo que dice
+   su texto; elige el trozo con `desde`.
 3. Escribe `pieza.json` con los clips en el orden del guion y ejecuta `npm run video -- <carpeta>`.
-4. **Revisa** `hoja.png` y los subtítulos: nombres propios y números, que el texto no tape una cara y que el gancho se
-   lea en un segundo. Corrige `transcripcion.json` y repite si hace falta.
+4. **Revisa** `hoja.png` y los subtítulos: nombres propios y números, que el texto no tape una cara y que cada texto
+   se pueda leer (unas 3 palabras por segundo y nunca menos de 2 segundos: el script ya alarga los clips con texto y
+   avisa si con voz no da tiempo). Corrige `transcripcion.json` y repite si hace falta.
 5. **Entrega** el vídeo como dice el README (en el chat si la sesión es en la nube) y pon la pieza en **Estado** =
    Editado. Pásala por `revisar-normas`.
 

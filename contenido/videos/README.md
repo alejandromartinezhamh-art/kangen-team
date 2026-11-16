@@ -12,6 +12,11 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
   IA y nuestro contenido va de contarlo tal cual.
 - Que no salgan caras de otras personas, matrículas, su empresa ni nada marcado ⚠ en su ficha de voz.
 - El texto no ocupa los 250 px de arriba ni los 420 de abajo: ahí van los botones de cada red.
+- **Cada texto, el tiempo de leerlo**: unas 3 palabras por segundo y nunca menos de 2 segundos, quieto y entero. Sin
+  voz, `npm run video` alarga cada clip con texto lo que haga falta; con voz, avisa si un rótulo no da tiempo.
+- **Cada clip se mira entero** antes de usarlo (`--planos`, abajo): el plano enseña lo que dice su texto. Fuera los que
+  apuntan al suelo, los pies, el techo, los movidos, los oscuros y los que sacan caras de otras personas.
+- **Las fotos se recortan alrededor de la cara**, para que no se corte ni al acercarse despacio.
 - Música: la de la biblioteca de cada red, puesta al publicar, o una libre de derechos en `"musica"`.
 - La carpeta de trabajo va **fuera del repositorio** (es público): ni voces, ni clips, ni fotos aquí.
 
@@ -46,11 +51,13 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 
 1. El guion y los planos están en la pieza del Calendario de Notion (los escribe `guion`).
 2. Baja de `Brutos` la voz y los clips a una carpeta de trabajo y escribe `pieza.json`.
-3. `npm run video -- <carpeta>` → `video.mp4` (1080 × 1920), `hoja.png` con cinco fotogramas y `transcripcion.json`. La
+3. `npm run video -- <carpeta> --planos` → `planos.jpg`: cada fila es un clip y cada imagen, un segundo. Elige qué clips
+   y qué trozo (`desde`) usar mirándolo, y avisa si hay alguno oscuro o movido.
+4. `npm run video -- <carpeta>` → `video.mp4` (1080 × 1920), `hoja.png` con cinco fotogramas y `transcripcion.json`. La
    primera vez instala el navegador de render y el reconocimiento de voz (unos minutos).
-4. Mira `hoja.png` y lee los subtítulos que imprime. Si una palabra está mal escrita, corrígela en `transcripcion.json`
+5. Mira `hoja.png` y lee los subtítulos que imprime. Si una palabra está mal escrita, corrígela en `transcripcion.json`
    y vuelve a ejecutar.
-5. **Entrega**. Desde una sesión en la nube solo se pueden subir a Drive archivos de unos 3 MB, y un vídeo pesa más: se
+6. **Entrega**. Desde una sesión en la nube solo se pueden subir a Drive archivos de unos 3 MB, y un vídeo pesa más: se
    envía en el chat y quien lo recibe lo guarda en `Editados`. En un ordenador con la carpeta de Drive sincronizada, se
    copia directamente. En la pieza: **Estado** = Editado.
 
@@ -63,12 +70,13 @@ semanas de adelanto.
 1. Copia `contenido/videos/plantilla-reel-animado.html` como `index.html` en una carpeta de trabajo fuera del
    repositorio, con sus dos fotos (`foto-1.jpg` y `foto-2.jpg`, verticales).
 2. Pon sus colores, su nombre, la serie y los textos de la pieza. La plantilla trae cinco escenas (gancho en dos partes,
-   recorrido con paradas, dos ideas y la pregunta final) y unos 17 segundos; la forma del camino cuenta la idea (plano
-   si nada cambia, hacia arriba si crece).
+   recorrido con paradas, dos ideas y la pregunta final); la forma del camino cuenta la idea (plano si nada cambia,
+   hacia arriba si crece). **Los tiempos salen de los textos**: cada frase se queda el tiempo de leerla, así que con 5
+   paradas dura unos 32 segundos; para uno más corto, quita paradas o una escena.
 3. `npm run carrusel-animado -- <carpeta> <carpeta>/reel.mp4` (el mismo comando de las imágenes con movimiento de los
    carruseles: el tamaño lo marca la plantilla).
-4. Saca varios fotogramas y míralos: que el texto no tape una cara, que quepa en la zona segura y que cada frase se lea
-   en el tiempo que está en pantalla.
+4. Antes de renderizar se comprueba solo que ninguna cara queda cortada o tapada y que cada texto se puede leer; si no,
+   dice qué arreglar (o qué `data-duration` poner). Después, saca varios fotogramas y míralos.
 
 Cada frase tiene que salir de su ficha de voz, como en cualquier guion. Las fotos son suyas y reales: no lleva etiqueta
 de IA. La música se pone al publicar, en la aplicación de cada red.

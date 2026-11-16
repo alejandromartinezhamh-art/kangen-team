@@ -11,7 +11,9 @@
   2. Pon sus colores (equipo/<persona>/design.md), su nombre, la serie y los textos de su pieza del Calendario.
   3. npm run carrusel-animado -- <carpeta> <carpeta>/reel.mp4
   Cinco escenas: gancho en dos partes, un recorrido con paradas (una frase en cada una), dos ideas y la pregunta final.
-  Si cambias la duración de una escena, cambia también data-duration y los tiempos del final del script.
+  Los tiempos salen de los textos (cada frase, quieta el tiempo de leerla): así, con 5 paradas, dura unos 32 segundos.
+  Para un Reel más corto quita paradas (y sus frases) o una escena. Si la comprobación dice que no cabe, sube
+  data-duration a lo que te diga.
 -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Serif+Display:ital@1&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
@@ -53,7 +55,7 @@
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="17.6" data-width="1080" data-height="1920">
+<div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1080" data-height="1920">
   <img id="fotoA" class="foto" src="foto-1.jpg" alt="" />
   <img id="fotoB" class="foto" src="foto-2.jpg" alt="" />
   <div class="velo"></div>
@@ -107,16 +109,46 @@
 <script>
   gsap.registerPlugin(MotionPathPlugin);
   const tl = gsap.timeline({ paused: true });
+
+  // Cada texto se queda quieto al menos lo que se tarda en leerlo: unas 3 palabras por segundo y nunca menos de 2
+  // segundos (la misma cuenta que comprueba npm run carrusel-animado). Los tiempos salen de los textos: si escribes
+  // más, la escena dura más. Si al final no cabe en data-duration, la comprobación te dice cuánto poner.
+  const leer = (el) => Math.max(2, 0.7 + el.textContent.trim().split(/\s+/).filter(Boolean).length / 3);
+  const enfasis = getComputedStyle(document.documentElement).getPropertyValue('--enfasis').trim();
+
+  // Una escena: sus partes entran una detrás de otra (palabra a palabra si llevan <span class="p">) y se quedan hasta
+  // que la última se ha podido leer. Devuelve cuándo empieza la siguiente.
+  function escena(contenedor, partes, inicio) {
+    let t = inicio, finLectura = inicio;
+    for (const selector of partes) {
+      const el = document.querySelector(selector);
+      const palabras = el.querySelectorAll('.p');
+      let entera;
+      if (palabras.length) {
+        tl.fromTo(palabras, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out', stagger: 0.12 }, t);
+        entera = t + 0.12 * (palabras.length - 1) + 0.35;
+      } else {
+        tl.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, t);
+        entera = t + 0.45;
+      }
+      finLectura = Math.max(finLectura, entera + leer(el));
+      t = entera + 0.6; // la parte siguiente entra cuando esta ya se ve entera
+    }
+    const fin = Math.max(finLectura, t);
+    tl.to(contenedor, { opacity: 0, duration: 0.3 }, fin);
+    return fin + 0.4;
+  }
+
+  // ---------- 2 · El recorrido con paradas
   const via = document.querySelector('#via');
   const largo = via.getTotalLength();
-
   // Las paradas: en qué parte del camino cae cada una y qué rótulo lleva debajo. Tantas como frases (#f1, #f2…).
   const paradas = [
-    { parte: 0.1, rotulo: 'año 1' },
-    { parte: 0.3, rotulo: 'año 2' },
+    { parte: 0.06, rotulo: 'año 1' },
+    { parte: 0.28, rotulo: 'año 2' },
     { parte: 0.5, rotulo: 'año 3' },
-    { parte: 0.7, rotulo: 'año 4' },
-    { parte: 0.9, rotulo: 'año 5' },
+    { parte: 0.72, rotulo: 'año 4' },
+    { parte: 0.94, rotulo: 'año 5' },
   ];
   const ns = 'http://www.w3.org/2000/svg';
   paradas.forEach((p, i) => {
@@ -129,52 +161,54 @@
     r.className = 'rotulo'; r.id = 'r' + (i + 1); r.style.left = punto.x + 'px'; r.textContent = p.rotulo;
     document.querySelector('#rotulos').appendChild(r);
   });
-  const enfasis = getComputedStyle(document.documentElement).getPropertyValue('--enfasis').trim();
 
   // Estado inicial.
   gsap.set(['#fotoB', '#e1b', '#e2', '#e3a', '#e3b', '#e4a', '#e4b', '#e5a', '#e5b', '.frase', '.rotulo'], { opacity: 0 });
   gsap.set('#trazo', { strokeDasharray: largo + ' ' + largo, strokeDashoffset: largo });
   gsap.set('#bola', { opacity: 0 });
 
-  // Las dos fotos se acercan muy despacio todo el rato; la segunda entra a mitad.
-  tl.fromTo('#fotoA', { scale: 1.04 }, { scale: 1.2, duration: 9.6, ease: 'none' }, 0);
-  tl.fromTo('#fotoB', { scale: 1.04 }, { scale: 1.2, duration: 8.6, ease: 'none' }, 9.0);
-  tl.to('#fotoB', { opacity: 1, duration: 0.7, ease: 'power1.inOut' }, 9.1);
-
   // 1 · El gancho.
-  tl.fromTo('#e1a .p', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.32, ease: 'power3.out', stagger: 0.11 }, 0.15);
-  tl.fromTo('#e1b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 1.55);
-  tl.to('#e1', { opacity: 0, duration: 0.3 }, 3.15);
+  let t = escena('#e1', ['#e1a', '#e1b'], 0.15);
 
-  // 2 · El recorrido. No uses onUpdate: al renderizar, la línea de tiempo salta de fotograma en fotograma.
-  const salida = 3.6, viaje = 5.4;
-  tl.to('#e2', { opacity: 1, duration: 0.3 }, 3.4);
+  // 2 · La bolita avanza a velocidad constante; entre parada y parada hay tiempo para leer la frase más larga.
+  // No uses onUpdate: al renderizar, la línea de tiempo salta de fotograma en fotograma.
+  const frases = paradas.map((_, i) => document.querySelector('#f' + (i + 1)));
+  const entreParadas = Math.max(...frases.map(leer)) + 0.6;
+  const viaje = entreParadas / (paradas[1].parte - paradas[0].parte);
+  const salida = t + 0.2;
+  tl.to('#e2', { opacity: 1, duration: 0.3 }, t);
   tl.set('#bola', { opacity: 1 }, salida);
   tl.to('#bola', { motionPath: { path: '#via', align: '#via', alignOrigin: [0.5, 0.5] }, duration: viaje, ease: 'none' }, salida);
   tl.to('#trazo', { strokeDashoffset: 0, duration: viaje, ease: 'none' }, salida);
   paradas.forEach((p, i) => {
-    const t = salida + viaje * p.parte;
-    tl.to('#p' + (i + 1), { fill: enfasis, duration: 0.2 }, t);
-    tl.to('#r' + (i + 1), { opacity: 1, duration: 0.25 }, t);
-    tl.fromTo('#f' + (i + 1), { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' }, t);
+    const llega = salida + viaje * p.parte;
+    tl.to('#p' + (i + 1), { fill: enfasis, duration: 0.2 }, llega);
+    tl.to('#r' + (i + 1), { opacity: 1, duration: 0.25 }, llega);
+    tl.fromTo('#f' + (i + 1), { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' }, llega);
     if (i < paradas.length - 1) tl.to('#f' + (i + 1), { opacity: 0, y: -24, duration: 0.2 }, salida + viaje * paradas[i + 1].parte - 0.22);
   });
-  tl.to('#e2', { opacity: 0, duration: 0.35 }, 9.35);
+  const ultima = salida + viaje * paradas.at(-1).parte + 0.3 + leer(frases.at(-1));
+  const finRecorrido = Math.max(salida + viaje, ultima);
+  tl.to('#e2', { opacity: 0, duration: 0.35 }, finRecorrido);
+  t = finRecorrido + 0.45;
 
-  // 3 · La primera idea.
-  tl.fromTo('#e3a', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, 9.85);
-  tl.fromTo('#e3b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 10.45);
-  tl.to('#e3', { opacity: 0, duration: 0.3 }, 12.35);
+  // 3 y 4 · Las dos ideas, ya con la segunda foto.
+  tl.to('#fotoB', { opacity: 1, duration: 0.7, ease: 'power1.inOut' }, t - 0.4);
+  const cambioFoto = t - 0.4;
+  t = escena('#e3', ['#e3a', '#e3b'], t);
+  t = escena('#e4', ['#e4a', '#e4b'], t);
 
-  // 4 · La segunda idea.
-  tl.fromTo('#e4a', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 12.75);
-  tl.fromTo('#e4b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, 13.85);
-  tl.to('#e4', { opacity: 0, duration: 0.3 }, 15.2);
+  // 5 · La pregunta y la llamada: se quedan hasta el final.
+  tl.fromTo('#e5a', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, t);
+  tl.fromTo('#e5b', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, t + 0.8);
+  const final = t + 0.5 + Math.max(leer(document.querySelector('#e5a')), 0.8 + leer(document.querySelector('#e5b'))) + 0.8;
 
-  // 5 · La pregunta y la llamada.
-  tl.fromTo('#e5a', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 15.55);
-  tl.fromTo('#e5b', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, 16.35);
+  // Las dos fotos se acercan muy despacio todo el rato.
+  tl.fromTo('#fotoA', { scale: 1.04 }, { scale: 1.2, duration: cambioFoto + 0.7, ease: 'none' }, 0);
+  tl.fromTo('#fotoB', { scale: 1.04 }, { scale: 1.2, duration: final - cambioFoto, ease: 'none' }, cambioFoto);
 
+  // Lo que necesita la animación: data-duration (en #root) tiene que ser al menos esto.
+  window.__duracionNecesaria = Math.round(final * 10) / 10;
   window.__timelines = window.__timelines || {};
   window.__timelines["main"] = tl;
   tl.seek(0);
