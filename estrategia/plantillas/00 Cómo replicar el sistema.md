@@ -123,7 +123,8 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`). Los Reels animados (solo texto en
    movimiento sobre dos fotos suyas, sin grabar nada) salen de `contenido/videos/plantilla-reel-animado.html` con
    `npm run carrusel-animado`.
-   **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips,
+   **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips
+   (las sube desde el móvil o las trae de su Google Drive con «Traer de Google Drive»),
    donde ve cada carrusel tal cual saldrá y lo cambia sin otra herramienta (fotos, encuadre, textos, flechas y
    pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz o con **su voz clonada** (sube una vez una
    grabación suya y da su permiso en «Mi voz»; cada vídeo así lleva la etiqueta de IA): planos, textos, velocidad,

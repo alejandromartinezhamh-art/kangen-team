@@ -159,13 +159,15 @@ Vídeos (`contenido/videos/README.md`):
 | `scripts/video.mjs` | Vídeo vertical con su voz (transcrita, con subtítulos) o con textos sobre clips y fotos, desde `pieza.json`; con velocidad, recortes de la voz, frases quitadas y estilo de letras | `npm run video -- <carpeta> [--planos]` |
 | `scripts/voz-clonada.mjs` | Su voz clonada con Qwen3-TTS en la nube (sin tarjeta gráfica; la primera vez instala el entorno en `~/.cache/kangen-voz`), a partir de su muestra y siempre con su permiso del estudio | `npm run voz-clonada -- <muestra> <texto.txt> <salida.wav>`; desde el estudio, `npm run estudio -- voz` |
 | `scripts/montaje-video.mjs` | Cuentas comunes de vídeo (velocidad, trozos de voz, subtítulos, CSS de las letras): las usan `video.mjs` y el estudio, para que lo que se ve allí sea lo que sale | Se importa; el estudio la recibe al montarse |
-| `contenido/estudio/estudio.html` | Fuente de la página del **estudio**: ver cada carrusel tal cual saldrá y cambiar fotos (galería), encuadre (arrastrar), textos, formato, dibujos, imágenes, composición y estilo; montar vídeos (planos, trozo de cada clip, textos, tiempos, gancho, nota de voz y sus recortes, velocidad, subtítulos y color, caja y tamaño de las letras). Avisa en directo de caras cortadas, textos que no se leen y normas | No se abre tal cual: se monta con `npm run estudio -- pagina` |
+| `contenido/estudio/estudio.html` | Fuente de la página del **estudio**: ver cada carrusel tal cual saldrá y cambiar fotos (galería, con «Traer de Google Drive»), encuadre (arrastrar), textos, formato, dibujos, imágenes, composición y estilo; montar vídeos (planos, trozo de cada clip, textos, tiempos, gancho, nota de voz y sus recortes, velocidad, subtítulos y color, caja y tamaño de las letras). Avisa en directo de caras cortadas, textos que no se leen y normas | No se abre tal cual: se monta con `npm run estudio -- pagina` |
 | `scripts/estudio.mjs` | `pagina [salida] --nombre <Nombre>`: monta la página con los estilos y composiciones de la plantilla. `caras <carpeta>`: escribe `caras.json`. `preparar <pieza.json> <carpeta>`: convierte una pieza del estudio (también el JSON que guarda ArtifactData con `out_dir`) en `carrusel.html` o `pieza.json` (+ `transcripcion.json`). `pendientes <out_dir>`: voces pedidas y piezas en «Listo». `voz <pieza.json> <carpeta> --muestra <archivo>`: genera la voz clonada pedida. `devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>] [--voz <id> \| --error <motivo>]`: escribe `para-el-estudio.json` (subtítulos, voz clonada) para guardarlo en el estudio | Detalle en `contenido/estudio/README.md` |
 
 **Estudio de Gemma**: <https://claude.ai/artifact/ELC7c2bgMHTVcdu8GJ1sZy> (privado: solo Alejandro hasta que lo comparta).
 Publicado desde `dist/estudio-gemma.html` (`npm run estudio -- pagina dist/estudio-gemma.html --nombre Gemma`); desde
 otra sesión, se vuelve a publicar con el Artifact tool pasando su `url` (antes, `action: "read"`). Capacidades `assets`,
-`user` (perfil) y `db` con la regla de `permisos-voz` (`contenido/estudio/README.md`). **Estudio de Alejandro**:
+`user` (perfil), `db` con la regla de `permisos-voz` y `mcp` (Google Drive: `search_files` y `download_file_content`,
+para «Traer de Google Drive» con el conector de quien lo abre; sus carpetas en `ajustes/persona.drive`)
+(`contenido/estudio/README.md`). **Estudio de Alejandro**:
 <https://claude.ai/artifact/6ybmWYoDN5UZXu4U8bFNY3>, desde `dist/estudio-alejandro.html`, igual. En cada sesión con el
 repositorio, procesa los dos (`contenido/estudio/README.md` → «Procesar los estudios»): voces clonadas pedidas y piezas en
 «Listo». Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
@@ -207,7 +209,8 @@ fila de Gemma para el día 11 (el Código pasa de 11 = día 10 a 12 = día 12). 
 Lo de Pendientes ya está apuntado (17 de noviembre): compartir el estudio con Gemma, revisar las v2, su café en casa,
 su voz clonada y volver a subir los agentes.
 
-1. Cuando alguien lo use de verdad, mirar si algo falla en claude.ai (detector de caras, subida de voz, guardado) y
+1. Cuando alguien lo use de verdad, mirar si algo falla en claude.ai (detector de caras, subida de voz, guardado,
+   «Traer de Google Drive»: el permiso del conector y el tamaño máximo que manda Drive; la prueba está en Pendientes) y
    arreglarlo en `contenido/estudio/estudio.html`, volver a montar y publicar en la misma `url`.
 
 ### Tarea 2 · Versión 2 de las piezas de Gemma — lo que falta

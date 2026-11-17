@@ -16,6 +16,9 @@ cambian sin otra herramienta:
 - **Avisos en directo**, con las mismas cuentas que `npm run carrusel` y `npm run video`: cara cortada o con texto
   encima (la cara se marca en rojo), más de 25 palabras, composiciones repetidas, pocas fotos, el mismo estilo que un
   carrusel reciente y palabras que no van en el contenido (dinero, salud, el producto, el agua).
+- **Fotos y clips de su galería**: «Subir fotos o clips» desde el móvil o el ordenador, o **«Traer de Google Drive»**
+  (abajo) para coger cualquier foto o clip de su Drive sin descargarlo antes. Las fotos HEIC del iPhone se pasan a JPG
+  en el propio estudio.
 - **«Listo: que Claude lo prepare»**: la pieza queda lista para que Claude la genere con las herramientas de siempre.
 
 Lo que se ve en el estudio es lo mismo que sale: usa los estilos, las composiciones y los dibujos de
@@ -31,6 +34,26 @@ público: la página no lleva datos; las fotos, la voz y los textos viven en el 
 |---|---|
 | Gemma | <https://claude.ai/artifact/ELC7c2bgMHTVcdu8GJ1sZy> |
 | Alejandro | <https://claude.ai/artifact/6ybmWYoDN5UZXu4U8bFNY3> |
+
+## Traer de Google Drive
+
+En la galería (al cambiar una foto o al añadir un plano a un vídeo), **«Traer de Google Drive»** abre su Drive con el
+conector de Google Drive de **quien abre el estudio** (su cuenta y sus permisos; la página nunca ve claves):
+
+- Arriba, sus carpetas (`ajustes/persona` → `drive.carpetas: [{ nombre, id }]`: la carpeta de su landing, «Fotos
+  originales», «Vídeos», «Brutos» y «Contenido redes») y **«Todo mi Drive»**, lo último primero. Busca por nombre, y
+  también vale pegar el enlace de una carpeta o de un archivo de Drive (por ejemplo, uno que llega por WhatsApp).
+- Las fotos se ven en miniatura; los clips, con «Ver». Se eligen varias y «Traer» las sube al almacén del estudio
+  igual que «Subir fotos o clips» (las fotos, a 2000 px y en JPG, con sus caras; los clips, tal cual) y quedan con
+  `drive: <id del archivo>` en `fotos/<id>`, así que salen como «Ya está en tu galería» y no se traen dos veces.
+- La primera vez, Claude pregunta si el estudio puede usar Google Drive: hay que pulsar **Permitir**. Si no tiene
+  Google Drive conectado, el estudio dice dónde conectarlo (Claude → Ajustes → Conectores).
+- Límite: clips de hasta 20 MB (lo que cabe en el estudio); Google Drive puede negarse a mandar archivos grandes
+  desde aquí (en una sesión de Claude en la nube, a partir de unos 10 MB). Entonces se sube desde el móvil con
+  «Subir fotos o clips» o se graba en 1080p y se recorta.
+
+Para una persona nueva, Claude apunta sus carpetas en `ajustes/persona.drive` (paso 4 de abajo). Los ids de Drive no
+van al repositorio.
 
 ## Voz clonada
 
@@ -54,14 +77,17 @@ Para que la persona (o Alejandro, por ella) haga vídeos con su voz sin grabarlo
 1. `npm run estudio -- pagina dist/estudio-<persona>.html --nombre <Nombre>`.
 2. Publicarlo con el Artifact tool: `capabilities: { assets: {}, user: { scopes: ["profile"] }, db: { rules: [
    { path: "permisos-voz", read: "view", write: "self" }, { path: "permisos-voz/{self}", read: "view", write:
-   "interact" } ] } }` y el icono `video`. Apuntar el enlace en la tabla de arriba.
+   "interact" } ] }, mcp: { servers: [{ server: "Google Drive", tools: ["search_files", "download_file_content"] }] } }`
+   y el icono `video`. Apuntar el enlace en la tabla de arriba.
 3. **Fotos y clips**: las elegidas de su Drive (`Brutos`), nunca las que ella haya marcado como privadas, ni caras de
    niños ni de otras personas sin permiso. Las fotos, en JPG; los clips, en MP4 (H.264, sin sonido, menos de 20 MB:
    `ffmpeg -i clip.mov -an -c:v libx264 -crf 23 -vf "scale='min(1080,iw)':-2" -movflags +faststart clip.mp4`).
    `npm run estudio -- caras <carpeta>` escribe `caras.json` con las caras de cada foto.
 4. Subirlas al estudio (Artifact `asset: true`, hasta 25 por llamada) y dar de alta con ArtifactData:
-   - `ajustes/persona`: `{ nombre, clave, colores: { fondo, lila, texto, secundario, acento, acentoClaro, estructura, borde } }`
-     (de `equipo/<persona>/design.md`).
+   - `ajustes/persona`: `{ nombre, clave, colores: { fondo, lila, texto, secundario, acento, acentoClaro, estructura, borde },
+     drive: { carpetas: [{ nombre, id }] } }` (los colores, de `equipo/<persona>/design.md`; las carpetas, las de su
+     `Landing Kangen <Nombre>` en Drive: la carpeta entera, «Fotos originales», «Vídeos», «Brutos» y «Contenido redes»).
+   - Con «Traer de Google Drive» ella misma puede traer el resto desde su estudio.
    - `fotos/<id del archivo>`: `{ nombre, tipo: "foto", ancho, alto, caras: [{ l, t, r, b }], orden }` o
      `{ nombre, tipo: "video", duracion, orden }`.
 5. Las piezas: `piezas/<código>` con `{ codigo, titulo, formato: "carrusel" | "imagen" | "video", dia, estilo, slides,

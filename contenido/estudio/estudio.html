@@ -137,7 +137,7 @@
 
   /* ---------- Ventanas ---------- */
   .velo-modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.45); display: grid; place-items: center; padding: 16px; }
-  .modal { width: min(980px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--panel); border-radius: 18px; padding: 18px; box-shadow: var(--sombra); display: grid; gap: 14px; }
+  .modal { box-sizing: border-box; width: min(980px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--panel); border-radius: 18px; padding: 18px; box-shadow: var(--sombra); display: grid; gap: 14px; }
   .modal header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
   .modal h2 { margin: 0; font-size: 20px; letter-spacing: -0.02em; }
   .catalogo { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
@@ -218,6 +218,30 @@
   .modal h3.paso { margin: 4px 0 0; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); }
   .check.permiso { align-items: flex-start; font-weight: 500; line-height: 1.45; }
   .check.permiso input { margin-top: 2px; flex: none; }
+
+  /* ---------- Traer de Google Drive ---------- */
+  .buscar-drive { width: 100%; box-sizing: border-box; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--linea); background: var(--campo); color: var(--tinta); font: inherit; }
+  .drive-aviso { color: var(--peligro); font-weight: 600; }
+  .drive-aviso:empty { display: none; }
+  .drive-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px 10px; min-height: 90px; align-content: start; }
+  .drive-rejilla > p { grid-column: 1 / -1; }
+  .drive-archivo { display: grid; gap: 3px; align-content: start; min-width: 0; }
+  .drive-elegir { position: relative; padding: 0; border: 2px solid var(--linea); border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--mesa); cursor: pointer; }
+  .drive-elegir:disabled { cursor: default; }
+  .drive-archivo.elegido .drive-elegir { border-color: var(--marca); box-shadow: 0 0 0 2px var(--marca); }
+  .drive-archivo.elegido .drive-elegir::after { content: '✓'; position: absolute; right: 6px; top: 6px; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--marca); color: var(--marca-tx); font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+  .drive-archivo.dentro .drive-elegir, .drive-archivo.grande .drive-elegir { opacity: .5; }
+  .drive-img { position: absolute; inset: 0; display: grid; place-items: center; color: var(--suave); font-size: 12px; font-weight: 700; text-align: center; padding: 6px; }
+  .drive-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .drive-img .icono { font-size: 28px; line-height: 1; }
+  .drive-nombre { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .drive-dato { font-size: 11px; color: var(--suave); line-height: 1.3; }
+  .drive-dato .btn { margin-top: 3px; }
+  .drive-vista { display: grid; gap: 8px; justify-items: center; padding: 12px; border-radius: 12px; background: var(--mesa); }
+  .drive-vista video { max-height: 52vh; max-width: 100%; border-radius: 10px; background: #000; }
+  .drive-pie { position: sticky; bottom: -18px; margin: 0 -18px -18px; padding: 12px 18px; background: var(--panel); border-top: 1px solid var(--linea);
+    display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
 </style>
 <style>
 /*@PLANTILLA_CSS@*/
@@ -635,6 +659,7 @@ function galeria({ tipos = 'todo', actual = null, alElegir }) {
     } });
     caja.replaceChildren(...[pestañas, lista.length ? rejilla : h('p', { class: 'ayuda' }, 'Todavía no hay nada aquí.'),
       E.assets ? h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn peq', onclick: () => entrada.click() }, 'Subir fotos o clips'), entrada,
+        h('button', { type: 'button', class: 'btn peq', onclick: () => abrirDrive(filtro) }, 'Traer de Google Drive'),
         h('span', { class: 'progreso', id: 'progreso-subida' })) : null,
       E.assets ? h('p', { class: 'ayuda' }, 'Solo fotos y clips tuyos. Nada de caras de niños ni de otras personas sin su permiso.') : null].filter(Boolean));
   };
@@ -657,9 +682,27 @@ async function subirArchivos(archivos) {
     if (progreso) progreso.textContent = '';
   }
 }
-async function subirFoto(f) {
-  let mapa;
-  try { mapa = await createImageBitmap(f); } catch { throw new Error('no se puede abrir aquí (¿es HEIC?). Pásala a JPG o déjala en Drive y la subo yo.'); }
+// Las fotos del iPhone (HEIC) solo las abre Safari: en los demás navegadores se pasan a JPG aquí mismo.
+let lectorHeic;
+function deHeic(f) {
+  lectorHeic ??= new Promise((ok, mal) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+    s.onload = () => ok(window.heic2any);
+    s.onerror = () => { lectorHeic = null; mal(new Error('no se ha podido cargar el lector de fotos HEIC.')); };
+    document.head.append(s);
+  });
+  return lectorHeic.then((pasar) => pasar({ blob: f, toType: 'image/jpeg', quality: 0.92 })).then((r) => (Array.isArray(r) ? r[0] : r));
+}
+async function abrirImagen(f) {
+  try { return await createImageBitmap(f); } catch {}
+  if (/hei[cf]/i.test(f.type) || /\.hei[cf]$/i.test(f.name || '')) {
+    try { return await createImageBitmap(await deHeic(f)); } catch (e) { throw new Error('esta foto HEIC no se puede abrir aquí: ' + mensajeError(e)); }
+  }
+  throw new Error('esta foto no se puede abrir aquí. Pásala a JPG.');
+}
+async function subirFoto(f, extra = {}) {
+  const mapa = await abrirImagen(f);
   // Como mucho 2000 px y en JPG: pesa poco y se queda sin los datos de la cámara (ni ubicación ni fecha).
   const k = Math.min(1, 2000 / Math.max(mapa.width, mapa.height));
   const lienzo = h('canvas', { width: Math.round(mapa.width * k), height: Math.round(mapa.height * k) });
@@ -668,7 +711,7 @@ async function subirFoto(f) {
   const subida = await E.assets.upload(archivo, { type: 'image/jpeg' });
   let caras = null;
   try { caras = await detectarCaras(lienzo); } catch { caras = null; }
-  await E.db.doc('fotos/' + subida.id).set({ nombre: f.name.replace(/\.[^.]+$/, ''), tipo: 'foto', ancho: lienzo.width, alto: lienzo.height, caras, subida: Date.now() });
+  await E.db.doc('fotos/' + subida.id).set({ nombre: f.name.replace(/\.[^.]+$/, ''), tipo: 'foto', ancho: lienzo.width, alto: lienzo.height, caras, subida: Date.now(), ...extra });
 }
 const duracionMedio = (url, etiqueta = 'video') => new Promise((ok) => {
   const m = document.createElement(etiqueta);
@@ -678,8 +721,8 @@ const duracionMedio = (url, etiqueta = 'video') => new Promise((ok) => {
   m.src = url;
   setTimeout(() => ok(null), 15000);
 });
-async function subirClip(f) {
-  if (f.size > 20 * 1024 * 1024) throw new Error('pesa más de 20 MB. Recórtalo en el móvil o déjalo en Drive y lo subo yo.');
+async function subirClip(f, extra = {}) {
+  if (f.size > 20 * 1024 * 1024) throw new Error('pesa más de 20 MB. Recórtalo en el móvil (o grábalo en 1080p) y vuelve a subirlo.');
   const tipo = /^video\/(mp4|webm|quicktime)$/.test(f.type) ? f.type : /\.webm$/i.test(f.name) ? 'video/webm' : /\.mov$/i.test(f.name) ? 'video/quicktime' : 'video/mp4';
   let subida;
   try { subida = await E.assets.upload(f, { type: tipo }); } catch (e) {
@@ -687,7 +730,292 @@ async function subirClip(f) {
     subida = await E.assets.upload(f, { type: 'video/mp4' });
   }
   const duracion = await duracionMedio(subida.url);
-  await E.db.doc('fotos/' + subida.id).set({ nombre: f.name.replace(/\.[^.]+$/, ''), tipo: 'video', duracion, subida: Date.now() });
+  await E.db.doc('fotos/' + subida.id).set({ nombre: f.name.replace(/\.[^.]+$/, ''), tipo: 'video', duracion, subida: Date.now(), ...extra });
+}
+
+// ================================================================ Google Drive
+// Las fotos y los clips se traen con el conector de Google Drive de quien abre el estudio (su cuenta y sus permisos):
+// sus carpetas (ajustes/persona → drive.carpetas), todo su Drive, lo que busque o el enlace de una carpeta o un archivo.
+// Entran en el almacén del estudio igual que si se subieran desde el móvil y quedan marcados con su id de Drive.
+const DRIVE = 'Google Drive';
+const MAX_SUBIDA = 20 * 1024 * 1024;
+const FATALES_DRIVE = new Set(['needs_reauth', 'server_not_connected', 'server_not_found', 'selection_required', 'not_in_manifest',
+  'blocked_by_policy', 'approval_required', 'consent_required', 'not_granted', 'capability_disabled', 'capability_removed', 'user_changed']);
+const miniDrive = new Map(); // id de Drive → miniatura (mientras la página está abierta)
+const bajadosDrive = new Map(); // id de Drive → el archivo ya bajado (los últimos, para no bajarlos dos veces)
+const esClipDrive = (f) => /^video\//.test(f.mimeType || '');
+const tamano = (n) => { n = Number(n) || 0; return n >= 1048576 ? `${(n / 1048576).toFixed(n < 10485760 ? 1 : 0).replace('.', ',')} MB` : `${Math.max(1, Math.round(n / 1024))} KB`; };
+const diaCorto = (t) => { const d = new Date(t); return Number.isNaN(+d) ? '' : d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }); };
+function errorDrive(e) {
+  switch (e?.code) {
+    case 'needs_reauth': return 'Tu Google Drive se ha desconectado: vuelve a conectarlo en Claude → Ajustes → Conectores y prueba otra vez.';
+    case 'server_not_connected': case 'server_not_found': return 'Conecta tu Google Drive en Claude → Ajustes → Conectores y vuelve a abrir el estudio.';
+    case 'selection_required': return 'Tienes más de un Google Drive conectado: elige cuál en el aviso de Claude y prueba otra vez.';
+    case 'not_in_manifest': case 'consent_required': return 'El estudio no tiene permiso para usar tu Google Drive. Vuelve a abrirlo y pulsa «Permitir» cuando Claude lo pregunte.';
+    case 'approval_required': return 'Hace falta que permitas usar Google Drive: pulsa otra vez y elige «Permitir».';
+    case 'blocked_by_policy': return 'Tu organización no deja usar Google Drive desde aquí.';
+    case 'server_unavailable': case 'rate_limited': return 'Google Drive no responde ahora mismo. Prueba en un momento.';
+    case 'not_granted': case 'capability_disabled': case 'capability_removed': return 'Desde aquí no se puede usar Google Drive: abre el estudio en claude.ai con tu cuenta.';
+    case 'tool_error': return 'Google Drive no ha podido' + (e.message ? ': ' + e.message : '.');
+    default: return e?.code ? 'No se ha podido hablar con Google Drive' + (e.message ? ': ' + e.message : '.') : mensajeError(e);
+  }
+}
+async function usarDrive() {
+  const mcp = await E.mcpListo;
+  if (!mcp) throw { code: 'not_granted', message: '' };
+  return mcp;
+}
+const datosDe = (r) => {
+  if (r?.payload && typeof r.payload === 'object') return r.payload;
+  try { return JSON.parse((r?.content || []).find((b) => b.type === 'text')?.text || '{}'); } catch { return {}; }
+};
+async function buscarEnDrive({ carpeta, texto, tipo, pagina }) {
+  const mcp = await usarDrive();
+  const q = ['trashed = false', tipo === 'video' ? "mimeType contains 'video/'" : "mimeType contains 'image/'"];
+  if (carpeta) q.push(`'${carpeta}' in ancestors`);
+  for (const palabra of String(texto || '').trim().split(/\s+/).filter(Boolean).slice(0, 4)) q.push(`title contains '${palabra.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`);
+  const r = await mcp.callTool(DRIVE, 'search_files', { query: q.join(' and '), pageSize: 30, orderBy: 'modifiedTime desc', excludeContentSnippets: true, ...(pagina ? { pageToken: pagina } : {}) });
+  const d = datosDe(r);
+  const sirve = /^(image\/(jpeg|png|webp|heic|heif|gif|avif)|video\/)/i;
+  return { archivos: (d.files || []).filter((f) => f?.id && sirve.test(f.mimeType || '')), siguiente: d.nextPageToken || null };
+}
+function deBase64(texto) {
+  const bin = atob(texto.replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/'));
+  const u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return u;
+}
+async function bajarDeDrive(f) {
+  if (bajadosDrive.has(f.id)) return bajadosDrive.get(f.id);
+  const mcp = await usarDrive();
+  const peso = Number(f.fileSize) || 0;
+  let r;
+  try {
+    r = await mcp.callTool(DRIVE, 'download_file_content', { fileId: f.id });
+  } catch (e) {
+    if (e?.code === 'tool_error' && (peso > 9e6 || /large|size|exceed|limit/i.test(e.message || ''))) {
+      throw new Error(`pesa ${peso ? tamano(peso) : 'demasiado'} y Google Drive no deja traerlo desde aquí. Súbelo desde el móvil con «Subir fotos o clips» (hasta 20 MB).`);
+    }
+    throw e;
+  }
+  const d = datosDe(r);
+  let datos = null, tipo = '';
+  for (const b of r.content || []) {
+    const x = b.data ?? b.blob ?? b.resource?.blob;
+    if (typeof x === 'string' && x.length > 64) { datos = x; tipo = b.mimeType || b.resource?.mimeType || ''; break; }
+  }
+  if (!datos && typeof d.content === 'string' && d.content.length > 64 && !/sent separately/i.test(d.content)) datos = d.content;
+  if (!datos) throw new Error(`Google Drive no lo ha mandado${peso > 9e6 ? ` (pesa ${tamano(peso)}; puede que sea demasiado para traerlo desde aquí)` : ''}. Súbelo desde el móvil con «Subir fotos o clips».`);
+  f.title ||= d.title || 'drive';
+  f.mimeType ||= d.mimeType || tipo;
+  const archivo = new File([deBase64(datos)], f.title, { type: f.mimeType || tipo || 'application/octet-stream' });
+  bajadosDrive.set(f.id, archivo);
+  while (bajadosDrive.size > 6) bajadosDrive.delete(bajadosDrive.keys().next().value);
+  return archivo;
+}
+async function miniaturaDrive(f) {
+  if (miniDrive.has(f.id)) return miniDrive.get(f.id);
+  const mapa = await abrirImagen(await bajarDeDrive(f));
+  const k = Math.min(1, 360 / Math.max(mapa.width, mapa.height));
+  const lienzo = h('canvas', { width: Math.round(mapa.width * k), height: Math.round(mapa.height * k) });
+  lienzo.getContext('2d').drawImage(mapa, 0, 0, lienzo.width, lienzo.height);
+  const url = URL.createObjectURL(await new Promise((ok) => lienzo.toBlob(ok, 'image/jpeg', 0.8)));
+  miniDrive.set(f.id, url);
+  return url;
+}
+async function traerDeDrive(f) {
+  if (esClipDrive(f) && Number(f.fileSize) > MAX_SUBIDA) throw new Error(`pesa ${tamano(f.fileSize)} y en el estudio caben clips de hasta 20 MB. Recórtalo en el móvil y súbelo otra vez a Drive.`);
+  const archivo = await bajarDeDrive(f);
+  if (/^video\//.test(archivo.type) || esClipDrive(f)) await subirClip(archivo, { drive: f.id });
+  else if (/^image\//.test(archivo.type) || /\.(jpe?g|png|webp|hei[cf]|gif|avif)$/i.test(f.title)) await subirFoto(archivo, { drive: f.id });
+  else throw new Error('no es una foto ni un clip.');
+  bajadosDrive.delete(f.id);
+}
+// Un enlace de Drive pegado en el buscador: el de una carpeta o el de un archivo.
+function enlaceDrive(texto) {
+  const t = String(texto || '');
+  if (!/drive\.google\.com|docs\.google\.com/.test(t)) return null;
+  const carpeta = t.match(/\/folders\/([\w-]{10,})/);
+  if (carpeta) return { carpeta: carpeta[1] };
+  const archivo = t.match(/\/file\/d\/([\w-]{10,})/) || t.match(/[?&]id=([\w-]{10,})/);
+  return archivo ? { archivo: archivo[1] } : null;
+}
+
+function abrirDrive(tipoInicial = 'foto') {
+  if (!E.assets) return nota('Solo quien puede editar el estudio puede traer archivos.');
+  const carpetas = [...(E.ajustes?.drive?.carpetas || []).filter((c) => c?.id && c?.nombre), { nombre: 'Todo mi Drive', id: '' }];
+  const estado = { carpeta: carpetas[0].id, tipo: tipoInicial === 'video' ? 'video' : 'foto', texto: '', enlace: null,
+    archivos: [], siguiente: null, elegidos: new Set(), traidos: new Set(), trayendo: false };
+  let turno = 0, temporizador;
+  const aviso = h('p', { class: 'ayuda drive-aviso', role: 'alert' });
+  const rejilla = h('div', { class: 'drive-rejilla' });
+  const vista = h('div', { class: 'drive-vista', hidden: true });
+  const mas = h('button', { type: 'button', class: 'btn peq', hidden: true, onclick: () => cargar(true) }, 'Ver más');
+  const traer = h('button', { type: 'button', class: 'btn primario', disabled: true, onclick: () => traerElegidos() }, 'Traer al estudio');
+  const progreso = h('span', { class: 'progreso', role: 'status' });
+  const chips = h('div', { class: 'fila' });
+  const tipos = h('div', { class: 'fila' });
+  const buscador = h('input', { type: 'search', class: 'buscar-drive', placeholder: 'Busca por nombre o pega un enlace de Drive',
+    'aria-label': 'Buscar en tu Google Drive', oninput: () => { clearTimeout(temporizador); temporizador = setTimeout(leerBuscador, 450); } });
+
+  const pintarFiltros = () => {
+    chips.replaceChildren(...carpetas.map((c) => h('button', { type: 'button', class: 'btn peq' + (!estado.enlace && estado.carpeta === c.id ? ' activo' : ''),
+      onclick: () => { estado.carpeta = c.id; estado.enlace = null; buscador.value = ''; estado.texto = ''; pintarFiltros(); cargar(false); } }, c.nombre)),
+    ...(estado.enlace ? [h('button', { type: 'button', class: 'btn peq activo' }, estado.enlace.carpeta ? 'Carpeta del enlace' : 'Archivo del enlace')] : []));
+    tipos.replaceChildren(...[['foto', 'Fotos'], ['video', 'Clips']].map(([t, nombre]) => h('button', { type: 'button', class: 'btn peq' + (estado.tipo === t ? ' activo' : ''),
+      disabled: estado.enlace?.archivo ? true : null, onclick: () => { estado.tipo = t; estado.elegidos.clear(); pintarFiltros(); cargar(false); } }, nombre)));
+  };
+  function leerBuscador() {
+    const enlace = enlaceDrive(buscador.value);
+    estado.enlace = enlace;
+    estado.texto = enlace ? '' : buscador.value.trim();
+    if (enlace?.carpeta) estado.carpeta = enlace.carpeta;
+    pintarFiltros();
+    cargar(false);
+  }
+  const contarElegidos = () => {
+    const n = estado.elegidos.size;
+    traer.disabled = !n || estado.trayendo;
+    traer.textContent = n ? `Traer ${n === 1 ? '1 archivo' : `${n} archivos`} al estudio` : 'Traer al estudio';
+  };
+
+  // Las miniaturas de las fotos se bajan al verse en pantalla, de dos en dos.
+  const cola = [];
+  let enMarcha = 0;
+  const abierta = () => velo.isConnected;
+  const seguirCola = () => {
+    while (enMarcha < 2 && cola.length && abierta()) {
+      const { marco, f } = cola.shift();
+      enMarcha++;
+      miniaturaDrive(f).then((url) => marco.replaceChildren(h('img', { src: url, alt: '' })))
+        .catch((e) => {
+          marco.replaceChildren(h('span', null, 'Sin vista previa'));
+          if (FATALES_DRIVE.has(e?.code)) { cola.length = 0; aviso.textContent = errorDrive(e); }
+        })
+        .finally(() => { enMarcha--; seguirCola(); });
+    }
+  };
+  let observador = null;
+
+  function tarjeta(f, ya) {
+    const clip = esClipDrive(f);
+    const dentro = ya.has(f.id);
+    const grande = clip && Number(f.fileSize) > MAX_SUBIDA;
+    const marco = h('span', { class: 'drive-img' }, clip ? h('span', { class: 'icono', 'aria-hidden': 'true' }, '▶') : miniDrive.has(f.id) ? h('img', { src: miniDrive.get(f.id), alt: '' }) : 'Foto');
+    const caja = h('div', { class: ['drive-archivo', estado.elegidos.has(f.id) && 'elegido', dentro && 'dentro', grande && 'grande'].filter(Boolean).join(' ') });
+    const boton = h('button', { type: 'button', class: 'drive-elegir', title: f.title, 'aria-label': `${f.title}${dentro ? ' (ya está en tu galería)' : ''}`,
+      'aria-pressed': estado.elegidos.has(f.id) ? 'true' : 'false', disabled: dentro || grande ? true : null, onclick: () => {
+        if (estado.elegidos.has(f.id)) estado.elegidos.delete(f.id); else estado.elegidos.add(f.id);
+        caja.classList.toggle('elegido', estado.elegidos.has(f.id));
+        boton.setAttribute('aria-pressed', estado.elegidos.has(f.id) ? 'true' : 'false');
+        contarElegidos();
+      } }, marco);
+    const datos = dentro ? 'Ya está en tu galería' : grande ? `${tamano(f.fileSize)}: pesa demasiado (hasta 20 MB)`
+      : [clip ? 'Clip' : 'Foto', f.fileSize ? tamano(f.fileSize) : '', diaCorto(f.modifiedTime)].filter(Boolean).join(' · ');
+    caja.append(boton, h('span', { class: 'drive-nombre' }, f.title || 'Archivo'), h('span', { class: 'drive-dato' }, datos,
+      clip && !grande ? h('div', null, h('button', { type: 'button', class: 'btn peq', onclick: () => verClip(f) }, 'Ver')) : null));
+    if (!clip && !miniDrive.has(f.id) && Number(f.fileSize || 0) < 15 * 1048576) {
+      marco._f = f;
+      observador?.observe(marco);
+    }
+    return caja;
+  }
+  function pintar() {
+    const ya = new Set([...E.fotos.values()].map((x) => x.drive).filter(Boolean).concat([...estado.traidos]));
+    observador?.disconnect();
+    cola.length = 0;
+    observador = 'IntersectionObserver' in window ? new IntersectionObserver((entradas) => {
+      for (const en of entradas) if (en.isIntersecting) { observador.unobserve(en.target); cola.push({ marco: en.target, f: en.target._f }); }
+      seguirCola();
+    }, { root: modal, rootMargin: '300px' }) : null;
+    if (estado.enlace?.archivo) {
+      const f = estado.archivos[0] || { id: estado.enlace.archivo, title: '', mimeType: '' };
+      rejilla.replaceChildren(h('div', { class: 'drive-archivo' + (ya.has(f.id) ? ' dentro' : '') },
+        h('span', { class: 'drive-nombre' }, ya.has(f.id) ? 'Este archivo ya está en tu galería.' : 'El archivo del enlace'),
+        h('span', { class: 'drive-dato' }, 'Se trae tal cual: una foto o un clip de hasta 20 MB.')));
+      estado.elegidos = ya.has(f.id) ? new Set() : new Set([f.id]);
+      estado.archivos = [f];
+      contarElegidos();
+      return;
+    }
+    rejilla.replaceChildren(...estado.archivos.map((f) => tarjeta(f, ya)));
+    if (!estado.archivos.length) rejilla.replaceChildren(h('p', { class: 'ayuda' },
+      estado.texto ? `No hay ${estado.tipo === 'video' ? 'clips' : 'fotos'} con «${estado.texto}» aquí.` : `Aquí no hay ${estado.tipo === 'video' ? 'clips' : 'fotos'}.`));
+    if (!observador) for (const m of rejilla.querySelectorAll('.drive-img')) if (m._f) cola.push({ marco: m, f: m._f });
+    seguirCola();
+    contarElegidos();
+  }
+  async function cargar(otraPagina, reintento = false) {
+    const mio = ++turno;
+    aviso.textContent = '';
+    mas.hidden = true;
+    if (estado.enlace?.archivo) { estado.archivos = []; pintar(); return; }
+    if (!otraPagina) { vista.querySelector('video')?.pause(); vista.hidden = true; vista.replaceChildren(); estado.archivos = []; estado.siguiente = null; estado.elegidos.clear(); contarElegidos(); rejilla.replaceChildren(h('p', { class: 'ayuda' }, 'Buscando en tu Google Drive…')); }
+    try {
+      const r = await buscarEnDrive({ carpeta: estado.carpeta, texto: estado.texto, tipo: estado.tipo, pagina: otraPagina ? estado.siguiente : null });
+      if (mio !== turno || !abierta()) return;
+      const vistos = new Set(estado.archivos.map((f) => f.id));
+      estado.archivos.push(...r.archivos.filter((f) => !vistos.has(f.id)));
+      estado.siguiente = r.siguiente;
+      pintar();
+      mas.hidden = !estado.siguiente;
+    } catch (e) {
+      if (mio !== turno || !abierta()) return;
+      if (e?.retryable && !reintento) {
+        rejilla.replaceChildren(h('p', { class: 'ayuda' }, 'Google Drive tarda en responder; lo intento otra vez…'));
+        setTimeout(() => { if (mio === turno) cargar(otraPagina, true); }, Math.min(Math.max(e.retryAfterMs || 1500, 800), 8000));
+        return;
+      }
+      if (!estado.archivos.length) rejilla.replaceChildren();
+      aviso.textContent = errorDrive(e);
+    }
+  }
+  async function verClip(f) {
+    vista.hidden = false;
+    vista.replaceChildren(h('p', { class: 'ayuda' }, `Bajando ${f.title} (${tamano(f.fileSize)})…`));
+    try {
+      const archivo = await bajarDeDrive(f);
+      const url = URL.createObjectURL(archivo);
+      const video = h('video', { src: url, controls: true, playsinline: true, muted: true, autoplay: true });
+      video.addEventListener('error', () => video.replaceWith(h('p', { class: 'ayuda' }, 'Este navegador no puede reproducir este clip, pero se puede traer igual.')));
+      vista.replaceChildren(video, h('div', { class: 'fila' }, h('strong', null, f.title),
+        estado.elegidos.has(f.id) ? null : h('button', { type: 'button', class: 'btn peq', onclick: (e) => { estado.elegidos.add(f.id); e.target.remove(); pintar(); } }, 'Elegir este clip'),
+        h('button', { type: 'button', class: 'btn peq', onclick: () => { URL.revokeObjectURL(url); vista.hidden = true; vista.replaceChildren(); } }, 'Cerrar la vista')));
+    } catch (e) {
+      vista.replaceChildren(h('p', { class: 'ayuda drive-aviso' }, `${f.title}: ${errorDrive(e)}`));
+    }
+  }
+  async function traerElegidos() {
+    const lista = estado.archivos.filter((f) => estado.elegidos.has(f.id));
+    if (!lista.length) return;
+    estado.trayendo = true;
+    contarElegidos();
+    let bien = 0;
+    for (const [i, f] of lista.entries()) {
+      progreso.textContent = `Trayendo ${i + 1} de ${lista.length}: ${f.title || 'el archivo del enlace'}…`;
+      try {
+        await traerDeDrive(f);
+        estado.traidos.add(f.id);
+        bien++;
+        estado.elegidos.delete(f.id);
+      } catch (e) {
+        nota(`${f.title || 'El archivo del enlace'}: ${e?.code ? errorDrive(e) : mensajeError(e)}`, 8000);
+        if (FATALES_DRIVE.has(e?.code)) break;
+      }
+    }
+    estado.trayendo = false;
+    progreso.textContent = bien ? (bien === 1 ? 'Ya está en tu galería.' : `Ya están los ${bien} en tu galería.`) : '';
+    if (estado.enlace?.archivo && bien) { buscador.value = ''; estado.enlace = null; estado.texto = ''; pintarFiltros(); cargar(false); return; }
+    pintar();
+  }
+
+  const velo = ventana('Traer de Google Drive', h('div', { class: 'gal-drive', style: 'display:grid;gap:12px' },
+    h('p', { class: 'ayuda' }, 'Con tu cuenta de Google Drive: la primera vez, Claude te pide permiso para que el estudio lo use. Elige las fotos o los clips y pulsa «Traer». Los clips, de hasta 20 MB.'),
+    chips, buscador, tipos, aviso, vista, rejilla, mas,
+    h('div', { class: 'drive-pie' }, traer, progreso)));
+  const modal = velo.querySelector('.modal');
+  pintarFiltros();
+  cargar(false);
 }
 
 // ================================================================ Ventanas
@@ -2177,6 +2505,8 @@ async function arrancar() {
   });
   window.addEventListener('pagehide', () => { if (E.sucio) guardar(); });
 
+  // El conector de Google Drive de quien abre el estudio (puede tardar unos segundos en saberse: no se espera aquí).
+  E.mcpListo = usar('mcp');
   const [db, assets, user] = await Promise.all([usar('db'), usar('assets'), usar('user')]);
   E.db = db;
   E.assets = assets;
@@ -2192,7 +2522,7 @@ async function arrancar() {
   const error = (e) => { clearTimeout(espera); marcarGuardado('Sin conexión con el estudio: ' + mensajeError(e), true); };
   db.doc('ajustes/persona').onSnapshot((s) => {
     const d = s.exists ? s.data() : {};
-    E.ajustes = { nombre: d.nombre || 'Nombre', clave: d.clave || '', colores: d.colores || {} };
+    E.ajustes = { nombre: d.nombre || 'Nombre', clave: d.clave || '', colores: d.colores || {}, drive: d.drive || null };
     $('#quien').textContent = d.nombre ? `de ${d.nombre}` : 'de contenido';
     document.title = d.nombre ? `Estudio de ${d.nombre}` : 'Estudio de contenido';
   }, error);

@@ -62,7 +62,8 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Estrategia y 100 días hechos (`estrategia/perfil-y-100-dias.md`): documento de estrategia, 100 piezas con Día y
       Fase en el Calendario y su vista «<Nombre> · 100 días»
 - [ ] «<Nombre> · Empezamos: tu perfil y tu primera grabación» en su Drive y enviado (mensaje 9)
-- [ ] Su estudio en Claude creado y compartido con ella como Editor (`contenido/estudio/README.md`)
+- [ ] Su estudio en Claude creado, con sus carpetas de Drive apuntadas, y compartido con ella como Editor
+      (`contenido/estudio/README.md`). La primera vez que pulse «Traer de Google Drive», «Permitir»
 - [ ] Si quiere voz clonada: ha subido su grabación y ha dado su permiso en su estudio → «Mi voz» (mensaje 10)
 - [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
 - [ ] Primer lote grabado (días 1 a 14) y día de salida fijado
