@@ -39,7 +39,8 @@ Si la pieza es un Reel de solo texto (en sus **Notas**: «Reel animado» o «sin
 `01 Fotos originales`. Revisa los fotogramas igual que en el paso 4.
 
 ## Normas
-- La voz publicada es siempre la de la persona. Nada de voz generada sin su permiso por escrito y sin la etiqueta de IA
-  de cada red (y márcalo en **Etiqueta IA** de la pieza).
+- La voz publicada es siempre la de la persona: grabada o **su voz clonada**, que solo se genera si ella ha dado su
+  permiso en su estudio («Mi voz»; `contenido/videos/README.md` → «Voz clonada»). Con voz clonada, siempre la etiqueta
+  de IA de cada red y la casilla **Etiqueta IA** de la pieza. Nunca otra voz.
 - Nunca producto, marca, agua, salud, cifras ni promesas, tampoco en los subtítulos.
 - El repositorio es público: voces, clips y fotos se quedan en Drive y en la carpeta de trabajo.

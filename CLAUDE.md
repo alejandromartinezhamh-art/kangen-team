@@ -77,7 +77,8 @@ La estrategia de contenido y anuncios está en `estrategia/marketing.md`; el dí
 instrucciones en `.claude/skills/`. El perfil de cada persona (presentación, fijadas, destacadas) y sus 100 primeras
 piezas en orden se definen una vez con `estrategia/perfil-y-100-dias.md` (agente `estrategia-100-dias`); la semana sale
 de ese plan, no se improvisa. Los vídeos con la voz de la persona o con textos en pantalla se montan con
-`npm run video` (`contenido/videos/README.md`, agente `editor-video`); la voz publicada es siempre la suya, nunca generada.
+`npm run video` (`contenido/videos/README.md`, agente `editor-video`); la voz publicada es siempre la suya: grabada o su
+voz clonada, solo si ella la ha autorizado en su estudio («Mi voz») y siempre con la etiqueta de IA. Nunca otra voz.
 Cada persona tiene su **estudio** en Claude (`contenido/estudio/README.md`) para ver y cambiar sus carruseles y montar
 sus vídeos; en cada sesión con el repositorio, genera lo que esté en «Listo» allí.
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
@@ -145,7 +146,8 @@ Vídeos (`contenido/videos/README.md`):
 - Cada texto en pantalla se queda **quieto y entero** el tiempo de leerlo: `max(2, 0.7 + palabras / 3)` segundos.
 - Cada clip se mira entero antes (`npm run video -- <carpeta> --planos`): fuera los que enseñan suelo, pies o techo,
   movidos u oscuros, caras de otras personas, matrículas, su empresa o un viaje como resultado.
-- La voz publicada es siempre la suya (`vozDePrueba: true` marca una de prueba). Las fotos se recortan alrededor de la cara.
+- La voz publicada es siempre la suya: grabada o clonada con su permiso en su estudio, con etiqueta de IA
+  (`vozDePrueba: true` marca una de prueba). Las fotos se recortan alrededor de la cara.
 
 ### Herramientas y cómo se usan
 
@@ -155,14 +157,17 @@ Vídeos (`contenido/videos/README.md`):
 | `scripts/carrusel.mjs` | Carga las letras, ajusta los titulares, coloca cada foto según sus caras (`scripts/encuadre.mjs`, face-api en Chromium), escribe `encuadre.json`, hace `01.png…` (1080 × 1350) y `hoja.png`. Termina con error 2 si una cara queda cortada o con texto encima | `npm run carrusel -- <carpeta> [--sin-encuadre]` |
 | `scripts/carrusel-animado.mjs` | Imágenes con movimiento y Reels animados (HyperFrames): antes de renderizar comprueba caras y tiempo de lectura | `npm run carrusel-animado -- <carpeta> [salida.mp4]` |
 | `scripts/video.mjs` | Vídeo vertical con su voz (transcrita, con subtítulos) o con textos sobre clips y fotos, desde `pieza.json`; con velocidad, recortes de la voz, frases quitadas y estilo de letras | `npm run video -- <carpeta> [--planos]` |
+| `scripts/voz-clonada.mjs` | Su voz clonada con Qwen3-TTS en la nube (sin tarjeta gráfica; la primera vez instala el entorno en `~/.cache/kangen-voz`), a partir de su muestra y siempre con su permiso del estudio | `npm run voz-clonada -- <muestra> <texto.txt> <salida.wav>`; desde el estudio, `npm run estudio -- voz` |
 | `scripts/montaje-video.mjs` | Cuentas comunes de vídeo (velocidad, trozos de voz, subtítulos, CSS de las letras): las usan `video.mjs` y el estudio, para que lo que se ve allí sea lo que sale | Se importa; el estudio la recibe al montarse |
 | `contenido/estudio/estudio.html` | Fuente de la página del **estudio**: ver cada carrusel tal cual saldrá y cambiar fotos (galería), encuadre (arrastrar), textos, formato, dibujos, imágenes, composición y estilo; montar vídeos (planos, trozo de cada clip, textos, tiempos, gancho, nota de voz y sus recortes, velocidad, subtítulos y color, caja y tamaño de las letras). Avisa en directo de caras cortadas, textos que no se leen y normas | No se abre tal cual: se monta con `npm run estudio -- pagina` |
-| `scripts/estudio.mjs` | `pagina [salida] --nombre <Nombre>`: monta la página con los estilos y composiciones de la plantilla. `caras <carpeta>`: escribe `caras.json`. `preparar <pieza.json> <carpeta>`: convierte una pieza del estudio (también el JSON que guarda ArtifactData con `out_dir`) en `carrusel.html` o `pieza.json` (+ `transcripcion.json`). `devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>]`: tras `npm run video`, escribe `para-el-estudio.json` con los subtítulos para guardarlo en el estudio | Detalle en `contenido/estudio/README.md` |
+| `scripts/estudio.mjs` | `pagina [salida] --nombre <Nombre>`: monta la página con los estilos y composiciones de la plantilla. `caras <carpeta>`: escribe `caras.json`. `preparar <pieza.json> <carpeta>`: convierte una pieza del estudio (también el JSON que guarda ArtifactData con `out_dir`) en `carrusel.html` o `pieza.json` (+ `transcripcion.json`). `pendientes <out_dir>`: voces pedidas y piezas en «Listo». `voz <pieza.json> <carpeta> --muestra <archivo>`: genera la voz clonada pedida. `devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>] [--voz <id> \| --error <motivo>]`: escribe `para-el-estudio.json` (subtítulos, voz clonada) para guardarlo en el estudio | Detalle en `contenido/estudio/README.md` |
 
 **Estudio de Gemma**: <https://claude.ai/artifact/ELC7c2bgMHTVcdu8GJ1sZy> (privado: solo Alejandro hasta que lo comparta).
 Publicado desde `dist/estudio-gemma.html` (`npm run estudio -- pagina dist/estudio-gemma.html --nombre Gemma`); desde
-otra sesión, se vuelve a publicar con el Artifact tool pasando su `url` (antes, `action: "read"`). Capacidades `db` y
-`assets`. Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
+otra sesión, se vuelve a publicar con el Artifact tool pasando su `url` (antes, `action: "read"`). Capacidades `assets`,
+`user` (perfil) y `db` con la regla de `permisos-voz` (`contenido/estudio/README.md`). **Estudio de Alejandro**:
+<https://claude.ai/artifact/6ybmWYoDN5UZXu4U8bFNY3>, desde `dist/estudio-alejandro.html`, igual. Los dos se procesan solos
+cada 2 horas (tarea programada «Procesar estudios»). Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
 han subido `playa-pareja` ni `glaciar` ni el clip de la caminata con caras de otras personas) y `piezas/<código>`
 (estado `borrador` → `listo` → `hecho`). Probado en Chromium con una base de datos simulada (escritorio y móvil), y la
 subida de voz en m4a/webm la acepta el almacén; todavía no lo ha usado una persona en claude.ai. El detector de caras de

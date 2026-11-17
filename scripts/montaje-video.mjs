@@ -10,6 +10,9 @@ export const TAMANOS_SUBTITULOS = { s: 64, m: 80, l: 96 };
 export const ALTURAS_SUBTITULOS = { abajo: 1270, centro: 1040 };
 
 const hexDe = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c.toLowerCase() : null);
+// Un color de la persona solo sirve para resaltar palabras sobre el vídeo si es claro (una paleta oscura no se lee).
+const claro = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16) / 255).reduce((s, x, i) => s + x * [0.2126, 0.7152, 0.0722][i], 0) > 0.45;
+const primeroClaro = (...cs) => cs.map(hexDe).find((c) => c && claro(c)) ?? null;
 
 // El estilo de las letras con lo que falte puesto: letra (todos los textos), resalte (la palabra que se está
 // diciendo), enfasis (la palabra entre *asteriscos*), fondo (caja de color detrás de los textos; '' sin caja),
@@ -18,8 +21,8 @@ export function estiloVideo(estilo = {}, base = {}) {
   estilo ??= {};
   return {
     letra: hexDe(estilo.letra) ?? '#ffffff',
-    resalte: hexDe(estilo.resalte) ?? hexDe(base.resalte) ?? '#d0c7ff',
-    enfasis: hexDe(estilo.enfasis) ?? hexDe(base.enfasis) ?? '#ffa174',
+    resalte: hexDe(estilo.resalte) ?? primeroClaro(base.resalte, base.enfasis) ?? '#d0c7ff',
+    enfasis: hexDe(estilo.enfasis) ?? primeroClaro(base.enfasis) ?? '#ffa174',
     fondo: hexDe(estilo.fondo) ?? '',
     tamano: TAMANOS_SUBTITULOS[estilo.tamano] ? estilo.tamano : 'm',
     posicion: ALTURAS_SUBTITULOS[estilo.posicion] ? estilo.posicion : 'abajo',

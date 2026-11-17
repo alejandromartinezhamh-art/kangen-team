@@ -213,6 +213,11 @@
   .frase.sonando input { border-color: var(--marca); box-shadow: 0 0 0 1px var(--marca); }
   .frase.aviso input { border-color: var(--peligro); background: var(--peligro-bg); }
   .valor { font-variant-numeric: tabular-nums; color: var(--tinta); }
+  .avisos li.ia { background: var(--marca-suave); color: var(--tinta); }
+  .lectura { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--campo); border: 1px solid var(--linea); font-size: 16px; line-height: 1.6; }
+  .modal h3.paso { margin: 4px 0 0; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); }
+  .check.permiso { align-items: flex-start; font-weight: 500; line-height: 1.45; }
+  .check.permiso input { margin-top: 2px; flex: none; }
 </style>
 <style>
 /*@PLANTILLA_CSS@*/
@@ -223,6 +228,7 @@
   <div class="marca-app">Estudio <em id="quien">de contenido</em></div>
   <select id="selector-pieza" aria-label="Pieza"></select>
   <button class="btn peq" id="btn-nueva" type="button">Nueva pieza</button>
+  <button class="btn peq" id="btn-voz" type="button">Mi voz</button>
   <span class="guardado" id="guardado" role="status"></span>
 </header>
 <main id="vista"><div class="vacio"><h2>Abriendo el estudio…</h2></div></main>
@@ -312,7 +318,7 @@ const ADORNOS = {
 
 // ================================================================ Estado
 const E = {
-  db: null, assets: null,
+  db: null, assets: null, user: null, yo: null, permisos: new Map(), nombres: new Map(), alCambiarVoz: null,
   ajustes: { nombre: 'Nombre', clave: '', colores: {} },
   fotos: new Map(), piezas: new Map(),
   actual: leerLocal('estudio:pieza'), pieza: null,
@@ -1608,7 +1614,7 @@ function actualizarAvisosPlanos() {
   const iv = $('#info-voz');
   if (iv && v.voz?.asset) {
     const grabada = v.voz.duracion || SONIDO_LISTO.get(v.voz.asset)?.duracion || 0;
-    iv.textContent = `Grabada: ${cuanto(grabada)}. En el vídeo suena ${cuanto(R.T.mapa.total)}${grabada - R.T.mapa.total > 0.5 ? ` (${cuanto(grabada - R.T.mapa.total)} menos)` : ''}.`;
+    iv.textContent = `${v.voz.ia ? 'Generada' : 'Grabada'}: ${cuanto(grabada)}. En el vídeo suena ${cuanto(R.T.mapa.total)}${grabada - R.T.mapa.total > 0.5 ? ` (${cuanto(grabada - R.T.mapa.total)} menos)` : ''}.`;
   }
   const ir = $('#info-ritmo');
   if (ir) ir.textContent = (v.voz?.asset
@@ -1650,11 +1656,17 @@ function pintarPanelVideo() {
 }
 function seccionVoz(v, entradaVoz) {
   const voz = v.voz;
+  const clonada = !!v.vozIA;
+  // Voz grabada (su nota de voz) o voz clonada (Claude dice el texto con su voz, con su permiso y etiqueta de IA).
+  const modos = h('div', { class: 'fila' },
+    h('button', { type: 'button', class: 'btn peq' + (clonada ? '' : ' activo'), onclick: () => ponerModoVoz(false) }, 'Voz grabada'),
+    h('button', { type: 'button', class: 'btn peq' + (clonada ? ' activo' : ''), onclick: () => ponerModoVoz(true) }, 'Voz clonada (IA)'));
+  const partes = [modos];
+  if (clonada) partes.push(bloqueVozClonada(v));
   if (!voz?.asset) {
-    return seccion('Tu voz',
-      h('div', { style: 'display: grid; gap: 8px' }, h('p', { class: 'ayuda' }, 'Grábala en el móvil (notas de voz o WhatsApp) y súbela aquí. Sin voz, el vídeo va solo con los textos y cada plano dura lo que se tarda en leerlo.'),
-        E.assets ? h('button', { type: 'button', class: 'btn', onclick: () => entradaVoz.click() }, 'Subir nota de voz') : null),
-      entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
+    if (!clonada) partes.push(h('p', { class: 'ayuda' }, 'Grábala en el móvil (notas de voz o WhatsApp) y súbela aquí. Sin voz, el vídeo va solo con los textos y cada plano dura lo que se tarda en leerlo.'),
+      E.assets ? h('button', { type: 'button', class: 'btn', onclick: () => entradaVoz.click() }, 'Subir nota de voz') : null);
+    return seccion('Tu voz', h('div', { style: 'display: grid; gap: 10px' }, partes), entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
   }
   const dur = voz.duracion || SONIDO_LISTO.get(voz.asset)?.duracion || 0;
   const hasta = voz.hasta ?? dur;
@@ -1671,23 +1683,86 @@ function seccionVoz(v, entradaVoz) {
       recalcularVoz();
       cambioVideo();
     } }));
-  return seccion('Tu voz',
-    h('div', { style: 'display: grid; gap: 10px' },
-      h('audio', { controls: true, src: blob(voz.asset), style: 'width: 100%' }),
-      h('p', { class: 'ayuda' }, `${voz.nombre || 'Nota de voz'}. El vídeo dura lo que tu voz, ya recortada.`),
-      recorte('Empieza en el segundo', 'desde', voz.desde || 0),
-      recorte('Termina en el segundo', 'hasta', hasta),
-      h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'v-pausas', checked: !!voz.pausas, onchange: (e) => {
-        guardarHistorial();
-        voz.pausas = e.target.checked;
-        recalcularVoz();
-        cambioVideo({ panel: true });
-      } }), 'Quitar las pausas largas'),
-      h('p', { class: 'ayuda' }, 'Deja medio respiro entre frase y frase: el vídeo va más ágil sin que se note el corte.'),
-      h('p', { class: 'ayuda valor', id: 'info-voz' }),
-      h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn peq', onclick: () => entradaVoz.click() }, 'Cambiar'),
-        h('button', { type: 'button', class: 'btn peq peligro', onclick: () => { guardarHistorial(); v.voz = null; cambioVideo({ panel: true }); } }, 'Quitar la voz'))),
-    entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
+  partes.push(
+    h('audio', { controls: true, src: blob(voz.asset), style: 'width: 100%' }),
+    voz.ia ? h('ul', { class: 'avisos' }, h('li', { class: 'ia' }, 'Voz hecha con IA (tu voz clonada). Al publicarlo, activa la etiqueta de IA de cada red: en Instagram, Facebook y TikTok es un interruptor de «contenido hecho con IA» en las opciones de la publicación.'))
+      : h('p', { class: 'ayuda' }, `${voz.nombre || 'Nota de voz'}. El vídeo dura lo que tu voz, ya recortada.`),
+    recorte('Empieza en el segundo', 'desde', voz.desde || 0),
+    recorte('Termina en el segundo', 'hasta', hasta),
+    h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'v-pausas', checked: !!voz.pausas, onchange: (e) => {
+      guardarHistorial();
+      voz.pausas = e.target.checked;
+      recalcularVoz();
+      cambioVideo({ panel: true });
+    } }), 'Quitar las pausas largas'),
+    h('p', { class: 'ayuda' }, 'Deja medio respiro entre frase y frase: el vídeo va más ágil sin que se note el corte.'),
+    h('p', { class: 'ayuda valor', id: 'info-voz' }),
+    h('div', { class: 'fila' }, voz.ia ? null : h('button', { type: 'button', class: 'btn peq', onclick: () => entradaVoz.click() }, 'Cambiar'),
+      h('button', { type: 'button', class: 'btn peq peligro', onclick: () => { guardarHistorial(); v.voz = null; if (v.vozIA) v.vozIA.estado = 'borrador'; cambioVideo({ panel: true }); } }, 'Quitar la voz')));
+  return seccion('Tu voz', h('div', { style: 'display: grid; gap: 10px' }, partes), entradaVoz, h('span', { class: 'progreso', id: 'progreso-voz' }));
+}
+function ponerModoVoz(clonada) {
+  const v = E.pieza.video;
+  if (clonada === !!v.vozIA) return;
+  guardarHistorial();
+  if (clonada) {
+    v.vozIA = { texto: '', estado: 'borrador' };
+    if (v.voz && !v.voz.ia) v.voz = null;
+  } else {
+    delete v.vozIA;
+    if (v.voz?.ia) v.voz = null;
+  }
+  cambioVideo({ panel: true });
+}
+// ---------- Voz clonada: el texto que dice, el permiso de la persona y la petición a Claude
+const segundosHablando = (t) => r2(palabrasDe(t) / 2.5);
+function hayVozClonada() { return E.permisos.size > 0; }
+function bloqueVozClonada(v) {
+  const ia = v.vozIA;
+  if (!hayVozClonada()) {
+    return h('div', { style: 'display: grid; gap: 8px' },
+      h('ul', { class: 'avisos' }, h('li', null, 'Aún no hay voz clonada en este estudio: la persona del estudio sube su voz y da su permiso en «Mi voz».')),
+      h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn', onclick: abrirMiVoz }, 'Mi voz')));
+  }
+  const info = h('p', { class: 'ayuda', id: 'info-texto-ia' });
+  const avisos = h('ul', { class: 'avisos', id: 'avisos-texto-ia' });
+  const actualizarInfo = () => {
+    const t = ia.texto || '';
+    info.textContent = t.trim() ? `${palabrasDe(t)} palabras · unos ${seg(segundosHablando(t))} hablando a ritmo normal.` : 'Pega aquí el texto del guion, tal como lo diría.';
+    const lista = [];
+    if (NORMAS.test(t)) lista.push(['grave', 'Habla de dinero, salud, el producto o el agua: eso no va en el contenido.']);
+    if (ia.estado === 'hecha' && ia.textoHecho != null && ia.textoHecho !== t) lista.push(['', 'Has cambiado el texto: genera la voz otra vez para que lo diga.']);
+    avisos.replaceChildren(...lista.map(([c, x]) => h('li', { class: c }, x)));
+  };
+  const caja = h('textarea', { id: 'v-texto-ia', rows: 5, value: ia.texto || '', placeholder: 'Lo que dice tu voz, frase a frase. Una línea en blanco hace una pausa algo más larga.',
+    onfocus: guardarHistorial, oninput: (e) => { ia.texto = e.target.value; programarGuardado(); actualizarInfo(); } });
+  actualizarInfo();
+  let estado;
+  if (ia.estado === 'pedida') {
+    estado = h('div', { style: 'display: grid; gap: 8px' },
+      h('div', { class: 'fila' }, h('span', { class: 'chip listo' }, 'Pedida'),
+        h('button', { type: 'button', class: 'btn peq', onclick: () => { guardarHistorial(); ia.estado = 'borrador'; guardar(); pintarPanelVideo(); } }, 'Cancelar')),
+      h('p', { class: 'ayuda' }, `La pediste el ${fechaCorta(ia.pedida)}. Claude la genera en la próxima vuelta (cada 2 horas, de 9 a 23 h) y aparece aquí, lista para recortarla y ver los subtítulos.`));
+  } else {
+    estado = h('div', { style: 'display: grid; gap: 8px' },
+      ia.estado === 'error' ? h('ul', { class: 'avisos' }, h('li', { class: 'grave' }, `No se pudo generar: ${ia.error || 'algo ha fallado'}. Revisa el texto y vuelve a pedirla.`)) : null,
+      ia.estado === 'hecha' && ia.hecha ? h('p', { class: 'ayuda' }, `Generada el ${fechaCorta(ia.hecha)}.`) : null,
+      h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn primario', onclick: pedirVozClonada }, v.voz?.ia ? 'Generar la voz otra vez' : 'Generar la voz con mi voz clonada')));
+  }
+  return h('div', { style: 'display: grid; gap: 8px' },
+    h('label', { class: 'campo' }, 'Lo que dice tu voz', caja), info, avisos, estado);
+}
+const fechaCorta = (ms) => (ms ? new Date(ms).toLocaleString('es-ES', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '');
+async function pedirVozClonada() {
+  const ia = E.pieza.video.vozIA;
+  if (!ia?.texto?.trim()) return nota('Escribe primero lo que dice tu voz.');
+  if (NORMAS.test(ia.texto)) return nota('El texto habla de dinero, salud, el producto o el agua: cámbialo antes de pedir la voz.', 6000);
+  guardarHistorial();
+  Object.assign(ia, { estado: 'pedida', pedida: Date.now(), por: E.yo || null });
+  delete ia.error;
+  await guardar();
+  pintarPanelVideo();
+  nota('Pedida. Claude la genera en la próxima vuelta y aparece aquí.', 5000);
 }
 function seccionRitmo(v) {
   const vel = velocidadDe(v.velocidad);
@@ -1860,29 +1935,34 @@ function tarjetaPlano(m, i) {
 function elegirMedio(alElegir) {
   const v = ventana('Elige una foto o un clip', h('div', null, galeria({ tipos: 'todo', alElegir: (f) => { v.cerrar(); alElegir(f); } })));
 }
-// La voz: se guarda tal cual si es m4a/mp4 o webm; si no (opus, ogg, mp3, wav), se pasa a webm en el propio navegador.
+// Una nota de voz al almacén del estudio: se guarda tal cual si es m4a/mp4 o webm; si no (opus, ogg, mp3, wav), se pasa
+// a webm en el propio navegador. Devuelve { asset, nombre, duracion }.
+async function subirAudio(f, progreso) {
+  let archivo = f, tipo = null, duracion = null;
+  try {
+    const ctx = new AudioContext();
+    duracion = r2((await ctx.decodeAudioData(await f.arrayBuffer())).duration);
+    ctx.close();
+  } catch { duracion = null; }
+  if (/\.(m4a|mp4)$/i.test(f.name) || /audio\/(mp4|x-m4a)|video\/mp4/.test(f.type)) tipo = 'video/mp4';
+  else if (/\.webm$/i.test(f.name) || /webm/.test(f.type)) tipo = 'video/webm';
+  else {
+    archivo = await convertirVoz(f, (s, total) => { if (progreso) progreso.textContent = `Preparando el audio… ${Math.round(s)} de ${Math.round(total)} s`; });
+    tipo = archivo.type.includes('mp4') ? 'video/mp4' : 'video/webm';
+  }
+  if (archivo.size > 20 * 1024 * 1024) throw new Error('el audio pesa más de 20 MB.');
+  if (progreso) progreso.textContent = 'Subiendo…';
+  const subida = await E.assets.upload(archivo, { type: tipo });
+  duracion ??= await duracionMedio(subida.url, 'audio');
+  return { asset: subida.id, nombre: f.name, duracion };
+}
 async function subirVoz(f) {
   if (!E.assets) return nota('Solo quien puede editar el estudio puede subir la voz.');
   const progreso = $('#progreso-voz');
   try {
-    let archivo = f, tipo = null, duracion = null;
-    try {
-      const ctx = new AudioContext();
-      duracion = r2((await ctx.decodeAudioData(await f.arrayBuffer())).duration);
-      ctx.close();
-    } catch { duracion = null; }
-    if (/\.(m4a|mp4)$/i.test(f.name) || /audio\/(mp4|x-m4a)|video\/mp4/.test(f.type)) tipo = 'video/mp4';
-    else if (/\.webm$/i.test(f.name) || /webm/.test(f.type)) tipo = 'video/webm';
-    else {
-      archivo = await convertirVoz(f, (s, total) => { progreso.textContent = `Preparando tu voz… ${Math.round(s)} de ${Math.round(total)} s`; });
-      tipo = archivo.type.includes('mp4') ? 'video/mp4' : 'video/webm';
-    }
-    if (archivo.size > 20 * 1024 * 1024) throw new Error('la nota de voz pesa más de 20 MB.');
-    progreso.textContent = 'Subiendo tu voz…';
-    const subida = await E.assets.upload(archivo, { type: tipo });
-    duracion ??= await duracionMedio(subida.url, 'audio');
+    const voz = await subirAudio(f, progreso);
     guardarHistorial();
-    E.pieza.video.voz = { asset: subida.id, nombre: f.name, duracion };
+    E.pieza.video.voz = voz;
     progreso.textContent = '';
     cambioVideo({ panel: true });
     nota('Voz subida. El vídeo ahora dura lo que tu voz.');
@@ -1890,6 +1970,89 @@ async function subirVoz(f) {
     progreso.textContent = '';
     nota('No se ha podido subir la voz: ' + mensajeError(e), 7000);
   }
+}
+
+// ================================================================ Mi voz (voz clonada)
+// Cada persona sube su propia voz y da su permiso. El permiso vive en permisos-voz/<su id>, y solo ella puede
+// escribirlo o borrarlo: ni el dueño del estudio ni Claude (regla «self» del estudio). Claude genera la voz con la
+// grabación de quien dio el permiso, y solo si es la persona del estudio (contenido/estudio/README.md).
+const TEXTO_LECTURA = 'Hola, soy yo. Esta grabación sirve para que mi voz suene igual en mis vídeos. Hablo con calma, como cuando le cuento algo a alguien de confianza. Por las mañanas me tomo un café tranquilo, miro lo que tengo pendiente y me pongo con lo mío. Unas veces sale a la primera y otras no, pero sigo. ¿Sabes qué es lo que más me ha cambiado? Darme permiso para empezar, aunque no lo tenga todo claro.';
+const PERMISO_VOZ = 'Esta es mi voz y la he grabado yo. Acepto que se use para generar la voz de mis vídeos desde este estudio, cuando la pida yo o quien lo comparte conmigo. Cada vídeo con mi voz clonada lleva la etiqueta de IA de cada red. Puedo borrar mi voz y este permiso cuando quiera, desde aquí.';
+const VERSION_PERMISO = 1;
+function nombreDe(id) { return E.nombres.get(id) || (id === E.yo ? 'tú' : 'alguien'); }
+async function cargarNombres() {
+  const ids = [...E.permisos.keys()].filter((id) => !E.nombres.has(id));
+  if (!ids.length || !E.user?.profiles) return;
+  try {
+    const ps = await E.user.profiles(ids);
+    for (const id of ids) E.nombres.set(id, ps?.[id]?.name || '');
+    E.alCambiarVoz?.();
+  } catch {}
+}
+function abrirMiVoz() {
+  const caja = h('div', { style: 'display: grid; gap: 14px; max-width: 680px' });
+  let muestra = null;
+  const pintar = () => {
+    if (!caja.isConnected && caja.dataset.pintada) { E.alCambiarVoz = null; return; }
+    caja.dataset.pintada = '1';
+    const mia = E.yo ? E.permisos.get(E.yo) : null;
+    const otras = [...E.permisos.entries()].filter(([id]) => id !== E.yo);
+    const partes = [h('p', { class: 'ayuda' }, 'Con tu voz clonada, Claude dice el texto de tus vídeos con tu voz, sin que tengas que grabarlo cada vez. La genera en la nube a partir de una grabación tuya de unos 30 segundos. Cada vídeo hecho así lleva la etiqueta de IA de cada red. Si cuentas tu historia, mejor con tu voz grabada: se nota.')];
+    if (!E.yo) {
+      partes.push(h('ul', { class: 'avisos' }, h('li', { class: 'grave' }, 'Para guardar tu voz, abre el estudio desde Claude con tu cuenta.')));
+    } else if (mia) {
+      partes.push(h('ul', { class: 'avisos' }, h('li', { class: 'bien' }, `Tu voz está guardada desde el ${fechaCorta(mia.fecha)}.`)),
+        mia.muestra?.asset ? h('audio', { controls: true, src: blob(mia.muestra.asset), style: 'width: 100%' }) : null,
+        h('p', { class: 'ayuda' }, 'Tu permiso: «' + (mia.texto || PERMISO_VOZ) + '»'),
+        h('div', { class: 'fila' }, botonConfirmar('Borrar mi voz y mi permiso', '¿Seguro? Pulsa otra vez', async () => {
+          try {
+            await E.db.doc('permisos-voz/' + E.yo).delete();
+            if (mia.muestra?.asset && E.assets) await E.assets.delete(mia.muestra.asset).catch(() => {});
+            nota('Tu voz y tu permiso están borrados.');
+          } catch (e) { nota('No se ha borrado: ' + mensajeError(e), 6000); }
+        })));
+    } else {
+      const progreso = h('span', { class: 'progreso' });
+      const casilla = h('input', { type: 'checkbox', id: 'permiso-voz', onchange: () => { boton.disabled = !(muestra && casilla.checked); } });
+      const boton = h('button', { type: 'button', class: 'btn primario', disabled: true, onclick: async () => {
+        boton.disabled = true;
+        try {
+          await E.db.doc('permisos-voz/' + E.yo).set({ acepto: true, texto: PERMISO_VOZ, version: VERSION_PERMISO, fecha: Date.now(), muestra });
+          nota('Tu voz está guardada. Ya puedes pedir vídeos con tu voz clonada.', 5000);
+        } catch (e) { boton.disabled = false; nota('No se ha guardado: ' + mensajeError(e), 6000); }
+      } }, 'Guardar mi voz');
+      const entrada = h('input', { type: 'file', accept: 'audio/*,video/mp4,video/webm,.m4a,.opus,.ogg,.mp3,.wav', hidden: true, onchange: async (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        try {
+          muestra = await subirAudio(f, progreso);
+          progreso.textContent = '';
+          pintar();
+        } catch (err) { progreso.textContent = ''; nota('No se ha podido subir: ' + mensajeError(err), 6000); }
+      } });
+      const corta = muestra?.duracion && muestra.duracion < 12;
+      partes.push(
+        h('h3', { class: 'paso' }, '1 · Lee este texto en voz alta'),
+        h('blockquote', { class: 'lectura' }, TEXTO_LECTURA),
+        h('p', { class: 'ayuda' }, 'Con la grabadora del móvil o una nota de voz de WhatsApp, en un sitio sin eco ni música, a tu ritmo de siempre. Si cambias alguna palabra no pasa nada.'),
+        h('h3', { class: 'paso' }, '2 · Súbela'),
+        E.assets ? h('div', { class: 'fila' }, h('button', { type: 'button', class: 'btn', onclick: () => entrada.click() }, muestra ? 'Cambiar la grabación' : 'Subir la grabación'), entrada, progreso)
+          : h('ul', { class: 'avisos' }, h('li', { class: 'grave' }, 'Para subir tu voz necesitas poder editar este estudio: pide a Alejandro que te lo comparta como Editor.')),
+        muestra ? h('audio', { controls: true, src: blob(muestra.asset), style: 'width: 100%' }) : null,
+        corta ? h('ul', { class: 'avisos' }, h('li', { class: 'grave' }, `Dura ${seg(muestra.duracion)}: graba al menos 15 segundos para que se parezca.`)) : null,
+        h('h3', { class: 'paso' }, '3 · Da tu permiso'),
+        h('label', { class: 'check permiso' }, casilla, PERMISO_VOZ),
+        h('div', { class: 'fila' }, boton));
+    }
+    if (otras.length) {
+      partes.push(h('h3', { class: 'paso' }, 'Voces guardadas en este estudio'),
+        h('ul', { class: 'avisos' }, otras.map(([id, p]) => h('li', null, `${nombreDe(id) || 'Alguien'} · desde el ${fechaCorta(p.fecha)}`))));
+    }
+    caja.replaceChildren(...partes.filter(Boolean));
+  };
+  E.alCambiarVoz = pintar;
+  ventana('Mi voz clonada', caja);
+  pintar();
 }
 async function convertirVoz(f, avisar) {
   const ctx = new AudioContext();
@@ -1983,6 +2146,7 @@ function nuevaPieza() {
 // ================================================================ Arranque
 async function arrancar() {
   $('#btn-nueva').addEventListener('click', () => (E.db ? nuevaPieza() : nota('Abre el estudio desde Claude para crear piezas.')));
+  $('#btn-voz').addEventListener('click', () => (E.db ? abrirMiVoz() : nota('Abre el estudio desde Claude para guardar tu voz.')));
   $('#selector-pieza').addEventListener('change', (e) => e.target.value && abrirPieza(e.target.value));
   const vista = $('#vista');
   vista.addEventListener('pointerdown', (e) => { if (e.target.closest('#escenario')) alPulsar(e); });
@@ -2013,9 +2177,11 @@ async function arrancar() {
   });
   window.addEventListener('pagehide', () => { if (E.sucio) guardar(); });
 
-  const [db, assets] = await Promise.all([usar('db'), usar('assets')]);
+  const [db, assets, user] = await Promise.all([usar('db'), usar('assets'), usar('user')]);
   E.db = db;
   E.assets = assets;
+  E.user = user;
+  E.yo = user ? await user.id().catch(() => null) : null;
   if (!db) {
     vista.replaceChildren(h('div', { class: 'vacio' }, h('h2', null, 'El estudio necesita tu cuenta de Claude'),
       h('p', null, 'Ábrelo desde Claude con la sesión iniciada para ver y guardar las piezas.')));
@@ -2030,6 +2196,13 @@ async function arrancar() {
     $('#quien').textContent = d.nombre ? `de ${d.nombre}` : 'de contenido';
     document.title = d.nombre ? `Estudio de ${d.nombre}` : 'Estudio de contenido';
   }, error);
+  // Los permisos de voz clonada: los escribe cada persona en el suyo (permisos-voz/<su id>).
+  db.collection('permisos-voz').onSnapshot((s) => {
+    E.permisos = new Map(s.docs.map((d) => [d.id, d.data()]));
+    cargarNombres();
+    E.alCambiarVoz?.();
+    if (E.pieza?.formato === 'video' && !document.activeElement?.closest?.('#panel-video textarea, #panel-video input')) pintarPanelVideo();
+  }, () => {});
   db.collection('fotos').onSnapshot((s) => {
     E.fotos = new Map(s.docs.map((d) => [d.id, { id: d.id, ...d.data() }]));
     $$('.gal').forEach((g) => g.refrescar?.());

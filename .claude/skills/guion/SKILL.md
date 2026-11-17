@@ -33,7 +33,8 @@ En el cuerpo de la página de la pieza:
    - Instagram y Facebook: 3-6 líneas, primera línea = gancho, «enlace en mi perfil», 3-5 hashtags temáticos (sin marca).
    - TikTok: 1-2 líneas, sin invitar al negocio ni al webinar, «más en mi perfil».
    - YouTube Shorts: título (máx. 60 caracteres) y descripción con `https://<dominio>/l/instagram?c=CT-123`.
-6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
+6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA, o si la voz va a
+   ser su voz clonada (solo si ella la ha autorizado en su estudio; si la pieza cuenta su historia, mejor su voz grabada).
 
 ## Carrusel
 1. **Texto de cada imagen** en una tabla (#, composición, foto, etiqueta, titular, texto, adorno): portada con la

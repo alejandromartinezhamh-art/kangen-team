@@ -125,9 +125,10 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    `npm run carrusel-animado`.
    **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips,
    donde ve cada carrusel tal cual saldrá y lo cambia sin otra herramienta (fotos, encuadre, textos, flechas y
-   pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz: planos, textos, velocidad, dónde empieza y
-   acaba la voz, quitar pausas y frases, corregir subtítulos y el color, la caja y el tamaño de las letras, viéndolo y
-   oyéndolo tal cual saldrá. Cuando pulsa «Listo», Claude lo genera con las herramientas de siempre y le deja el
+   pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz o con **su voz clonada** (sube una vez una
+   grabación suya y da su permiso en «Mi voz»; cada vídeo así lleva la etiqueta de IA): planos, textos, velocidad,
+   dónde empieza y acaba la voz, quitar pausas y frases, corregir subtítulos y el color, la caja y el tamaño de las
+   letras, viéndolo y oyéndolo tal cual saldrá. Cuando pulsa «Listo», Claude lo genera con las herramientas de siempre y le deja el
    resultado y los subtítulos para la siguiente vuelta. Se crea al empezar su contenido y se comparte con ella como
    Editor.
 8. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el

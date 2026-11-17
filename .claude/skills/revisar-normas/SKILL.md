@@ -27,7 +27,9 @@ y se explica por qué.
 7. **Anuncios**: no anuncian la oportunidad ni hablan de Enagic, del producto o del agua; solo pilares 1 a 4; la pieza
    ya ha traído leads cualificados en orgánico; la página de destino dice lo mismo que el anuncio; consentimiento y
    privacidad revisados. Si falta algo → No pasa.
-8. **IA**: si hay personas, lugares o hechos realistas generados con IA, la casilla **Etiqueta IA** debe estar marcada.
+8. **IA**: si hay personas, lugares o hechos realistas generados con IA, o la voz es su voz clonada, la casilla
+   **Etiqueta IA** debe estar marcada (y al publicar, la etiqueta de IA de cada red). La voz clonada solo vale si es la
+   suya y la ha autorizado ella en su estudio.
 9. **Copia**: si la pieza sale del Radar, que no copie texto, vídeo ni música de la referencia.
 10. **Privacidad**: nada de lo marcado con ⚠ en su ficha de voz (salud, familia, su empresa actual…).
 11. **Lo que ya dijeron que no**: nada que contradiga una regla de la sección «Feedback y aprendizajes» de su ficha

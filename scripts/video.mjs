@@ -299,3 +299,5 @@ sobrantes.forEach((a) => rmSync(path.join(obra, a)));
 console.log(`\nvideo.mp4 (${r2(duracion(salida))} s) y hoja.png en ${carpeta}`);
 if (cues.length) console.log('Subtítulos: ' + cues.map((c) => c.palabras.map((p) => p.text).join(' ')).join(' / '));
 console.log('Si alguna palabra está mal escrita, corrígela en transcripcion.json y vuelve a ejecutar.');
+// La voz clonada es voz hecha con IA: el vídeo se publica con la etiqueta de IA de cada red (y Etiqueta IA en Notion).
+if (pieza.vozClonada) console.log('Voz clonada: al publicarlo, con la etiqueta de IA de cada red y la casilla Etiqueta IA de la pieza en Notion.');

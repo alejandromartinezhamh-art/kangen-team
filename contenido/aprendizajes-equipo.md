@@ -51,6 +51,13 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
 - 2026-11-16 · Revisión de las versiones 2 de Gemma · aprendido al revisarlas · Reglas: el círculo dibujado solo en
   palabras de la primera línea del titular (debajo pisa la línea de arriba y parece tachado; ahí, subrayado); la hoja
   de libreta, con letra grande y alta, para que no deje media imagen vacía; los largos varían de verdad (de 3 a 8).
+- 2026-11-17 · «Que pueda tocar yo los colores de las letras o de los subtítulos, que vaya más rápido o más lento,
+  acortar y el tema de la voz» · petición de Alejandro · Hecho: el estudio tiene letras (estilos, colores, caja, tamaño
+  y altura), ritmo (velocidad sin cambiar el tono), recortes de la voz, quitar pausas y frases, y subtítulos editables.
+- 2026-11-17 · «Clonar la voz de Gemma para todos los vídeos; que lo pueda hacer yo y ella, todo en la nube» ·
+  petición de Alejandro · Regla: la voz clonada se puede usar en cualquier pieza, pero solo la de la propia persona,
+  con su permiso dado por ella en su estudio («Mi voz») y con la etiqueta de IA; si la pieza cuenta su historia, mejor
+  su voz grabada. Se genera en la nube con Qwen3-TTS (gratis).
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.

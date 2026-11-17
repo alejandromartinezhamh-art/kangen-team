@@ -103,3 +103,15 @@ Para llegar necesito cuatro cosas antes del <fecha límite>. En total es algo m�
 Lo tienes todo paso a paso aquí: <enlace a su documento «Empezamos: tu perfil y tu primera grabación»>
 
 Cualquier duda, me dices 😊
+
+## 10. Tu voz clonada (privado, si quiere hacer vídeos sin grabar la voz cada vez)
+
+Hola <Nombre>! Si quieres, tus vídeos pueden llevar tu voz sin que tengas que grabarla cada vez 🎙️ Se hace con tu voz
+clonada y solo si tú lo autorizas:
+
+1️⃣ Abre tu estudio: <enlace a su estudio>
+2️⃣ Pulsa *Mi voz*, lee en voz alta el texto que aparece con las notas de voz del móvil (unos 30 segundos, sin ruido) y súbelo.
+3️⃣ Marca la casilla del permiso y pulsa *Guardar mi voz*.
+
+Cada vídeo hecho así lleva la etiqueta de IA de cada red, y puedes borrar tu voz cuando quieras desde ahí mismo. Si
+cuentas algo muy tuyo, mejor con tu voz grabada: se nota 😊
