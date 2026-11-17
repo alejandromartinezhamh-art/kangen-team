@@ -166,8 +166,9 @@ Vídeos (`contenido/videos/README.md`):
 Publicado desde `dist/estudio-gemma.html` (`npm run estudio -- pagina dist/estudio-gemma.html --nombre Gemma`); desde
 otra sesión, se vuelve a publicar con el Artifact tool pasando su `url` (antes, `action: "read"`). Capacidades `assets`,
 `user` (perfil) y `db` con la regla de `permisos-voz` (`contenido/estudio/README.md`). **Estudio de Alejandro**:
-<https://claude.ai/artifact/6ybmWYoDN5UZXu4U8bFNY3>, desde `dist/estudio-alejandro.html`, igual. Los dos se procesan solos
-cada 2 horas (tarea programada «Procesar estudios»). Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
+<https://claude.ai/artifact/6ybmWYoDN5UZXu4U8bFNY3>, desde `dist/estudio-alejandro.html`, igual. En cada sesión con el
+repositorio, procesa los dos (`contenido/estudio/README.md` → «Procesar los estudios»): voces clonadas pedidas y piezas en
+«Listo». Su base de datos: `ajustes/persona` (nombre y colores), `fotos/<id>` (19 fotos con sus caras y 6 clips; no se
 han subido `playa-pareja` ni `glaciar` ni el clip de la caminata con caras de otras personas) y `piezas/<código>`
 (estado `borrador` → `listo` → `hecho`). Probado en Chromium con una base de datos simulada (escritorio y móvil), y la
 subida de voz en m4a/webm la acepta el almacén; todavía no lo ha usado una persona en claude.ai. El detector de caras de
@@ -203,16 +204,10 @@ fila de Gemma para el día 11 (el Código pasa de 11 = día 10 a 12 = día 12). 
 
 ### Tarea 1 · Estudio dentro de Claude — lo que falta
 
-1. **Pendientes del equipo** (<https://claude.ai/artifact/6TvDsNPr2Cz3mGE7Jf4SAS>, documento de Claude: leerlo antes de
-   tocarlo). Añadir, masticado como dice «Lista de pendientes»:
-   - Pestaña Alejandro: **Comparte tu estudio con Gemma** (2 min): abrir el estudio → Compartir → su cuenta de Claude
-     como **Editor** (así puede subir fotos y clips). **Revisa las piezas v2 en tu estudio** (15 min): cambiar lo que no
-     guste y pulsar «Listo» en cada una; primero las de la semana 1 (días 1, 2, 5 y 7). Y en la tarea que ya existe de
-     volver a subir los 6 agentes a la organización de Claude, cambiar la fecha a «16 de noviembre, 19:42» (zips
-     nuevos ya en Drive → «Agentes de Claude (para subir a la organización)»).
-   - Pestaña Gemma: **Graba tu café en casa y súbelo a tu estudio** (5 min): 2 o 3 clips de 5 a 8 s, en vertical, sin
-     suelo ni caras de otras personas; en el estudio, vídeo del día 2 → Planos → Cambiar → Subir fotos o clips.
-2. Cuando alguien lo use de verdad, mirar si algo falla en claude.ai (detector de caras, subida de voz, guardado) y
+Lo de Pendientes ya está apuntado (17 de noviembre): compartir el estudio con Gemma, revisar las v2, su café en casa,
+su voz clonada y volver a subir los agentes.
+
+1. Cuando alguien lo use de verdad, mirar si algo falla en claude.ai (detector de caras, subida de voz, guardado) y
    arreglarlo en `contenido/estudio/estudio.html`, volver a montar y publicar en la misma `url`.
 
 ### Tarea 2 · Versión 2 de las piezas de Gemma — lo que falta

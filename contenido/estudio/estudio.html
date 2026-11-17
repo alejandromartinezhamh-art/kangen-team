@@ -1742,7 +1742,7 @@ function bloqueVozClonada(v) {
     estado = h('div', { style: 'display: grid; gap: 8px' },
       h('div', { class: 'fila' }, h('span', { class: 'chip listo' }, 'Pedida'),
         h('button', { type: 'button', class: 'btn peq', onclick: () => { guardarHistorial(); ia.estado = 'borrador'; guardar(); pintarPanelVideo(); } }, 'Cancelar')),
-      h('p', { class: 'ayuda' }, `La pediste el ${fechaCorta(ia.pedida)}. Claude la genera en la próxima vuelta (cada 2 horas, de 9 a 23 h) y aparece aquí, lista para recortarla y ver los subtítulos.`));
+      h('p', { class: 'ayuda' }, `La pediste el ${fechaCorta(ia.pedida)}. Claude la genera en su próxima vuelta por el estudio y aparece aquí, lista para recortarla y ver los subtítulos.`));
   } else {
     estado = h('div', { style: 'display: grid; gap: 8px' },
       ia.estado === 'error' ? h('ul', { class: 'avisos' }, h('li', { class: 'grave' }, `No se pudo generar: ${ia.error || 'algo ha fallado'}. Revisa el texto y vuelve a pedirla.`)) : null,

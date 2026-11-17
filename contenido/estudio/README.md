@@ -74,8 +74,9 @@ Para que la persona (o Alejandro, por ella) haga vídeos con su voz sin grabarlo
 
 ## Procesar los estudios (Claude: la tarea programada y cada sesión con el repositorio)
 
-Una tarea programada abre una sesión en la nube cada 2 horas, de 9 a 23 h (hora de España), y hace esto en cada estudio
-de la tabla de arriba. Así la persona pide su voz o pulsa «Listo» y no tiene que avisar a nadie.
+En cada sesión con el repositorio (basta con pedir «procesa los estudios»), Claude hace esto en cada estudio de la tabla
+de arriba. Con la tarea programada «Procesar estudios» activa (la autoriza Alejandro), se hace solo cada 2 horas, de 9 a
+23 h, y nadie tiene que avisar.
 
 **0. Qué hay pendiente**: `ArtifactData` → `list` de `piezas` con `out_dir` (y `get` de `ajustes/persona` al mismo
 `out_dir`), y `npm run estudio -- pendientes <out_dir>`.
