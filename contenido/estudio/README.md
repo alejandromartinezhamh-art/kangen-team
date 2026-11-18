@@ -59,3 +59,5 @@ público: la página no lleva datos; las fotos, la voz y los textos viven en el 
    Notion y, en el estudio, `estado: "hecho"`, `drive` con el enlace y `resultado` con las imágenes o el vídeo subidos
    (`[{ asset, tipo: "imagen" | "video" }]`).
 6. Lo que se haya cambiado en el estudio respecto a la propuesta de Claude es una opinión: pasa por `aprender`.
+7. Cuando la pieza esté **Aprobado** en Notion, se programa desde la misma carpeta: `publicar.json` y
+   `npm run publicar -- <carpeta>` (`contenido/publicar/README.md`). Estado → Programado.

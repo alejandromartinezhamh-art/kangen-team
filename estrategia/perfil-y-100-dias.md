@@ -80,7 +80,7 @@ Las publicaciones traen gente; las conversaciones la convierten. Quince minutos 
 - **Comentarios**: contestar todos en la primera hora. Casi todas las piezas acaban con una pregunta.
 - **Palabra clave** (desde la fase 3, solo Instagram y Facebook): una palabra de su mundo. Quien la comenta recibe un
   mensaje privado: 1) gracias y «¿qué te ha llamado la atención?» · 2) el enlace al vídeo, con el código de la pieza ·
-  3) a los dos días, «¿pudiste verlo?».
+  3) a los dos días, «¿pudiste verlo?». Lo envía Zernio (`contenido/publicar/README.md` → «Palabra clave»).
 - **Nunca por mensaje**: cuánto se gana, cuánto cuesta ni nada del producto. Eso va en el vídeo y en la llamada.
 - Las piezas en las que sale el equipo se publican como colaboración con la cuenta de otra persona del equipo.
 

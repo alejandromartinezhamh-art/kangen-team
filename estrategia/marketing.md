@@ -163,7 +163,8 @@ estratega de los lunes toma de ese plan las 7 piezas siguientes.
 
 - **Principal**: «Link en mi bio» → `/l/instagram` → cuestionario.
 - **Palabra clave** (fase 2): «Comenta TIEMPO y te envío el webinar» → mensaje automático de Instagram con el enlace.
-  Cada persona usa una palabra de su mundo (`perfil-y-100-dias.md`, sección 5).
+  Cada persona usa una palabra de su mundo (`perfil-y-100-dias.md`, sección 5). La envía Zernio, el mismo servicio que
+  publica (`contenido/publicar/README.md`).
 - **Historias**: sticker de enlace.
 - **Cada pieza tiene un código** (`CT-123`, en el calendario de Notion). Los enlaces llevan `?c=CT-123`, el código llega al
   cuestionario y queda en la columna «Origen» de la hoja: así el analista sabe qué pieza trajo cada lead.
@@ -173,7 +174,7 @@ estratega de los lunes toma de ese plan las 7 piezas siguientes.
 ## 8. El equipo de agentes
 
 Todos trabajan con **Claude Opus 5.5** (el modelo actual más capaz para el día a día), en Claude Code, con sus
-instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más fiable y sin coste.
+instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más fiable.
 
 | Agente | Cuándo | Qué hace | Entrega |
 |---|---|---|---|
@@ -183,15 +184,15 @@ instrucciones en `.claude/skills/`. El publicador es un programa (no IA): más f
 | **Guionista** | Por pieza | Guion con gancho de 3 s, texto por red, código y llamada a la acción. Con la voz y la historia de cada persona. | Ficha de la pieza |
 | **Editor** | Por pieza | Vídeo vertical con **HyperFrames** (subtítulos con sus colores, cortes, música, recursos con IA de Higgsfield) y carruseles desde plantillas HTML diseñadas con Claude Design. | Drive → Editados |
 | **Revisor** | Antes de aprobar | Normas del equipo y de cada plataforma (y de Enagic si una pieza habla del producto); etiqueta de IA si hace falta. `npm run comprobar`. | Pieza → Para aprobar |
-| **Publicador** | Cada 15 min | Publica lo aprobado a su hora: Instagram y Facebook (API de Meta), YouTube (API de YouTube), TikTok (Metricool gratis hasta pasar la auditoría de TikTok). | Pieza → Publicado |
-| **Analista** | Diario | Métricas de cada pieza + calidad de los leads que trajo (hoja de leads y CRM). Qué funciona y por qué. | Notion + `aprendizajes.md` |
+| **Publicador** | Al aprobar | Deja programado lo aprobado en Zernio (`npm run publicar`), que lo publica a su hora en Instagram, Facebook, TikTok y YouTube con las API oficiales y reintenta si falla (`contenido/publicar/README.md`). | Pieza → Programado → Publicado |
+| **Analista** | Diario | Métricas de cada pieza (`npm run publicar -- metricas`) + calidad de los leads que trajo (hoja de leads y CRM). Qué funciona y por qué. | Notion + `aprendizajes.md` |
 | **Anuncios** | Semanal | Convierte las piezas con más leads cualificados en anuncios, los deja en pausa para aprobar, vigila el gasto y pausa lo que no funciona. | Notion → Anuncios |
 
 ### La semana
 - **Lunes** (automático): investigador → estratega → guionista. Calendario de la semana listo para revisar.
 - **Cuando grabes**: subes los vídeos a Drive (`05 Contenido redes/Brutos`). El editor los monta y el revisor los revisa.
 - **Tú apruebas** en Notion. **Nada se publica ni se gasta sin tu aprobación.**
-- **Cada día**: el publicador publica; el analista mide.
+- **Cada día**: Zernio publica lo programado; el analista mide.
 - **Domingo**: informe de la semana y aprendizajes para el lunes.
 
 ---
@@ -246,13 +247,11 @@ cuenta publicitaria y página verificadas.
 | Para qué | Herramienta | €/mes |
 |---|---|---|
 | Agentes | Claude (Claude Code, suscripción actual) con Claude Opus 5.5 | incluido |
-| Publicar en Instagram, Facebook y YouTube | APIs oficiales | 0 |
-| Publicar en TikTok | Metricool gratis (20 publicaciones/mes) hasta pasar la auditoría de TikTok; Starter si hiciera falta | 0 (16-29) |
+| Publicar en Instagram, Facebook, TikTok y YouTube, palabra clave y métricas | Zernio (API oficiales debajo): 2 redes gratis, después 6 $ por red y mes (3 $ desde la 11.ª). Instagram y TikTok de 6 personas ≈ 54 $; las 4 redes de todas ≈ 90 $ | 0 (piloto) - 90 $ |
 | Vídeo | HyperFrames (código abierto) + transcripción local | 0 |
 | Recursos visuales con IA | Higgsfield (créditos) | 15-30 |
 | Carruseles | Plantillas HTML + Claude Design | 0 |
 | Calendario y aprobaciones | Notion | incluido |
-| Publicador automático | GitHub Actions | 0 |
 | Anuncios | Meta (y TikTok más adelante, solo contenido) | < 300 |
 
 ---
@@ -261,7 +260,7 @@ cuenta publicitaria y página verificadas.
 
 | Fase | Cuándo | Qué |
 |---|---|---|
-| 0 · Base personal | Ya | Cuestionario de historia completo · cuentas de redes (`plantillas/04 Crear cuentas de redes.md`) · apps de Meta, YouTube y TikTok |
+| 0 · Base personal | Ya | Cuestionario de historia completo · cuentas de redes (`plantillas/04 Crear cuentas de redes.md`) · sus redes conectadas a Zernio |
 | 1 · Base | Semanas 1-2 | Notion (calendario, radar, anuncios) · agentes investigador, estratega, guionista y revisor · códigos de seguimiento · plantillas de vídeo y carrusel |
 | 2 · Piloto orgánico | Semanas 3-6 | Alejandro publica con el sistema · editor y publicador · analista diario · «comenta X» |
 | 3 · Anuncios | Desde la semana 3, con piezas que ya traen leads cualificados | Piloto de anuncios < 300 €/mes sobre las piezas ganadoras |
@@ -279,4 +278,4 @@ cuenta publicitaria y página verificadas.
 | Datos personales expuestos | Repositorio público: historias, cuestionarios y leads solo en Drive y Notion |
 | Contenido que suena a IA o a copia | Grabado por la persona, con su historia; el investigador adapta estructuras, no copia |
 | Pocos leads cualificados | Se mide por pieza y se ajusta cada semana; el cuestionario y el webinar filtran |
-| Dependencia de una herramienta | APIs oficiales y código propio; Metricool solo para TikTok mientras tanto |
+| Dependencia de una herramienta | Zernio publica con las API oficiales y nuestro código es una capa fina (`scripts/publicar.mjs`): si deja de funcionar, se crean las apps propias de Meta, YouTube y TikTok y se cambia solo esa capa |

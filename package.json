@@ -16,6 +16,7 @@
     "plantillas-drive": "node scripts/plantillas-drive.mjs",
     "video": "node scripts/video.mjs",
     "estudio": "node scripts/estudio.mjs",
+    "publicar": "node scripts/publicar.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present"
   },
