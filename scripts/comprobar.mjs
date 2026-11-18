@@ -10,20 +10,12 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdtempSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { incumplimientos, PROHIBIDO } from './normas.mjs';
 
 const errores = [];
 const avisos = [];
 
-// ---------- Normas de comunicación ----------
-
-const PROHIBIDO = [
-  [/\b(kangen|enagic)\b/i, 'marca (Kangen / Enagic)'],
-  [/\d[\d.,]*\s*(€|euros?\b|k€)/i, 'cifra de dinero'],
-  [/(€|\$)\s*\d/, 'cifra de dinero'],
-  [/hazte ric|sin esfuerzo|dinero f[aá]cil|libertad financiera|ingresos pasivos|trabaja (solo )?1 hora/i, 'promesa económica'],
-  [/\b(alcalin\w*|ioniza\w*|antioxidante\w*|cur(a|ar|ación)\b|enfermedad\w*|hidrógeno|detox\w*|desintoxica\w*|alivia\w*|sistema inmun\w*)/i, 'afirmación de salud o producto'],
-  [/buscamos personal|contratamos|oferta de trabajo|puesto de trabajo|se busca(n)? (personas|gente)/i, 'parece una oferta de empleo'],
-];
+// ---------- Normas de comunicación (scripts/normas.mjs) ----------
 
 function textosDe(valor, ruta = []) {
   if (typeof valor === 'string') return [[ruta.join('.'), valor]];
@@ -36,11 +28,8 @@ function textosDe(valor, ruta = []) {
 }
 
 function revisar(archivo, textos, reglas = PROHIBIDO) {
-  for (const [donde, texto] of textos) {
-    for (const [patron, motivo] of reglas) {
-      const m = texto.match(patron);
-      if (m) errores.push(`${archivo}${donde ? ` → ${donde}` : ''}: ${motivo} («${m[0]}»)`);
-    }
+  for (const fallo of incumplimientos(textos.map(([donde, texto]) => [donde ? `${archivo} → ${donde}` : archivo, texto]), reglas)) {
+    errores.push(fallo);
   }
 }
 

@@ -83,7 +83,8 @@ sus vídeos; en cada sesión con el repositorio, genera lo que esté en «Listo�
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
 alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
 conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la
-persona en Notion.
+persona en Notion. Lo aprobado se programa con `npm run publicar` (Zernio publica a su hora, manda la palabra clave y da
+las métricas: `contenido/publicar/README.md`); su clave la pone el entorno y nunca se escribe en el repositorio.
 
 ## Cada opinión mejora el sistema (obligatorio)
 

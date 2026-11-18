@@ -103,3 +103,16 @@ Para llegar necesito cuatro cosas antes del <fecha límite>. En total es algo m�
 Lo tienes todo paso a paso aquí: <enlace a su documento «Empezamos: tu perfil y tu primera grabación»>
 
 Cualquier duda, me dices 😊
+
+## 10. Conecta tus redes (privado, cuando sus cuentas están creadas)
+
+Los enlaces salen de `npm run publicar -- conectar <persona> <red>` (`contenido/publicar/README.md`). Uno por red.
+
+Hola <Nombre>! Para que tus publicaciones salgan solas a su hora, conecta tus redes una vez (2 minutos cada una) 🙌
+
+Abre cada enlace en el móvil, entra con esa red y pulsa *Permitir*:
+
+📸 Instagram: <enlace>
+🎵 TikTok: <enlace>
+
+No me das ninguna contraseña, y solo se publica lo que tú apruebas en Notion. Cuando lo tengas, me dices 😊

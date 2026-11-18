@@ -12,6 +12,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Lo aprendido (todo el equipo) | `contenido/aprendizajes-equipo.md` |
 | Plantilla de carruseles | `contenido/carruseles/` (`npm run carrusel`) |
 | Vídeos con su voz o con textos en pantalla | `contenido/videos/` (`npm run video`) |
+| Publicar, palabra clave y métricas (Zernio) | `contenido/publicar/` (`npm run publicar`) |
 | La historia de cada persona (fuente) | Drive → `Landing Kangen <Persona>` → `Cuestionario historia y avatar - <Persona>.docx` |
 | Su voz, su historia y su persona ideal (lo que leen los agentes) | Notion → CONTENIDO Y ANUNCIOS → **Fichas de voz** |
 | Lo aprendido de cada persona | Datos: `equipo/<persona>/contenido/aprendizajes.md` · Opiniones sobre su voz: su ficha de voz, sección «Feedback y aprendizajes» |
@@ -55,7 +56,9 @@ guardan aquí.
 2. **Sesión de grabación** (1 hora): la persona graba los guiones y sube los vídeos a `Brutos`.
 3. Editor → `revisar-normas` → la pieza queda **Para aprobar**.
 4. **La persona aprueba** en Notion (Estado → Aprobado). Nada se publica ni se gasta sin eso.
-5. Publicador y analista, cada día. **Domingo**: informe y aprendizajes.
+5. **Publicador**: en la siguiente sesión con el repositorio, lo aprobado se programa en Zernio a su hora
+   (`npm run publicar`, Estado → Programado) y Zernio lo publica. **Analista**, cada día. **Domingo**: informe y
+   aprendizajes.
 
 ## Cada opinión mejora el sistema
 
@@ -83,8 +86,8 @@ la pieza en el Calendario. Cada vez, el agente `aprender`:
 | Revisor | `.claude/skills/revisar-normas` | Listo |
 | Aprendizaje | `.claude/skills/aprender` | Listo |
 | Editor (vídeos y carruseles) | `.claude/skills/editor-video` · Carruseles: `contenido/carruseles/` | Listo (solo en sesiones con el repositorio) |
-| Publicador | — | Fase 2: necesita las apps de Meta, YouTube y TikTok |
-| Analista | — | Fase 2: necesita las apps y la hoja de leads de cada persona |
+| Publicador | `npm run publicar` (Zernio) · `contenido/publicar/README.md` | Listo (solo en sesiones con el repositorio): falta la cuenta de Zernio y conectar las redes de cada persona |
+| Analista | — | Fase 2: las métricas salen de `npm run publicar -- metricas`; falta la hoja de leads de cada persona |
 | Anuncios | — | Fase 3: necesita la cuenta publicitaria y piezas que ya traigan leads cualificados |
 
 Para usarlos: en Claude Code, pide por ejemplo «prepara el plan de la semana de Alejandro» o «entrevístame para mi

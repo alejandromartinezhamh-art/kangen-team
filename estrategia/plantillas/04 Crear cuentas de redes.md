@@ -93,8 +93,20 @@ móvil**: son su marca personal y nadie más es dueño de ellas.
 ## 6. Cuando acabes
 
 - Apunta tus usuarios en tu fila de Notion → PAGINAS WEB (y en tu ficha de voz).
-- Avisa en el grupo. Cuando montemos la publicación automática, te pediremos **conectar** cada cuenta (2 minutos por
-  red, desde un enlace): nunca hace falta que des tu contraseña a nadie.
+- Avisa en el grupo.
+
+## 7. Conecta tus redes al publicador (2 minutos por red)
+
+Tus piezas aprobadas se publican solas a su hora con **Zernio**, que usa las conexiones oficiales de cada red. Para eso
+hay que conectar cada cuenta una vez:
+
+1. Te mandamos por WhatsApp un **enlace para cada red** (Instagram, TikTok, Facebook y YouTube).
+2. Ábrelo en el móvil, entra con esa red (si ya tienes la app abierta, entra sola) y pulsa **Permitir**.
+3. Avisa cuando estén todas. Nunca hace falta que des tu contraseña a nadie, y puedes quitar el permiso cuando quieras
+   desde la propia red.
+
+Solo se publica lo que tú apruebas en Notion. Si un día TikTok te avisa de que tienes un borrador en tu bandeja, es una
+pieza aprobada que TikTok no ha dejado publicar sola: ábrela y pulsa **Publicar**.
 
 ---
 

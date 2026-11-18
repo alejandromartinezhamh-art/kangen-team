@@ -55,6 +55,8 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Cuentas creadas con `04 Crear cuentas de redes` (Instagram de creador, página de Facebook, portfolio de Meta con
       cuenta publicitaria, TikTok, YouTube) y la verificación en dos pasos activada
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
+- [ ] Sus redes conectadas al publicador (Zernio): perfil con su nombre y un enlace por red (mensaje 10). Conectar
+      más de las 2 redes gratis cuesta dinero: lo decide Alejandro (`contenido/publicar/README.md`)
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
 - [ ] Notion: invitada a editar el Calendario, el Radar y «Propuestas para todo el equipo», y solo su ficha de voz
 - [ ] Invitada como miembro a la organización de Claude (plan Team), con Notion y Google Drive conectados (mensaje 8)
@@ -67,5 +69,5 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Primer plan semanal creado a partir de su plan de 100 días
 - [ ] Sabe dónde dar su opinión de cada pieza (en el chat o en **Feedback** de la pieza) y su ficha tiene la sección
       «Feedback y aprendizajes»
-- [ ] Primeras piezas aprobadas y publicadas, con su código en los enlaces
+- [ ] Primeras piezas aprobadas, programadas con `npm run publicar` y publicadas, con su código en los enlaces
 - [ ] Anuncios: solo con piezas que ya traen leads cualificados, desde su cuenta publicitaria, sin Enagic, producto ni agua

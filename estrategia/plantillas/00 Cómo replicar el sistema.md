@@ -133,7 +133,12 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    la versión final.
 9. **Seguimiento**: cada pieza tiene un código (`CT-123`) que va en los enlaces (`/l/instagram?c=CT-123`) y llega a su
    hoja de leads.
-10. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
+10. **Publicar**: sus redes se conectan una vez al publicador, **Zernio** (`npm run publicar -- conectar <nombre> <red>`
+    y se le manda cada enlace con el mensaje 10 de `02 Mensajes de WhatsApp`). Cada pieza aprobada se deja programada a
+    su hora con `npm run publicar` (Estado → Programado) y Zernio la publica con las API oficiales de cada red. Las
+    métricas de cada publicación salen de `npm run publicar -- metricas <nombre>`, y la palabra clave (fase 3) también la
+    envía Zernio. Detalle y coste en `contenido/publicar/README.md`.
+11. **Anuncios**: solo con piezas que ya traen leads cualificados, desde su propia cuenta publicitaria. Hablan de
    negocio, de cambiar de vida, de alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua.
 
 ## Normas (siempre)
