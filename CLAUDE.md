@@ -113,6 +113,12 @@ Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1
 sustituyendo los anteriores, y apunta en Pendientes, en la pestaña de cada persona, que vuelva a subirlos a su Claude
 (Ajustes → Capacidades → Skills), con el WhatsApp ya escrito en la de Alejandro.
 
+**Higgsfield** (imágenes y vídeos con IA): una sola cuenta para todo el equipo, la de Alejandro, conectada solo a su
+Claude y usada desde las sesiones con el repositorio. Nadie más inicia sesión en ella. Gemma, Helena y las demás piden lo
+que necesitan en **Notas** de la pieza en Notion, empezando por «Higgsfield:», y se genera en la siguiente sesión (con
+la etiqueta de IA donde toque, y nunca su voz ni su cara inventadas). Antes de generar, mira los créditos (`balance`) y el
+coste estimado; si no llegan, apúntalo en la pestaña de Alejandro de Pendientes.
+
 ## Datos personales
 
 El repositorio es **público**. La historia de cada persona (cuestionario de Drive y ficha de voz en Notion), su salud,

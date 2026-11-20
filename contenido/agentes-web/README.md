@@ -39,6 +39,12 @@ en cambio, puede pedirle a su propio Claude que trabaje en ellos.
    zip nuevo. Quien cambie un agente lo apunta en Pendientes del equipo, en la pestaña de cada persona, y deja en la de
    Alejandro el WhatsApp ya escrito para avisarlas.
 
+## Imágenes y vídeos con IA (Higgsfield)
+
+Hay una sola cuenta de Higgsfield para todo el equipo, la de Alejandro, y solo se usa desde sus sesiones con el
+repositorio. Las demás no necesitan cuenta: escriben lo que quieren en **Notas** de la pieza en Notion, empezando por
+«Higgsfield:», y se genera en la siguiente sesión con los créditos de esa cuenta.
+
 ## Lo que hace cada persona (una vez)
 
 1. Tener Claude Pro con su Gmail.

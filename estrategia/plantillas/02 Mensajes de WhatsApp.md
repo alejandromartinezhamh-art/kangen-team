@@ -87,7 +87,8 @@ Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas.
 2️⃣ En Claude → *Ajustes → Capacidades → Skills*, súbelos uno a uno.
 3️⃣ En *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
 4️⃣ Te llegarán emails de Claude (en inglés) para abrir tu estudio y tu estrategia: acéptalos entrando con tu Gmail (mira en *Promociones* o en *Spam*).
-5️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
+5️⃣ ¿Quieres una imagen o un vídeo hecho con IA? No necesitas cuenta de Higgsfield: escríbelo en *Notas* de la pieza en Notion empezando por «Higgsfield:» y lo hago yo.
+6️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
 
