@@ -14,23 +14,23 @@ Aprovecha también para subir fotos tuyas a *01 Fotos originales* y algún víde
 
 Trabajo con lo que me llega: en cuanto lo tengas, avísame y nos ponemos. 🚀
 
-## 2. Envío del cuestionario al grupo
+## 2. Envío del cuestionario al grupo (deberes para la próxima sesión)
 
 Hola equipo 👋
 
-En la carpeta de Drive de cada uno (*"Landing Kangen + tu nombre"*) tenéis el *Cuestionario historia y avatar*.
+Para la próxima sesión hay deberes 📝
 
-Con vuestras respuestas voy a escribir vuestra web, vuestras landings, los anuncios y los guiones de contenido.
+Cada uno tiene en su carpeta de Drive *Landing Kangen + tu nombre* el *Cuestionario historia y avatar*. Son las preguntas que tenéis que trabajar antes de volver a vernos.
 
-No es corto (60-90 minutos), así que os recomiendo *hacerlo en audio y transcribirlo*. Lo más importante son los bloques 2 (el dolor) y 7 (vuestra persona ideal).
+Contad con *una hora y media, tranquilamente*. Y os pido algo importante: *no lo hagáis con prisa*. Id respondiendo poco a poco, pensando bien cada respuesta, y a ser posible *reservaos un rato en la agenda* para hacerlo con calma. Si os cuesta escribir, grabad audios, transcribidlos y pegad el texto debajo de cada pregunta.
 
-▪️ *No voy a ir detrás de nadie*: cada uno le dedica el tiempo y el esfuerzo que quiera.
-▪️ *Solo trabajo con lo que cada uno entregue.*
-▪️ *No quedamos para rellenarlo juntos*: se hace en casa, a vuestro ritmo.
+Este cuestionario es *la base de absolutamente todo* lo que vamos a hacer: vuestra web, las landings, los anuncios y el contenido. Da igual la web que tengamos montada: si esto no está bien hecho, no sirve.
 
-Si alguien prefiere solo subir vídeos y contenido a redes, perfecto, no pasa nada. Pero los que queráis web y landings, quiero ir a tiro hecho.
+Por eso es súper importante *venir preparados* a la sesión. *Sin el cuestionario respondido no vamos a avanzar.*
 
-Cuando lo terminéis, avisad por aquí 🙌
+No pongo fecha límite: cada uno que lo trabaje cuando quiera y pueda. Pero recordad que avanzaremos al ritmo de lo que cada uno entregue 💪
+
+Cualquier duda, por aquí 🙌
 
 ## 3. Recordatorio semanal (grupo, una sola vez por semana)
 
