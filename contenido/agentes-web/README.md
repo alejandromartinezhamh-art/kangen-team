@@ -34,10 +34,29 @@ en Pendientes del equipo, en la pestaña de Alejandro.
 
 ## Lo que hace cada persona (una vez)
 
-1. Aceptar la invitación a la organización que le llega por email.
-2. Conectar **Notion** y **Google Drive** en Claude → Ajustes → Conectores. GitHub, no.
-3. Pedirle cosas a Claude como: «Prepara el guion de la pieza CT-1», «Te doy mi opinión del carrusel: la portada me
-   gusta, el texto de la 3 es demasiado largo», «Hazme el plan de la semana», «Actualiza mi ficha con esto».
+Cada persona tiene **una sola página** por donde empieza siempre: «<Nombre> · Empieza aquí», un documento de Claude
+compartido con ella (el de Gemma: <https://claude.ai/artifact/5sCtoapuEWKdhosVueBtKf>). Lleva:
+
+- **Dónde está cada cosa**: una tabla con el enlace directo a sus vistas de Notion («100 días» y «Qué grabar»), su
+  ficha de voz, su estudio, su estrategia, sus carpetas de Drive (Fotos originales, Brutos, Editados), su documento de
+  perfil, el editor de su web y su hoja.
+- **Su semana**: mirar qué toca, grabar, retocar en el estudio, aprobar en Notion y los 15 minutos diarios.
+- **Pídeselo a Claude**: frases de ejemplo.
+- **Prepáralo una vez**: aceptar las invitaciones (Notion, estudio, estrategia y la propia página), conectar **Notion**
+  y **Google Drive** en Claude → Ajustes → Conectores (GitHub, no), las skills (si no le salen ya por la organización,
+  los zip de Drive en Ajustes → Capacidades → Skills), crear su proyecto **«Mi contenido»** con las instrucciones que
+  trae la página para copiar y pegar (dónde está todo lo suyo y cómo trabajamos), fijar la página y su estudio, y
+  Claude y Notion en el móvil.
+
+Para una persona nueva: crea su página desde el tipo de artefacto Docs con las mismas secciones y sus enlaces,
+compártela con ella y apunta en su pestaña de Pendientes qué compartirle: en Notion el Calendario, el Radar,
+«Propuestas para todo el equipo» y solo su ficha de voz; en Claude su página, su estudio y su estrategia; en Drive la
+carpeta de los agentes (lector). Cuando cambie un enlace o llegue una herramienta nueva para ella, se cambia también
+en su página.
+
+Desde su proyecto le pide cosas a Claude como: «¿Qué tengo que grabar esta semana?», «Prepara el guion de la pieza
+CT-1», «Te doy mi opinión del carrusel: la portada me gusta, el texto de la 3 es demasiado largo», «Hazme el plan de
+la semana», «Actualiza mi ficha con esto».
 
 ## Lo que no se puede desde la web (y cómo se resuelve)
 

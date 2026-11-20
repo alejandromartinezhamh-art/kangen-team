@@ -108,6 +108,9 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    Radar y «Propuestas para todo el equipo», y de las Fichas de voz **solo la suya** (lleva su historia personal).
 5. **Su Claude**: invitarla como miembro a la organización de Claude (plan Team). Los agentes le aparecen solos; ella
    conecta Notion y Google Drive y trabaja su contenido sin depender de nadie (mensaje 8 de `02 Mensajes de WhatsApp`).
+   Todo lo suyo, en **una sola página**: «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma), con dónde
+   está cada cosa (Notion, su estudio, su Drive, su estrategia, su web), su semana, qué pedirle a Claude y los pasos
+   de la primera vez, incluido su proyecto «Mi contenido» con instrucciones para copiar y pegar (mensaje 8b).
    **Nunca** le des acceso a GitHub ni a Vercel: así nadie puede tocar el código. Detalle en `contenido/agentes-web/README.md`.
 6. **Su estrategia y sus 100 días** (una vez, cuando su ficha está «Lista para guiones»): «prepara la estrategia y los
    100 días de <nombre>» (agente `estrategia-100-dias`, método en `estrategia/perfil-y-100-dias.md`). Sale: la idea de

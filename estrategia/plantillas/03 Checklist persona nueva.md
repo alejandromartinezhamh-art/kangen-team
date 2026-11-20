@@ -65,6 +65,9 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Su estudio en Claude creado, con sus carpetas de Drive apuntadas, y compartido con ella como Editor
       (`contenido/estudio/README.md`). La primera vez que pulse «Traer de Google Drive», «Permitir»
 - [ ] Si quiere voz clonada: ha subido su grabación y ha dado su permiso en su estudio → «Mi voz» (mensaje 10)
+- [ ] Su página «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma) con todos sus enlaces, su semana, qué
+      pedirle a Claude y «Prepáralo una vez»; compartida con ella y enviada (mensaje 8b). Ha creado su proyecto
+      «Mi contenido» en Claude con las instrucciones de esa página y la tiene fijada
 - [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
 - [ ] Primer lote grabado (días 1 a 14) y día de salida fijado
 - [ ] Primer plan semanal creado a partir de su plan de 100 días

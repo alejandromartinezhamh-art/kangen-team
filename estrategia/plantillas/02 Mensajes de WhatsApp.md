@@ -89,6 +89,12 @@ Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas.
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
 
+## 8b. Tu página «Empieza aquí» (privado, cuando ya le has dado acceso a Notion, a su estudio y a su estrategia)
+
+<Nombre>, para que no te pierdas entre tantos enlaces, ahora lo tienes todo en una sola página: <enlace a su página Empieza aquí>
+Te van a llegar unos emails de Notion y de Claude para darte acceso: acéptalos con tu Gmail. Luego sigue «Prepáralo una vez» (unos 20 minutos, mejor desde el ordenador) y fíjala en tu Claude.
+Desde ahí, todo lo pides en tu proyecto «Mi contenido»: qué grabar, tus guiones, cambiar una pieza… Cualquier cosa, me dices 😊
+
 ## 9. Tu plan y tu primera grabación (privado, cuando su estrategia y sus 100 días están hechos)
 
 Hola <Nombre>! Ya tenemos tu estrategia y tus 100 primeros días de contenido 🙌 Salimos el <día de salida>.
