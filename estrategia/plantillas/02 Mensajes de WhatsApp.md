@@ -79,13 +79,15 @@ Te ha llegado un email con tu usuario y tu contraseña (si no lo ves, mira en *P
 
 Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.
 
-## 8. Tu Claude (privado, cuando la invitas a la organización de Claude)
+## 8. Tu Claude (privado, cuando tenga su Claude Pro y le hayas compartido la carpeta de agentes)
 
-<Nombre>, te acabo de invitar a nuestro equipo en Claude 🙌 Ahí tienes los mismos agentes que uso yo para el contenido.
+<Nombre>, ya puedes usar en tu Claude los mismos agentes que uso yo para el contenido 🙌
 
-1️⃣ Acepta la invitación del email que te ha llegado de Claude (mira en *Promociones* o en *Spam*).
-2️⃣ En Claude → *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
-3️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
+1️⃣ Descarga los 6 zip de esta carpeta: <enlace a «Agentes de Claude» en Drive>
+2️⃣ En Claude → *Ajustes → Capacidades → Skills*, súbelos uno a uno.
+3️⃣ En *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
+4️⃣ Te llegarán emails de Claude (en inglés) para abrir tu estudio y tu estrategia: acéptalos entrando con tu Gmail (mira en *Promociones* o en *Spam*).
+5️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
 

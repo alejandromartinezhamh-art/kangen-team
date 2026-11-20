@@ -102,13 +102,16 @@ un texto o un diseño (en el chat, en un comentario o en «Tu comentario» de un
 En una sesión con el repositorio, aplica también las filas nuevas de Notion → «Propuestas para todo el equipo» (lo que
 el equipo aprende desde Claude en la web, donde no puede escribir aquí).
 
-## El equipo en Claude (plan Team)
+## El equipo en Claude (cada una con su Claude Pro y su Gmail)
 
-Gemma, Helena y las demás usan los agentes desde su propio Claude, sin acceso a GitHub ni a Vercel
-(`contenido/agentes-web/README.md`). Nunca les des acceso al código ni le pongas una clave a su Claude. Si cambias un
-agente (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
+No hay plan Team: para abrirlo hace falta un email de empresa y el equipo usa Gmail. Gemma, Helena y las demás usan los
+agentes desde su propio Claude Pro (lo paga cada una), sin acceso a GitHub ni a Vercel (`contenido/agentes-web/README.md`).
+Alejandro les comparte su estudio, su estrategia y los documentos de Claude invitando a su Gmail («Invite people by
+email», «Can edit»). Nunca les des acceso al código ni le pongas una clave a su Claude. Si cambias un agente
+(`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
 Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1YMn-nNSC2rvmjfHGYICNFErYPYcrI7fq`)
-sustituyendo los anteriores, y apunta en la pestaña de Alejandro de Pendientes que los vuelva a subir a la organización.
+sustituyendo los anteriores, y apunta en Pendientes, en la pestaña de cada persona, que vuelva a subirlos a su Claude
+(Ajustes → Capacidades → Skills), con el WhatsApp ya escrito en la de Alejandro.
 
 ## Datos personales
 
@@ -202,7 +205,7 @@ fila de Gemma para el día 11 (el Código pasa de 11 = día 10 a 12 = día 12). 
    - Pestaña Alejandro: **Comparte tu estudio con Gemma** (2 min): abrir el estudio → Compartir → su cuenta de Claude
      como **Editor** (así puede subir fotos y clips). **Revisa las piezas v2 en tu estudio** (15 min): cambiar lo que no
      guste y pulsar «Listo» en cada una; primero las de la semana 1 (días 1, 2, 5 y 7). Y en la tarea que ya existe de
-     volver a subir los 6 agentes a la organización de Claude, cambiar la fecha a «16 de noviembre, 19:42» (zips
+     volver a subir los 6 agentes (ahora cada persona en su Claude), cambiar la fecha a «16 de noviembre, 19:42» (zips
      nuevos ya en Drive → «Agentes de Claude (para subir a la organización)»).
    - Pestaña Gemma: **Graba tu café en casa y súbelo a tu estudio** (5 min): 2 o 3 clips de 5 a 8 s, en vertical, sin
      suelo ni caras de otras personas; en el estudio, vídeo del día 2 → Planos → Cambiar → Subir fotos o clips.
