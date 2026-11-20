@@ -68,6 +68,38 @@ compártela con ella y apunta en su pestaña de Pendientes qué compartirle: en 
 people by email», «Can edit»); en Drive la carpeta de los agentes (lector). Cuando cambie un enlace o llegue una
 herramienta nueva para ella, se cambia también en su página.
 
+## Su kit de Claude
+
+Para que su Claude sepa todo lo que sabe el equipo y no dependa de nadie, cada persona tiene un **«Kit de Claude ·
+<Nombre>»**: un documento de Google en su carpeta de Drive que añade a su proyecto «Mi contenido» (Archivos → + →
+Google Drive). Lleva, en un solo documento:
+
+1. Cómo trabajamos (decide Claude, nada en «Aprobado» sin ella, su voz, las normas, aprender de cada opinión).
+2. Dónde está todo: sus enlaces de Notion, estudio, estrategia, Drive, web y hoja.
+3. Notion: el Calendario con todas sus columnas y valores, cómo crear una pieza nueva, su ficha, el Radar y
+   «Propuestas para todo el equipo».
+4. Qué hacer con cada petición («¿qué toca?», ideas nuevas, guion, opiniones, revisión, ficha, diseño, IA, aprobar).
+5. Lo que se hace fuera de su Claude (imágenes finales y vídeos, publicar, Higgsfield).
+6. Su estrategia (copia de su documento de estrategia).
+7. Las instrucciones de los 6 agentes.
+8. El conocimiento del equipo: mensaje, normas, ICP, marketing, perfil y 100 días, contenido, formatos, ganchos,
+   aprendizajes, carruseles, vídeos, su `design.md` y sus aprendizajes.
+
+Cómo se saca (en una sesión con el repositorio):
+
+1. Sus enlaces: ArtifactData → `get` de `ajustes/persona` en su estudio → `kit.enlaces` (y `kit.estrategiaDoc`).
+   Guárdalos fuera del repositorio como `{ "clave", "nombre", "enlaces", "privados": ["<carpeta>/estrategia.md"] }`.
+2. Su estrategia: `read` de su documento con el conector de Claude Docs (`payload: {"kind": "view"}`; el resultado se
+   guarda en un archivo) → `python3 -I scripts/doc-claude-a-md.py <ese archivo> > <carpeta>/estrategia.md`.
+3. `npm run kit-claude -- <carpeta>/enlaces.json` → `<carpeta>/Kit de Claude · <Nombre>.md` (fuera del repositorio).
+4. Súbelo a su carpeta de Drive como documento de Google (`create_file` con `contentMimeType: text/markdown`), manda
+   el anterior a la papelera y apunta el id nuevo en `ajustes/persona.kit.documento`.
+5. En su pestaña de Pendientes: «En Mi contenido → Archivos, quita el kit viejo y añade el nuevo». Su Claude también
+   lo detecta solo (el kit le dice que mire si hay uno más nuevo en su Drive).
+
+Se saca de nuevo cada vez que cambia un agente o un documento que cita (lo mismo que `npm run paquete-agentes`), su
+estrategia o sus enlaces.
+
 Desde su proyecto le pide cosas a Claude como: «¿Qué tengo que grabar esta semana?», «Prepara el guion de la pieza
 CT-1», «Te doy mi opinión del carrusel: la portada me gusta, el texto de la 3 es demasiado largo», «Hazme el plan de
 la semana», «Actualiza mi ficha con esto».

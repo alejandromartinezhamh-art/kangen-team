@@ -68,6 +68,8 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Su página «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma) con todos sus enlaces, su semana, qué
       pedirle a Claude y «Prepáralo una vez»; compartida con ella y enviada (mensaje 8b). Ha creado su proyecto
       «Mi contenido» en Claude con las instrucciones de esa página y la tiene fijada
+- [ ] Su «Kit de Claude · <Nombre>» en su carpeta de Drive (`npm run kit-claude`, `contenido/agentes-web/README.md`),
+      añadido a su proyecto «Mi contenido» (Archivos → + → Google Drive). Ha probado «¿Qué tengo que grabar esta semana?»
 - [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
 - [ ] Primer lote grabado (días 1 a 14) y día de salida fijado
 - [ ] Primer plan semanal creado a partir de su plan de 100 días

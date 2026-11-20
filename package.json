@@ -18,7 +18,8 @@
     "voz-clonada": "node scripts/voz-clonada.mjs",
     "estudio": "node scripts/estudio.mjs",
     "dev": "npm run dev --workspace",
-    "build": "npm run build --workspaces --if-present"
+    "build": "npm run build --workspaces --if-present",
+    "kit-claude": "node scripts/kit-claude.mjs"
   },
   "devDependencies": {
     "wrangler": "4.151.1"

@@ -115,7 +115,9 @@ una herramienta nueva, cámbialo también allí. Si cambias un agente
 (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
 Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1YMn-nNSC2rvmjfHGYICNFErYPYcrI7fq`)
 sustituyendo los anteriores, y apunta en Pendientes, en la pestaña de cada persona, que vuelva a subirlos a su Claude
-(Ajustes → Capacidades → Skills), con el WhatsApp ya escrito en la de Alejandro.
+(Ajustes → Capacidades → Skills), con el WhatsApp ya escrito en la de Alejandro. En la misma tarea, saca de nuevo el
+**Kit de Claude** de cada persona (`npm run kit-claude`, pasos en `contenido/agentes-web/README.md` → «Su kit de
+Claude»): es el documento de su Drive que lleva su proyecto «Mi contenido» con todo lo que su Claude necesita saber.
 
 **Higgsfield** (imágenes y vídeos con IA): una sola cuenta para todo el equipo, la de Alejandro, conectada solo a su
 Claude y usada desde las sesiones con el repositorio. Nadie más inicia sesión en ella. Gemma, Helena y las demás piden lo
