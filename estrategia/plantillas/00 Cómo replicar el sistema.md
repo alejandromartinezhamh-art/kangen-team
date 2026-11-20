@@ -106,8 +106,10 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 4. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, crear su fila en Fichas de voz
    con el enlace a su cuestionario, y filtrar el calendario por ella. Invitarla con permiso de editar el Calendario, el
    Radar y «Propuestas para todo el equipo», y de las Fichas de voz **solo la suya** (lleva su historia personal).
-5. **Su Claude**: invitarla como miembro a la organización de Claude (plan Team). Los agentes le aparecen solos; ella
-   conecta Notion y Google Drive y trabaja su contenido sin depender de nadie (mensaje 8 de `02 Mensajes de WhatsApp`).
+5. **Su Claude**: cada persona tiene su propio Claude Pro con su Gmail (lo paga ella; no hay plan Team porque pide un
+   email de empresa). Se le comparte la carpeta de Drive «Agentes de Claude» y ella sube los zip en Claude → Ajustes →
+   Capacidades → Skills, conecta Notion y Google Drive, y trabaja su contenido sin depender de nadie (mensaje 8 de
+   `02 Mensajes de WhatsApp`). Su estudio y su estrategia se le comparten invitando a su Gmail («Invite people by email»).
    Todo lo suyo, en **una sola página**: «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma), con dónde
    está cada cosa (Notion, su estudio, su Drive, su estrategia, su web), su semana, qué pedirle a Claude y los pasos
    de la primera vez, incluido su proyecto «Mi contenido» con instrucciones para copiar y pegar (mensaje 8b).

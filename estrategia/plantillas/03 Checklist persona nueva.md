@@ -57,7 +57,7 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
 - [ ] Notion: invitada a editar el Calendario, el Radar y «Propuestas para todo el equipo», y solo su ficha de voz
-- [ ] Invitada como miembro a la organización de Claude (plan Team), con Notion y Google Drive conectados (mensaje 8)
+- [ ] Con su propio Claude Pro (su Gmail), la carpeta «Agentes de Claude» compartida, los 6 agentes subidos y Notion y Google Drive conectados (mensaje 8)
 - [ ] Sin acceso a GitHub ni a Vercel (nunca)
 - [ ] Estrategia y 100 días hechos (`estrategia/perfil-y-100-dias.md`): documento de estrategia, 100 piezas con Día y
       Fase en el Calendario y su vista «<Nombre> · 100 días»

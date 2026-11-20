@@ -103,16 +103,25 @@ un texto o un diseño (en el chat, en un comentario o en «Tu comentario» de un
 En una sesión con el repositorio, aplica también las filas nuevas de Notion → «Propuestas para todo el equipo» (lo que
 el equipo aprende desde Claude en la web, donde no puede escribir aquí).
 
-## El equipo en Claude (plan Team)
+## El equipo en Claude (cada una con su Claude Pro y su Gmail)
 
-Gemma, Helena y las demás usan los agentes desde su propio Claude, sin acceso a GitHub ni a Vercel
-(`contenido/agentes-web/README.md`). Nunca les des acceso al código ni le pongas una clave a su Claude. Cada una empieza siempre
+No hay plan Team: para abrirlo hace falta un email de empresa y el equipo usa Gmail. Gemma, Helena y las demás usan los
+agentes desde su propio Claude Pro (lo paga cada una), sin acceso a GitHub ni a Vercel (`contenido/agentes-web/README.md`).
+Alejandro les comparte su estudio, su estrategia y los documentos de Claude invitando a su Gmail («Invite people by
+email», «Can edit»). Nunca les des acceso al código ni le pongas una clave a su Claude. Cada una empieza siempre
 por su página «<Nombre> · Empieza aquí» (documento de Claude con todos sus enlaces, su semana y su proyecto «Mi
 contenido»; la de Gemma: <https://claude.ai/artifact/5sCtoapuEWKdhosVueBtKf>): cuando cambie un enlace suyo o llegue
-una herramienta nueva, cámbialo también allí. Si cambias un
-agente (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
+una herramienta nueva, cámbialo también allí. Si cambias un agente
+(`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
 Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1YMn-nNSC2rvmjfHGYICNFErYPYcrI7fq`)
-sustituyendo los anteriores, y apunta en la pestaña de Alejandro de Pendientes que los vuelva a subir a la organización.
+sustituyendo los anteriores, y apunta en Pendientes, en la pestaña de cada persona, que vuelva a subirlos a su Claude
+(Ajustes → Capacidades → Skills), con el WhatsApp ya escrito en la de Alejandro.
+
+**Higgsfield** (imágenes y vídeos con IA): una sola cuenta para todo el equipo, la de Alejandro, conectada solo a su
+Claude y usada desde las sesiones con el repositorio. Nadie más inicia sesión en ella. Gemma, Helena y las demás piden lo
+que necesitan en **Notas** de la pieza en Notion, empezando por «Higgsfield:», y se genera en la siguiente sesión (con
+la etiqueta de IA donde toque, y nunca su voz ni su cara inventadas). Antes de generar, mira los créditos (`balance`) y el
+coste estimado; si no llegan, apúntalo en la pestaña de Alejandro de Pendientes.
 
 ## Datos personales
 
