@@ -109,9 +109,11 @@ No hay plan Team: para abrirlo hace falta un email de empresa y el equipo usa Gm
 agentes desde su propio Claude Pro (lo paga cada una), sin acceso a GitHub ni a Vercel (`contenido/agentes-web/README.md`).
 Alejandro les comparte su estudio, su estrategia y los documentos de Claude invitando a su Gmail («Invite people by
 email», «Can edit»). Nunca les des acceso al código ni le pongas una clave a su Claude. Cada una empieza siempre
-por su página «<Nombre> · Empieza aquí» (documento de Claude con todos sus enlaces, su semana y su proyecto «Mi
-contenido»; la de Gemma: <https://claude.ai/artifact/5sCtoapuEWKdhosVueBtKf>): cuando cambie un enlace suyo o llegue
-una herramienta nueva, cámbialo también allí. Si cambias un agente
+por su guía «<Nombre> · Empieza aquí (paso a paso)»: un Google Doc en su carpeta de Drive que no da nada por sabido
+(qué es cada cosa, cómo preparar su Claude, las instrucciones de su proyecto «Mi contenido», todos los textos para
+pedirle cada cosa y sus enlaces; la de Gemma: <https://docs.google.com/document/d/12cTdta3gSo4bL6fQ-h_754_fOGEk2csf6pbFf7OX9aM/edit>).
+Sale de `npm run kit-claude` junto con su kit: cuando cambie un enlace suyo, un paso o llegue una herramienta nueva,
+vuelve a sacarla y súbela (pasos en `contenido/agentes-web/README.md`). Si cambias un agente
 (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
 Kangen PRO TEAM → «Agentes de Claude (para subir a la organización)» (id `1YMn-nNSC2rvmjfHGYICNFErYPYcrI7fq`)
 sustituyendo los anteriores, y apunta en Pendientes, en la pestaña de cada persona, que vuelva a subirlos a su Claude

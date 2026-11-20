@@ -47,26 +47,31 @@ repositorio. Las demás no necesitan cuenta: escriben lo que quieren en **Notas*
 
 ## Lo que hace cada persona (una vez)
 
-Cada persona tiene su propio Claude Pro con su Gmail y **una sola página** por donde empieza siempre: «<Nombre> ·
-Empieza aquí», un documento de Claude compartido con ella (el de Gemma:
-<https://claude.ai/artifact/5sCtoapuEWKdhosVueBtKf>). Lleva:
+Cada persona tiene su propio Claude Pro con su Gmail y **una sola guía** por donde empieza siempre: «<Nombre> ·
+Empieza aquí (paso a paso)», un **Google Doc en su carpeta de Drive** (el de Gemma:
+<https://docs.google.com/document/d/12cTdta3gSo4bL6fQ-h_754_fOGEk2csf6pbFf7OX9aM/edit>). Es un documento de Google y no
+una página de Claude porque no da nada por sabido: no hace falta saber qué es un artefacto ni un proyecto. Lleva:
 
-- **Dónde está cada cosa**: una tabla con el enlace directo a sus vistas de Notion («100 días» y «Qué grabar»), su
-  ficha de voz, su estudio, su estrategia, sus carpetas de Drive (Fotos originales, Brutos, Editados), su documento de
-  perfil, el editor de su web y su hoja.
+- **Lo que vas a usar**: qué es Claude, su proyecto «Mi contenido», su kit, Notion, su estudio y su Drive, en una frase.
+- **Prepáralo una vez**, en 9 pasos con el botón exacto: aceptar las invitaciones (Notion, Claude y Drive; qué es una
+  página de Claude), conectar **Notion** y **Google Drive** en Claude → Ajustes → Conectores (GitHub, no), descargar
+  los zip de «Agentes de Claude» y subirlos en Claude → Ajustes → Capacidades → Skills, crear su proyecto **«Mi
+  contenido»**, pegar **las instrucciones del proyecto** (el texto entero, para copiar), añadir su kit desde Google
+  Drive, comprobar que funciona, fijar su estudio, y Claude y Notion en el móvil.
 - **Su semana**: mirar qué toca, grabar, retocar en el estudio, aprobar en Notion y los 15 minutos diarios.
-- **Pídeselo a Claude**: frases de ejemplo.
-- **Prepáralo una vez**: aceptar las invitaciones (Notion, estudio, estrategia y la propia página), conectar **Notion**
-  y **Google Drive** en Claude → Ajustes → Conectores (GitHub, no), descargar los zip de «Agentes de Claude» y subirlos
-  en Claude → Ajustes → Capacidades → Skills, crear su proyecto **«Mi contenido»** con las instrucciones que trae la
-  página para copiar y pegar (dónde está todo lo suyo y cómo trabajamos), fijar la página y su estudio, y Claude y
-  Notion en el móvil.
+- **Lo que le escribes a tu Claude**: tablas «Para qué / Copia esto» con todos los textos (la semana, qué grabar,
+  ideas nuevas para sus 100 días y crearlas en Notion, guion, gancho, opinión, revisar, aprobar, cambiar algo en el
+  estudio, pedir una imagen con IA, su ficha, su presentación, historias, contestar mensajes y el kit nuevo).
+- **Si algo no va** y **sus enlaces**.
 
-Para una persona nueva: crea su página desde el tipo de artefacto Docs con las mismas secciones y sus enlaces,
-compártela con ella y apunta en su pestaña de Pendientes qué compartirle: en Notion el Calendario, el Radar,
-«Propuestas para todo el equipo» y solo su ficha de voz; en Claude su página, su estudio y su estrategia («Invite
-people by email», «Can edit»); en Drive la carpeta de los agentes (lector). Cuando cambie un enlace o llegue una
-herramienta nueva para ella, se cambia también en su página.
+Sale de `npm run kit-claude` (abajo, «Su kit de Claude»), con el kit: se escribe en `scripts/kit-claude.mjs`, así que
+un cambio en los pasos o en los textos vale para todas. Se sube **en HTML** (`<carpeta>/<Nombre> · Empieza aquí.html`,
+`create_file` con `contentMimeType: text/html`): en Markdown, Google Docs rompe las tablas.
+
+Para una persona nueva: saca su guía, apunta en su pestaña de Pendientes qué compartirle (en Notion el Calendario, el
+Radar, «Propuestas para todo el equipo» y solo su ficha de voz; en Claude su estudio y su estrategia, «Invite people by
+email», «Can edit»; en Drive la carpeta de los agentes como lector y su carpeta como editora) y el WhatsApp con el
+enlace a la guía (mensaje 8b). Cuando cambie un enlace o llegue una herramienta nueva para ella, se vuelve a sacar.
 
 ## Su kit de Claude
 
@@ -91,18 +96,21 @@ Cómo se saca (en una sesión con el repositorio):
    Guárdalos fuera del repositorio como `{ "clave", "nombre", "enlaces", "privados": ["<carpeta>/estrategia.md"] }`.
 2. Su estrategia: `read` de su documento con el conector de Claude Docs (`payload: {"kind": "view"}`; el resultado se
    guarda en un archivo) → `python3 -I scripts/doc-claude-a-md.py <ese archivo> > <carpeta>/estrategia.md`.
-3. `npm run kit-claude -- <carpeta>/enlaces.json` → `<carpeta>/Kit de Claude · <Nombre>.md` (fuera del repositorio).
-4. Súbelo a su carpeta de Drive como documento de Google (`create_file` con `contentMimeType: text/markdown`), manda
-   el anterior a la papelera y apunta el id nuevo en `ajustes/persona.kit.documento`.
+3. `npm run kit-claude -- <carpeta>/enlaces.json` → `<carpeta>/Kit de Claude · <Nombre>.md` y su guía
+   `<carpeta>/<Nombre> · Empieza aquí.html` (fuera del repositorio). `enlaces.empiezaAqui` es el enlace de su guía.
+4. Súbelos a su carpeta de Drive como documentos de Google (`create_file`; el kit con `contentMimeType: text/markdown`,
+   la guía con `text/html`), manda los anteriores a la papelera y apunta los ids nuevos en
+   `ajustes/persona.kit.documento` y `ajustes/persona.kit.guia` (y el enlace de la guía en `kit.enlaces.empiezaAqui`).
+   La guía solo se vuelve a subir si ha cambiado; si cambia su enlace, saca otra vez el kit, que la enlaza.
 5. En su pestaña de Pendientes: «En Mi contenido → Archivos, quita el kit viejo y añade el nuevo». Su Claude también
    lo detecta solo (el kit le dice que mire si hay uno más nuevo en su Drive).
 
 Se saca de nuevo cada vez que cambia un agente o un documento que cita (lo mismo que `npm run paquete-agentes`), su
 estrategia o sus enlaces.
 
-Desde su proyecto le pide cosas a Claude como: «¿Qué tengo que grabar esta semana?», «Prepara el guion de la pieza
-CT-1», «Te doy mi opinión del carrusel: la portada me gusta, el texto de la 3 es demasiado largo», «Hazme el plan de
-la semana», «Actualiza mi ficha con esto».
+Desde su proyecto le pide cosas a Claude con los textos de su guía («Lo que le escribes a tu Claude») o con sus
+palabras: «¿Qué tengo que grabar esta semana?», «Escríbeme el guion de la pieza del día 12», «Te doy mi opinión del
+carrusel: la portada me gusta, el texto de la 3 es demasiado largo», «Dame 5 ideas nuevas para los días 40 a 45».
 
 ## Lo que no se puede desde la web (y cómo se resuelve)
 

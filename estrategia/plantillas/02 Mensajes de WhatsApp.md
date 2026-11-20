@@ -92,11 +92,18 @@ Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas.
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
 
-## 8b. Tu página «Empieza aquí» (privado, cuando ya le has dado acceso a Notion, a su estudio y a su estrategia)
+## 8b. Tu guía «Empieza aquí» (privado, cuando ya le has dado acceso a Notion, a su estudio, a su estrategia y a su carpeta de Drive)
 
-<Nombre>, para que no te pierdas entre tantos enlaces, ahora lo tienes todo en una sola página: <enlace a su página Empieza aquí>
-Te van a llegar unos emails de Notion y de Claude para darte acceso: acéptalos con tu Gmail. Luego sigue «Prepáralo una vez» (unos 20 minutos, mejor desde el ordenador) y fíjala en tu Claude.
-Desde ahí, todo lo pides en tu proyecto «Mi contenido»: qué grabar, tus guiones, cambiar una pieza… Cualquier cosa, me dices 😊
+Hola <Nombre>! Te he preparado todo para que lleves tu contenido tú sola desde tu Claude 🙌
+
+Está todo en un documento de tu carpeta de Drive, paso a paso (unos 30 minutos, mejor desde el ordenador):
+👉 <enlace a su guía «Empieza aquí (paso a paso)»>
+
+1️⃣ Haz «Prepáralo una vez» (pasos 1 a 9): aceptar los emails de Notion y de Claude, conectar Notion y Google Drive a tu Claude, subir las skills, crear tu proyecto «Mi contenido» y pegar las instrucciones que te dejo ahí.
+2️⃣ Prueba que funciona con el texto de «Para empezar».
+3️⃣ A partir de ahí, en «Lo que le escribes a tu Claude» tienes el texto para pedirle cada cosa: lo copias, cambias lo que va entre corchetes y lo pegas. Ideas para tus 100 días, guiones, cambiar una pieza, saber si se puede publicar… Tú solo grabas y apruebas.
+
+Si algo no te sale, mándame una captura y lo vemos 😊
 
 ## 9. Tu plan y tu primera grabación (privado, cuando su estrategia y sus 100 días están hechos)
 

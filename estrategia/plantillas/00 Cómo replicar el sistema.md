@@ -110,12 +110,13 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    email de empresa). Se le comparte la carpeta de Drive «Agentes de Claude» y ella sube los zip en Claude → Ajustes →
    Capacidades → Skills, conecta Notion y Google Drive, y trabaja su contenido sin depender de nadie (mensaje 8 de
    `02 Mensajes de WhatsApp`). Su estudio y su estrategia se le comparten invitando a su Gmail («Invite people by email»).
-   Todo lo suyo, en **una sola página**: «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma), con dónde
-   está cada cosa (Notion, su estudio, su Drive, su estrategia, su web), su semana, qué pedirle a Claude y los pasos
-   de la primera vez, incluido su proyecto «Mi contenido» con instrucciones para copiar y pegar (mensaje 8b). A ese
-   proyecto añade desde Drive su **«Kit de Claude · <Nombre>»** (`npm run kit-claude`): un documento con todo lo que su
-   Claude necesita saber (sus enlaces, su estrategia, cómo crear y cambiar sus piezas en Notion, las normas, el diseño
-   y los agentes), para que trabaje su contenido sin depender de nadie.
+   Todo lo suyo, en **una sola guía**: «<Nombre> · Empieza aquí (paso a paso)», un Google Doc en su carpeta de Drive
+   (como el de Gemma) que no da nada por sabido: qué es cada cosa, los pasos de la primera vez con el botón exacto,
+   las instrucciones de su proyecto «Mi contenido» para copiar y pegar, su semana, **todos los textos para pedirle
+   cada cosa a su Claude** y sus enlaces (mensaje 8b). A ese proyecto añade desde Drive su **«Kit de Claude ·
+   <Nombre>»**: un documento con todo lo que su Claude necesita saber (sus enlaces, su estrategia, cómo crear y cambiar
+   sus piezas en Notion, las normas, el diseño y los agentes), para que trabaje su contenido sin depender de nadie.
+   Los dos salen de `npm run kit-claude`.
    **Nunca** le des acceso a GitHub ni a Vercel: así nadie puede tocar el código. Detalle en `contenido/agentes-web/README.md`.
 6. **Su estrategia y sus 100 días** (una vez, cuando su ficha está «Lista para guiones»): «prepara la estrategia y los
    100 días de <nombre>» (agente `estrategia-100-dias`, método en `estrategia/perfil-y-100-dias.md`). Sale: la idea de

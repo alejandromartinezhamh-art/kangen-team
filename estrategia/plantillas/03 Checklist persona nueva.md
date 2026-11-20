@@ -65,9 +65,10 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Su estudio en Claude creado, con sus carpetas de Drive apuntadas, y compartido con ella como Editor
       (`contenido/estudio/README.md`). La primera vez que pulse «Traer de Google Drive», «Permitir»
 - [ ] Si quiere voz clonada: ha subido su grabación y ha dado su permiso en su estudio → «Mi voz» (mensaje 10)
-- [ ] Su página «<Nombre> · Empieza aquí» (documento de Claude, como la de Gemma) con todos sus enlaces, su semana, qué
-      pedirle a Claude y «Prepáralo una vez»; compartida con ella y enviada (mensaje 8b). Ha creado su proyecto
-      «Mi contenido» en Claude con las instrucciones de esa página y la tiene fijada
+- [ ] Su guía «<Nombre> · Empieza aquí (paso a paso)» en su carpeta de Drive (Google Doc, `npm run kit-claude`): qué es
+      cada cosa, «Prepáralo una vez», las instrucciones del proyecto, todos los textos para pedirle cosas a su Claude y
+      sus enlaces; su carpeta compartida con ella como editora y la guía enviada (mensaje 8b). Ha creado su proyecto
+      «Mi contenido» en Claude con las instrucciones de la guía
 - [ ] Su «Kit de Claude · <Nombre>» en su carpeta de Drive (`npm run kit-claude`, `contenido/agentes-web/README.md`),
       añadido a su proyecto «Mi contenido» (Archivos → + → Google Drive). Ha probado «¿Qué tengo que grabar esta semana?»
 - [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
