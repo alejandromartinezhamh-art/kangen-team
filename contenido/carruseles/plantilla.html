@@ -226,6 +226,10 @@
   .partida h2 { font-size: 96px; }
 
   /* cita: foto a sangre con velo oscuro abajo y la frase */
+  /* Sello de las imágenes creadas con IA (normas: se marca siempre). Va encima de la foto, pequeño. */
+  .sello-ia { position: absolute; z-index: 6; right: 76px; bottom: 50px; font: 600 19px/1 ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    letter-spacing: .06em; text-transform: uppercase; padding: 9px 14px; border-radius: 999px; background: rgba(20,16,12,.58); color: #fff; }
+  .partida .sello-ia { bottom: auto; top: 576px; }
   .cita .velo { background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 16%, transparent 40%,
     rgba(24,18,14,.72) 66%, rgba(24,18,14,.88) 100%); }
   .cita .capa { color: var(--fondo); }

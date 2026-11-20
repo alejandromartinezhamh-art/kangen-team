@@ -58,6 +58,11 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
   petición de Alejandro · Regla: la voz clonada se puede usar en cualquier pieza, pero solo la de la propia persona,
   con su permiso dado por ella en su estudio («Mi voz») y con la etiqueta de IA; si la pieza cuenta su historia, mejor
   su voz grabada. Se genera en la nube con Qwen3-TTS (gratis).
+- 2026-11-20 · Carruseles: «me pones 4 cositas y no está mal, pero se queda muy justo»; faltan imágenes que den
+  contexto a lo que se cuenta · opinión de Alejandro · Regla: cada idea con su imagen; si la persona no tiene la foto
+  (su trabajo, el camino de vuelta, una mañana), imagen de contexto con IA: sin caras, sin marcas ni texto, con aspecto
+  de foto de móvil y con el sello «Imagen creada con IA» y la etiqueta de cada red. Las caras, siempre fotos reales.
+  Como mucho dos imágenes seguidas sin foto (`contenido/carruseles/README.md`). Ejemplo: CT-8 de Gemma (v3).
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.

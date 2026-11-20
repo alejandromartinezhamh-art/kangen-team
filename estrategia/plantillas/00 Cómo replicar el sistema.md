@@ -118,7 +118,8 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 7. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
    revisor): toma las 7 piezas siguientes de su plan. Graba en una sesión de 30 a 60 minutos y aprueba las piezas en
    Notion. Nada se publica sin su aprobación. Los carruseles salen de `contenido/carruseles/plantilla.html` con sus
-   colores, en uno de sus cuatro estilos y con tantas imágenes como pida la idea (`npm run carrusel`, que encuadra
+   colores, en uno de sus cuatro estilos y con tantas imágenes como pida la idea, cada idea con su imagen (si no tiene
+   la foto, una imagen de contexto hecha con IA, sin caras y con su sello) (`npm run carrusel`, que encuadra
    las fotos según las caras; las imágenes con movimiento, con `npm run carrusel-animado`). Los vídeos sin hablar a cámara (su voz o textos sobre sus clips y fotos) se montan con
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`). Los Reels animados (solo texto en
    movimiento sobre dos fotos suyas, sin grabar nada) salen de `contenido/videos/plantilla-reel-animado.html` con

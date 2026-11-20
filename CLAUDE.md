@@ -134,6 +134,12 @@ Carruseles (`contenido/carruseles/README.md`):
 - **Dibujos que señalan** (flecha, círculo, subrayado, rotulador, cinta, pegatina, nota a mano): como mucho dos por
   imagen. El círculo, solo en una palabra de la primera línea del titular; si no, subrayado.
 - **Al menos 3 fotos reales** distintas (en tipográfico, 1 o 2). Nada de IA sin etiqueta.
+- **Cada idea, con su imagen** (20 de noviembre: «4 cositas se queda muy justo»): si falta la foto (su trabajo, el
+  camino de vuelta, una mañana), imagen de contexto con IA (Gamma `generate_image`, `type: "photo"`, 4:5), sin caras,
+  marcas ni texto, con `<div class="sello-ia">` y la etiqueta de IA. Las caras, siempre fotos reales. Ejemplo: CT-8 v3
+  en Drive → `Landing Kangen Gemma/05 Contenido redes/Editados/CT-8 No hace falta dejarlo todo (v3, ejemplo con
+  imágenes de IA)`; Alejandro decide en Pendientes si se rehacen así las demás. Higgsfield está conectado pero con una
+  cuenta gratis sin créditos (en Pendientes, conectar la de la suscripción).
 - **Caras enteras y sin texto encima**: si la foto no cabe en la composición, se cambia la foto o la composición. Una
   selfie no va en una franja estrecha (`partida`, `mitad`). Se revisa cada imagen a tamaño real.
 - Textos: solo frases que salgan de su ficha de voz (nunca sentimientos inventados); nada de dinero, ingresos ni

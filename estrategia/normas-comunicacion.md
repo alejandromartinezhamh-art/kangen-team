@@ -40,6 +40,9 @@ afirmación de salud (tampoco «me siento mejor desde…») y aprobado por Enagi
   trata como servicios financieros.
 - **Contenido realista generado con IA** (personas, lugares o hechos que no son reales): se marca con la etiqueta de IA de
   cada red. La persona que habla a cámara es siempre la real.
+- **Imágenes de contexto con IA** (sitios, objetos, momentos): sin caras ni personas reconocibles, sin marcas ni texto,
+  con el sello «Imagen creada con IA» en la imagen y la etiqueta de IA de cada red. Nunca la cara de la persona ni de
+  nadie que pueda pasar por real hecha con IA.
 - **Voz clonada**: solo la de la propia persona, con su permiso dado en su estudio, y siempre con la etiqueta de IA de
   cada red y la casilla **Etiqueta IA** de la pieza. Nunca la voz de otra persona.
 

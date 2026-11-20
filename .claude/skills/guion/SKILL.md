@@ -48,6 +48,10 @@ En el cuerpo de la página de la pieza:
      sin cortar la cara (una selfie no va en una franja estrecha).
    - **Adornos**: como mucho dos por imagen (flecha, círculo, subrayado, pegatina…) y que señalen algo.
    - **Fotos**: al menos 3 reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer).
+   - **Cada idea, con su imagen**: si el texto habla de un sitio, un momento o una cosa que ella no tiene en foto (su
+     trabajo, el camino de vuelta, una mañana), en la columna foto pon «IA: <qué se ve y a qué hora>», sin caras ni
+     marcas (`contenido/carruseles/README.md` → «Imágenes de contexto con IA»). Como mucho dos imágenes seguidas sin
+     foto. Si lleva imágenes de IA, marca **Etiqueta IA** en la pieza.
    - Si el movimiento cuenta la idea, marca **una o dos imágenes con movimiento** y qué se mueve.
 2. **Texto de la publicación** de Instagram y Facebook.
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus

@@ -30,6 +30,8 @@ y se explica por qué.
 8. **IA**: si hay personas, lugares o hechos realistas generados con IA, o la voz es su voz clonada, la casilla
    **Etiqueta IA** debe estar marcada (y al publicar, la etiqueta de IA de cada red). La voz clonada solo vale si es la
    suya y la ha autorizado ella en su estudio.
+   Una imagen de contexto hecha con IA lleva el sello «Imagen creada con IA» y no tiene caras ni personas que puedan
+   pasar por reales, ni marcas ni texto: si una cara está hecha con IA → No pasa.
 9. **Copia**: si la pieza sale del Radar, que no copie texto, vídeo ni música de la referencia.
 10. **Privacidad**: nada de lo marcado con ⚠ en su ficha de voz (salud, familia, su empresa actual…).
 11. **Lo que ya dijeron que no**: nada que contradiga una regla de la sección «Feedback y aprendizajes» de su ficha
