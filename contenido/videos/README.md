@@ -91,3 +91,21 @@ de IA. La música se pone al publicar, en la aplicación de cada red.
 
 Lo que se aprenda de las opiniones sobre los vídeos se apunta con `aprender` y, si vale para todos, se cambia aquí y en
 `scripts/video.mjs`.
+
+## Herramientas de terceros
+
+Además de `npm run video` y `npm run carrusel-animado`, en `.claude/skills/` hay:
+
+| Herramienta | Para qué | Cómo |
+|---|---|---|
+| `ffmpeg-skill` (kajisho5, MIT, v4.4.0) | Retoques sueltos que no hace `scripts/video.mjs`: recortar, pasar a 9:16, quitar silencios, normalizar el volumen a −14 LUFS, exportar por red y comprobar el resultado | `python3 .claude/skills/ffmpeg-skill/scripts/<herramienta>.py --help`; se actualiza con `npx ffmpeg-skill@<versión> --project` |
+| `threejs-*` (CloudAI-X, MIT, 13 skills) | Escenas 3D en HTML (fondos de landing, imágenes con movimiento en HyperFrames) con la API actual de three.js | Se cargan solas cuando la tarea es de three.js |
+| `yt-dlp` | Descargar un vídeo de referencia (del Radar) para estudiar su ritmo y sus textos. **Nunca** para volver a publicarlo ni usar trozos | `pip install yt-dlp` en cada sesión nueva (no queda instalado) |
+
+No se instalan:
+- **Whisper** (OpenAI): `scripts/video.mjs` ya transcribe con Whisper a través de `hyperframes transcribe`.
+- **ghost-editor**: solo funciona en Mac con Apple silicon, manda fotogramas a Google (clave de Gemini) y no aplica nuestras
+  normas de vídeo. Si alguien lo quiere en su Mac: clonar `github.com/kurbaitaev/ghost-editor` en `~/.claude/skills/` y
+  seguir su `docs/INSTALL.md`; lo que salga pasa igual por las reglas de arriba.
+- **awesome-claude-video-skills** (zhuyansen): es una lista de unos 180 repositorios, no una herramienta. Se consulta
+  cuando haga falta algo que no tengamos.
