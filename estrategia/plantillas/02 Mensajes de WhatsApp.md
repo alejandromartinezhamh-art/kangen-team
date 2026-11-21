@@ -79,15 +79,31 @@ Te ha llegado un email con tu usuario y tu contraseña (si no lo ves, mira en *P
 
 Son lecciones cortas: míratelo con calma, a tu ritmo, y apunta todas tus dudas. Al terminar, escríbeme desde el botón del final y hacemos una segunda llamada para resolverlas.
 
-## 8. Tu Claude (privado, cuando la invitas a la organización de Claude)
+## 8. Tu Claude (privado, cuando tenga su Claude Pro y le hayas compartido la carpeta de agentes)
 
-<Nombre>, te acabo de invitar a nuestro equipo en Claude 🙌 Ahí tienes los mismos agentes que uso yo para el contenido.
+<Nombre>, ya puedes usar en tu Claude los mismos agentes que uso yo para el contenido 🙌
 
-1️⃣ Acepta la invitación del email que te ha llegado de Claude (mira en *Promociones* o en *Spam*).
-2️⃣ En Claude → *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
-3️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
+1️⃣ Descarga los 6 zip de esta carpeta: <enlace a «Agentes de Claude» en Drive>
+2️⃣ En Claude → *Ajustes → Capacidades → Skills*, súbelos uno a uno.
+3️⃣ En *Ajustes → Conectores*, conecta *Notion* y *Google Drive* (GitHub no hace falta).
+4️⃣ Te llegarán emails de Claude (en inglés) para abrir tu estudio y tu estrategia: acéptalos entrando con tu Gmail (mira en *Promociones* o en *Spam*).
+5️⃣ ¿Quieres una imagen o un vídeo hecho con IA? No necesitas cuenta de Higgsfield: escríbelo en *Notas* de la pieza en Notion empezando por «Higgsfield:» y lo hago yo.
+6️⃣ Pídele cosas como: «prepara el guion de la pieza CT-1», «te doy mi opinión del carrusel: …» o «hazme el plan de la semana».
 
 Todo lo que le digas que te gusta o no se queda guardado en tu ficha, y tus próximas publicaciones ya salen así 😉
+
+## 8b. Tu guía «Empieza aquí» (privado, cuando ya le has dado acceso a Notion, a su estudio, a su estrategia y a su carpeta de Drive)
+
+Hola <Nombre>! Te he preparado todo para que lleves tu contenido tú sola desde tu Claude 🙌
+
+Está todo en un documento de tu carpeta de Drive, paso a paso (unos 30 minutos, mejor desde el ordenador):
+👉 <enlace a su guía «Empieza aquí (paso a paso)»>
+
+1️⃣ Haz «Prepáralo una vez» (pasos 1 a 9): aceptar los emails de Notion y de Claude, conectar Notion y Google Drive a tu Claude, subir las skills, crear tu proyecto «Mi contenido» y pegar las instrucciones que te dejo ahí.
+2️⃣ Prueba que funciona con el texto de «Para empezar».
+3️⃣ A partir de ahí, en «Lo que le escribes a tu Claude» tienes el texto para pedirle cada cosa: lo copias, cambias lo que va entre corchetes y lo pegas. Ideas para tus 100 días, guiones, cambiar una pieza, saber si se puede publicar… Tú solo grabas y apruebas.
+
+Si algo no te sale, mándame una captura y lo vemos 😊
 
 ## 9. Tu plan y tu primera grabación (privado, cuando su estrategia y sus 100 días están hechos)
 
@@ -101,5 +117,28 @@ Para llegar necesito cuatro cosas antes del <fecha límite>. En total es algo m�
 4️⃣ Contestarme tres preguntas con una nota de voz.
 
 Lo tienes todo paso a paso aquí: <enlace a su documento «Empezamos: tu perfil y tu primera grabación»>
+
+Cualquier duda, me dices 😊
+
+## 10. Tu voz clonada (privado, si quiere hacer vídeos sin grabar la voz cada vez)
+
+Hola <Nombre>! Si quieres, tus vídeos pueden llevar tu voz sin que tengas que grabarla cada vez 🎙️ Se hace con tu voz
+clonada y solo si tú lo autorizas:
+
+1️⃣ Abre tu estudio: <enlace a su estudio>
+2️⃣ Pulsa *Mi voz*, lee en voz alta el texto que aparece con las notas de voz del móvil (unos 30 segundos, sin ruido) y súbelo.
+3️⃣ Marca la casilla del permiso y pulsa *Guardar mi voz*.
+
+Cada vídeo hecho así lleva la etiqueta de IA de cada red, y puedes borrar tu voz cuando quieras desde ahí mismo. Si
+cuentas algo muy tuyo, mejor con tu voz grabada: se nota 😊
+
+## 11. Tus carruseles, en Canva (privado, cuando le has compartido su carpeta de Canva)
+
+Hola <Nombre>! A partir de ahora tus carruseles te llegan a *Canva*, para que puedas cambiar lo que quieras: textos, letras, colores, tamaños, recortar o cambiar una foto 🎨
+
+1️⃣ Abre el email de Canva que te ha llegado y entra con tu Gmail (si no tienes cuenta, se crea gratis ahí mismo).
+2️⃣ Instala la app *Canva* en el móvil y entra con el mismo Gmail.
+3️⃣ Tus carruseles están en la carpeta *Kangen · Carruseles → <Nombre>*: <enlace a su carpeta de Canva>
+4️⃣ Toca lo que quieras cambiar: se guarda solo. Cuando te guste, ponla en *Aprobado* en Notion.
 
 Cualquier duda, me dices 😊

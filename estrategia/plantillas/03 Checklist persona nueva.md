@@ -57,11 +57,22 @@ Nombre: ______________________ Fecha de alta: ____________
 - [ ] Carpetas `Brutos`, `Editados` y `Publicados` en `05 Contenido redes` de su Drive
 - [ ] Su nombre en «Persona» de Notion → CONTENIDO Y ANUNCIOS
 - [ ] Notion: invitada a editar el Calendario, el Radar y «Propuestas para todo el equipo», y solo su ficha de voz
-- [ ] Invitada como miembro a la organización de Claude (plan Team), con Notion y Google Drive conectados (mensaje 8)
+- [ ] Con su propio Claude Pro (su Gmail), la carpeta «Agentes de Claude» compartida, los 6 agentes subidos y Notion y Google Drive conectados (mensaje 8)
 - [ ] Sin acceso a GitHub ni a Vercel (nunca)
 - [ ] Estrategia y 100 días hechos (`estrategia/perfil-y-100-dias.md`): documento de estrategia, 100 piezas con Día y
       Fase en el Calendario y su vista «<Nombre> · 100 días»
 - [ ] «<Nombre> · Empezamos: tu perfil y tu primera grabación» en su Drive y enviado (mensaje 9)
+- [ ] Su carpeta en Canva («Kangen · Carruseles → <Nombre>») creada y compartida con su Gmail («Puede editar»); tiene
+      cuenta de Canva (gratis) con ese Gmail y la app en el móvil (`contenido/canva/README.md`)
+- [ ] Su estudio en Claude creado (para sus vídeos), con sus carpetas de Drive apuntadas, y compartido con ella como
+      Editor (`contenido/estudio/README.md`). La primera vez que pulse «Traer de Google Drive», «Permitir»
+- [ ] Si quiere voz clonada: ha subido su grabación y ha dado su permiso en su estudio → «Mi voz» (mensaje 10)
+- [ ] Su guía «<Nombre> · Empieza aquí (paso a paso)» en su carpeta de Drive (Google Doc, `npm run kit-claude`): qué es
+      cada cosa, «Prepáralo una vez», las instrucciones del proyecto, todos los textos para pedirle cosas a su Claude y
+      sus enlaces; su carpeta compartida con ella como editora y la guía enviada (mensaje 8b). Ha creado su proyecto
+      «Mi contenido» en Claude con las instrucciones de la guía
+- [ ] Su «Kit de Claude · <Nombre>» en su carpeta de Drive (`npm run kit-claude`, `contenido/agentes-web/README.md`),
+      añadido a su proyecto «Mi contenido» (Archivos → + → Google Drive). Ha probado «¿Qué tengo que grabar esta semana?»
 - [ ] Perfil puesto en cada red: nombre, presentación y enlace; después, las tres fijadas y las seis destacadas
 - [ ] Primer lote grabado (días 1 a 14) y día de salida fijado
 - [ ] Primer plan semanal creado a partir de su plan de 100 días

@@ -4,11 +4,15 @@
 // HyperFrames (HTML → MP4) con el gancho arriba y los subtítulos al ritmo de la voz, con los colores de la persona.
 // Con --planos solo hace planos.jpg: un fotograma por segundo de cada clip, para elegir qué trozo usar antes de montar.
 // Cada texto en pantalla dura al menos lo que se tarda en leerlo, y las fotos se recortan alrededor de la cara.
+// Lo que se puede tocar (también desde el estudio): colores, caja, tamaño y altura de las letras (estilo), velocidad,
+// recorte de la voz (principio, final y pausas largas) y frases quitadas o corregidas (transcripcion.json). Las
+// cuentas son las de scripts/montaje-video.mjs, las mismas que usa el estudio para enseñarlo.
 // Guía y formato de pieza.json: contenido/videos/README.md.
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { carasEnFotos } from './encuadre.mjs';
+import { cssTextosVideo, estiloVideo, mapaVoz, subtitulosDeVoz, tramosDeVoz, velocidadDe } from './montaje-video.mjs';
 
 const HYPERFRAMES = 'hyperframes@0.9.52';
 const ANCHO = 1080;
@@ -62,37 +66,30 @@ function colores(persona) {
   return { ...base, acentoClaro: claro ?? aclarar(base.acento, 0.45) };
 }
 const color = { ...colores(pieza.persona), ...(pieza.colores ?? {}) };
+// Las letras: blancas, la palabra que se dice en su color de superficie y la de *énfasis* en su coral, salvo que la
+// pieza diga otra cosa en "estilo".
+const estilo = estiloVideo(pieza.estilo, { resalte: color.superficie, enfasis: color.acentoClaro });
+const velocidad = velocidadDe(pieza.velocidad);
 
 // ---------- Preparar las herramientas (la primera vez tarda unos minutos)
 function preparar() {
   hf(['telemetry', 'disable'], { cwd: carpeta, salida: 'ignore' });
   hf(['browser', 'ensure'], { cwd: carpeta, salida: 'ignore' });
-  if (pieza.voz && !/parakeet\S*\s+installed/.test(hf(['models', 'list'], { cwd: carpeta, salida: 'pipe' }))) {
+  if (pieza.voz && !transcripcionGuardada() && !/parakeet\S*\s+installed/.test(hf(['models', 'list'], { cwd: carpeta, salida: 'pipe' }))) {
     console.log('Instalando el reconocimiento de voz (solo la primera vez)…');
     hf(['models', 'install', 'parakeet'], { cwd: carpeta });
   }
 }
 
-// ---------- Subtítulos: agrupa las palabras en frases cortas
-function frases(palabras) {
-  const lista = [];
-  let actual = [];
-  const cerrar = () => {
-    if (actual.length) lista.push(actual);
-    actual = [];
-  };
-  palabras.forEach((p, i) => {
-    const anterior = palabras[i - 1];
-    const letras = actual.reduce((n, x) => n + x.text.length + 1, 0);
-    if (anterior && (actual.length >= 4 || letras + p.text.length > 22 || /[.,;:?!…]$/.test(anterior.text) || p.start - anterior.end > 0.5)) cerrar();
-    actual.push(p);
-  });
-  cerrar();
-  return lista.map((f, i) => {
-    const inicio = f[0].start;
-    const siguiente = lista[i + 1]?.[0].start ?? Infinity;
-    return { palabras: f, inicio, fin: Math.max(inicio + 0.3, Math.min(siguiente, f.at(-1).end + 0.35)) };
-  });
+// ---------- La transcripción de la voz: la de transcripcion.json si es de esta misma voz (corregida a mano o desde el
+// estudio, con las frases quitadas en "fuera": true); si no, null y se transcribe. Un transcripcion.json antiguo (solo
+// la lista de palabras) se usa tal cual.
+function transcripcionGuardada() {
+  const archivo = path.join(carpeta, 'transcripcion.json');
+  if (!existsSync(archivo)) return null;
+  const t = JSON.parse(readFileSync(archivo, 'utf8'));
+  if (Array.isArray(t)) return t;
+  return t.voz === pieza.voz && Array.isArray(t.palabras) ? t.palabras : null;
 }
 
 // ---------- Revisar los clips antes de montar: un fotograma por segundo de cada uno, y avisos de luz y nitidez
@@ -127,22 +124,39 @@ hf(['init', 'obra', '--example', 'blank', '--resolution', 'portrait', '--non-int
 mkdirSync(path.join(obra, 'medios'), { recursive: true });
 mkdirSync(path.join(obra, 'audio'), { recursive: true });
 
-// 1. La voz: mono, sin graves de fondo, con algo menos de ruido y al volumen de las redes (-14 LUFS).
+// 1. La voz. Primero limpia y con los tiempos de la grabación (mono, sin graves de fondo y con algo menos de ruido);
+//    de ahí salen las palabras. Después, solo los trozos que se quedan (recorte, pausas largas y frases quitadas),
+//    a su velocidad sin cambiarle el tono y al volumen de las redes (-14 LUFS).
 let durVoz = 0;
 let cues = [];
 if (pieza.voz) {
-  ffmpeg(['-i', path.join(carpeta, pieza.voz), '-vn', '-ac', '1', '-ar', '48000', '-af', 'highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11', path.join(obra, 'audio/voz.wav')]);
-  durVoz = duracion(path.join(obra, 'audio/voz.wav'));
-  hf(['transcribe', 'audio/voz.wav', '--engine', 'auto', '--model', 'small', '--language', pieza.idioma ?? 'es', '--json'], { salida: 'pipe' });
-  const transcripcion = path.join(obra, 'audio/transcript.json');
-  // Si hay una transcripción corregida a mano al lado de pieza.json, manda esa.
-  if (existsSync(path.join(carpeta, 'transcripcion.json'))) copyFileSync(path.join(carpeta, 'transcripcion.json'), transcripcion);
-  else copyFileSync(transcripcion, path.join(carpeta, 'transcripcion.json'));
-  cues = frases(JSON.parse(readFileSync(transcripcion, 'utf8')));
+  const limpia = path.join(obra, 'audio/voz.wav');
+  ffmpeg(['-i', path.join(carpeta, pieza.voz), '-vn', '-ac', '1', '-ar', '48000', '-af', 'highpass=f=80,afftdn=nf=-25', limpia]);
+  let palabras = transcripcionGuardada();
+  if (!palabras) {
+    hf(['transcribe', 'audio/voz.wav', '--engine', 'auto', '--model', 'small', '--language', pieza.idioma ?? 'es', '--json'], { salida: 'pipe' });
+    palabras = JSON.parse(readFileSync(path.join(obra, 'audio/transcript.json'), 'utf8'));
+  }
+  palabras = palabras.map((p) => ({ text: String(p.text), start: Number(p.start), end: Number(p.end), ...(p.fuera ? { fuera: true } : {}) }));
+  writeFileSync(path.join(carpeta, 'transcripcion.json'), JSON.stringify({ voz: pieza.voz, palabras }, null, 1));
+  // Los trozos: los que diga la pieza (el estudio los guarda tal cual los ha enseñado) o los de su recorte.
+  const tramos = pieza.tramos?.length ? pieza.tramos : tramosDeVoz({ duracion: duracion(limpia), ...(pieza.recorte ?? {}), palabras });
+  if (!tramos.length) throw new Error('Con este recorte no queda nada de la voz: revisa "recorte" y las frases quitadas.');
+  const filtros = tramos.map(([a, b], i) => {
+    const largo = b - a;
+    return `[0:a]atrim=${a}:${b},asetpts=PTS-STARTPTS,afade=t=in:d=0.01,afade=t=out:st=${Math.max(0, largo - 0.01).toFixed(3)}:d=0.01[t${i}]`;
+  });
+  const unir = `${tramos.map((_, i) => `[t${i}]`).join('')}concat=n=${tramos.length}:v=0:a=1${velocidad !== 1 ? `,atempo=${velocidad}` : ''},loudnorm=I=-14:TP=-1.5:LRA=11[voz]`;
+  ffmpeg(['-i', limpia, '-filter_complex', [...filtros, unir].join(';'), '-map', '[voz]', '-ar', '48000', path.join(obra, 'audio/voz-final.wav')]);
+  durVoz = duracion(path.join(obra, 'audio/voz-final.wav'));
+  if (estilo.subtitulos) cues = subtitulosDeVoz(palabras, mapaVoz(tramos, velocidad));
+  const quitado = duracion(limpia) - durVoz * velocidad;
+  if (quitado > 0.3 || velocidad !== 1) console.log(`Voz: ${r2(duracion(limpia))} s grabados → ${r2(durVoz)} s en el vídeo (${r2(quitado)} s quitados, velocidad ${velocidad}).`);
 }
 
-// 2. El tiempo de cada clip: los que traen «segundos» lo respetan; el resto se reparte lo que dura la voz.
-//    Un clip con texto dura al menos lo que se tarda en leerlo (sin voz se alarga; con voz, se avisa).
+// 2. El tiempo de cada clip: los que traen «segundos» lo respetan; el resto se reparte lo que dura la voz (sin voz,
+//    3 segundos a velocidad normal). Un clip con texto dura al menos lo que se tarda en leerlo (sin voz se alarga; con
+//    voz, se avisa).
 const medios = pieza.medios.map((m) => (typeof m === 'string' ? { archivo: m } : { ...m }));
 for (const m of medios.filter((m) => m.texto)) {
   const minimo = r2(lectura(m.texto) + 0.3);
@@ -151,7 +165,7 @@ for (const m of medios.filter((m) => m.texto)) {
 }
 const fijos = medios.reduce((n, m) => n + (m.segundos ?? 0), 0);
 const libres = medios.filter((m) => !m.segundos).length;
-const total = pieza.voz ? durVoz + 0.8 : fijos + libres * 3;
+const total = pieza.voz ? durVoz + 0.8 : fijos + libres * (3 / velocidad);
 const reparto = libres ? Math.max(1.5, (total - fijos) / libres) : 0;
 let t = 0;
 medios.forEach((m, i) => {
@@ -216,13 +230,7 @@ const html = `<!doctype html>
   .medio { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .velo { position: absolute; inset: 0; z-index: 2;
     background: linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 48%, rgba(0,0,0,.62) 78%, rgba(0,0,0,.7) 100%); }
-  .texto { position: absolute; left: 90px; right: 90px; z-index: 3; text-align: center; font-weight: 800; letter-spacing: -0.02em;
-    text-shadow: 0 4px 28px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.6); }
-  .texto em { font-family: 'DM Serif Display', serif; font-style: italic; font-weight: 400; letter-spacing: 0; color: ${color.acentoClaro}; }
-  .gancho { top: 290px; font-size: 88px; line-height: 1.04; }
-  .rotulo { top: 660px; font-size: 104px; line-height: 1.04; }
-  .cue { top: 1270px; font-size: 80px; line-height: 1.1; }
-  .cue span { display: inline-block; margin: 0 .1em; }
+${cssTextosVideo(estilo)}
   .prueba { position: absolute; top: 150px; right: 60px; z-index: 4; padding: 12px 22px; border-radius: 999px; background: rgba(0,0,0,.6);
     font-size: 28px; font-weight: 700; letter-spacing: .08em; }
 </style>
@@ -237,22 +245,22 @@ ${medios
   )
   .join('\n')}
   <div class="velo"></div>
-${pieza.gancho ? `  <div id="gancho" class="clip texto gancho" data-start="0" data-duration="${durGancho}" data-track-index="1">${conEnfasis(pieza.gancho)}</div>` : ''}
+${pieza.gancho ? `  <div id="gancho" class="clip texto gancho" data-start="0" data-duration="${durGancho}" data-track-index="1"><span class="linea">${conEnfasis(pieza.gancho)}</span></div>` : ''}
 ${medios
-  .map((m, i) => (m.texto ? `  <div id="r${i}" class="clip texto rotulo" data-start="${m.inicio}" data-duration="${m.dura}" data-track-index="1">${conEnfasis(m.texto)}</div>` : ''))
+  .map((m, i) => (m.texto ? `  <div id="r${i}" class="clip texto rotulo" data-start="${m.inicio}" data-duration="${m.dura}" data-track-index="1"><span class="linea">${conEnfasis(m.texto)}</span></div>` : ''))
   .filter(Boolean)
   .join('\n')}
 ${cues
-  .map((c, i) => `  <div id="c${i}" class="clip texto cue" data-start="${r2(c.inicio)}" data-duration="${r2(c.fin - c.inicio)}" data-track-index="2">${c.palabras.map((p, n) => `<span id="${p.id}">${escapar(n === c.palabras.length - 1 ? p.text.replace(/[.,;:]+$/, '') : p.text)}</span>`).join('')}</div>`)
+  .map((c, i) => `  <div id="c${i}" class="clip texto cue" data-start="${r2(c.inicio)}" data-duration="${r2(c.fin - c.inicio)}" data-track-index="2"><span class="linea">${c.palabras.map((p, n) => `<span id="c${i}w${n}">${escapar(n === c.palabras.length - 1 ? p.text.replace(/[.,;:]+$/, '') : p.text)}</span>`).join('')}</span></div>`)
   .join('\n')}
 ${pieza.vozDePrueba ? '  <div class="prueba">VOZ DE PRUEBA</div>' : ''}
-${pieza.voz ? `  <audio id="voz" class="clip" src="audio/voz.wav" data-start="0" data-duration="${r2(durVoz)}" data-track-index="3" data-volume="1"></audio>` : ''}
+${pieza.voz ? `  <audio id="voz" class="clip" src="audio/voz-final.wav" data-start="0" data-duration="${r2(durVoz)}" data-track-index="3" data-volume="1"></audio>` : ''}
 ${pieza.musica ? `  <audio id="musica" class="clip" src="audio/musica${path.extname(pieza.musica)}" data-start="0" data-duration="${r2(total)}" data-track-index="4" data-volume="${pieza.voz ? 0.12 : 0.6}" data-fade-in="0.4" data-fade-out="1"></audio>` : ''}
 </div>
 <script>
   const tl = gsap.timeline({ paused: true });
   const medios = ${JSON.stringify(medios.map((m, i) => ({ id: '#m' + i, inicio: m.inicio, dura: m.dura, video: m.video, texto: !!m.texto, origen: m.origen ?? '50% 45%' })))};
-  const cues = ${JSON.stringify(cues.map((c, i) => ({ id: '#c' + i, inicio: r2(c.inicio), palabras: c.palabras.map((p) => ({ id: '#' + p.id, a: r2(p.start), b: r2(p.end) })) })))};
+  const cues = ${JSON.stringify(cues.map((c, i) => ({ id: '#c' + i, inicio: r2(c.inicio), palabras: c.palabras.map((p, n) => ({ id: `#c${i}w${n}`, a: r2(p.a), b: r2(p.b) })) })))};
   medios.forEach((m, i) => {
     // Las fotos se acercan despacio para que no se vean quietas.
     if (!m.video) tl.fromTo(m.id, { scale: 1, transformOrigin: m.origen }, { scale: 1.1, duration: m.dura, ease: 'none' }, m.inicio);
@@ -267,8 +275,8 @@ ${pieza.musica ? `  <audio id="musica" class="clip" src="audio/musica${path.extn
   cues.forEach((c) => {
     tl.fromTo(c.id, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.14, ease: 'power3.out' }, c.inicio);
     c.palabras.forEach((p) => {
-      tl.set(p.id, { color: '${color.superficie}' }, p.a);
-      tl.set(p.id, { color: '#ffffff' }, Math.max(p.b, p.a + 0.08));
+      tl.set(p.id, { color: '${estilo.resalte}' }, p.a);
+      tl.set(p.id, { color: '${estilo.letra}' }, Math.max(p.b, p.a + 0.08));
     });
   });
   window.__timelines["main"] = tl;
@@ -291,3 +299,5 @@ sobrantes.forEach((a) => rmSync(path.join(obra, a)));
 console.log(`\nvideo.mp4 (${r2(duracion(salida))} s) y hoja.png en ${carpeta}`);
 if (cues.length) console.log('Subtítulos: ' + cues.map((c) => c.palabras.map((p) => p.text).join(' ')).join(' / '));
 console.log('Si alguna palabra está mal escrita, corrígela en transcripcion.json y vuelve a ejecutar.');
+// La voz clonada es voz hecha con IA: el vídeo se publica con la etiqueta de IA de cada red (y Etiqueta IA en Notion).
+if (pieza.vozClonada) console.log('Voz clonada: al publicarlo, con la etiqueta de IA de cada red y la casilla Etiqueta IA de la pieza en Notion.');

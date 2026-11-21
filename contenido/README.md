@@ -18,7 +18,7 @@ Cómo funciona el día a día de `estrategia/marketing.md`: dónde está cada co
 | Calendario, radar y anuncios (aprobar aquí) | Notion → ENAGIC KANGEN - AGUA → **CONTENIDO Y ANUNCIOS** |
 | Vídeos | Drive → `Landing Kangen <Persona>/05 Contenido redes/` → `Brutos`, `Editados`, `Publicados` |
 | Instrucciones de los agentes | `.claude/skills/<agente>/SKILL.md` |
-| El equipo en Claude (plan Team): accesos y paquete de agentes | `contenido/agentes-web/README.md` (`npm run paquete-agentes`) |
+| El equipo en Claude (cada una con su Claude Pro): accesos y paquete de agentes | `contenido/agentes-web/README.md` (`npm run paquete-agentes`) |
 
 ### Notion (para los agentes)
 
