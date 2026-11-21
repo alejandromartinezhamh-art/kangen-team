@@ -39,7 +39,7 @@ const CONOCIMIENTO = [
 
 const filas = [
   ['Mis piezas de los 100 días (Notion)', e.vista100], ['Lo que tengo que grabar (Notion)', e.vistaGrabar],
-  ['Mi ficha de voz (Notion)', e.ficha], ['Mi estudio: ver y cambiar carruseles y vídeos', e.estudio],
+  ['Mi ficha de voz (Notion)', e.ficha], ['Mis carruseles en Canva (mi carpeta)', e.canva], ['Mi estudio: mis vídeos y mi voz', e.estudio],
   ['Mi estrategia (documento de Claude; copia en la parte 6)', e.estrategia], ['Mi guía «Empieza aquí» (Google Doc: cómo se prepara todo y qué escribirte)', e.empiezaAqui],
   ['Mi carpeta de Drive', e.carpeta], ['Mis fotos (Drive)', e.fotos], ['Mis vídeos (Drive)', e.videos],
   ['Lo que grabo para los vídeos (Drive → Brutos)', e.brutos], ['Lo terminado (Drive → Editados)', e.editados],
@@ -111,14 +111,17 @@ Todo está en el espacio de Notion del equipo, en «CONTENIDO Y ANUNCIOS». Usa 
 | «Esto me gusta / no me gusta…» | Agente «aprender»: regla en su ficha (o en Propuestas si vale para todas), y rehaces la pieza |
 | «¿Se puede publicar?» | Agente «revisar-normas»: Revisión = Pasa o No pasa, con el porqué |
 | «Actualiza mi ficha» / «Entrevístame» | Agente «entrevista-historia» |
-| «¿Cómo queda el carrusel?» / cambiar el diseño | Explícale cómo cambiarlo en su estudio (enlace en la parte 2) con las reglas de la parte 8 («contenido/carruseles/README.md»); en el guion, propón estilo y composición de cada imagen |
+| «¿Cómo queda el carrusel?» / cambiar el diseño | Sus carruseles están en Canva, en su carpeta (parte 2), y el enlace de cada uno en Notas de la pieza («Editar en Canva»). Explícale cómo cambiarlo allí paso a paso, con las reglas de la parte 8 («contenido/carruseles/README.md»). Si tiene el conector de Canva, puedes hacer tú cambios sencillos (texto, color, foto). En el guion, propón estilo y composición de cada imagen |
 | Una imagen o un vídeo con IA | Escríbelo en Notas de la pieza empezando por «Higgsfield:»: lo genera el equipo con su cuenta. Sin caras hechas con IA |
 | «Apruébala» (lo dice ella) | Estado = Aprobado. Solo si lo ha dicho ella en esta conversación |
 
 ## 5. Lo que se hace fuera de tu Claude
 
-- **Las imágenes finales y el montaje de los vídeos**: cuando una pieza está en «Listo» en su estudio, la sesión del
-  equipo (Claude con el repositorio) las genera y las deja en Drive → Editados y en Archivo de la pieza.
+- **Pasar los carruseles a Canva y exportarlos**: la sesión del equipo (Claude con el repositorio) hace cada carrusel,
+  lo pasa a Canva separado en capas, en su carpeta, y pone el enlace en Notas. Cuando la pieza está en Aprobado, lo
+  exporta desde Canva, lo deja en Drive → Editados y en Archivo, y aprende de lo que ella haya cambiado.
+- **El montaje de los vídeos**: cuando un vídeo está en «Listo» en su estudio, la sesión del equipo lo monta y lo deja
+  en Drive → Editados y en Archivo de la pieza.
 - **Publicar**: lo aprobado sale solo a su hora desde el publicador del equipo.
 - **Higgsfield** (imágenes y vídeos con IA): con la cuenta del equipo, por Notas «Higgsfield: …».
 - Si algo no funciona o falta un acceso, díselo y que se lo pase a Alejandro con una captura.
@@ -177,7 +180,8 @@ const seccionesPrompts = [
     ['Aprobar (solo si ya la has visto y te gusta)', 'Apruébame la pieza del día [número].'],
   ]],
   ['Diseño e imágenes', [
-    ['Cambiar algo en tu estudio', '¿Cómo cambio [la foto / el texto / el estilo] del carrusel del día [número] en mi estudio?'],
+    ['Cambiar algo en tu carrusel', '¿Cómo cambio [la foto / el texto / el color / el tamaño] del carrusel del día [número] en Canva? Dímelo paso a paso.'],
+    ['Que tu Claude lo cambie (con el conector de Canva)', 'En mi carrusel del día [número] en Canva, cambia [el texto de la imagen 3 por «…» / el color del titular a …].'],
     ['Pedir una imagen hecha con IA (nunca con tu cara)', 'Para la pieza del día [número] quiero una imagen de [qué se ve], hecha con IA. Apúntalo en Notas para el equipo.'],
   ]],
   ['Tu historia, tu voz y tu perfil', [
@@ -207,7 +211,8 @@ Este documento está en tu carpeta de Drive${e.carpeta ? ` ([Landing Kangen ${no
 | **Tu proyecto «Mi contenido»** | Una carpeta dentro de tu Claude. Dentro de ella, Claude ya sabe todo lo tuyo: habla con él siempre ahí. |
 | **Tu kit** («Kit de Claude · ${nombre}», en tu carpeta de Drive) | El manual de tu Claude: tu estrategia, tus enlaces, las normas y cómo trabajamos. No tienes que leerlo; lo lee él. |
 | **Notion** | Donde están tus 100 piezas en orden. Ahí ves qué sale cada día y apruebas. |
-| **Tu estudio**${e.estudio ? ` ([abrir](${e.estudio}))` : ''} | Una página que se abre dentro de Claude: ves cada carrusel y cada vídeo tal cual saldrá y lo cambias tocándolo. |
+| **Canva**${e.canva ? ` ([tu carpeta](${e.canva}))` : ''} | Donde te llegan tus carruseles e imágenes. Cambias lo que quieras: textos, letras, colores, tamaños, recortar o cambiar una foto. |
+| **Tu estudio**${e.estudio ? ` ([abrir](${e.estudio}))` : ''} | Una página que se abre dentro de Claude para tus vídeos: planos, tu voz y subtítulos. |
 | **Tu Drive** | Tus fotos, lo que grabas y lo terminado. |
 
 ## Prepáralo una vez
@@ -222,6 +227,8 @@ Te llegan por email (mira también en Promociones y en Spam):
    personas invitadas y se abre con su enlace (están al final de este documento).
 3. **De Google Drive** (la carpeta «Agentes de Claude»): pulsa «Abrir». Si no te llega, no pasa nada: el enlace del
    paso 3 funciona igual.
+4. **De Canva** (tu carpeta «${nombre}»): pulsa el botón del email → entra con tu Gmail («Continuar con Google»). Si no
+   tienes cuenta, se crea gratis ahí mismo.
 
 ### 2. Conecta Notion y Google Drive a tu Claude (3 min)
 
@@ -271,24 +278,31 @@ ${instrucciones(nombre)}
 Dentro de Mi contenido, en la caja de abajo, pega el texto de «Para empezar» (más abajo) y pulsa Enviar. Si te contesta con tus piezas
 y sus enlaces, ya está. Si dice que no ve Notion o Drive, repite el paso 2.
 
-### 8. Ten a mano tu estudio (1 min)
+### 8. Ten a mano Canva y tu estudio (2 min)
 
-1. Abre [tu estudio](${e.estudio ?? 'https://claude.ai'}). Se abre dentro de Claude.
-2. Arriba, en los tres puntos (⋯), pulsa «Fijar» para que te salga siempre en la barra de la izquierda.
-3. La primera vez que pulses «Traer de Google Drive», Claude te pedirá permiso: «Permitir».
+1. Abre ${e.canva ? `[tu carpeta de Canva](${e.canva})` : 'tu carpeta de Canva'}: ahí te llegan tus carruseles. Para
+   cambiar algo, ábrelo y toca lo que quieras: un texto para escribir; arriba, la letra, el tamaño y el color; arrastra
+   cualquier cosa para moverla o tira de sus esquinas para cambiar el tamaño; doble toque en una foto para recortarla;
+   con la foto marcada, «Sustituir» para poner otra. Se guarda solo.
+2. Opcional: en [Ajustes → Conectores](https://claude.ai/settings/connectors) conecta también **Canva**, y tu Claude
+   podrá hacer por ti cambios sencillos en tus carruseles (un texto, un color, una foto).
+3. Abre [tu estudio](${e.estudio ?? 'https://claude.ai'}) (para tus vídeos). Se abre dentro de Claude. Arriba, en los
+   tres puntos (⋯), pulsa «Fijar» para que te salga siempre en la barra de la izquierda. La primera vez que pulses
+   «Traer de Google Drive», Claude te pedirá permiso: «Permitir».
 
 ### 9. En el móvil (3 min)
 
-Instala **Claude** y **Notion** (App Store o Google Play) y entra con tu Gmail. Tu proyecto, tu estudio y tus piezas te
-salen también allí.
+Instala **Claude**, **Notion** y **Canva** (App Store o Google Play) y entra con tu Gmail. Tu proyecto, tus carruseles,
+tu estudio y tus piezas te salen también allí.
 
 ## Tu semana
 
 1. **Lunes** (5 min): en Mi contenido, escríbele «Prepara mi semana…» (abajo, «Cada semana»). Te dice qué sale, qué grabar y qué aprobar.
 2. **Graba** (30 min): planos de 5 a 8 segundos, en vertical, sin hablar a cámara, y las notas de voz que pida cada
    pieza. Súbelos a ${e.brutos ? `[Brutos](${e.brutos})` : 'Brutos'} o, en tu estudio, con «Subir fotos o clips».
-3. **Mira y retoca** (10 min): en tu estudio, elige la pieza arriba y toca lo que quieras cambiar. Se guarda solo.
-   Cuando te guste, «Listo: que Claude lo prepare».
+3. **Mira y retoca** (10 min): los **carruseles e imágenes**, en ${e.canva ? `[Canva](${e.canva})` : 'Canva'} (el enlace
+   de cada uno está también en Notas de la pieza, «Editar en Canva»): toca lo que quieras cambiar y se guarda solo. Los
+   **vídeos**, en tu estudio: elige la pieza arriba, cambia lo que quieras y pulsa «Listo: que Claude lo prepare».
 4. **Aprueba** (5 min): en ${e.vista100 ? `[tus 100 días](${e.vista100})` : 'tus 100 días de Notion'}, abre la
    pieza → Estado → **Aprobado**. O díselo a tu Claude: «Apruébame la pieza del día…». Nada se publica sin tu aprobado.
 5. **Cada día** (15 min): historias, comentarios y mensajes (abajo, «Tus redes, cada día»).
@@ -317,7 +331,7 @@ que no estén en tu ficha, ni hacer imágenes con tu cara. Tu voz clonada, solo 
 | --- | --- |
 ${[
   ['Tus piezas de los 100 días (Notion)', e.vista100], ['Lo que tienes que grabar (Notion)', e.vistaGrabar],
-  ['Tu ficha de voz (Notion)', e.ficha], ['Tu estudio (dentro de Claude)', e.estudio],
+  ['Tu ficha de voz (Notion)', e.ficha], ['Tus carruseles (Canva)', e.canva], ['Tu estudio, para los vídeos (dentro de Claude)', e.estudio],
   ['Tu estrategia (dentro de Claude)', e.estrategia], ['Tu carpeta de Drive', e.carpeta],
   ['Tus fotos', e.fotos], ['Tus vídeos', e.videos], ['Lo que grabas (Brutos)', e.brutos], ['Lo terminado (Editados)', e.editados],
   ['Las skills del equipo (Drive)', AGENTES_DRIVE],

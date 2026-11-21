@@ -87,10 +87,9 @@ Los dibujos toman el color de la imagen solos (claros sobre fondo oscuro).
 
 ## Cómo se hace uno
 
-Las piezas de cada persona viven en **su estudio** (`contenido/estudio/README.md`): ahí se ven tal cual saldrán y
-cualquiera del equipo cambia fotos, encuadre, textos, dibujos, imágenes o estilo sin tocar el HTML. Claude las crea allí
-(con las mismas composiciones de esta plantilla) y genera las imágenes finales cuando la pieza está en «Listo». Lo de
-abajo es lo que hay debajo, y lo que se hace directamente en una sesión con el repositorio:
+Claude hace cada carrusel con esta plantilla y lo **pasa a Canva** separado en capas (`contenido/canva/README.md`):
+allí la persona, o Alejandro, cambia lo que quiera (textos, letras, colores, tamaños, recortes y fotos) y lo aprueba en
+Notion. Lo de abajo es cómo se hace la propuesta, en una sesión con el repositorio:
 
 1. El texto de cada imagen está en la pieza del Calendario de Notion, con su **estilo**, su **composición** y su
    **foto** (lo escribe el agente `guion`).
@@ -105,6 +104,7 @@ abajo es lo que hay debajo, y lo que se hace directamente en una sesión con el 
 5. Mira `hoja.png` (¿hay variedad?, ¿algún hueco vacío?) y **cada imagen a tamaño real**.
 6. Sube los PNG y el `carrusel.html` a Drive → `Landing Kangen <Persona>/05 Contenido redes/Editados/CT-<código>
    <título> (v1)` y pon la carpeta en **Archivo** de la pieza.
+7. Pásalo a Canva (`contenido/canva/README.md`) y pon en **Notas** «Editar en Canva: <enlace>».
 
 ## Imágenes de contexto con IA
 

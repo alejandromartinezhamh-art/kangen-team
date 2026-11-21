@@ -133,10 +133,12 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`). Los Reels animados (solo texto en
    movimiento sobre dos fotos suyas, sin grabar nada) salen de `contenido/videos/plantilla-reel-animado.html` con
    `npm run carrusel-animado`.
-   **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips
-   (las sube desde el móvil o las trae de su Google Drive con «Traer de Google Drive»),
-   donde ve cada carrusel tal cual saldrá y lo cambia sin otra herramienta (fotos, encuadre, textos, flechas y
-   pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz o con **su voz clonada** (sube una vez una
+   **Sus carruseles, en Canva** (`contenido/canva/README.md`): Claude pasa cada carrusel a Canva separado en capas, en
+   su carpeta de «Kangen · Carruseles» (compartida con su Gmail, «Puede editar»; con la cuenta gratis de Canva basta),
+   y allí ella cambia todo (textos, letras, colores, tamaños, recortes y fotos) desde el ordenador o la app, y lo
+   aprueba en Notion. **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería
+   de fotos y clips (las sube desde el móvil o las trae de su Google Drive con «Traer de Google Drive»), donde monta sus
+   vídeos con su nota de voz o con **su voz clonada** (sube una vez una
    grabación suya y da su permiso en «Mi voz»; cada vídeo así lleva la etiqueta de IA): planos, textos, velocidad,
    dónde empieza y acaba la voz, quitar pausas y frases, corregir subtítulos y el color, la caja y el tamaño de las
    letras, viéndolo y oyéndolo tal cual saldrá. Cuando pulsa «Listo», Claude lo genera con las herramientas de siempre y le deja el

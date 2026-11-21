@@ -79,8 +79,11 @@ piezas en orden se definen una vez con `estrategia/perfil-y-100-dias.md` (agente
 de ese plan, no se improvisa. Los vídeos con la voz de la persona o con textos en pantalla se montan con
 `npm run video` (`contenido/videos/README.md`, agente `editor-video`); la voz publicada es siempre la suya: grabada o su
 voz clonada, solo si ella la ha autorizado en su estudio («Mi voz») y siempre con la etiqueta de IA. Nunca otra voz.
-Cada persona tiene su **estudio** en Claude (`contenido/estudio/README.md`) para ver y cambiar sus carruseles y montar
-sus vídeos; en cada sesión con el repositorio, genera lo que esté en «Listo» allí.
+Los **carruseles e imágenes** se retocan en **Canva** (`contenido/canva/README.md`): Claude hace la propuesta con la
+plantilla y la pasa a Canva separada en capas (Magic Layers), en la carpeta de la persona; ella o Alejandro cambian lo que
+quieran y lo aprueban en Notion; Claude exporta lo aprobado y aprende de lo que han cambiado. Cada persona tiene su
+**estudio** en Claude (`contenido/estudio/README.md`) para montar sus **vídeos**; en cada sesión con el repositorio,
+genera lo que esté en «Listo» allí.
 A quién le hablamos: `estrategia/icp.md`. El contenido y los anuncios hablan de negocio, de cambiar de vida, de
 alternativas y de invertir en uno mismo; nunca de Enagic, del producto ni del agua (eso llega en el webinar o en la
 conversación), así que no necesitan aprobación de Enagic. Nada se publica ni se gasta en anuncios sin la aprobación de la
@@ -111,7 +114,7 @@ Alejandro les comparte su estudio, su estrategia y los documentos de Claude invi
 email», «Can edit»). Nunca les des acceso al código ni le pongas una clave a su Claude. Cada una empieza siempre
 por su guía «<Nombre> · Empieza aquí (paso a paso)»: un Google Doc en su carpeta de Drive que no da nada por sabido
 (qué es cada cosa, cómo preparar su Claude, las instrucciones de su proyecto «Mi contenido», todos los textos para
-pedirle cada cosa y sus enlaces; la de Gemma: <https://docs.google.com/document/d/12cTdta3gSo4bL6fQ-h_754_fOGEk2csf6pbFf7OX9aM/edit>).
+pedirle cada cosa y sus enlaces; la de Gemma: <https://docs.google.com/document/d/1HssyDy5awcX6Bo8_QKNIczdgRzOtTZI-6R2DxFi9Klw/edit>).
 Sale de `npm run kit-claude` junto con su kit: cuando cambie un enlace suyo, un paso o llegue una herramienta nueva,
 vuelve a sacarla y súbela (pasos en `contenido/agentes-web/README.md`). Si cambias un agente
 (`.claude/skills/`) o un documento que citan, en la misma tarea: `npm run paquete-agentes`, sube los zips a Drive →
@@ -181,6 +184,7 @@ Vídeos (`contenido/videos/README.md`):
 | `scripts/video.mjs` | Vídeo vertical con su voz (transcrita, con subtítulos) o con textos sobre clips y fotos, desde `pieza.json`; con velocidad, recortes de la voz, frases quitadas y estilo de letras | `npm run video -- <carpeta> [--planos]` |
 | `scripts/voz-clonada.mjs` | Su voz clonada con Qwen3-TTS en la nube (sin tarjeta gráfica; la primera vez instala el entorno en `~/.cache/kangen-voz`), a partir de su muestra y siempre con su permiso del estudio | `npm run voz-clonada -- <muestra> <texto.txt> <salida.wav>`; desde el estudio, `npm run estudio -- voz` |
 | `scripts/montaje-video.mjs` | Cuentas comunes de vídeo (velocidad, trozos de voz, subtítulos, CSS de las letras): las usan `video.mjs` y el estudio, para que lo que se ve allí sea lo que sale | Se importa; el estudio la recibe al montarse |
+| `scripts/canva-subir.mjs` | Sube imágenes a Canva con las direcciones de `create-upload-url` del conector de Canva y da su `mediaId` (para separarlas en capas con `separate-image-layers` y juntarlas con `merge-designs`) | `npm run canva-subir -- <archivo>=<dirección> …`; pasos en `contenido/canva/README.md` |
 | `contenido/estudio/estudio.html` | Fuente de la página del **estudio**: ver cada carrusel tal cual saldrá y cambiar fotos (galería, con «Traer de Google Drive»), encuadre (arrastrar), textos, formato, dibujos, imágenes, composición y estilo; montar vídeos (planos, trozo de cada clip, textos, tiempos, gancho, nota de voz y sus recortes, velocidad, subtítulos y color, caja y tamaño de las letras). Avisa en directo de caras cortadas, textos que no se leen y normas | No se abre tal cual: se monta con `npm run estudio -- pagina` |
 | `scripts/estudio.mjs` | `pagina [salida] --nombre <Nombre>`: monta la página con los estilos y composiciones de la plantilla. `caras <carpeta>`: escribe `caras.json`. `preparar <pieza.json> <carpeta>`: convierte una pieza del estudio (también el JSON que guarda ArtifactData con `out_dir`) en `carrusel.html` o `pieza.json` (+ `transcripcion.json`). `pendientes <out_dir>`: voces pedidas y piezas en «Listo». `voz <pieza.json> <carpeta> --muestra <archivo>`: genera la voz clonada pedida. `devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>] [--voz <id> \| --error <motivo>]`: escribe `para-el-estudio.json` (subtítulos, voz clonada) para guardarlo en el estudio | Detalle en `contenido/estudio/README.md` |
 
@@ -236,6 +240,12 @@ su voz clonada y volver a subir los agentes.
    arreglarlo en `contenido/estudio/estudio.html`, volver a montar y publicar en la misma `url`.
 
 ### Tarea 2 · Versión 2 de las piezas de Gemma — lo que falta
+
+**Desde el 21 de noviembre los carruseles se retocan en Canva** (`contenido/canva/README.md`): las v2 de abajo se
+pasan a Canva (carpeta «Kangen · Carruseles → Gemma») en cuanto haya créditos de Canva (el plan gratis se acabó ese día;
+Canva Pro está en la pestaña de Alejandro de Pendientes), empezando por la semana 1 (días 1, 5 y 7). El CT-8 v3 ya tiene
+sus imágenes 1 a 4 en capas en esa carpeta (faltan la 5, la 6 y la 7, y juntarlas). Hasta entonces, lo que se apruebe
+en el estudio se genera como antes.
 
 1. **Notion** (Calendario, `collection://da1053df-19d6-4cfc-8547-c77f511392ae`): en cada pieza de la tabla, **Estilo
    visual** (CT-2 Álbum, CT-8 Tipográfico, CT-10 Revista, CT-14 Documental, CT-16 Álbum, CT-21 Tipográfico, CT-23

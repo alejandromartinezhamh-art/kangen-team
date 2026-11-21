@@ -49,16 +49,19 @@ repositorio. Las demás no necesitan cuenta: escriben lo que quieren en **Notas*
 
 Cada persona tiene su propio Claude Pro con su Gmail y **una sola guía** por donde empieza siempre: «<Nombre> ·
 Empieza aquí (paso a paso)», un **Google Doc en su carpeta de Drive** (el de Gemma:
-<https://docs.google.com/document/d/12cTdta3gSo4bL6fQ-h_754_fOGEk2csf6pbFf7OX9aM/edit>). Es un documento de Google y no
+<https://docs.google.com/document/d/1HssyDy5awcX6Bo8_QKNIczdgRzOtTZI-6R2DxFi9Klw/edit>). Es un documento de Google y no
 una página de Claude porque no da nada por sabido: no hace falta saber qué es un artefacto ni un proyecto. Lleva:
 
-- **Lo que vas a usar**: qué es Claude, su proyecto «Mi contenido», su kit, Notion, su estudio y su Drive, en una frase.
+- **Lo que vas a usar**: qué es Claude, su proyecto «Mi contenido», su kit, Notion, Canva, su estudio y su Drive, en una
+  frase.
 - **Prepáralo una vez**, en 9 pasos con el botón exacto: aceptar las invitaciones (Notion, Claude y Drive; qué es una
   página de Claude), conectar **Notion** y **Google Drive** en Claude → Ajustes → Conectores (GitHub, no), descargar
   los zip de «Agentes de Claude» y subirlos en Claude → Ajustes → Capacidades → Skills, crear su proyecto **«Mi
   contenido»**, pegar **las instrucciones del proyecto** (el texto entero, para copiar), añadir su kit desde Google
-  Drive, comprobar que funciona, fijar su estudio, y Claude y Notion en el móvil.
-- **Su semana**: mirar qué toca, grabar, retocar en el estudio, aprobar en Notion y los 15 minutos diarios.
+  Drive, comprobar que funciona, su carpeta de Canva (cómo se cambia cada cosa; conectar Canva a su Claude es
+  opcional), fijar su estudio para los vídeos, y Claude, Notion y Canva en el móvil.
+- **Su semana**: mirar qué toca, grabar, retocar los carruseles en Canva y los vídeos en el estudio, aprobar en Notion
+  y los 15 minutos diarios.
 - **Lo que le escribes a tu Claude**: tablas «Para qué / Copia esto» con todos los textos (la semana, qué grabar,
   ideas nuevas para sus 100 días y crearlas en Notion, guion, gancho, opinión, revisar, aprobar, cambiar algo en el
   estudio, pedir una imagen con IA, su ficha, su presentación, historias, contestar mensajes y el kit nuevo).
@@ -69,7 +72,8 @@ un cambio en los pasos o en los textos vale para todas. Se sube **en HTML** (`<c
 `create_file` con `contentMimeType: text/html`): en Markdown, Google Docs rompe las tablas.
 
 Para una persona nueva: saca su guía, apunta en su pestaña de Pendientes qué compartirle (en Notion el Calendario, el
-Radar, «Propuestas para todo el equipo» y solo su ficha de voz; en Claude su estudio y su estrategia, «Invite people by
+Radar, «Propuestas para todo el equipo» y solo su ficha de voz; en Canva su carpeta de «Kangen · Carruseles»
+(`contenido/canva/README.md`); en Claude su estudio y su estrategia, «Invite people by
 email», «Can edit»; en Drive la carpeta de los agentes como lector y su carpeta como editora) y el WhatsApp con el
 enlace a la guía (mensaje 8b). Cuando cambie un enlace o llegue una herramienta nueva para ella, se vuelve a sacar.
 
@@ -80,7 +84,7 @@ Para que su Claude sepa todo lo que sabe el equipo y no dependa de nadie, cada p
 Google Drive). Lleva, en un solo documento:
 
 1. Cómo trabajamos (decide Claude, nada en «Aprobado» sin ella, su voz, las normas, aprender de cada opinión).
-2. Dónde está todo: sus enlaces de Notion, estudio, estrategia, Drive, web y hoja.
+2. Dónde está todo: sus enlaces de Notion, Canva, estudio, estrategia, Drive, web y hoja.
 3. Notion: el Calendario con todas sus columnas y valores, cómo crear una pieza nueva, su ficha, el Radar y
    «Propuestas para todo el equipo».
 4. Qué hacer con cada petición («¿qué toca?», ideas nuevas, guion, opiniones, revisión, ficha, diseño, IA, aprobar).

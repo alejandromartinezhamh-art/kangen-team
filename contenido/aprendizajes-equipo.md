@@ -63,6 +63,11 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
   (su trabajo, el camino de vuelta, una mañana), imagen de contexto con IA: sin caras, sin marcas ni texto, con aspecto
   de foto de móvil y con el sello «Imagen creada con IA» y la etiqueta de cada red. Las caras, siempre fotos reales.
   Como mucho dos imágenes seguidas sin foto (`contenido/carruseles/README.md`). Ejemplo: CT-8 de Gemma (v3).
+- 2026-11-21 · «La edición de fotos del estudio es muy limitada: no puedo cambiar el formato de las imágenes,
+  recortarlas, moverlas, reducir tamaños ni cambiar colores; mejor Canva» · opinión de Alejandro · Regla: los carruseles
+  y las imágenes se retocan en Canva. Claude hace la propuesta con la plantilla, la pasa a Canva separada en capas
+  (Magic Layers) en la carpeta de la persona, y allí se cambia todo. Lo aprobado se exporta desde Canva y lo que han
+  cambiado se aprende (`contenido/canva/README.md`). El estudio se queda para los vídeos.
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.

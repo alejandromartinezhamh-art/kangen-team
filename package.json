@@ -19,7 +19,8 @@
     "estudio": "node scripts/estudio.mjs",
     "dev": "npm run dev --workspace",
     "build": "npm run build --workspaces --if-present",
-    "kit-claude": "node scripts/kit-claude.mjs"
+    "kit-claude": "node scripts/kit-claude.mjs",
+    "canva-subir": "node scripts/canva-subir.mjs"
   },
   "devDependencies": {
     "wrangler": "4.151.1"

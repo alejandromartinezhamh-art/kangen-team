@@ -1,5 +1,10 @@
 # Estudio de contenido
 
+> **Desde el 21 de noviembre, los carruseles y las imágenes se retocan en Canva** (`contenido/canva/README.md`): el
+> estudio no dejaba mover, cambiar de tamaño, recortar ni cambiar colores con libertad. El estudio se queda para los
+> **vídeos** (planos, voz, voz clonada, subtítulos y letras) y para ver las propuestas de carrusel que aún no se han
+> pasado a Canva.
+
 Una página dentro de Claude (un artefacto) donde cada persona, y Alejandro, ven cada carrusel **tal cual saldrá** y lo
 cambian sin otra herramienta:
 

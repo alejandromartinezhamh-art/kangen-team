@@ -131,3 +131,14 @@ clonada y solo si tú lo autorizas:
 
 Cada vídeo hecho así lleva la etiqueta de IA de cada red, y puedes borrar tu voz cuando quieras desde ahí mismo. Si
 cuentas algo muy tuyo, mejor con tu voz grabada: se nota 😊
+
+## 11. Tus carruseles, en Canva (privado, cuando le has compartido su carpeta de Canva)
+
+Hola <Nombre>! A partir de ahora tus carruseles te llegan a *Canva*, para que puedas cambiar lo que quieras: textos, letras, colores, tamaños, recortar o cambiar una foto 🎨
+
+1️⃣ Abre el email de Canva que te ha llegado y entra con tu Gmail (si no tienes cuenta, se crea gratis ahí mismo).
+2️⃣ Instala la app *Canva* en el móvil y entra con el mismo Gmail.
+3️⃣ Tus carruseles están en la carpeta *Kangen · Carruseles → <Nombre>*: <enlace a su carpeta de Canva>
+4️⃣ Toca lo que quieras cambiar: se guarda solo. Cuando te guste, ponla en *Aprobado* en Notion.
+
+Cualquier duda, me dices 😊
