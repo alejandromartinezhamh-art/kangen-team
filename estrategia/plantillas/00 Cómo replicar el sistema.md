@@ -106,8 +106,17 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 4. **Notion → CONTENIDO Y ANUNCIOS**: añadir su nombre a la opción «Persona» si no está, crear su fila en Fichas de voz
    con el enlace a su cuestionario, y filtrar el calendario por ella. Invitarla con permiso de editar el Calendario, el
    Radar y «Propuestas para todo el equipo», y de las Fichas de voz **solo la suya** (lleva su historia personal).
-5. **Su Claude**: invitarla como miembro a la organización de Claude (plan Team). Los agentes le aparecen solos; ella
-   conecta Notion y Google Drive y trabaja su contenido sin depender de nadie (mensaje 8 de `02 Mensajes de WhatsApp`).
+5. **Su Claude**: cada persona tiene su propio Claude Pro con su Gmail (lo paga ella; no hay plan Team porque pide un
+   email de empresa). Se le comparte la carpeta de Drive «Agentes de Claude» y ella sube los zip en Claude → Ajustes →
+   Capacidades → Skills, conecta Notion y Google Drive, y trabaja su contenido sin depender de nadie (mensaje 8 de
+   `02 Mensajes de WhatsApp`). Su estudio y su estrategia se le comparten invitando a su Gmail («Invite people by email»).
+   Todo lo suyo, en **una sola guía**: «<Nombre> · Empieza aquí (paso a paso)», un Google Doc en su carpeta de Drive
+   (como el de Gemma) que no da nada por sabido: qué es cada cosa, los pasos de la primera vez con el botón exacto,
+   las instrucciones de su proyecto «Mi contenido» para copiar y pegar, su semana, **todos los textos para pedirle
+   cada cosa a su Claude** y sus enlaces (mensaje 8b). A ese proyecto añade desde Drive su **«Kit de Claude ·
+   <Nombre>»**: un documento con todo lo que su Claude necesita saber (sus enlaces, su estrategia, cómo crear y cambiar
+   sus piezas en Notion, las normas, el diseño y los agentes), para que trabaje su contenido sin depender de nadie.
+   Los dos salen de `npm run kit-claude`.
    **Nunca** le des acceso a GitHub ni a Vercel: así nadie puede tocar el código. Detalle en `contenido/agentes-web/README.md`.
 6. **Su estrategia y sus 100 días** (una vez, cuando su ficha está «Lista para guiones»): «prepara la estrategia y los
    100 días de <nombre>» (agente `estrategia-100-dias`, método en `estrategia/perfil-y-100-dias.md`). Sale: la idea de
@@ -118,15 +127,23 @@ Todo está en `estrategia/marketing.md` (la estrategia) y `contenido/README.md` 
 7. **Su semana**: el lunes, «prepara el plan de la semana de <nombre>» (agentes investigador, estratega, guionista y
    revisor): toma las 7 piezas siguientes de su plan. Graba en una sesión de 30 a 60 minutos y aprueba las piezas en
    Notion. Nada se publica sin su aprobación. Los carruseles salen de `contenido/carruseles/plantilla.html` con sus
-   colores, en uno de sus cuatro estilos y con tantas imágenes como pida la idea (`npm run carrusel`, que encuadra
+   colores, en uno de sus cuatro estilos y con tantas imágenes como pida la idea, cada idea con su imagen (si no tiene
+   la foto, una imagen de contexto hecha con IA, sin caras y con su sello) (`npm run carrusel`, que encuadra
    las fotos según las caras; las imágenes con movimiento, con `npm run carrusel-animado`). Los vídeos sin hablar a cámara (su voz o textos sobre sus clips y fotos) se montan con
    `npm run video` a partir de lo que sube a `Brutos` (`contenido/videos/README.md`). Los Reels animados (solo texto en
    movimiento sobre dos fotos suyas, sin grabar nada) salen de `contenido/videos/plantilla-reel-animado.html` con
    `npm run carrusel-animado`.
-   **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería de fotos y clips,
-   donde ve cada carrusel tal cual saldrá y lo cambia sin otra herramienta (fotos, encuadre, textos, flechas y
-   pegatinas, imágenes y estilo) y monta sus vídeos con su nota de voz. Cuando pulsa «Listo», Claude lo genera con
-   las herramientas de siempre. Se crea al empezar su contenido y se comparte con ella como Editor.
+   **Sus carruseles, en Canva** (`contenido/canva/README.md`): Claude pasa cada carrusel a Canva separado en capas, en
+   su carpeta de «Kangen · Carruseles» (compartida con su Gmail, «Puede editar»; con la cuenta gratis de Canva basta),
+   y allí ella cambia todo (textos, letras, colores, tamaños, recortes y fotos) desde el ordenador o la app, y lo
+   aprueba en Notion. **Su estudio** (`contenido/estudio/README.md`): una página en Claude solo suya, con su galería
+   de fotos y clips (las sube desde el móvil o las trae de su Google Drive con «Traer de Google Drive»), donde monta sus
+   vídeos con su nota de voz o con **su voz clonada** (sube una vez una
+   grabación suya y da su permiso en «Mi voz»; cada vídeo así lleva la etiqueta de IA): planos, textos, velocidad,
+   dónde empieza y acaba la voz, quitar pausas y frases, corregir subtítulos y el color, la caja y el tamaño de las
+   letras, viéndolo y oyéndolo tal cual saldrá. Cuando pulsa «Listo», Claude lo genera con las herramientas de siempre y le deja el
+   resultado y los subtítulos para la siguiente vuelta. Se crea al empezar su contenido y se comparte con ella como
+   Editor.
 8. **Cada opinión mejora el sistema**: lo que le guste o no de una pieza (a ella o a quien la revise) se escribe en el
    chat o en la propiedad **Feedback** de la pieza. El agente `aprender` lo convierte en reglas de su ficha de voz
    (sección «Feedback y aprendizajes») y rehace las piezas pendientes; al publicar, aprende también de los cambios de

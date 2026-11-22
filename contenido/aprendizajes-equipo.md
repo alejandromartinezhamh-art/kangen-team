@@ -51,6 +51,23 @@ Formato de cada entrada: fecha · qué hemos visto · con qué datos o de quién
 - 2026-11-16 · Revisión de las versiones 2 de Gemma · aprendido al revisarlas · Reglas: el círculo dibujado solo en
   palabras de la primera línea del titular (debajo pisa la línea de arriba y parece tachado; ahí, subrayado); la hoja
   de libreta, con letra grande y alta, para que no deje media imagen vacía; los largos varían de verdad (de 3 a 8).
+- 2026-11-17 · «Que pueda tocar yo los colores de las letras o de los subtítulos, que vaya más rápido o más lento,
+  acortar y el tema de la voz» · petición de Alejandro · Hecho: el estudio tiene letras (estilos, colores, caja, tamaño
+  y altura), ritmo (velocidad sin cambiar el tono), recortes de la voz, quitar pausas y frases, y subtítulos editables.
+- 2026-11-17 · «Clonar la voz de Gemma para todos los vídeos; que lo pueda hacer yo y ella, todo en la nube» ·
+  petición de Alejandro · Regla: la voz clonada se puede usar en cualquier pieza, pero solo la de la propia persona,
+  con su permiso dado por ella en su estudio («Mi voz») y con la etiqueta de IA; si la pieza cuenta su historia, mejor
+  su voz grabada. Se genera en la nube con Qwen3-TTS (gratis).
+- 2026-11-20 · Carruseles: «me pones 4 cositas y no está mal, pero se queda muy justo»; faltan imágenes que den
+  contexto a lo que se cuenta · opinión de Alejandro · Regla: cada idea con su imagen; si la persona no tiene la foto
+  (su trabajo, el camino de vuelta, una mañana), imagen de contexto con IA: sin caras, sin marcas ni texto, con aspecto
+  de foto de móvil y con el sello «Imagen creada con IA» y la etiqueta de cada red. Las caras, siempre fotos reales.
+  Como mucho dos imágenes seguidas sin foto (`contenido/carruseles/README.md`). Ejemplo: CT-8 de Gemma (v3).
+- 2026-11-21 · «La edición de fotos del estudio es muy limitada: no puedo cambiar el formato de las imágenes,
+  recortarlas, moverlas, reducir tamaños ni cambiar colores; mejor Canva» · opinión de Alejandro · Regla: los carruseles
+  y las imágenes se retocan en Canva. Claude hace la propuesta con la plantilla, la pasa a Canva separada en capas
+  (Magic Layers) en la carpeta de la persona, y allí se cambia todo. Lo aprobado se exporta desde Canva y lo que han
+  cambiado se aprende (`contenido/canva/README.md`). El estudio se queda para los vídeos.
 
 ## Hipótesis de partida (sin datos todavía)
 - Los vídeos de historia personal y de dudas frecuentes traerán más leads cualificados que los de estilo de vida.

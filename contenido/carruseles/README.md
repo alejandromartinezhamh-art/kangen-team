@@ -19,6 +19,10 @@ Aprendidas de las opiniones de Alejandro sobre los carruseles de Gemma (14 y 16 
   línea del titular: debajo de otra línea la pisa y parece tachada (ahí, subrayado).
 - **Al menos 3 fotos reales** de la persona, distintas entre sí (en el estilo tipográfico, 1 o 2). Nada de IA salvo
   que se marque con su etiqueta.
+- **Cada idea, con su imagen** (20 de noviembre: «me pones 4 cositas y se queda muy justo»). Si el texto habla de un
+  sitio, un momento o una cosa (la oficina a las 9, el bus de vuelta, la mañana sin ganas), la imagen lo enseña. Si la
+  persona no tiene esa foto, se crea con IA (abajo, «Imágenes de contexto con IA»). Como mucho dos imágenes seguidas
+  sin foto.
 - **Las caras, enteras y sin texto encima.** `npm run carrusel` coloca cada foto sola y no deja entregar si una cara
   queda cortada o tapada. Si la foto no cabe en esa composición, se cambia de composición o de foto: nunca se fuerza.
 - **Revisión a tamaño real**: además de `hoja.png`, se mira cada imagen entera. En miniatura no se ven los cortes.
@@ -77,15 +81,15 @@ Si una idea pide algo que no está, se crea la composición en la plantilla con 
 | `<div class="pegatina">` | Pegatina redonda con dos o tres palabras (`lila-p`, `violeta-p`) |
 | `<svg class="destellos"><use href="#destellos"/></svg>` | Tres estrellitas |
 | `<div class="mano abs">` | Nota escrita a mano |
+| `<div class="sello-ia">Imagen creada con IA</div>` | Sello de una imagen hecha o cambiada con IA: va siempre en la imagen que la lleva, pequeño, abajo a la derecha (se mueve con `style`) |
 
 Los dibujos toman el color de la imagen solos (claros sobre fondo oscuro).
 
 ## Cómo se hace uno
 
-Las piezas de cada persona viven en **su estudio** (`contenido/estudio/README.md`): ahí se ven tal cual saldrán y
-cualquiera del equipo cambia fotos, encuadre, textos, dibujos, imágenes o estilo sin tocar el HTML. Claude las crea allí
-(con las mismas composiciones de esta plantilla) y genera las imágenes finales cuando la pieza está en «Listo». Lo de
-abajo es lo que hay debajo, y lo que se hace directamente en una sesión con el repositorio:
+Claude hace cada carrusel con esta plantilla y lo **pasa a Canva** separado en capas (`contenido/canva/README.md`):
+allí la persona, o Alejandro, cambia lo que quiera (textos, letras, colores, tamaños, recortes y fotos) y lo aprueba en
+Notion. Lo de abajo es cómo se hace la propuesta, en una sesión con el repositorio:
 
 1. El texto de cada imagen está en la pieza del Calendario de Notion, con su **estilo**, su **composición** y su
    **foto** (lo escribe el agente `guion`).
@@ -100,6 +104,27 @@ abajo es lo que hay debajo, y lo que se hace directamente en una sesión con el 
 5. Mira `hoja.png` (¿hay variedad?, ¿algún hueco vacío?) y **cada imagen a tamaño real**.
 6. Sube los PNG y el `carrusel.html` a Drive → `Landing Kangen <Persona>/05 Contenido redes/Editados/CT-<código>
    <título> (v1)` y pon la carpeta en **Archivo** de la pieza.
+7. Pásalo a Canva (`contenido/canva/README.md`) y pon en **Notas** «Editar en Canva: <enlace>».
+
+## Imágenes de contexto con IA
+
+Para lo que la persona no puede fotografiar o no tiene: su trabajo (nunca el de verdad: ni su empresa ni su mesa), el
+camino de vuelta, una mañana, una idea («la caja de cuando lo dejas todo»). Ejemplo: CT-8 de Gemma (v3), con la
+oficina a las 9:00, el bus de las 18:00, la caja y el dormitorio al amanecer, junto a sus fotos reales.
+
+- **Sin caras ni personas reconocibles**, sin marcas, logos ni texto legible. Nunca la cara de la persona hecha con IA
+  ni nadie que pueda pasar por ella, por un cliente o por alguien de su familia: las caras son siempre fotos reales.
+- **Lo que no puede salir** tampoco sale en IA: lujo, viajes como resultado, dinero, el producto o el agua.
+- **Parece una foto de móvil**: luz natural, encuadre imperfecto, sus colores en las sombras. Nada de «foto de stock».
+- **Siempre marcada**: el sello `sello-ia` en la imagen, la etiqueta de IA de cada red al publicar y la casilla
+  **Etiqueta IA** de la pieza en Notion.
+- **Con qué**: el generador de imágenes de **Gamma** (`generate_image`, `type: "photo"`, `sizePreset:
+  "social-portrait"` para 4:5; unos 70 créditos de Gamma cada una). Se baja de su enlace y se pone al lado de las fotos
+  en la carpeta de trabajo. Con **Higgsfield** con créditos, `generate_image` con `nano_banana_pro` (2k, 4:5; unos 2
+  créditos), que además acepta fotos de referencia para mantener el mismo sitio en varias imágenes.
+- Receta del texto para el generador (en inglés, sale mejor): `Candid smartphone photo, real textures, natural grain,
+  not a 3D render, not stock.` + qué se ve y a qué hora + `Muted warm tones with soft lilac shadows. No people, no
+  faces, no logos, no readable text.`
 
 ## Imágenes con movimiento
 

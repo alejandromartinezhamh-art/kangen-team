@@ -7,9 +7,11 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 
 ## Reglas
 
-- **La voz es la de la persona**, grabada por ella. Una voz de ordenador o clonada solo sirve para una maqueta
-  (`"vozDePrueba": true` le pone un aviso encima) y nunca se publica: las redes obligan a etiquetar la voz generada con
-  IA y nuestro contenido va de contarlo tal cual.
+- **La voz es la de la persona**: grabada por ella o **su voz clonada**, que solo existe si ella misma ha subido su
+  grabación y ha dado su permiso en su estudio (abajo, «Voz clonada»). Cada vídeo con voz clonada lleva la etiqueta de
+  IA de cada red y la casilla **Etiqueta IA** de la pieza en Notion. Nunca la voz de otra persona ni una voz de
+  ordenador: esas solo sirven para una maqueta (`"vozDePrueba": true` le pone un aviso encima) y no se publican. Si la
+  pieza cuenta su historia, mejor con su voz grabada: se nota.
 - Que no salgan caras de otras personas, matrículas, su empresa ni nada marcado ⚠ en su ficha de voz.
 - El texto no ocupa los 250 px de arriba ni los 420 de abajo: ahí van los botones de cada red.
 - **Cada texto, el tiempo de leerlo**: unas 3 palabras por segundo y nunca menos de 2 segundos, quieto y entero. Sin
@@ -46,6 +48,19 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 | `medios` | Clips y fotos, en orden. Sin `segundos`, se reparten lo que dura la voz. `desde` recorta el principio. `texto` pone un rótulo grande mientras dura ese clip |
 | `musica` | Opcional. Suena bajo la voz |
 | `vozDePrueba` | `true` si la voz no es la de la persona: pone el aviso «VOZ DE PRUEBA» |
+| `vozClonada` | `true` si la voz es su voz clonada: recuerda la etiqueta de IA al terminar |
+| `velocidad` | Opcional, de 0.8 a 1.5 (1 si no se dice). Acelera o frena la voz **sin cambiarle el tono**; sin voz, cambia lo que dura cada plano sin `segundos` (los textos siguen quedándose lo que se tarda en leerlos) |
+| `recorte` | Opcional: `{ "desde": 0.4, "hasta": 41.2, "pausas": true }`. Corta el principio y el final de la voz (en segundos de la grabación) y, con `pausas`, deja cada pausa de más de 0,6 s en 0,3 s |
+| `estilo` | Opcional: `{ "letra", "resalte", "enfasis", "fondo", "tamano", "posicion", "subtitulos" }`. Colores (`#rrggbb`) de las letras, de la palabra que se está diciendo y de la palabra entre asteriscos; `fondo` pone una caja de ese color detrás de los textos; `tamano` de los subtítulos `s`, `m` o `l`; `posicion` `abajo` o `centro`; `subtitulos: false` los quita. Sin estilo: letras blancas, la palabra que se dice en su color de superficie y la de énfasis en su coral |
+| `tramos` | Lo escribe el estudio: los trozos exactos de la voz que se quedan. Si está, manda sobre `recorte` |
+
+**Quitar frases de la voz.** En `transcripcion.json` (lo escribe la primera vez que monta un vídeo con voz), cada
+palabra puede llevar `"fuera": true`: se quita de la voz y de los subtítulos, con un respiro corto entre lo de antes y
+lo de después. Ahí también se corrigen las palabras mal escritas. Mientras `transcripcion.json` sea de la misma voz, no
+se vuelve a transcribir.
+
+Las cuentas de todo esto (velocidad, recortes, subtítulos y estilos de las letras) están en `scripts/montaje-video.mjs`
+y son las mismas que usa el estudio para enseñarlo: lo que se ve allí es lo que sale.
 
 ## Cómo se hace uno
 
@@ -65,9 +80,39 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 
 Cada vídeo también se monta en el **estudio** de la persona (`contenido/estudio/README.md`): planos en orden, el trozo
 de cada clip (deslizando), el texto de cada plano, cuánto dura, el gancho y su nota de voz (m4a del iPhone o de
-WhatsApp; las de WhatsApp se preparan solas en el navegador). Se ve en marcha con su voz y avisa si un texto no da tiempo
-a leerse o si un clip se acaba antes. Lo que guarda es lo mismo que `pieza.json`: `npm run estudio -- preparar` lo
-escribe y `npm run video` lo monta, con subtítulos.
+WhatsApp; las de WhatsApp se preparan solas en el navegador) o **su voz clonada** (arriba). Y lo que cambia el ritmo y
+el aspecto, sin pedírselo a Claude:
+
+- **Tu voz**: dónde empieza y dónde acaba, y quitar las pausas largas.
+- **Ritmo**: la velocidad (de 0,8× a 1,5×), con el tono de su voz de siempre.
+- **Subtítulos**: después de que Claude monte el vídeo la primera vez, aparecen frase a frase para corregir palabras y
+  quitar frases (✂) para acortarlo. Se pueden quitar del todo.
+- **Letras**: cuatro estilos rápidos (Limpio, Caja oscura, Tu color, Caja blanca) y, uno a uno, el color de las letras,
+  el de la palabra que se está diciendo, el de la palabra en cursiva y la caja; el tamaño y la altura de los
+  subtítulos. Avisa si un color no se lee.
+
+Se ve y se oye en marcha tal cual saldrá (la voz ya recortada y a su velocidad) y avisa si un texto no da tiempo a
+leerse o si un clip se acaba antes. Lo que guarda es lo mismo que `pieza.json`: `npm run estudio -- preparar` lo
+escribe (con `transcripcion.json` si ya hay subtítulos) y `npm run video` lo monta. Después,
+`npm run estudio -- devolver` deja los subtítulos en el estudio para la siguiente vuelta.
+
+## Voz clonada
+
+Para no tener que grabar cada vídeo: Claude dice el texto del guion con la voz de la persona. Usa
+[Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) (Apache 2.0, gratis, habla español) en la propia sesión de Claude en la
+nube, sin tarjeta gráfica: tarda unas 4 o 5 veces lo que dura la voz (unos 3 minutos para 40 segundos).
+
+- **Solo con su permiso**: la persona sube su grabación (unos 30 s leyendo un texto) y lo acepta en su estudio, en
+  «Mi voz». El permiso solo lo puede dar o borrar ella: ni el dueño del estudio ni Claude pueden escribirlo. Antes de
+  generar, Claude comprueba que quien dio el permiso es la persona del estudio.
+- **Siempre con etiqueta de IA** en cada red y la casilla **Etiqueta IA** de la pieza en Notion.
+- **Desde el estudio**: en un vídeo, «Voz clonada (IA)», el texto y «Generar la voz». Claude la genera en la siguiente
+  vuelta y la deja como la voz del vídeo, con sus subtítulos, para recortarla, cambiar el ritmo o quitar frases.
+- **A mano**: `npm run voz-clonada -- <muestra> <texto.txt> <salida.wav> [--grande]`. La primera vez en cada máquina
+  instala el entorno (unos minutos, unos 3 GB). `--grande` usa el modelo de 1,7B: algo más parecido y unas 2,5 veces
+  más lento. La muestra se limpia y se corta en una pausa (como mucho 20 s), y se transcribe para que el modelo la
+  entienda. El texto se dice frase a frase, con medio respiro entre frases y algo más entre párrafos.
+- La muestra y las voces generadas se quedan en su estudio y en la carpeta de trabajo: nunca en el repositorio.
 
 ## Reel animado (sin grabar nada)
 

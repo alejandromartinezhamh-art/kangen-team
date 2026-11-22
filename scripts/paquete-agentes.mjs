@@ -1,5 +1,5 @@
-// Paquete de agentes para Claude en la web (plan Team): npm run paquete-agentes
-// Crea dist/agentes-web/<agente>.zip, uno por agente, para subirlos en claude.ai → Ajustes de la organización →
+// Paquete de agentes para Claude en la web (cada persona con su Claude): npm run paquete-agentes
+// Crea dist/agentes-web/<agente>.zip, uno por agente, para subirlos en claude.ai → Ajustes → Capacidades →
 // Skills. Cada zip lleva el SKILL.md del agente (con una descripción corta y una nota para Claude en la web) y, en
 // repo/, los archivos del repositorio que citan los agentes, con la misma ruta. Pasos: contenido/agentes-web/README.md.
 import { execFileSync } from 'node:child_process';

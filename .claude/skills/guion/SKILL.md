@@ -33,7 +33,8 @@ En el cuerpo de la página de la pieza:
    - Instagram y Facebook: 3-6 líneas, primera línea = gancho, «enlace en mi perfil», 3-5 hashtags temáticos (sin marca).
    - TikTok: 1-2 líneas, sin invitar al negocio ni al webinar, «más en mi perfil».
    - YouTube Shorts: título (máx. 60 caracteres) y descripción con `https://<dominio>/l/instagram?c=CT-123`.
-6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA.
+6. **Etiqueta IA**: marca la casilla de la pieza si lleva imágenes o vídeo realistas generados con IA, o si la voz va a
+   ser su voz clonada (solo si ella la ha autorizado en su estudio; si la pieza cuenta su historia, mejor su voz grabada).
 
 ## Carrusel
 1. **Texto de cada imagen** en una tabla (#, composición, foto, etiqueta, titular, texto, adorno): portada con la
@@ -47,6 +48,10 @@ En el cuerpo de la página de la pieza:
      sin cortar la cara (una selfie no va en una franja estrecha).
    - **Adornos**: como mucho dos por imagen (flecha, círculo, subrayado, pegatina…) y que señalen algo.
    - **Fotos**: al menos 3 reales de la persona (de su Drive; si faltan, dilo y pide cuáles hacer).
+   - **Cada idea, con su imagen**: si el texto habla de un sitio, un momento o una cosa que ella no tiene en foto (su
+     trabajo, el camino de vuelta, una mañana), en la columna foto pon «IA: <qué se ve y a qué hora>», sin caras ni
+     marcas (`contenido/carruseles/README.md` → «Imágenes de contexto con IA»). Como mucho dos imágenes seguidas sin
+     foto. Si lleva imágenes de IA, marca **Etiqueta IA** en la pieza.
    - Si el movimiento cuenta la idea, marca **una o dos imágenes con movimiento** y qué se mueve.
 2. **Texto de la publicación** de Instagram y Facebook.
 3. **Imágenes**: copia `contenido/carruseles/plantilla.html` en una carpeta de trabajo (fuera del repositorio), pon sus
@@ -58,8 +63,10 @@ En el cuerpo de la página de la pieza:
    repositorio.
 4. Sube los PNG y el HTML a Drive → `05 Contenido redes/Editados/CT-<código> <título> (v1)` y pon esa carpeta en
    **Archivo**. Estado = Editado.
-5. Si la persona tiene **estudio** (`contenido/estudio/README.md`), deja también la pieza allí (`piezas/CT-<código>`,
-   con las mismas imágenes): es donde ella y Alejandro cambian fotos, textos y dibujos sin otra herramienta.
+5. **Carruseles e imágenes**: pásalos a **Canva** separados en capas (`contenido/canva/README.md`) y pon en **Notas**
+   «Editar en Canva: <enlace>»: allí ella y Alejandro cambian textos, letras, colores, tamaños y fotos. Si no puedes
+   (Claude en la web o sin créditos de Canva), pon en Notas «Pendiente de pasar a Canva». **Vídeos**: si la persona
+   tiene **estudio** (`contenido/estudio/README.md`), deja también la pieza allí (`piezas/CT-<código>`).
 
 ## Reglas de escritura
 - Primera persona, con sus expresiones de la ficha. Si la ficha no está «Lista para guiones», avisa: el guion será

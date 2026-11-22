@@ -11,14 +11,33 @@
 //
 //   npm run estudio -- preparar <pieza.json exportada> <carpeta de trabajo>
 //     Convierte una pieza del estudio en lo que usan las herramientas de siempre: carrusel.html (npm run carrusel) o
-//     pieza.json (npm run video). Los archivos del estudio (fotos, clips y voz) tienen que estar ya en la carpeta, cada
-//     uno con su id como nombre (<id>.jpg, <id>.mp4…). La carpeta va fuera del repositorio: es público.
+//     pieza.json (npm run video, con transcripcion.json si la voz ya tiene subtítulos). Los archivos del estudio (fotos,
+//     clips y voz) tienen que estar ya en la carpeta, cada uno con su id como nombre (<id>.jpg, <id>.mp4…). La carpeta
+//     va fuera del repositorio: es público.
+//
+//   npm run estudio -- pendientes <out_dir>
+//     Lo que hay que hacer en un estudio (con las piezas que ha guardado ArtifactData en <out_dir>/piezas): voces
+//     clonadas pedidas y piezas en «Listo». Lo usa la tarea programada que procesa los estudios.
+//
+//   npm run estudio -- voz <pieza.json exportada> <carpeta de trabajo> --muestra <grabación de la persona>
+//     Genera la voz clonada que se ha pedido en el estudio (video.vozIA.texto) con la muestra de quien dio su permiso:
+//     voz-clonada.m4a y transcripcion.json (los subtítulos, con las palabras exactas del texto). Después se sube
+//     voz-clonada.m4a al estudio y se devuelve con `devolver … --voz <id>`.
+//
+//   npm run estudio -- devolver <pieza.json exportada> <carpeta de trabajo> [--resultado <id>] [--drive <enlace>]
+//                                [--voz <id> | --error <motivo>]
+//     Escribe para-el-estudio.json con la pieza al día: los subtítulos de su voz (para corregirlos y quitar frases
+//     desde el estudio); con --voz, la voz clonada recién subida; con --error, por qué no se ha podido generar; y, si
+//     se dan, el vídeo subido y el enlace de Drive. Se guarda en el estudio con ArtifactData (update con file_path).
+import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const raiz = path.resolve(import.meta.dirname, '..');
 const PLANTILLA = path.join(raiz, 'contenido/carruseles/plantilla.html');
 const PAGINA = path.join(raiz, 'contenido/estudio/estudio.html');
+// Las cuentas del montaje de vídeo (velocidad, recortes de la voz, subtítulos y letras): las mismas que scripts/video.mjs.
+const MONTAJE = path.join(raiz, 'scripts/montaje-video.mjs');
 const [orden, ...args] = process.argv.slice(2);
 
 const leerPlantilla = () => {
@@ -74,6 +93,7 @@ function pagina(destino = path.join(raiz, 'dist/estudio.html'), nombre = '') {
   };
   sustituir('/*@PLANTILLA_CSS@*/', encerrarCss(p.css));
   sustituir('<!--@SIMBOLOS@-->', p.simbolos);
+  sustituir('/*@MONTAJE_VIDEO@*/', readFileSync(MONTAJE, 'utf8').replace(/^export /gm, ''));
   sustituir('/*@COMPOSICIONES@*/', `const COMPOSICIONES = ${JSON.stringify(p.muestras).replace(/<\/(script)/gi, '<\\/$1')};`);
   mkdirSync(path.dirname(destino), { recursive: true });
   writeFileSync(destino, html);
@@ -117,10 +137,17 @@ function preparar(exportada, carpeta) {
 
   if (pieza.formato === 'video') {
     const v = pieza.video ?? {};
+    const voz = v.voz?.asset ? archivo(v.voz.asset) : null;
     const salida = {
       persona: ajustes.clave ?? pieza.persona,
       ...(v.gancho ? { gancho: v.gancho } : {}),
-      ...(v.voz?.asset ? { voz: archivo(v.voz.asset) } : {}),
+      ...(voz ? { voz } : {}),
+      ...(v.velocidad && v.velocidad !== 1 ? { velocidad: v.velocidad } : {}),
+      ...(v.estilo ? { estilo: v.estilo } : {}),
+      ...(voz && v.voz.ia ? { vozClonada: true } : {}),
+      // Los trozos de la voz que se quedan, tal cual los ha enseñado el estudio (si no, salen del recorte).
+      ...(voz ? { recorte: { desde: v.voz.desde || 0, hasta: v.voz.hasta ?? null, pausas: !!v.voz.pausas } } : {}),
+      ...(voz && v.voz.tramos?.length ? { tramos: v.voz.tramos } : {}),
       medios: (v.medios ?? []).map((m) => ({
         archivo: archivo(m.asset),
         ...(m.desde ? { desde: m.desde } : {}),
@@ -129,7 +156,9 @@ function preparar(exportada, carpeta) {
       })),
     };
     writeFileSync(path.join(carpeta, 'pieza.json'), JSON.stringify(salida, null, 2));
-    console.log(`pieza.json listo: npm run video -- ${carpeta}`);
+    // Los subtítulos corregidos en el estudio (y las frases quitadas) mandan sobre una transcripción nueva.
+    if (voz && v.voz.palabras?.length) writeFileSync(path.join(carpeta, 'transcripcion.json'), JSON.stringify({ voz, palabras: v.voz.palabras }, null, 1));
+    console.log(`pieza.json listo${voz && v.voz.palabras?.length ? ' (y transcripcion.json)' : ''}: npm run video -- ${carpeta}`);
     return;
   }
 
@@ -154,6 +183,80 @@ function preparar(exportada, carpeta) {
   console.log(`carrusel.html listo (${diapositivas.length} imágenes, estilo ${pieza.estilo}): npm run carrusel -- ${carpeta}`);
 }
 
+function leerExportada(exportada) {
+  const leido = JSON.parse(readFileSync(exportada, 'utf8'));
+  return leido.pieza ?? leido;
+}
+
+const duracionDe = (archivo) =>
+  Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', archivo], { encoding: 'utf8' }).trim());
+const r2 = (n) => Math.round(n * 100) / 100;
+
+function devolver(exportada, carpeta, extra) {
+  carpeta = path.resolve(carpeta);
+  const pieza = leerExportada(exportada);
+  if (pieza.formato !== 'video') throw new Error('devolver es para vídeos: un carrusel solo necesita estado, resultado y drive.');
+  const video = structuredClone(pieza.video ?? {});
+  if (extra.error) {
+    video.vozIA = { ...(video.vozIA ?? {}), estado: 'error', error: String(extra.error).slice(0, 300) };
+  } else if (extra.voz) {
+    // La voz clonada recién subida pasa a ser la voz del vídeo: con sus subtítulos y sin recortes de la anterior.
+    const archivo = path.join(carpeta, 'voz-clonada.m4a');
+    if (!existsSync(archivo)) throw new Error(`Falta ${archivo}: genera antes la voz con npm run estudio -- voz.`);
+    video.voz = { asset: extra.voz, nombre: 'Voz clonada', duracion: r2(duracionDe(archivo)), ia: true };
+    video.vozIA = { ...(video.vozIA ?? {}), estado: 'hecha', hecha: Date.now(), textoHecho: video.vozIA?.texto ?? '' };
+    delete video.vozIA.error;
+  }
+  const t = path.join(carpeta, 'transcripcion.json');
+  if (video.voz?.asset && existsSync(t)) {
+    const leida = JSON.parse(readFileSync(t, 'utf8'));
+    const palabras = Array.isArray(leida) ? leida : leida.palabras;
+    video.voz.palabras = palabras.map((p) => ({ text: String(p.text), start: Number(p.start), end: Number(p.end), ...(p.fuera ? { fuera: true } : {}) }));
+  }
+  const datos = { video, actualizado: Date.now() };
+  if (extra.resultado) Object.assign(datos, { estado: 'hecho', resultado: [{ asset: extra.resultado, tipo: 'video' }] });
+  if (extra.drive) datos.drive = extra.drive;
+  writeFileSync(path.join(carpeta, 'para-el-estudio.json'), JSON.stringify(datos, null, 1));
+  console.log(`para-el-estudio.json listo (${video.voz?.palabras?.length ?? 0} palabras de subtítulos): ArtifactData update de piezas/${pieza.codigo} con file_path.`);
+}
+
+// Lo que espera en un estudio: voces clonadas pedidas y piezas en «Listo».
+function pendientes(outDir) {
+  const dir = path.join(path.resolve(outDir), 'piezas');
+  const piezas = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => {
+    const p = JSON.parse(readFileSync(path.join(dir, f), 'utf8'));
+    return { ...p, codigo: p.codigo ?? f.replace(/\.json$/, ''), archivo: path.join(dir, f) };
+  }) : [];
+  const voces = piezas.filter((p) => p.video?.vozIA?.estado === 'pedida');
+  const listas = piezas.filter((p) => p.estado === 'listo');
+  for (const p of voces) console.log(`VOZ    ${p.codigo} · ${p.titulo ?? ''} · pedida ${new Date(p.video.vozIA.pedida ?? 0).toISOString()} · ${p.archivo}`);
+  for (const p of listas) console.log(`LISTO  ${p.codigo} · ${p.titulo ?? ''} · ${p.formato} · ${p.archivo}`);
+  if (!voces.length && !listas.length) console.log('Nada pendiente.');
+}
+
+// La voz clonada pedida en el estudio, con la muestra de quien dio su permiso.
+async function voz(exportada, carpeta, muestra) {
+  carpeta = path.resolve(carpeta);
+  if (carpeta.startsWith(raiz + path.sep)) throw new Error('La carpeta de trabajo tiene que estar fuera del repositorio: es público.');
+  mkdirSync(carpeta, { recursive: true });
+  const pieza = leerExportada(exportada);
+  const texto = pieza.video?.vozIA?.texto?.trim();
+  if (!texto) throw new Error(`La pieza ${pieza.codigo} no tiene texto para la voz clonada.`);
+  if (!muestra || !existsSync(muestra)) throw new Error('Falta --muestra: la grabación de la persona (bájala del estudio con Artifact read, path = su id).');
+  const { vozClonada, transcribir } = await import('./voz-clonada.mjs');
+  const wav = path.join(carpeta, 'voz-clonada.wav');
+  await vozClonada({ muestra: path.resolve(muestra), texto, salida: wav });
+  const m4a = path.join(carpeta, 'voz-clonada.m4a');
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', wav, '-ac', '1', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', m4a]);
+  // Los subtítulos: los tiempos de Whisper con las palabras exactas del texto (si cuadran una a una).
+  let palabras = transcribir(wav).map((p) => ({ text: String(p.text), start: Number(p.start), end: Number(p.end) }));
+  const exactas = texto.replace(/\*/g, '').split(/\s+/).filter(Boolean);
+  if (exactas.length === palabras.length) palabras = palabras.map((p, i) => ({ ...p, text: exactas[i] }));
+  writeFileSync(path.join(carpeta, 'transcripcion.json'), JSON.stringify({ voz: 'voz-clonada.m4a', palabras }, null, 1));
+  console.log(`voz-clonada.m4a (${r2(duracionDe(m4a))} s) y transcripcion.json en ${carpeta}.`);
+  console.log(`Ahora: sube voz-clonada.m4a al estudio (Artifact asset: true) y npm run estudio -- devolver ${exportada} ${carpeta} --voz <id>`);
+}
+
 if (orden === 'pagina') {
   const i = args.indexOf('--nombre');
   const nombre = i >= 0 ? args.splice(i, 2)[1] : '';
@@ -161,7 +264,16 @@ if (orden === 'pagina') {
 }
 else if (orden === 'caras' && args[0]) await caras(path.resolve(args[0]));
 else if (orden === 'preparar' && args[1]) preparar(path.resolve(args[0]), args[1]);
+else if (orden === 'pendientes' && args[0]) pendientes(args[0]);
+else if (orden === 'voz' && args[1]) {
+  const i = args.indexOf('--muestra');
+  await voz(path.resolve(args[0]), args[1], i >= 0 ? path.resolve(args[i + 1]) : null);
+}
+else if (orden === 'devolver' && args[1]) {
+  const valor = (bandera) => { const i = args.indexOf(bandera); return i >= 0 ? args[i + 1] : undefined; };
+  devolver(path.resolve(args[0]), args[1], { resultado: valor('--resultado'), drive: valor('--drive'), voz: valor('--voz'), error: valor('--error') });
+}
 else {
-  console.error('Uso: npm run estudio -- pagina [salida.html] [--nombre <Nombre>] | caras <carpeta> | preparar <pieza.json> <carpeta>');
+  console.error('Uso: npm run estudio -- pagina [salida.html] [--nombre <Nombre>] | caras <carpeta> | pendientes <out_dir> | preparar <pieza.json> <carpeta> | voz <pieza.json> <carpeta> --muestra <archivo> | devolver <pieza.json> <carpeta> [--resultado <id>] [--drive <enlace>] [--voz <id> | --error <motivo>]');
   process.exit(1);
 }
