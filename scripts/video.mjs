@@ -1,8 +1,12 @@
-// Vídeo vertical con la voz de la persona (o con textos en pantalla): npm run video -- <carpeta> [--planos]
+// Vídeo vertical con la voz de la persona (o con textos en pantalla): npm run video -- <carpeta> [--planos | --cortar | --storyboard]
 // La carpeta de trabajo va fuera del repositorio (es público): lleva pieza.json, la voz y los clips o fotos.
 // Pasos: limpia la voz, la transcribe palabra a palabra, recorta cada clip a 1080 × 1920 y monta una composición de
 // HyperFrames (HTML → MP4) con el gancho arriba y los subtítulos al ritmo de la voz, con los colores de la persona.
+// Cada render va a renders/v1.mp4, v2.mp4… (nunca pisa uno anterior) con su hoja-vN.png.
 // Con --planos solo hace planos.jpg: un fotograma por segundo de cada clip, para elegir qué trozo usar antes de montar.
+// Con --cortar corta la nota de voz: guion-bruto.txt por líneas; cortes.json decide qué quitar; luego voz-cortada.m4a,
+//   guion-cortado.txt y una comprobación palabra a palabra (lo que se pierde o sobra).
+// Con --storyboard hace storyboard.png y storyboard.txt (un fotograma por momento, con su texto y lo que se oye) sin renderizar.
 // Cada texto en pantalla dura al menos lo que se tarda en leerlo, y las fotos se recortan alrededor de la cara.
 // Guía y formato de pieza.json: contenido/videos/README.md.
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -35,7 +39,7 @@ function hf(args, { cwd = obra, salida = 'inherit' } = {}) {
   if (r.status !== 0) throw new Error(`hyperframes ${args[0]} ha fallado`);
   return r.stdout ?? '';
 }
-const ffmpeg = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args], { stdio: ['ignore', 'inherit', 'inherit'] });
+const ffmpeg = (args, cwd) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args], { cwd, stdio: ['ignore', 'inherit', 'inherit'] });
 const duracion = (archivo) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', archivo], { encoding: 'utf8' }).trim());
 const r2 = (n) => Math.round(n * 100) / 100;
@@ -118,9 +122,196 @@ function revisarClips(lista) {
   console.log('Mira que cada plano enseñe lo que dice su texto: nada de suelo, pies, techo, movidos ni caras de otros.');
 }
 
+// ---------- Texto del guion: tiempos, palabras comparables y líneas de la voz
+const tiempo = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const norm = (t) => t.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+// Parte un texto en líneas de hasta n letras; si son más de `maximo`, recorta y marca con «…».
+function envolver(texto, n, maximo = 6) {
+  const lineas = [];
+  let actual = '';
+  for (const palabra of texto.split(/\s+/).filter(Boolean)) {
+    const prueba = actual ? `${actual} ${palabra}` : palabra;
+    if (prueba.length > n && actual) {
+      lineas.push(actual);
+      actual = palabra;
+    } else actual = prueba;
+  }
+  if (actual) lineas.push(actual);
+  if (lineas.length > maximo) {
+    lineas.length = maximo;
+    lineas[maximo - 1] += ' …';
+  }
+  return lineas;
+}
+// Líneas de la voz: nueva línea con una pausa de más de 0,6 s o tras un punto.
+function lineasDe(palabras) {
+  const grupos = [];
+  let actual = [];
+  palabras.forEach((p, i) => {
+    const anterior = palabras[i - 1];
+    if (anterior && (p.start - anterior.end > 0.6 || /[.!?…]$/.test(anterior.text))) {
+      grupos.push(actual);
+      actual = [];
+    }
+    actual.push(p);
+  });
+  if (actual.length) grupos.push(actual);
+  return grupos.map((g, i) => ({
+    id: `L${String(i + 1).padStart(2, '0')}`,
+    inicio: r2(g[0].start),
+    fin: r2(g.at(-1).end),
+    texto: g.map((p) => p.text).join(' '),
+  }));
+}
+// Palabras de `a` que no aparecen en `b` (contando repeticiones).
+function diferencia(a, b) {
+  const libres = new Map();
+  for (const w of b) libres.set(w, (libres.get(w) ?? 0) + 1);
+  const sinPareja = [];
+  for (const w of a) {
+    const n = libres.get(w) ?? 0;
+    if (n > 0) libres.set(w, n - 1);
+    else sinPareja.push(w);
+  }
+  return sinPareja;
+}
+// Transcribe un audio dentro de su carpeta de trabajo y devuelve las palabras con su tiempo.
+function transcribir(dirTrabajo, archivo) {
+  hf(['transcribe', archivo, '--engine', 'auto', '--model', 'small', '--language', pieza.idioma ?? 'es', '--json'], { cwd: dirTrabajo, salida: 'pipe' });
+  return JSON.parse(readFileSync(path.join(dirTrabajo, 'audio/transcript.json'), 'utf8'));
+}
+
+// ---------- Cortar la nota de voz (--cortar)
+// 1) Sin cortes.json: transcribe la toma entera y escribe guion-bruto.txt, con una línea por código (L01…).
+// 2) Con cortes.json ({"quitar": ["L03", [12.4, 13.9]]}: códigos de línea o segundos de la voz bruta): hace
+//    voz-cortada.m4a con fundidos de 15 ms en cada corte, la vuelve a transcribir y compara palabra a palabra con la
+//    toma bruta: lo que se pierde o sobra se avisa antes de montar. Quita transcripcion.json (era de la voz anterior).
+function cortarVoz() {
+  if (!pieza.voz) {
+    console.error('Para cortar la voz, pieza.json tiene que tener «voz».');
+    process.exit(1);
+  }
+  preparar();
+  const trabajo = path.join(carpeta, 'corte');
+  const bruta = path.join(trabajo, 'bruta');
+  mkdirSync(path.join(bruta, 'audio'), { recursive: true });
+  ffmpeg(['-i', path.join(carpeta, pieza.voz), '-vn', '-ac', '1', '-ar', '48000', path.join(bruta, 'audio/bruta.wav')]);
+  const palabrasBrutas = transcribir(bruta, 'audio/bruta.wav');
+  const lineas = lineasDe(palabrasBrutas);
+  const archivoCortes = path.join(carpeta, 'cortes.json');
+  if (!existsSync(archivoCortes)) {
+    writeFileSync(path.join(carpeta, 'guion-bruto.txt'), lineas.map((l) => `${l.id}  ${tiempo(l.inicio)}–${tiempo(l.fin)}  ${l.texto}`).join('\n') + '\n');
+    console.log(`guion-bruto.txt: ${lineas.length} líneas. Léelo y decide qué quitar.`);
+    console.log('Después escribe cortes.json, por ejemplo {"quitar": ["L03", [12.4, 13.9]]}, y vuelve a ejecutar --cortar.');
+    return;
+  }
+  const cortes = JSON.parse(readFileSync(archivoCortes, 'utf8'));
+  const quitar = (cortes.quitar ?? [])
+    .map((x) => {
+      if (typeof x !== 'string') return [Number(x[0]), Number(x[1])];
+      const linea = lineas.find((l) => l.id === x);
+      if (!linea) throw new Error(`cortes.json: no existe la línea ${x}`);
+      return [linea.inicio, linea.fin];
+    })
+    .sort((a, b) => a[0] - b[0]);
+  const quitarUnidos = [];
+  for (const [a, b] of quitar) {
+    const ultimo = quitarUnidos.at(-1);
+    if (ultimo && a <= ultimo[1]) ultimo[1] = Math.max(ultimo[1], b);
+    else quitarUnidos.push([a, b]);
+  }
+  const quitado = (t) => quitarUnidos.some(([a, b]) => t >= a && t <= b);
+  // Lo que se queda: los huecos entre los tramos quitados (sin trozos de menos de 50 ms).
+  const durBruta = duracion(path.join(bruta, 'audio/bruta.wav'));
+  const mantener = [];
+  let cursor = 0;
+  for (const [a, b] of quitarUnidos) {
+    if (a - cursor >= 0.05) mantener.push([cursor, a]);
+    cursor = Math.max(cursor, b);
+  }
+  if (durBruta - cursor >= 0.05) mantener.push([cursor, durBruta]);
+  if (!mantener.length) {
+    console.error('cortes.json quita toda la voz.');
+    process.exit(1);
+  }
+  const filtros = mantener.map(([a, b], i) => `[0:a]atrim=start=${r2(a)}:end=${r2(b)},asetpts=PTS-STARTPTS,afade=t=in:st=0:d=0.015,afade=t=out:st=${r2(b - a - 0.015)}:d=0.015[s${i}]`);
+  filtros.push(mantener.length > 1 ? `${mantener.map((_, i) => `[s${i}]`).join('')}concat=n=${mantener.length}:v=0:a=1[out]` : '[s0]anull[out]');
+  const voz = path.join(carpeta, 'voz-cortada.m4a');
+  ffmpeg(['-i', path.join(bruta, 'audio/bruta.wav'), '-filter_complex', filtros.join(';'), '-map', '[out]', '-c:a', 'aac', '-b:a', '192k', voz]);
+
+  const cortada = path.join(trabajo, 'cortada');
+  mkdirSync(path.join(cortada, 'audio'), { recursive: true });
+  ffmpeg(['-i', voz, '-vn', '-ac', '1', '-ar', '48000', path.join(cortada, 'audio/cortada.wav')]);
+  const palabrasCortadas = transcribir(cortada, 'audio/cortada.wav');
+  const esperadas = palabrasBrutas.filter((p) => !quitado((p.start + p.end) / 2)).map((p) => norm(p.text)).filter(Boolean);
+  const reales = palabrasCortadas.map((p) => norm(p.text)).filter(Boolean);
+  const faltan = diferencia(esperadas, reales);
+  const sobran = diferencia(reales, esperadas);
+  const guion = lineas.filter((l) => !quitado((l.inicio + l.fin) / 2));
+
+  writeFileSync(path.join(carpeta, 'guion-cortado.txt'), guion.map((l) => l.texto).join('\n') + '\n');
+  if (existsSync(path.join(carpeta, 'transcripcion.json'))) rmSync(path.join(carpeta, 'transcripcion.json'));
+  console.log(`voz-cortada.m4a: ${r2(duracion(voz))} s (de ${r2(durBruta)} s en bruto). Guion cortado:`);
+  guion.forEach((l) => console.log(`  ${l.texto}`));
+  if (faltan.length) console.warn(`Aviso: se pierden ${faltan.length} palabras al cortar (${faltan.join(' ')}). Revisa cortes.json.`);
+  if (sobran.length) console.warn(`Aviso: ${sobran.length} palabras solo aparecen en la voz cortada (${sobran.join(' ')}). Puede ser la transcripción: escúchala.`);
+  if (!faltan.length && !sobran.length) console.log('Comprobado: todas las palabras que se quedan están, y no sobra ninguna.');
+  console.log('Pon «voz»: «voz-cortada.m4a» en pieza.json y escucha el archivo entero antes de montar.');
+}
+
+// ---------- Storyboard (--storyboard): un fotograma por momento del vídeo final, con su texto y lo que se oye
+function guionVisual(medios, cues) {
+  const dir = path.join(obra, 'guion');
+  mkdirSync(dir, { recursive: true });
+  const fuente = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+  const conFuente = existsSync(fuente);
+  const ancho = 270;
+  const alto = 480;
+  const pie = 200;
+  const resumen = [];
+  medios.forEach((m, i) => {
+    const a = m.inicio;
+    const b = r2(m.inicio + m.dura);
+    const rotulo = m.texto ?? (i === 0 && pieza.gancho ? pieza.gancho : '');
+    const dichas = cues.filter((c) => c.inicio >= a && c.inicio < b).map((c) => c.palabras.map((p) => p.text).join(' ')).join(' ');
+    const lineas = [
+      `${i + 1} · ${tiempo(a)}–${tiempo(b)}`,
+      ...envolver(rotulo ? `Texto: ${rotulo.replace(/\*/g, '')}` : 'Sin texto en pantalla', 26),
+      ...envolver(dichas ? `Se oye: ${dichas}` : 'Sin voz', 26),
+    ];
+    resumen.push(lineas.map((l, k) => (k === 0 ? l : `   ${l}`)).join('\n'));
+    writeFileSync(path.join(dir, `t${i}.txt`), lineas.join('\n'));
+    const vf = [`scale=${ancho}:${alto}:force_original_aspect_ratio=increase`, `crop=${ancho}:${alto}`, `pad=${ancho}:${alto + pie}:0:0:color=0x111111`];
+    if (conFuente) vf.push(`drawtext=fontfile=${fuente}:textfile=t${i}.txt:fontsize=17:fontcolor=white:x=8:y=${alto + 10}:line_spacing=5`);
+    // Un clip, en mitad de su tramo; una foto, tal cual.
+    ffmpeg([...(m.video ? ['-ss', String(r2(m.dura / 2))] : []), '-i', path.join(obra, m.src), '-frames:v', '1', '-vf', vf.join(','), `f${i}.png`], dir);
+  });
+  ffmpeg(['-f', 'lavfi', '-i', `color=c=0x111111:s=${ancho}x${alto + pie}`, '-frames:v', '1', 'vacio.png'], dir);
+  // Cinco por fila; las casillas que sobran, en negro.
+  const porFila = 5;
+  const filas = Math.ceil(medios.length / porFila);
+  const hueco = medios.length;
+  const filtros = [];
+  for (let r = 0; r < filas; r++) {
+    const entradas = Array.from({ length: porFila }, (_, c) => `[${r * porFila + c < medios.length ? r * porFila + c : hueco}:v]`).join('');
+    filtros.push(`${entradas}hstack=inputs=${porFila}[r${r}]`);
+  }
+  filtros.push(filas > 1 ? `${Array.from({ length: filas }, (_, r) => `[r${r}]`).join('')}vstack=inputs=${filas}[out]` : '[r0]null[out]');
+  const entradas = [...medios.map((_, i) => `f${i}.png`), 'vacio.png'];
+  ffmpeg([...entradas.flatMap((f) => ['-i', f]), '-filter_complex', filtros.join(';'), '-map', '[out]', path.join(carpeta, 'storyboard.png')], dir);
+  writeFileSync(path.join(carpeta, 'storyboard.txt'), resumen.join('\n\n') + '\n');
+  if (!conFuente) console.warn('Aviso: no está la fuente DejaVu; el storyboard sale sin texto (mira storyboard.txt).');
+  console.log('storyboard.png y storyboard.txt: un fotograma por momento, con su texto y lo que se oye. Míralo antes de renderizar.');
+}
+
 // ---------- Montaje
+const modo = { planos: process.argv.includes('--planos'), cortar: process.argv.includes('--cortar'), storyboard: process.argv.includes('--storyboard') };
+if (modo.cortar) {
+  cortarVoz();
+  process.exit(0);
+}
 revisarClips(pieza.medios.map((m) => (typeof m === 'string' ? { archivo: m } : m)));
-if (process.argv.includes('--planos')) process.exit(0);
+if (modo.planos) process.exit(0);
 preparar();
 rmSync(obra, { recursive: true, force: true });
 hf(['init', 'obra', '--example', 'blank', '--resolution', 'portrait', '--non-interactive', '--skip-skills'], { cwd: carpeta, salida: 'ignore' });
@@ -199,6 +390,10 @@ medios.forEach((m, i) => {
   }
 });
 if (pieza.musica) copyFileSync(path.join(carpeta, pieza.musica), path.join(obra, 'audio', 'musica' + path.extname(pieza.musica)));
+if (modo.storyboard) {
+  guionVisual(medios, cues);
+  process.exit(0);
+}
 
 // 4. La composición (HTML). Zona segura: nada de texto en los 250 px de arriba ni en los 420 de abajo (botones de la red).
 const durGancho = r2(Math.min(Math.max(pieza.segundosGancho ?? 3.4, pieza.gancho ? lectura(pieza.gancho) + 0.4 : 0), total));
@@ -280,14 +475,19 @@ ${pieza.musica ? `  <audio id="musica" class="clip" src="audio/musica${path.extn
 writeFileSync(path.join(obra, 'index.html'), html);
 
 // 5. Render y hoja de fotogramas para revisarlo de un vistazo.
-const salida = path.join(carpeta, 'video.mp4');
+// Cada render es una versión nueva: renders/v1.mp4, v2.mp4… Nunca se pisa uno anterior.
+const carpetaRenders = path.join(carpeta, 'renders');
+mkdirSync(carpetaRenders, { recursive: true });
+const anteriores = readdirSync(carpetaRenders).map((f) => /^v(\d+)\.mp4$/.exec(f)?.[1]).filter(Boolean).map(Number);
+const version = (anteriores.length ? Math.max(...anteriores) : 0) + 1;
+const salida = path.join(carpetaRenders, `v${version}.mp4`);
 hf(['render', '--output', salida, '--fps', '30', '--quality', 'standard']);
 const instantes = [0.6, total * 0.25, total * 0.5, total * 0.75, total - 0.7].map((s) => Math.max(0, s));
 instantes.forEach((s, i) => ffmpeg(['-ss', String(r2(s)), '-i', salida, '-frames:v', '1', '-vf', 'scale=360:640', path.join(obra, `f${i}.png`)]));
-ffmpeg([...instantes.flatMap((_, i) => ['-i', path.join(obra, `f${i}.png`)]), '-filter_complex', `hstack=inputs=${instantes.length}`, path.join(carpeta, 'hoja.png')]);
+ffmpeg([...instantes.flatMap((_, i) => ['-i', path.join(obra, `f${i}.png`)]), '-filter_complex', `hstack=inputs=${instantes.length}`, path.join(carpetaRenders, `v${version}-hoja.png`)]);
 const sobrantes = readdirSync(obra).filter((a) => /^f\d\.png$/.test(a));
 sobrantes.forEach((a) => rmSync(path.join(obra, a)));
 
-console.log(`\nvideo.mp4 (${r2(duracion(salida))} s) y hoja.png en ${carpeta}`);
+console.log(`\nrenders/v${version}.mp4 (${r2(duracion(salida))} s) y renders/v${version}-hoja.png en ${carpeta}`);
 if (cues.length) console.log('Subtítulos: ' + cues.map((c) => c.palabras.map((p) => p.text).join(' ')).join(' / '));
 console.log('Si alguna palabra está mal escrita, corrígela en transcripcion.json y vuelve a ejecutar.');
