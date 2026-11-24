@@ -24,8 +24,9 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 
 - **La voz**: con la grabadora del móvil, en un sitio sin eco, leyendo el texto de su pieza a su manera. La sube a
   Drive → `05 Contenido redes/Brutos` con el nombre `CT-<código> voz`.
-- **Los clips**: en vertical, en 1080p a 30 fps y de 5 a 8 segundos cada uno. Desde una sesión en la nube solo se
-  pueden recoger de Drive archivos de **menos de 10 MB**; un clip en 4K o de medio minuto no entra.
+- **Los clips**: en vertical, en 1080p a 30 fps y de 5 a 8 segundos cada uno. Si un archivo pesa más de lo que una
+  sesión en la nube recoge de Drive de una vez (unos 10 MB), no es un bloqueo: quien lo tiene en el ordenador lo sube a
+  Drive, o lo baja al ordenador y lo sube desde ahí. Se trabaja con el archivo tal cual.
 
 ## pieza.json
 
@@ -53,13 +54,43 @@ clips y sus fotos, con el gancho arriba y los subtítulos siguiendo la voz palab
 2. Baja de `Brutos` la voz y los clips a una carpeta de trabajo y escribe `pieza.json`.
 3. `npm run video -- <carpeta> --planos` → `planos.jpg`: cada fila es un clip y cada imagen, un segundo. Elige qué clips
    y qué trozo (`desde`) usar mirándolo, y avisa si hay alguno oscuro o movido.
-4. `npm run video -- <carpeta>` → `video.mp4` (1080 × 1920), `hoja.png` con cinco fotogramas y `transcripcion.json`. La
-   primera vez instala el navegador de render y el reconocimiento de voz (unos minutos).
-5. Mira `hoja.png` y lee los subtítulos que imprime. Si una palabra está mal escrita, corrígela en `transcripcion.json`
-   y vuelve a ejecutar.
-6. **Entrega**. Desde una sesión en la nube solo se pueden subir a Drive archivos de unos 3 MB, y un vídeo pesa más: se
-   envía en el chat y quien lo recibe lo guarda en `Editados`. En un ordenador con la carpeta de Drive sincronizada, se
-   copia directamente. En la pieza: **Estado** = Editado.
+4. **Voz con tropiezos o muy larga**: `npm run video -- <carpeta> --cortar` (ver «Cortar la voz», abajo). **Para el OK del
+   guion cortado** antes de seguir.
+5. `npm run video -- <carpeta> --storyboard` → `storyboard.png` y `storyboard.txt`: un fotograma por momento del vídeo, con
+   su texto y lo que se oye. Es lo barato para cambiar de idea: **para el OK** antes de renderizar.
+6. `npm run video -- <carpeta>` → `renders/v1.mp4` (1080 × 1920), `renders/v1-hoja.png` con cinco fotogramas y
+   `transcripcion.json`. Cada render es una versión nueva (`v2`, `v3`…): no se pisa ninguna. La primera vez instala el
+   navegador de render y el reconocimiento de voz (unos minutos).
+7. Mira la hoja y lee los subtítulos que imprime. Si una palabra está mal escrita, corrígela en `transcripcion.json` y
+   vuelve a ejecutar (sale una versión nueva).
+8. **Entrega**. Un vídeo suele pesar más de lo que una sesión en la nube sube a Drive de una vez (unos 3 MB). Si pesa
+   más, quien lo tiene en el ordenador lo sube a `Editados` (o lo baja al ordenador y lo sube desde ahí); también puede
+   enviarse en el chat. En un ordenador con la carpeta de Drive sincronizada, se copia directamente. En la pieza:
+   **Estado** = Editado.
+
+## Cortar la voz (`--cortar`)
+
+Quita muletillas, titubeos, repeticiones y pausas largas, y se queda con la mejor toma de cada línea. La voz es la de la
+persona: cortar es editar, no generar nada.
+
+- `guion-bruto.txt`: la toma entera por líneas (`L01`, `L02`…), con su tiempo. Léela y decide qué quitar.
+- `cortes.json`: lo que se quita, por código de línea o por segundos de la voz bruta. Ejemplo:
+  `{"quitar": ["L02", "L03", [12.4, 13.9]]}`.
+- Al volver a ejecutar: `voz-cortada.m4a` (con un fundido de 15 ms en cada corte), `guion-cortado.txt` y una comprobación.
+  La comprobación transcribe la voz cortada y la compara palabra a palabra con la toma bruta: avisa de lo que se pierde
+  y de lo que aparece de nuevo. Sin avisos, la voz está bien cortada.
+- Después, en `pieza.json`: `"voz": "voz-cortada.m4a"`. Se escucha entera antes de montar.
+- `cortes.json` y los guiones se guardan con la pieza, en la carpeta de trabajo, nunca en el repositorio.
+
+## Medir referencias (`npm run medir`)
+
+Antes de diseñar una pieza con un vídeo de referencia (del Radar, nunca para volver a publicarlo), se mide con números:
+
+`npm run medir -- <archivo.mp4> [carpeta]` → `medidas-<archivo>.json`, con formato, cortes (y cuántos por cada 10 s),
+plano medio, primer corte, cortes en los dos primeros segundos, luz media y volumen (LUFS). No guarda el vídeo.
+
+Lo que se mira a mano (subtítulos, composición, textos en pantalla) va en el campo `a_mano` del mismo JSON. Lo que se
+repite en varias referencias se convierte en regla con `aprender`.
 
 ## En el estudio
 
